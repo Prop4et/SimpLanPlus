@@ -13,9 +13,19 @@ public class STentry {
 	//offset used when generating the ASM code
 	private int offset;
 	
+	public NodeInterface getType() {
+		return type;
+	}
+	
 	public STentry(int nl, int offset) {
 		this.nl = nl;
 		this.offset = offset;      
+	}
+	
+	public STentry(int nl, int offset, NodeInterface type) {
+		this.nl = nl;
+		this.offset = offset;  
+		this.type = type;
 	}
 
 }  

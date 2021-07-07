@@ -3,6 +3,8 @@ package semanticAnalysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ast.NodeInterface;
+
 public class Environment {
 	
 	//THESE VARIABLES SHOULDN'T BE PUBLIC
@@ -22,43 +24,56 @@ public class Environment {
 		this(new ArrayList<>(), -1, 0);
 	}
 	
+	public ArrayList<HashMap<String, STentry>> getSymTable(){
+		return symTable;
+	}
+	
+	public void onScopeEntry(HashMap<String, STentry> scope) {
+		symTable.add(scope);
+		nl++;
+		offset=0;
+	}
+	
 	public void onScopeEntry() {
 		symTable.add(new HashMap<String, STentry>());
 		nl++;
+		offset=0;
 	}
 	/**
 	 * 
 	 * @param Id
-	 * @return false if already delcared, true otherwise
+	 * @return false if already declared, true otherwise
 	 */
-	public boolean onDeclaration(String Id) {
+	public void addDec(String id, NodeInterface type)/* throws AlreadyDeclaredException*/  {
 		HashMap<String, STentry> scope = symTable.get(nl);
-		if(!scope.containsKey(Id))
-			return false;
-		scope.put(Id, new STentry(nl, offset));
-		offset+=4;
-		return true;			
+		if(scope.put(id, new STentry(nl, offset, type)) != null)
+			/*throw exception*/;
+		offset-=4;//1?		
 	}
 	
 	/**
 	 * 
-	 * @param Id
-	 * @return true se è già stata dichiarata e quindi utilizzabile, false altrimenti
+	 * @param symTable, Id
+	 * @return null se non è dichiarata, tipo altrimenti
+	 * oppure 
+	 * potrebbe ritornare l'eccezione se non è dichiarata e il tipo altrimenti
 	 */
-	public boolean onUse(String Id) {
+	public NodeInterface lookup(String id) /*throws DeclarationException*/ {
 		//più bello while magari così mi fermo appena lo trovo
 		int i = nl;
-		boolean declared = false;
-		while(i>-1 && !declared){
+		NodeInterface var = null;
+		while(i>-1 && var == null){
 			HashMap<String, STentry> scope = symTable.get(nl);
-			if(scope.containsKey(Id))
-				declared = true;
+			if(scope.containsKey(id))
+				var = scope.get(id).getType();
 		}
-		return declared;
+		/*if(var == null)
+			throw DeclaredException*/
+		return var;
 	}
 	
 	public void onScopeExit() {
-		symTable.remove(nl);
+		this.symTable.remove(nl);
 		nl--;
 	}
 }
