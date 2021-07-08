@@ -1,10 +1,10 @@
-package ast;
+package ast.types;
 
 /**
  * Boolean constant in AST
  *
  */
-public class BoolNode extends NodeSuper{
+public class BoolNode extends TypeNode{
 	final private boolean val;
 
 	public BoolNode(boolean val) {
@@ -20,7 +20,7 @@ public class BoolNode extends NodeSuper{
 		return indent + val;
 	}
 	
-	public NodeSuper typeCheck() {
+	public TypeNode typeCheck() {
 		return new BoolTypeNode();
 	}    
 

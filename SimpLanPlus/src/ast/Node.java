@@ -7,7 +7,7 @@ import semanticAnalysis.SemanticError;
 /**
  * Interface representing a generic node in the AST
  */
-public interface NodeInterface {
+public interface Node {
   
 	/**
 	 * Node as a string
@@ -19,7 +19,7 @@ public interface NodeInterface {
 	 * Effectively checks the types of every nodes
 	 * @return the type of the identifier or expression
 	 */
-	NodeInterface typeCheck();
+	Node typeCheck();
 	/**
 	 * Generates the intermediate code
 	 * @return a string which is the ASM code
@@ -38,7 +38,7 @@ public interface NodeInterface {
 	 * @param n2 second node
 	 * @return true if match, false otherwise
 	 */
-	static boolean sametype(NodeInterface n1, NodeInterface n2) {
+	static boolean sametype(Node n1, Node n2) {
 		return n1.getClass().equals(n2.getClass());
 	}
 }  	

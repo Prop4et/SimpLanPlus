@@ -3,7 +3,7 @@ package semanticAnalysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import ast.NodeInterface;
+import ast.Node;
 
 public class Environment {
 	
@@ -44,7 +44,7 @@ public class Environment {
 	 * @param Id
 	 * @return false if already declared, true otherwise
 	 */
-	public void addDec(String id, NodeInterface type)/* throws AlreadyDeclaredException*/  {
+	public void addDec(String id, Node type)/* throws AlreadyDeclaredException*/  {
 		HashMap<String, STentry> scope = symTable.get(nl);
 		if(scope.put(id, new STentry(nl, offset, type)) != null)
 			/*throw exception*/;
@@ -58,10 +58,10 @@ public class Environment {
 	 * oppure 
 	 * potrebbe ritornare l'eccezione se non è dichiarata e il tipo altrimenti
 	 */
-	public NodeInterface lookup(String id) /*throws DeclarationException*/ {
+	public Node lookup(String id) /*throws DeclarationException*/ {
 		//più bello while magari così mi fermo appena lo trovo
 		int i = nl;
-		NodeInterface var = null;
+		Node var = null;
 		while(i>-1 && var == null){
 			HashMap<String, STentry> scope = symTable.get(nl);
 			if(scope.containsKey(id))

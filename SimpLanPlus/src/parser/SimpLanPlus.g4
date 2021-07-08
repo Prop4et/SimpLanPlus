@@ -14,7 +14,7 @@ public int errorCount() {
 block	    : '{' declaration* statement* '}';
 
 statement   : assignment ';'#assigtStat
-	        | deletion ';'  #deletStat
+	        | deletion ';'  #deleteStat
 	        | print ';'     #printStat
 	        | ret ';'       #retStat
 	        | ite           #iteStat

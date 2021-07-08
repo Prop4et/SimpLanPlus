@@ -1,18 +1,18 @@
-package ast;
+package ast.types;
 
 /**
  * Void (function) token in the AST
  *
  */
 
-public class VoidTypeNode extends NodeSuper {
+public class VoidTypeNode extends TypeNode {
 	@Override
 	public String toPrint(String indent) {
 		return indent+"VoidType\n";  
 	}
   
 	@Override
-	public NodeSuper typeCheck() {
+	public TypeNode typeCheck() {
 		return null;
 	}
 

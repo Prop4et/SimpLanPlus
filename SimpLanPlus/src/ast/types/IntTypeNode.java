@@ -1,10 +1,10 @@
-package ast;
+package ast.types;
 
 /**
  * Int token in the AST
  *
  */
-public class IntTypeNode extends NodeSuper {
+public class IntTypeNode extends TypeNode {
   
 	@Override
 	public String toPrint(String indent) {
@@ -12,7 +12,7 @@ public class IntTypeNode extends NodeSuper {
 	}
   
 	@Override
-	public NodeSuper typeCheck() {
+	public TypeNode typeCheck() {
 		return null;
 	}
 

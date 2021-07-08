@@ -1,18 +1,20 @@
-package ast;
+package ast.types;
+
+import ast.Node;
 
 /**
  * Pointer token in the AST
  *
  */
-public class PointerTypeNode extends NodeSuper {
+public class PointerTypeNode extends TypeNode {
   
-	final NodeSuper pointed;
+	final TypeNode pointed;
 	
-	public PointerTypeNode(NodeSuper pointed) {
+	public PointerTypeNode(TypeNode pointed) {
 		this.pointed = pointed;
 	}
 	
-	public NodeInterface getType() {
+	public Node getType() {
 		return this.pointed;
 	}
 	
@@ -22,7 +24,7 @@ public class PointerTypeNode extends NodeSuper {
 	}
   
 	@Override
-	public NodeSuper typeCheck() {
+	public TypeNode typeCheck() {
 		return null;
 	}
 

@@ -14,7 +14,7 @@ import parser.SVMParser;
 import util.Environment;
 import util.SemanticError;*/
 import ast.SimpLanPlusVisitorImpl;
-import ast.NodeInterface;
+import ast.Node;
 //import ast.SVMVisitorImpl;*/
 
 public class Main {
@@ -29,7 +29,7 @@ public class Main {
 
 		SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
 		//SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
-		NodeInterface ast = visitor.visit(parser.block()); //generazione AST 
+		Node ast = visitor.visit(parser.block()); //generazione AST 
 			
 		//SIMPLE CHECK FOR LEXER ERRORS
 		if (lexer.lexicalErrors > 0){

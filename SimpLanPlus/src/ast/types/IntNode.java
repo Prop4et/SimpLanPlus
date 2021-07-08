@@ -1,10 +1,10 @@
-package ast;
+package ast.types;
 
 /**
  * Int constant AST
  *
  */
-public class IntNode extends NodeSuper{
+public class IntNode extends TypeNode{
 
 	private final int val;
 	
@@ -22,7 +22,7 @@ public class IntNode extends NodeSuper{
 	}
 
 	@Override
-	public NodeSuper typeCheck() {
+	public TypeNode typeCheck() {
 		return new IntTypeNode();
 	}
 

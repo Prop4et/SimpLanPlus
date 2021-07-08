@@ -1,11 +1,12 @@
-package ast;
+package ast.types;
 
 import java.util.ArrayList;
 
+import ast.Node;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
-public abstract class NodeSuper implements NodeInterface{
+public abstract class TypeNode implements Node{
 
 	@Override
 	public String toString() {
