@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import ast.declarations.DeclarationNode;
 import ast.expressions.ExpNode;
-import ast.prog.BlockNode;
+import ast.statements.BlockNode;
 import ast.statements.AssignmentNode;
 import ast.statements.AssigtStatNode;
 import ast.statements.BlockStatNode;

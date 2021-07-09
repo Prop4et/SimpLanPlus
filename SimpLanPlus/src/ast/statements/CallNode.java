@@ -20,7 +20,7 @@ public class CallNode implements Node{
 	
 	@Override
 	public String toPrint(String indent) {
-		//così in teoria stampa più volte lo stesso parametro se viene passato con aliasing
+		//cos in teoria stampa pi volte lo stesso parametro se viene passato con aliasing
 		String s = "";
 		for(Node p : params) {
 			s += p.toPrint("");

@@ -6,13 +6,13 @@ import ast.Node;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
-public class AssigtNode extends StatementNode implements Node {
+public class AssignmentNode extends StatementNode implements Node {
 
 	final private Node lhs;
 	final private Node rhs;
 	
 	
-	public AssigtNode(Node lhs, Node rhs) {
+	public AssignmentNode(Node lhs, Node rhs) {
 		this.lhs = lhs;
 		this.rhs = rhs;
 	}

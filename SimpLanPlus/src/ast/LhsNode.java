@@ -1,7 +1,11 @@
 package ast;
 import ast.IdNode;
+import semanticAnalysis.Environment;
+import semanticAnalysis.SemanticError;
 
-public class LhsNode extends NodeSuper{
+import java.util.ArrayList;
+
+public class LhsNode implements Node{
     final private IdNode id;
     // LhsNode is just a plain identifier only when lhs == null.
     final private LhsNode lhs;
@@ -24,12 +28,17 @@ public class LhsNode extends NodeSuper{
     }
 
     @Override
-    public NodeInterface typeCheck() {
+    public Node typeCheck() {
         return null;
     }
 
     @Override
     public String codeGeneration() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env) {
         return null;
     }
 }

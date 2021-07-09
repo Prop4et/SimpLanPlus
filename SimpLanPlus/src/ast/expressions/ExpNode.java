@@ -1,6 +1,11 @@
-package ast;
+package ast.expressions;
+import ast.Node;
+import semanticAnalysis.Environment;
+import semanticAnalysis.SemanticError;
 
-public class ExpNode extends NodeSuper{
+import java.util.ArrayList;
+
+public class ExpNode implements Node{
     final private ExpNode exp;
     public ExpNode(ExpNode exp){
         this.exp = exp;
@@ -12,12 +17,17 @@ public class ExpNode extends NodeSuper{
     }
 
     @Override
-    public NodeInterface typeCheck() {
+    public Node typeCheck() {
         return null;
     }
 
     @Override
     public String codeGeneration() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env) {
         return null;
     }
 }
