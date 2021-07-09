@@ -6,8 +6,8 @@ import ast.statements.*;
 import ast.types.BoolNode;
 import ast.types.TypeNode;
 import ast.types.IntNode;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -40,7 +40,8 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 	}
 	
 	public PrintStatNode visitPrintStat(SimpLanPlusParser.PrintStatContext ctx) {
-		return new PrintStatNode(visitPrint(ctx.print()));
+
+        return new PrintStatNode(visitPrint(ctx.print()));
 	}
 	
 	public RetStatNode visitRetStat(SimpLanPlusParser.RetStatContext ctx) {
@@ -227,12 +228,12 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
         return new NotExpNode(exp);
     }
 
- /*
+
     @Override
     public Node visit(ParseTree parseTree) {
-        return null;
+        return parseTree!=null ? super.visit(parseTree) : null;
     }
-*/
+
     @Override
     public Node visitChildren(RuleNode ruleNode) {
         return null;

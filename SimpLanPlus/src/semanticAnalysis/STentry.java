@@ -1,5 +1,6 @@
 package semanticAnalysis;
 import ast.Node;
+import ast.types.TypeNode;
 
 /**
  * {@code STEntry} represents an entry in the Stable
@@ -9,7 +10,7 @@ public class STentry {
 	//nesting level
 	private int nl;	
 	//type of the node
-	private Node type;
+	private TypeNode type;
 	//offset used when generating the ASM code
 	private int offset;
 	
@@ -22,7 +23,7 @@ public class STentry {
 		this.offset = offset;      
 	}
 	
-	public STentry(int nl, int offset, Node type) {
+	public STentry(int nl, int offset, TypeNode type) {
 		this.nl = nl;
 		this.offset = offset;  
 		this.type = type;

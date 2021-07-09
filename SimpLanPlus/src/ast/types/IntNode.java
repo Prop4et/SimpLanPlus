@@ -1,10 +1,12 @@
 package ast.types;
 
+import ast.expressions.ExpNode;
+
 /**
  * Int constant AST
  *
  */
-public class IntNode extends TypeNode{
+public class IntNode extends ExpNode {
 
 	private final int val;
 	

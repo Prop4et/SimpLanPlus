@@ -1,10 +1,12 @@
 package ast.types;
 
+import ast.expressions.ExpNode;
+
 /**
  * Boolean constant in AST
  *
  */
-public class BoolNode extends TypeNode{
+public class BoolNode extends ExpNode {
 	final private boolean val;
 
 	public BoolNode(boolean val) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import ast.Node;
+import ast.types.TypeNode;
 
 public class Environment {
 	
@@ -41,10 +42,10 @@ public class Environment {
 	}
 	/**
 	 * 
-	 * @param Id
+	 * @param id
 	 * @return false if already declared, true otherwise
 	 */
-	public void addDec(String id, Node type)/* throws AlreadyDeclaredException*/  {
+	public void addDec(String id, TypeNode type)/* throws AlreadyDeclaredException*/  {
 		HashMap<String, STentry> scope = symTable.get(nl);
 		if(scope.put(id, new STentry(nl, offset, type)) != null)
 			/*throw exception*/;
@@ -53,19 +54,20 @@ public class Environment {
 	
 	/**
 	 * 
-	 * @param symTable, Id
-	 * @return null se non è dichiarata, tipo altrimenti
+	 * @param id
+	 * @return null se non ï¿½ dichiarata, tipo altrimenti
 	 * oppure 
-	 * potrebbe ritornare l'eccezione se non è dichiarata e il tipo altrimenti
+	 * potrebbe ritornare l'eccezione se non ï¿½ dichiarata e il tipo altrimenti
 	 */
 	public Node lookup(String id) /*throws DeclarationException*/ {
-		//più bello while magari così mi fermo appena lo trovo
+		//piï¿½ bello while magari cosï¿½ mi fermo appena lo trovo
 		int i = nl;
 		Node var = null;
 		while(i>-1 && var == null){
 			HashMap<String, STentry> scope = symTable.get(nl);
 			if(scope.containsKey(id))
 				var = scope.get(id).getType();
+			i--;
 		}
 		/*if(var == null)
 			throw DeclaredException*/
