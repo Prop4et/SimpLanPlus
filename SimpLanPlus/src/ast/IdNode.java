@@ -1,6 +1,11 @@
 package ast;
+import ast.Node;
+import semanticAnalysis.Environment;
+import semanticAnalysis.SemanticError;
 
-public class IdNode extends NodeSuper {
+import java.util.ArrayList;
+
+public class IdNode implements Node {
     private final String id;
 
     public IdNode(final String id) {
@@ -8,16 +13,21 @@ public class IdNode extends NodeSuper {
     }
     @Override
     public String toPrint(String indent) {
-        return null;
+        return indent + id;
     }
 
     @Override
-    public NodeInterface typeCheck() {
+    public Node typeCheck() {
         return null;
     }
 
     @Override
     public String codeGeneration() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env) {
         return null;
     }
 }
