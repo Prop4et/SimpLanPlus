@@ -1,19 +1,22 @@
 package ast.expressions;
+
 import ast.Node;
+import ast.statements.CallNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
 import java.util.ArrayList;
 
-public  abstract class ExpNode implements Node{
-
+public class CallExpNode extends ExpNode {
+    final private CallNode call;
+    public CallExpNode(CallNode call) {
+        this.call = call;
+    }
     @Override
     public String toPrint(String indent) {
-        return null;
+        return indent + call.toPrint(indent);
     }
-
-    @Override
-    public Node typeCheck() {
+    public Node typeCheck()  {
         return null;
     }
 
@@ -24,6 +27,7 @@ public  abstract class ExpNode implements Node{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

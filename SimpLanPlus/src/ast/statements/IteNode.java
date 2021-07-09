@@ -3,18 +3,19 @@ package ast.statements;
 import java.util.ArrayList;
 
 import ast.Node;
+import ast.expressions.ExpNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
 public class IteNode implements Node{
-	private final Node cond; //ExpNode
+	private final ExpNode cond; //ExpNode
 	private final StatementNode thenB;//then branch is a statement
 	private final StatementNode elseB;//else branch is another statement
 	
-	public IteNode(final Node cond, final Node thenB, final Node elseB) {
-		this.cond = (Node) cond;//Expnode
-		this.thenB = (StatementNode) thenB;
-		this.elseB = (StatementNode) elseB;
+	public IteNode(final ExpNode cond, final StatementNode thenB, final StatementNode elseB) {
+		this.cond = cond;
+		this.thenB = thenB;
+		this.elseB = elseB;
 	}
 	
 	@Override
