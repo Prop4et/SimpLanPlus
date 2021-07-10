@@ -1,5 +1,10 @@
 package ast.types;
 
+import semanticAnalysis.Environment;
+import semanticAnalysis.SemanticError;
+
+import java.util.ArrayList;
+
 /**
  * Int token in the AST
  *
@@ -20,5 +25,11 @@ public class IntTypeNode extends TypeNode {
 	public String codeGeneration() {
 		return "";
 	}
-  
+
+	@Override
+	public ArrayList<SemanticError> checkSemantics(Environment env) {
+		return new ArrayList<SemanticError>();
+	}
+
+
 }  

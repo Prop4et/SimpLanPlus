@@ -33,7 +33,9 @@ public class DeletionNode extends StatementNode implements Node {
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
-	}	
+		ArrayList<SemanticError> res = new ArrayList<>();
+
+		res.addAll(id.checkSemantics(env));
+		return res;
+	}
 }

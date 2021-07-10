@@ -1,4 +1,4 @@
-package ast.declarations;
+package ast.expressions;
 
 import ast.Node;
 import semanticAnalysis.Environment;
@@ -6,15 +6,20 @@ import semanticAnalysis.SemanticError;
 
 import java.util.ArrayList;
 
-public class DeclarationNode implements Node {
+public class NotExpNode extends ExpNode{
+    final private ExpNode exp;
 
-    @Override
-    public String toPrint(String indent) {
-        return null;
+    public NotExpNode(ExpNode exp){
+        this.exp = exp;
     }
 
     @Override
-    public Node typeCheck() {
+    public String toPrint(String indent) {
+        return "!" + exp.toPrint(indent);
+    }
+
+    @Override
+    public Node typeCheck()  {
         return null;
     }
 
@@ -25,6 +30,11 @@ public class DeclarationNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        ArrayList<SemanticError> res = new ArrayList<>();
+
+        res.addAll(exp.checkSemantics(env));
+
+        return res;
     }
+
 }

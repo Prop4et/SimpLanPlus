@@ -1,5 +1,10 @@
 package ast.types;
 
+import semanticAnalysis.Environment;
+import semanticAnalysis.SemanticError;
+
+import java.util.ArrayList;
+
 /**
  * Bool token in the AST
  *
@@ -19,5 +24,11 @@ public class BoolTypeNode extends TypeNode {
   public String codeGeneration() {
 		return "";
   }
-      
+
+  @Override
+  public ArrayList<SemanticError> checkSemantics(Environment env) {
+        return new ArrayList<SemanticError>();
+    }
+
+
 }  

@@ -32,7 +32,6 @@ public class IteStatNode extends StatementNode{
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
+		return ite.checkSemantics(env);
 	}
 }

@@ -4,25 +4,27 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import ast.IdNode;
 import ast.Node;
+import ast.expressions.ExpNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
 public class CallNode implements Node{
+	private final IdNode id;
 
-	private final Node id; //IdNode?
-	private final List<Node> params;//ExpNode
+	private final List<ExpNode> params;//ExpNode
 	
-	public CallNode(final Node id, final List<Node> params) {
+	public CallNode(final IdNode id, final List<ExpNode> params) {
 		this.id = id;
 		this.params=params;
 	}
 	
 	@Override
 	public String toPrint(String indent) {
-		//così in teoria stampa più volte lo stesso parametro se viene passato con aliasing
+		//cos in teoria stampa pi volte lo stesso parametro se viene passato con aliasing
 		String s = "";
-		for(Node p : params) {
+		for(ExpNode p : params) {
 			s += p.toPrint("");
 		}
 		return indent + "call: " + id.toPrint("") + s; 

@@ -32,7 +32,6 @@ public class PrintStatNode extends StatementNode{
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
+		return print.checkSemantics(env);
 	}
 }

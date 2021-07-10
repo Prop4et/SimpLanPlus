@@ -11,7 +11,7 @@ public interface Node {
   
 	/**
 	 * Node as a string
-	 * @param characters before the string
+	 * @param indent characters before the string
 	 * @return the string version of the node
 	 */
 	String toPrint(String indent);
