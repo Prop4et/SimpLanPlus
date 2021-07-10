@@ -3,17 +3,17 @@ import java.util.*;
 
 import ast.expressions.*;
 import ast.statements.*;
-import ast.types.BoolNode;
-import ast.types.TypeNode;
-import ast.types.IntNode;
+import ast.types.*;
+import ast.declarations.*;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import ast.declarations.DeclarationNode;
+
 import parser.SimpLanPlusBaseVisitor;
 import parser.SimpLanPlusParser;
+import parser.SimpLanPlusParser.ArgContext;
 
 public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 	public BlockNode visitBlock(SimpLanPlusParser.BlockContext ctx) {
@@ -63,45 +63,68 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
     }
 
     @Override
-    public Node visitDeclarateFun(SimpLanPlusParser.DeclarateFunContext ctx) {
-        return null;
+    public DeclarateFunNode visitDeclarateFun(SimpLanPlusParser.DeclarateFunContext ctx) {
+        return new DeclarateFunNode(visitDecFun(ctx.decFun()));
     }
 
     @Override
-    public Node visitDeclarateVar(SimpLanPlusParser.DeclarateVarContext ctx) {
-        return null;
+    public DeclarateVarNode visitDeclarateVar(SimpLanPlusParser.DeclarateVarContext ctx) {
+        return new DeclarateVarNode(visitDecVar(ctx.decVar()));
     }
 
     @Override
-    public Node visitDecFun(SimpLanPlusParser.DecFunContext ctx) {
-        return null;
+    public DecFunNode visitDecFun(SimpLanPlusParser.DecFunContext ctx) {
+        TypeNode type = visitFunType(ctx.funType());
+        IdNode id = new IdNode(ctx.ID().getText());
+        List<ArgNode> args = new ArrayList<ArgNode>();
+        for(ArgContext argctx : ctx.arg()) {
+        	args.add(visitArg(argctx));
+        }
+        
+        BlockNode block = visitBlock(ctx.block());
+        
+    	return new DecFunNode(type, id, args, block);
     }
 
     @Override
-    public Node visitDecVar(SimpLanPlusParser.DecVarContext ctx) {
-        return null;
+    public DecVarNode visitDecVar(SimpLanPlusParser.DecVarContext ctx) {
+    	TypeNode type = visitType(ctx.type());
+        IdNode id = new IdNode(ctx.ID().getText());
+        ExpNode exp = (ExpNode) visit(ctx.exp());
+        return new DecVarNode(type, id, exp);
     }
 
     @Override
-    public Node visitType(SimpLanPlusParser.TypeContext ctx) {
-        return null;
+    public TypeNode visitType(SimpLanPlusParser.TypeContext ctx) {
+        final String type = ctx.type().getText();
+        if(type == "int")
+        	return new IntTypeNode();
+        else if(type == "bool")
+        	return new BoolTypeNode();
+        
+        return new PointerTypeNode(visitType(ctx.type()));
     }
 
     @Override
-    public Node visitFunType(SimpLanPlusParser.FunTypeContext ctx) {
-        return null;
+    public TypeNode visitFunType(SimpLanPlusParser.FunTypeContext ctx) {
+        if(ctx.type() == null)
+        	return new VoidTypeNode();
+        else
+        	return visitType(ctx.type());
     }
 
     @Override
-    public Node visitArg(SimpLanPlusParser.ArgContext ctx) {
-        return null;
+    public ArgNode visitArg(SimpLanPlusParser.ArgContext ctx) {
+        TypeNode type = visitType(ctx.type());
+        IdNode id = new IdNode(ctx.ID().getText());
+        return new ArgNode(type, id);
     }
 
     @Override
     public AssignmentNode visitAssignment(SimpLanPlusParser.AssignmentContext ctx) {
         LhsNode lhs = visitLhs(ctx.lhs());
         lhs.setAssignment(true);
-        ExpNode exp = (ExpNode) visit(ctx.exp());
+        ExpNode exp = visit(ctx.exp());
 
         return new AssignmentNode(lhs, exp);
     }
