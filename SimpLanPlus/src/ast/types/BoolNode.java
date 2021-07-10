@@ -1,6 +1,10 @@
 package ast.types;
 
 import ast.expressions.ExpNode;
+import semanticAnalysis.Environment;
+import semanticAnalysis.SemanticError;
+
+import java.util.ArrayList;
 
 /**
  * Boolean constant in AST
@@ -31,5 +35,9 @@ public class BoolNode extends ExpNode {
   		//TODO
   		return null;
   	}
+	@Override
+	public ArrayList<SemanticError> checkSemantics(Environment env) {
+		return new ArrayList<SemanticError>();
+	}
 	
 }

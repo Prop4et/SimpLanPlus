@@ -42,14 +42,14 @@ public class Main {
 			Environment env = new Environment();
 			System.out.println("Visualizing AST...");
 			System.out.println(ast.toPrint(""));
-			/*ArrayList<SemanticError> err = ast.checkSemantics(env);
-			if(err.size()>0){
+			ArrayList<SemanticError> err = ast.checkSemantics(env);
+			if( !err.isEmpty()){
 				System.out.println("You had: " +err.size()+" errors:");
 				for(SemanticError e : err)
 					System.out.println("\t" + e);
 			} else {
 				System.out.println("Visualizing AST...");
-				System.out.println(ast.toPrint(""));*/
+				System.out.println(ast.toPrint(""));
 
 				//Node type = ast.typeCheck(); //type-checking bottom-up
 				//System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
@@ -79,7 +79,7 @@ public class Main {
 				System.out.println("Starting Virtual Machine...");
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				vm.cpu();*/
-			//}
+			}
 		}
 
 

@@ -30,8 +30,11 @@ public class NotExpNode extends ExpNode{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<SemanticError> res = new ArrayList<>();
+
+        res.addAll(exp.checkSemantics(env));
+
+        return res;
     }
 
 }

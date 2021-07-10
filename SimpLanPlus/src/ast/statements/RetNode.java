@@ -35,8 +35,7 @@ public class RetNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
+		return exp.checkSemantics(env);
 	}
 
 }

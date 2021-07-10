@@ -1,6 +1,10 @@
 package ast.types;
 
 import ast.Node;
+import semanticAnalysis.Environment;
+import semanticAnalysis.SemanticError;
+
+import java.util.ArrayList;
 
 /**
  * Pointer token in the AST
@@ -45,4 +49,10 @@ public class PointerTypeNode extends TypeNode {
   				return false;
   			return true;
 	  	}
+
+	@Override
+	public ArrayList<SemanticError> checkSemantics(Environment env) {
+		return new ArrayList<SemanticError>();
+	}  //???
+
 }  

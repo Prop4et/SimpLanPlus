@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class LhsNode implements Node{
     final private IdNode id;
-    // LhsNode is just a plain identifier only when lhs == null.
+    //if lhs == null then lhs is an ID.
     final private LhsNode lhs;
     private boolean isAssignment;
 
@@ -24,7 +24,11 @@ public class LhsNode implements Node{
     }
     @Override
     public String toPrint(String indent) {
-        return null;
+        if (lhs == null) {
+            return indent + id.toPrint("");
+        }
+
+        return lhs.toPrint("") + "^";
     }
 
     @Override
@@ -39,6 +43,11 @@ public class LhsNode implements Node{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+
+        if (lhs == null) {
+            return id.checkSemantics(env);
+        }
+        return lhs.checkSemantics(env);
+
     }
 }

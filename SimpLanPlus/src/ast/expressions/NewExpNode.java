@@ -30,8 +30,11 @@ public class NewExpNode extends  ExpNode {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<SemanticError> res = new ArrayList<>();
+
+        res.addAll(type.checkSemantics(env));
+
+        return res;
     }
 
 }

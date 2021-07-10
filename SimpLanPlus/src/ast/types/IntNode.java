@@ -1,6 +1,10 @@
 package ast.types;
 
 import ast.expressions.ExpNode;
+import semanticAnalysis.Environment;
+import semanticAnalysis.SemanticError;
+
+import java.util.ArrayList;
 
 /**
  * Int constant AST
@@ -32,6 +36,10 @@ public class IntNode extends ExpNode {
 	public String codeGeneration() {
 		//TODO
 		return null;
+	}
+	@Override
+	public ArrayList<SemanticError> checkSemantics(Environment env) {
+		return new ArrayList<>();
 	}
 
 }

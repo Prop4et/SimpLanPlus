@@ -27,7 +27,9 @@ public class CallExpNode extends ExpNode {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<SemanticError> res = new ArrayList<>();
+
+        res.addAll(call.checkSemantics(env));
+        return res;
     }
 }

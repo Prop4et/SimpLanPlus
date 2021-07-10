@@ -59,14 +59,14 @@ public class Environment {
 	 * oppure 
 	 * potrebbe ritornare l'eccezione se non � dichiarata e il tipo altrimenti
 	 */
-	public Node lookup(String id) /*throws DeclarationException*/ {
+	public STentry lookup(String id) /*throws DeclarationException*/ {
 		//pi� bello while magari cos� mi fermo appena lo trovo
 		int i = nl;
-		Node var = null;
+		STentry var = null;
 		while(i>-1 && var == null){
 			HashMap<String, STentry> scope = symTable.get(nl);
 			if(scope.containsKey(id))
-				var = scope.get(id).getType();
+				var = scope.get(id);
 			i--;
 		}
 		/*if(var == null)
@@ -77,5 +77,9 @@ public class Environment {
 	public void onScopeExit() {
 		this.symTable.remove(nl);
 		nl--;
+	}
+
+	public int getNestingLevel(){
+		return nl;
 	}
 }

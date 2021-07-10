@@ -33,7 +33,7 @@ public class AssigtStatNode extends StatementNode {
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		// TODO Auto-generated method stub
-		return null;
+		return ass.checkSemantics(env);
 	}
 
 }

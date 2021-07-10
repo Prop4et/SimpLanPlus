@@ -38,8 +38,12 @@ public class AssignmentNode extends StatementNode implements Node {
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<SemanticError> res = new ArrayList<>();
+
+		res.addAll(lhs.checkSemantics(env));
+		res.addAll(rhs.checkSemantics(env));
+
+		return res;
 	}
 
 }

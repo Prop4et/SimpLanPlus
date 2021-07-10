@@ -31,8 +31,11 @@ public class DerExpNode extends ExpNode{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<SemanticError> res = new ArrayList<>();
+
+        res.addAll(lhs.checkSemantics(env));
+
+        return res;
     }
 
 }
