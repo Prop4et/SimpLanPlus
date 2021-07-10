@@ -1,7 +1,8 @@
 package ast;
 import ast.IdNode;
+import ast.types.TypeNode;
 
-public class LhsNode extends NodeSuper{
+public class LhsNode extends TypeNode{
     final private IdNode id;
     // LhsNode is just a plain identifier only when lhs == null.
     final private LhsNode lhs;
@@ -24,7 +25,7 @@ public class LhsNode extends NodeSuper{
     }
 
     @Override
-    public NodeInterface typeCheck() {
+    public Node typeCheck() {
         return null;
     }
 

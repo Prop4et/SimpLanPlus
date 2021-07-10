@@ -9,8 +9,8 @@ import semanticAnalysis.SemanticError;
 public class RetStatNode extends StatementNode{
 	private final RetNode ret;
 	
-	public RetStatNode(final Node ret) {
-		this.ret = (RetNode) ret;
+	public RetStatNode(final RetNode ret) {
+		this.ret = ret;
 	}
 	
 	@Override

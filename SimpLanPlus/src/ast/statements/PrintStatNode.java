@@ -9,8 +9,8 @@ import semanticAnalysis.SemanticError;
 public class PrintStatNode extends StatementNode{
 	private final PrintNode print;
 
-	public PrintStatNode(Node print) {
-		this.print=(PrintNode) print;
+	public PrintStatNode(final PrintNode printNode) {
+		this.print= printNode;
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package ast;
+package ast.expressions;
 
 public class ExpNode extends NodeSuper{
     final private ExpNode exp;

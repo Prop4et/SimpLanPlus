@@ -3,15 +3,16 @@ package ast.statements;
 import java.util.ArrayList;
 
 import ast.Node;
+import ast.expressions.ExpNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
 public class RetNode implements Node{
 
-	private final Node exp; //ExpNode
+	private final ExpNode exp; //ExpNode
 	
 	
-	public RetNode(final Node exp) {
+	public RetNode(final ExpNode exp) {
 		this.exp = exp;
 	}
 	

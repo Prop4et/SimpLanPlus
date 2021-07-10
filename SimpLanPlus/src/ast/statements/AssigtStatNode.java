@@ -8,10 +8,10 @@ import semanticAnalysis.SemanticError;
 
 public class AssigtStatNode extends StatementNode {
 	
-	final private AssigtNode ass;
+	final private AssignmentNode ass;
 	
-	public AssigtStatNode(final Node ass) {
-		this.ass = (AssigtNode) ass;
+	public AssigtStatNode(final AssignmentNode assignmentNode) {
+		this.ass = assignmentNode;
 	}
 	@Override
 	public String toPrint(String indent) {
