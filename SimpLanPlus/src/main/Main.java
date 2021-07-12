@@ -43,8 +43,6 @@ public class Main {
 			System.out.println("The program was not in the right format. Exiting the compilation process now");
 		} else {
 			Environment env = new Environment();
-			System.out.println("Visualizing AST...");
-			System.out.println(ast.toPrint(""));
 			ArrayList<SemanticError> err = ast.checkSemantics(env);
 			if( !err.isEmpty()){
 				System.out.println("You had: " +err.size()+" errors:");
