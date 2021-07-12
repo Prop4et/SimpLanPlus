@@ -23,8 +23,8 @@ public class DecVarNode implements Node{
 	@Override
 	public String toPrint(String indent) {
 		String exp = "";
-		if(this.exp != null)
-			exp = this.exp.toPrint("");
+		if(this.exp != null) 
+			exp = " = " + this.exp.toPrint(""); 
 		return "var: " + id.toPrint("") + " : " + type.toPrint("") + exp;
  	}
 

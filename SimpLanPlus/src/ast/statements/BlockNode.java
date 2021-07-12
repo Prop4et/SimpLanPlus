@@ -22,12 +22,12 @@ public class BlockNode implements Node{
 	}
 	@Override
 	public String toPrint(String indent) {
-		/*String declarationsToPrint = decs.stream().map((dec1) -> dec1.toPrint(indent + "  ")).reduce("",
-				(dec1, dec2) -> (dec1.isEmpty() ? dec1 : (dec1 + "\n")) + dec2);*/
+		String declarationsToPrint = decs.stream().map((dec1) -> dec1.toPrint(indent + "  ")).reduce("",
+				(dec1, dec2) -> (dec1.isEmpty() ? dec1 : (dec1 + "\n")) + dec2);
 		String statementsToPrint = stms.stream().map((stm1) -> stm1.toPrint(indent + "  ")).reduce("",
 				(stm1, stm2) -> (stm1.isEmpty() ? stm1 : (stm1 + "\n")) + stm2);
 
-		return indent + "{\n" + (statementsToPrint.isEmpty() ? "" : (statementsToPrint + "\n")) + indent + "}";
+		return indent + "{\n" + (declarationsToPrint.isEmpty() ? "" : (declarationsToPrint)) + "\n" + (statementsToPrint.isEmpty() ? "" : (statementsToPrint + "\n")) + indent + "}";
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class BlockNode implements Node{
 			for(DeclarationNode n : decs)
 				res.addAll(n.checkSemantics(env));
 		}
-
+		//---------------------------- Più tardi
 		if(stms.size() > 0){
 			env.offset = -2;
 			//if there are children then check semantics for every child and save the results

@@ -37,10 +37,11 @@ public class Main {
 		SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
 		SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
 		BlockNode ast = visitor.visitBlock(parser.block()); //generazione AST
-			
+		System.out.println(ast.toPrint(""));
 		//SIMPLE CHECK FOR LEXER ERRORS
-		if (lexer.errorCount() > 0){
+		/*if (lexer.errorCount() > 0){
 			System.out.println("The program was not in the right format. Exiting the compilation process now");
+			
 		} else {
 			Environment env = new Environment();
 			ArrayList<SemanticError> err = ast.checkSemantics(env);
@@ -55,7 +56,6 @@ public class Main {
 				//Node type = ast.typeCheck(); //type-checking bottom-up
 				//System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
-/*
 				// CODE GENERATION  prova.SimpLanPlus.asm
 				String code=ast.codeGeneration(); 
 				BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm")); 
@@ -79,9 +79,9 @@ public class Main {
 
 				System.out.println("Starting Virtual Machine...");
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
-				vm.cpu();*/
+				vm.cpu();
 			}
-		}
+		}*/
 
 
 	}

@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  */
 public class IntTypeNode extends TypeNode {
-  
+  	
 	@Override
 	public String toPrint(String indent) {
 		return indent+"IntType\n";  

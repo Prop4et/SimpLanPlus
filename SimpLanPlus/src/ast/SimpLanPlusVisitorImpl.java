@@ -96,10 +96,10 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 
     @Override
     public TypeNode visitType(SimpLanPlusParser.TypeContext ctx) {
-        final String type = ctx.type().getText();
-        if(type == "int")
+        final String type = ctx.getText();  
+        if(type.equals("int")) 
         	return new IntTypeNode();
-        else if(type == "bool")
+        else if(type.equals("bool"))
         	return new BoolTypeNode();
         
         return new PointerTypeNode(visitType(ctx.type()));
