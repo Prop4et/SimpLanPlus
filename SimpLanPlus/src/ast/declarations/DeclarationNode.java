@@ -10,7 +10,7 @@ public class DeclarationNode implements Node {
 
     @Override
     public String toPrint(String indent) {
-        return null;
+        return toPrint("");
     }
 
     @Override

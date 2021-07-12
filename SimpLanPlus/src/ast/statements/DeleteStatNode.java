@@ -10,8 +10,8 @@ public class DeleteStatNode extends StatementNode {
 	
 	private DeletionNode del;
 	
-	public DeleteStatNode(final Node del) {
-		this.del = (DeletionNode) del;
+	public DeleteStatNode(final DeletionNode del) {
+		this.del = del;
 		
 	}
 	@Override

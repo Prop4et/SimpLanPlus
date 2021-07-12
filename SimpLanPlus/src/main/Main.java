@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import ast.statements.BlockNode;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -22,6 +24,7 @@ import semanticAnalysis.SemanticError;
 //import ast.SVMVisitorImpl;*/
 
 public class Main {
+	
 	public static void main(String[] args) throws Exception {
 
 		String fileName = "prova.txt";
@@ -84,4 +87,5 @@ public class Main {
 
 
 	}
+
 }

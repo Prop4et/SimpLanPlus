@@ -10,8 +10,7 @@ public class ExpNode implements Node{
 
 	@Override
 	public String toPrint(String indent) {
-		// TODO Auto-generated method stub
-		return null;
+		return toPrint("");
 	}
 
 	@Override

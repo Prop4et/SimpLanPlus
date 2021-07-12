@@ -22,9 +22,11 @@ public class DecVarNode implements Node{
 	
 	@Override
 	public String toPrint(String indent) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		String exp = "";
+		if(this.exp != null)
+			exp = this.exp.toPrint("");
+		return "var: " + id.toPrint("") + " : " + type.toPrint("") + exp;
+ 	}
 
 	@Override
 	public Node typeCheck() {

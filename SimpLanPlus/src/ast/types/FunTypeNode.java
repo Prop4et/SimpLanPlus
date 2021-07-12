@@ -1,6 +1,7 @@
 package ast.types;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import ast.Node;
 
@@ -8,6 +9,7 @@ public class FunTypeNode extends TypeNode{
 
 	private final List<TypeNode> params;
 	private final TypeNode ret;
+	
 	public FunTypeNode(final List<TypeNode> params, final TypeNode ret) {
 		this.params = params;
 		this.ret = ret;
@@ -15,8 +17,7 @@ public class FunTypeNode extends TypeNode{
 	
 	@Override
 	public String toPrint(String indent) {
-		// TODO Auto-generated method stub
-		return null;
+		return params.stream().map(p -> p.toPrint("")).reduce(" ", (subtotal, param) -> (subtotal + ", " + param)) + " -> " + ret.toPrint("");
 	}
 
 	@Override

@@ -23,10 +23,11 @@ public class CallNode implements Node{
 	@Override
 	public String toPrint(String indent) {
 		//cos in teoria stampa pi volte lo stesso parametro se viene passato con aliasing
-		String s = "";
+		String s = "(";
 		for(ExpNode p : params) {
-			s += p.toPrint("");
+			s += p.toPrint("") + ", "  ;
 		}
+		s += ")";
 		return indent + "call: " + id.toPrint("") + s; 
 	}
 

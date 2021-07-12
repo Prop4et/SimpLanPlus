@@ -9,8 +9,8 @@ import semanticAnalysis.SemanticError;
 public class CallStatNode extends StatementNode{
 	private final CallNode call;
 	
-	public CallStatNode(final Node call) {
-		this.call = (CallNode) call;
+	public CallStatNode(final CallNode call) {
+		this.call = call;
 	}
 	
 	@Override
