@@ -13,7 +13,7 @@ public class BoolTypeNode extends TypeNode {
   
   @Override
   public String toPrint(String indent) {
-	  return indent + "BoolType\n";  
+	  return indent + "bool";  
   }
     
   public TypeNode typeCheck() {

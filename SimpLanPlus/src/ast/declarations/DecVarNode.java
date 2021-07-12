@@ -25,7 +25,7 @@ public class DecVarNode implements Node{
 		String exp = "";
 		if(this.exp != null) 
 			exp = " = " + this.exp.toPrint(""); 
-		return "var: " + id.toPrint("") + " : " + type.toPrint("") + exp;
+		return indent + "Var: " + id.toPrint("") + " : " + type.toPrint("") + exp;
  	}
 
 	@Override

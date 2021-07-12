@@ -16,7 +16,7 @@ public class DeletionNode extends StatementNode implements Node {
 	
 	@Override
 	public String toPrint(String indent) {
-		return indent + "delete :" + id.toPrint("");
+		return indent + "delete :" + id.toPrint(indent);
 	}
 
 	@Override

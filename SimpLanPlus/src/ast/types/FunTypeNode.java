@@ -17,7 +17,7 @@ public class FunTypeNode extends TypeNode{
 	
 	@Override
 	public String toPrint(String indent) {
-		return params.stream().map(p -> p.toPrint("")).reduce(" ", (subtotal, param) -> (subtotal + ", " + param)) + " -> " + ret.toPrint("");
+		return indent + params.stream().map(p -> p.toPrint("")).reduce(" ", (subtotal, param) -> (subtotal + ", " + param)) + " -> " + ret.toPrint("");
 	}
 
 	@Override

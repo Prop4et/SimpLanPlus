@@ -25,8 +25,9 @@ public class CallNode implements Node{
 		//cos in teoria stampa pi volte lo stesso parametro se viene passato con aliasing
 		String s = "(";
 		for(ExpNode p : params) {
-			s += p.toPrint("") + ", "  ;
+			s += p.toPrint("") + ", ";
 		}
+		s=s.substring(0, s.length()-2);
 		s += ")";
 		return indent + "call: " + id.toPrint("") + s; 
 	}

@@ -15,7 +15,7 @@ public class IteStatNode extends StatementNode{
 	
 	@Override
 	public String toPrint(String indent) {
-		return indent + ite.toPrint("");
+		return ite.toPrint(indent);
 	}
 
 	@Override

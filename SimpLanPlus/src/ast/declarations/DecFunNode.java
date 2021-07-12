@@ -30,8 +30,10 @@ public class DecFunNode implements Node{
 	@Override
 	public String toPrint(String indent) {
 		
-	    String dec = indent+"Fun: " + id.toPrint(" ") + " : " +
-			   args.stream().map(arg -> "(" + arg.toPrint("") +")").reduce("",(subtotal, element) -> subtotal + ", " + element) + "->" +type.toPrint("");
+	    String dec = indent+"Function: " + id.toPrint("") + " : " +
+			   args.stream().map(arg -> "(" + arg.toPrint("") +")").reduce("",(subtotal, element) -> subtotal + "" + element + " x ");
+	    dec=dec.substring(0, dec.length()-2);
+	    dec += "-> " +type.toPrint("");
 	    return dec + "\n" + body.toPrint(indent);
 			    
 	}

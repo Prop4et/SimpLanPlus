@@ -21,7 +21,7 @@ public class AssignmentNode extends StatementNode implements Node {
 	
 	@Override
 	public String toPrint(String indent) {
-		return lhs.toPrint("") + " = " + rhs.toPrint("");
+		return indent + lhs.toPrint("") + " = " + rhs.toPrint("");
 	}
 
 	@Override

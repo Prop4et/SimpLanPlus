@@ -15,7 +15,7 @@ public class BlockStatNode extends StatementNode{
 	
 	@Override
 	public String toPrint(String indent) {
-		return indent + block.toPrint("");
+		return block.toPrint(indent);
 	}
 
 	@Override

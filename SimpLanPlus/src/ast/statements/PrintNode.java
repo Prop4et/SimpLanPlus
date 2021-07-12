@@ -16,7 +16,7 @@ public class PrintNode implements Node{
 	@Override
 	public String toPrint(String indent) {
 		// TODO Auto-generated method stub
-		return indent + "print: "+ exp.toPrint("");
+		return indent + "print: "+ exp.toPrint(indent);
 	}
 
 	@Override

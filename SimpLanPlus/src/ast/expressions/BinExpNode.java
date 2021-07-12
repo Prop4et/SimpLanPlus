@@ -19,7 +19,7 @@ public class BinExpNode extends ExpNode{
 
     @Override
     public String toPrint(String indent) {
-        return indent + leftExp.toPrint("") + " " + operator + " " + rightExp.toPrint("");
+        return indent + leftExp.toPrint("") + " " + operator + " " + rightExp.toPrint(indent);
     }
 
     @Override

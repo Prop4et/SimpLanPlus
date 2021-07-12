@@ -27,7 +27,7 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 
-		String fileName = "prova.txt";
+		String fileName = "Tests/test3.txt";
 
 		FileInputStream is = new FileInputStream(fileName);
 		ANTLRInputStream input = new ANTLRInputStream(is);

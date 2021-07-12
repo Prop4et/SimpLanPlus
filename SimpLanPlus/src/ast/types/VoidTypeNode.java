@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class VoidTypeNode extends TypeNode {
 	@Override
 	public String toPrint(String indent) {
-		return indent+"VoidType\n";  
+		return indent+"void";  
 	}
   
 	@Override
