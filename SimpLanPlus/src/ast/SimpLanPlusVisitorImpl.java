@@ -124,7 +124,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
     public AssignmentNode visitAssignment(SimpLanPlusParser.AssignmentContext ctx) {
         LhsNode lhs = visitLhs(ctx.lhs());
         lhs.setAssignment(true);
-        ExpNode exp = visit(ctx.exp());
+        ExpNode exp = (ExpNode) visit(ctx.exp());
 
         return new AssignmentNode(lhs, exp);
     }
