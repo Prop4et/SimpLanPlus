@@ -76,12 +76,12 @@ public class BlockNode implements Node{
 				res.addAll(n.checkSemantics(env));
 		}
 		//---------------------------- Pi� tardi
-		/*if(stms.size() > 0){
+		if(stms.size() > 0){
 			env.offset = -2;
 			//if there are children then check semantics for every child and save the results
 			for(StatementNode n : stms)
 				res.addAll(n.checkSemantics(env));
-		}*/
+		}
 
 		//clean the scope, we are leaving a let scope
 		env.onScopeExit();
