@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import ast.Node;
 import ast.types.TypeNode;
+import exceptions.AlreadyDeclaredException;
 
 public class Environment {
 	
@@ -42,13 +43,14 @@ public class Environment {
 	}
 	/**
 	 * 
-	 * @param id
-	 * @return false if already declared, true otherwise
+	 * @param id the new declaration name
+	 * @param type the type of the new declaration (var or fun)
+	 * @throws AlreadyDeclaredException if the top hashmap already has an entry for id
 	 */
-	public void addDec(String id, TypeNode type)/* throws AlreadyDeclaredException*/  {
+	public void addDec(final String id, final TypeNode type) throws AlreadyDeclaredException  {
 		HashMap<String, STentry> scope = symTable.get(nl);
 		if(scope.put(id, new STentry(nl, offset, type)) != null)
-			/*throw exception*/;
+			throw new AlreadyDeclaredException(id + " already declared");
 		offset-=4;//1?		
 	}
 	

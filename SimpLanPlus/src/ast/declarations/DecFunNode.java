@@ -1,6 +1,7 @@
 package ast.declarations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ast.ArgNode;
@@ -8,7 +9,9 @@ import ast.IdNode;
 import ast.Node;
 import ast.statements.BlockNode;
 import ast.types.TypeNode;
+import exceptions.AlreadyDeclaredException;
 import semanticAnalysis.Environment;
+import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
 
 public class DecFunNode implements Node{
@@ -52,8 +55,17 @@ public class DecFunNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<SemanticError> errors = new ArrayList<>();
+
+		HashMap<String, STentry> top = env.getSymTable().get(env.getNestingLevel());
+		//function name already declared
+		try{
+			env.addDec(id.getId(), type);
+		}catch(AlreadyDeclaredException e) {
+			errors.add(new SemanticError(e.getMessage()));
+		}
+			
+		return errors;
 	}
 
 }

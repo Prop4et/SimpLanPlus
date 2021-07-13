@@ -31,7 +31,10 @@ public class IdNode implements Node {
     public String codeGeneration() {
         return null;
     }
-
+    
+    public String getId() {
+    	return this.id;
+    }
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         /*int j=env.nl;

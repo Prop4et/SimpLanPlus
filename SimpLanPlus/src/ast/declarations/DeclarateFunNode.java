@@ -30,6 +30,6 @@ public class DeclarateFunNode extends DeclarationNode{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        return decFun.checkSemantics(env);
     }
 }
