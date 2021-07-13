@@ -1,6 +1,7 @@
 {
-/*try testing recursive functions*/
-	void fun(int a, int b){
-		f(a, b);
+/*example of an erroneous*/
+	int f(int a, int b){
+		int a;
+		return a + b;
 	}
 }

@@ -43,6 +43,7 @@ public class IdNode implements Node {
         try {
             this.entry = env.lookup(id);    //throw NotDeclaredException if lookup return null
             nestinglevel = env.getNestingLevel();
+            
         }catch (NotDeclaredException e){
             res.add(new SemanticError(e.getMessage()));
         }

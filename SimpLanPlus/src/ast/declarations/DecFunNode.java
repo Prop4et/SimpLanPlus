@@ -70,7 +70,7 @@ public class DecFunNode implements Node{
 			//if not, when body gets evaluated there shouldn't be a new scope creation
 			for(ArgNode arg : args) 
 				env.addDec(arg.getId().getTextId(), arg.getType());
-			//body evaluation
+			//body evaluation in which yet another scope is created, should we avoid this?
 			errors.addAll(body.checkSemantics(env));
 			env.onScopeExit();
 			

@@ -27,7 +27,7 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 
-		String fileName = "Tests/test1.txt";
+		String fileName = "Tests/test5.txt";
 
 		FileInputStream is = new FileInputStream(fileName);
 		ANTLRInputStream input = new ANTLRInputStream(is);
@@ -44,8 +44,11 @@ public class Main {
 		} else {
 			Environment env = new Environment();
 			ArrayList<SemanticError> err = ast.checkSemantics(env);
-			if( !err.isEmpty()){
-				System.out.println("You had: " +err.size()+" errors:");
+			if(!err.isEmpty()){
+				if(err.size() == 1)
+					System.out.println("You had: " +err.size()+" error: ");
+				else
+					System.out.println("You had: " +err.size()+" errors:");
 				for(SemanticError e : err)
 					System.out.println("\t" + e);
 			} else {
