@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.IdNode;
 import ast.Node;
+import ast.types.TypeNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -20,7 +21,7 @@ public class DeletionNode extends StatementNode implements Node {
 	}
 
 	@Override
-	public Node typeCheck() {
+	public TypeNode typeCheck() {
 		// TODO Auto-generated method stub
 		return null;
 	}

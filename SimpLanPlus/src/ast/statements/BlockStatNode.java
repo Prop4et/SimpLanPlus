@@ -3,6 +3,7 @@ package ast.statements;
 import java.util.ArrayList;
 
 import ast.Node;
+import ast.types.TypeNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -19,7 +20,7 @@ public class BlockStatNode extends StatementNode{
 	}
 
 	@Override
-	public Node typeCheck() {
+	public TypeNode typeCheck() {
 		return block.typeCheck();
 	}
 

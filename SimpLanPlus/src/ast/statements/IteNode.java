@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.Node;
 import ast.expressions.ExpNode;
+import ast.types.TypeNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -25,7 +26,7 @@ public class IteNode implements Node{
 	}
 
 	@Override
-	public Node typeCheck() {
+	public TypeNode typeCheck() {
 		// TODO Auto-generated method stub
 		return null;
 	}

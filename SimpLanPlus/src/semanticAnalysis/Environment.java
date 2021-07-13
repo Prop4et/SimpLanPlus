@@ -64,7 +64,7 @@ public class Environment {
 	 * potrebbe ritornare l'eccezione se non � dichiarata e il tipo altrimenti
 	 */
 	public STentry lookup(String id) throws NotDeclaredException {
-		//pi� bello while magari cos� mi fermo appena lo trovo
+		//better that way idk
 		int i = nl;
 		STentry var = null;
 		while(i>-1 && var == null){
@@ -74,7 +74,7 @@ public class Environment {
 			i--;
 		}
 		if(var == null)
-			throw new NotDeclaredException("The variable wasn't declared before");
+			throw new NotDeclaredException("The variable " + id + " wasn't declared before");
 		return var;
 	}
 	

@@ -18,6 +18,10 @@ public class FunTypeNode extends TypeNode{
 		this.ret = ret;
 	}
 	
+	public List<TypeNode> getParams() {
+		return params;
+	}
+	
 	@Override
 	public String toPrint(String indent) {
 		return indent + params.stream().map(p -> p.toPrint("")).reduce(" ", (subtotal, param) -> (subtotal + ", " + param)) + " -> " + ret.toPrint("");

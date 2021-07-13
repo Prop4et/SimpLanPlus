@@ -7,6 +7,7 @@ import java.util.List;
 
 import ast.Node;
 import ast.declarations.DeclarationNode;
+import ast.types.TypeNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
@@ -31,7 +32,7 @@ public class BlockNode implements Node{
 	}
 
 	@Override
-	public Node typeCheck() {
+	public TypeNode typeCheck() {
 		// TODO Auto-generated method stub
 		return null;
 	}
