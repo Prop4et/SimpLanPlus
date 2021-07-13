@@ -30,11 +30,8 @@ public class NewExpNode extends  ExpNode {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        ArrayList<SemanticError> res = new ArrayList<>();
-
-        res.addAll(type.checkSemantics(env));
-
-        return res;
+    	//no need to check type, that's another checkSemantics method inside the base type
+        return new ArrayList<SemanticError>();
     }
 
 }

@@ -22,7 +22,7 @@ public class BaseExpNode extends ExpNode {
 
     @Override
     public TypeNode typeCheck() throws TypeException {
-        return  exp.typeCheck();
+        return exp.typeCheck();
     }
 
     @Override
