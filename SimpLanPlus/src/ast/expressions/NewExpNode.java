@@ -19,7 +19,7 @@ public class NewExpNode extends  ExpNode {
         return indent + "new " + type.toPrint("");    }
 
     @Override
-    public Node typeCheck()  {
+    public TypeNode typeCheck()  {
         return null;
     }
 

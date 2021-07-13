@@ -1,6 +1,8 @@
 package ast.expressions;
 
 import ast.Node;
+import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -19,8 +21,8 @@ public class BaseExpNode extends ExpNode {
     }
 
     @Override
-    public Node typeCheck()  {
-        return null;
+    public TypeNode typeCheck() throws TypeException {
+        return  exp.typeCheck();
     }
 
     @Override

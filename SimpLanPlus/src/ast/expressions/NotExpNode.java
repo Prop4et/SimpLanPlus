@@ -1,6 +1,7 @@
 package ast.expressions;
 
 import ast.Node;
+import ast.types.TypeNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -19,7 +20,7 @@ public class NotExpNode extends ExpNode{
     }
 
     @Override
-    public Node typeCheck()  {
+    public TypeNode typeCheck()  {
         return null;
     }
 

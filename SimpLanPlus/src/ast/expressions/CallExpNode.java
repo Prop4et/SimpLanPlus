@@ -2,6 +2,7 @@ package ast.expressions;
 
 import ast.Node;
 import ast.statements.CallNode;
+import ast.types.TypeNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -16,7 +17,7 @@ public class CallExpNode extends ExpNode {
     public String toPrint(String indent) {
         return indent + call.toPrint(indent);
     }
-    public Node typeCheck()  {
+    public TypeNode typeCheck()  {
         return null;
     }
 

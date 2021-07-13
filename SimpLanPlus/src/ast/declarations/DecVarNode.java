@@ -7,6 +7,7 @@ import ast.Node;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -30,8 +31,9 @@ public class DecVarNode implements Node{
  	}
 
 	@Override
-	public Node typeCheck() {
-		// TODO Auto-generated method stub
+	public TypeNode typeCheck() throws TypeException {
+		if(!Node.sametype(type, exp.typeCheck()))
+			throw new TypeException("Return type and function type are incompatible");
 		return null;
 	}
 
