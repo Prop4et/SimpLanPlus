@@ -9,26 +9,7 @@ import semanticAnalysis.SemanticError;
 public abstract class StatementNode implements Node{
 
 	@Override
-	public String toPrint(String indent) {
+	public String toString() {
 		return toPrint("");
 	}
-
-	@Override
-	public Node typeCheck() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

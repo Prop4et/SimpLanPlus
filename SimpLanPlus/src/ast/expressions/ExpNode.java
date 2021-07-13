@@ -1,34 +1,11 @@
 package ast.expressions;
 
-import java.util.ArrayList;
-
 import ast.Node;
-import semanticAnalysis.Environment;
-import semanticAnalysis.SemanticError;
 
-public class ExpNode implements Node{
+public abstract class ExpNode implements Node{
 
 	@Override
-	public String toPrint(String indent) {
+	public String toString() {
 		return toPrint("");
 	}
-
-	@Override
-	public Node typeCheck() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

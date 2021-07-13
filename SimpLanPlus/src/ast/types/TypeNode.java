@@ -21,9 +21,4 @@ public abstract class TypeNode implements Node{
 			return false;
 		return true;
 	}
-	
-	@Override
-	public ArrayList<SemanticError> checkSemantics(Environment env) {
- 	  	return new ArrayList<SemanticError>();
- 	}
 }
