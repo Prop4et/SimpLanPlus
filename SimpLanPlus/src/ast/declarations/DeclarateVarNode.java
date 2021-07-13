@@ -27,7 +27,7 @@ public class DeclarateVarNode extends DeclarationNode{
 
 	    @Override
 	    public String codeGeneration() {
-	        return null;
+	        return decVar.codeGeneration();
 	    }
 
 	    @Override
