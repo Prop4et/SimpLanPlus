@@ -18,6 +18,7 @@ public class VoidTypeNode extends TypeNode {
   
 	@Override
 	public TypeNode typeCheck() {
+		//it's actually a no type
 		return null;
 	}
 

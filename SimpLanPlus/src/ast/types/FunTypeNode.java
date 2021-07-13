@@ -1,9 +1,12 @@
 package ast.types;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import ast.Node;
+import semanticAnalysis.Environment;
+import semanticAnalysis.SemanticError;
 
 public class FunTypeNode extends TypeNode{
 
@@ -21,8 +24,8 @@ public class FunTypeNode extends TypeNode{
 	}
 
 	@Override
-	public Node typeCheck() {
-		// TODO Auto-generated method stub
+	public TypeNode typeCheck() {
+		//nothing to return, it falls on other types 
 		return null;
 	}
 
@@ -31,4 +34,8 @@ public class FunTypeNode extends TypeNode{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public ArrayList<SemanticError> checkSemantics(Environment env) {
+		return new ArrayList<SemanticError>();
+    }
 }

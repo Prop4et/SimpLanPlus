@@ -29,6 +29,7 @@ public class PointerTypeNode extends TypeNode {
   
 	@Override
 	public TypeNode typeCheck() {
+		//falls on others
 		return null;
 	}
 

@@ -18,6 +18,7 @@ public class IntTypeNode extends TypeNode {
   
 	@Override
 	public TypeNode typeCheck() {
+		//watch for IntNode
 		return null;
 	}
 

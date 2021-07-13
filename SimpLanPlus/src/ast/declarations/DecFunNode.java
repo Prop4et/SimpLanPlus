@@ -55,6 +55,7 @@ public class DecFunNode implements Node{
 		return null;
 	}
 
+	//should be fine for what concerns the checksemantics
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		ArrayList<SemanticError> errors = new ArrayList<>();

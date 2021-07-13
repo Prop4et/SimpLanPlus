@@ -17,6 +17,7 @@ public class BoolTypeNode extends TypeNode {
   }
     
   public TypeNode typeCheck() {
+	  //watch for BoolNode
 	  return null;
   }
   
