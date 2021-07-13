@@ -27,7 +27,7 @@ public class DeclarateFunNode extends DeclarationNode{
 
     @Override
     public String codeGeneration() {
-        return null;
+        return decFun.codeGeneration();
     }
 
     @Override
