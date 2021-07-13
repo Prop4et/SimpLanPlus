@@ -6,6 +6,7 @@ import ast.IdNode;
 import ast.Node;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
+import exceptions.AlreadyDeclaredException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -42,8 +43,20 @@ public class DecVarNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<SemanticError> errors = new ArrayList<>();
+
+		if(exp != null) {
+			errors.addAll(exp.checkSemantics(env));
+		}
+
+		try {
+			env.addDec(id.getTextId(), type);
+
+		} catch (AlreadyDeclaredException exception) {
+			errors.add(new SemanticError(exception.getMessage()));
+		}
+
+		return errors;
 	}
 
 }
