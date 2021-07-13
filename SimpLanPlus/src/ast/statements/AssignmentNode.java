@@ -6,6 +6,7 @@ import ast.LhsNode;
 import ast.Node;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -26,8 +27,12 @@ public class AssignmentNode extends StatementNode implements Node {
 	}
 
 	@Override
-	public TypeNode typeCheck() {
-		// TODO Auto-generated method stub
+	public TypeNode typeCheck() throws TypeException {
+		TypeNode lhsType = lhs.typeCheck();
+		TypeNode rhsType = rhs.typeCheck();
+
+		if(!Node.sametype(lhsType, rhsType))
+			throw new TypeException("Type Error: " + lhs.getLhsId() + "is of type " + lhsType + "; cannot assign "+ rhs +" of type " + rhsType + ".");
 		return null;
 	}
 

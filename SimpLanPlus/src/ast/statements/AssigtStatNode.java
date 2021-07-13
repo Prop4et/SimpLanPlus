@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.Node;
 import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -20,7 +21,7 @@ public class AssigtStatNode extends StatementNode{
 	}
 
 	@Override
-	public TypeNode typeCheck() {
+	public TypeNode typeCheck() throws TypeException {
 		return ass.typeCheck();
 	}
 

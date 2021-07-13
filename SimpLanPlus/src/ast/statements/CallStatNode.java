@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.Node;
 import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -20,10 +21,11 @@ public class CallStatNode extends StatementNode{
 	}
 
 	@Override
-	public TypeNode typeCheck() {
+	public TypeNode typeCheck() throws TypeException {
 		// TODO Auto-generated method stub
-		return null;
+		return call.typeCheck();
 	}
+
 
 	@Override
 	public String codeGeneration() {

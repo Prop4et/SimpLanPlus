@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.Node;
 import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -21,10 +22,10 @@ public class DeleteStatNode extends StatementNode {
 	}
 
 	@Override
-	public TypeNode typeCheck() {
-		// TODO Auto-generated method stub
-		return null;
+	public TypeNode typeCheck() throws TypeException {
+		return del.typeCheck();
 	}
+
 
 	@Override
 	public String codeGeneration() {

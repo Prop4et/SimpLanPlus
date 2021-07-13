@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import ast.Node;
 import ast.expressions.ExpNode;
+import ast.types.BoolTypeNode;
 import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -26,9 +28,17 @@ public class IteNode implements Node{
 	}
 
 	@Override
-	public TypeNode typeCheck() {
-		// TODO Auto-generated method stub
-		return null;
+	public TypeNode typeCheck() throws TypeException {
+
+		if(! Node.sametype(cond.typeCheck(), new BoolTypeNode()) )
+			throw new TypeException("Type Error: the if condition " + cond + "is not of type BOOL.");
+		TypeNode  thenBType = thenB.typeCheck();
+		TypeNode elseBType = elseB.typeCheck();
+		if (elseB != null && ! Node.sametype(thenBType, elseBType))		//TODO: da rivedere meglio le regole di inferenza dell'if e implementazione sameas
+			throw new TypeException("Type Error: Incompatible types in then else branches");
+		//otherwise e == t, so I can return any one between the two
+		return thenBType; //t
+
 	}
 
 	@Override
