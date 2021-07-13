@@ -2,6 +2,7 @@ package ast.expressions;
 
 import ast.Node;
 import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -24,7 +25,13 @@ public class BinExpNode extends ExpNode{
     }
 
     @Override
-    public TypeNode typeCheck() {
+    public TypeNode typeCheck() throws TypeException {
+        TypeNode leftExpType = leftExp.typeCheck();
+        TypeNode rightExpType = rightExp.typeCheck();
+
+        if(!Node.sametype(leftExpType, rightExpType))
+            throw new TypeException("Type Error: unsupported operand type(s) for" + operator + ":" +leftExpType + " and "+ rightExpType);
+
         return null;
     }
 

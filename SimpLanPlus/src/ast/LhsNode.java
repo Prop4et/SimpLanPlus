@@ -2,6 +2,7 @@ package ast;
 
 import java.util.ArrayList;
 
+import ast.types.TypeNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -23,21 +24,24 @@ public class LhsNode implements Node{
 	}
 
 	@Override
-	public Node typeCheck() {
-		// TODO Auto-generated method stub
-		return null;
+	public TypeNode typeCheck() {
+		if(lhs == null)
+			return id.typeCheck();
+		else
+			return lhs.typeCheck();
 	}
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return null;
+		return  null;
 	}
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
+		if(lhs == null)
+			return id.checkSemantics(env);
+		else
+			return lhs.checkSemantics(env);
 	}
 	public IdNode getLhsId() {
 		return id;

@@ -21,8 +21,8 @@ public class DerExpNode extends ExpNode{
     }
 
     @Override
-    public TypeNode typeCheck()  {
-        return null;
+    public TypeNode typeCheck() {
+       return lhs.typeCheck();
     }
 
     @Override

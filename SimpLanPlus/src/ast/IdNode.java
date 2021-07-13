@@ -2,6 +2,7 @@ package ast;
 import ast.Node;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
+import exceptions.NotDeclaredException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
@@ -23,8 +24,8 @@ public class IdNode implements Node {
     }
 
     @Override
-    public Node typeCheck() {
-        return null;
+    public TypeNode typeCheck() {
+        return entry.getType();
     }
 
     @Override
@@ -37,26 +38,15 @@ public class IdNode implements Node {
     }
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        /*int j=env.nl;
-        STentry tmp=null;
-        while (j>=0 && tmp==null)
-            tmp=(env.symTable.get(j--)).get(id);
-        if (tmp==null)
-            res.add(new SemanticError("Id "+id+" not declared"));
 
-        else{
-            entry = tmp;
-            nestinglevel = env.nestingLevel;
-        }
-        ####from simplan /*
-
-         */
-
-        //create result list
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        try {
+            this.entry = env.lookup(id);    //throw NotDeclaredException if lookup return null
+            nestinglevel = env.getNestingLevel();
+        }catch (NotDeclaredException e){
+            res.add(new SemanticError(e.getMessage()));
+        }
 
-        this.entry = env.lookup(id);    //throw NotDeclaredException if lookup return null
-        nestinglevel = env.getNestingLevel();
 
         return res;
     }

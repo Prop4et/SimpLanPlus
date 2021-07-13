@@ -6,6 +6,7 @@ import java.util.HashMap;
 import ast.Node;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
+import exceptions.NotDeclaredException;
 
 public class Environment {
 	
@@ -62,7 +63,7 @@ public class Environment {
 	 * oppure 
 	 * potrebbe ritornare l'eccezione se non � dichiarata e il tipo altrimenti
 	 */
-	public STentry lookup(String id) /*throws DeclarationException*/ {
+	public STentry lookup(String id) throws NotDeclaredException {
 		//pi� bello while magari cos� mi fermo appena lo trovo
 		int i = nl;
 		STentry var = null;
@@ -72,8 +73,8 @@ public class Environment {
 				var = scope.get(id);
 			i--;
 		}
-		/*if(var == null)
-			throw DeclaredException*/
+		if(var == null)
+			throw new NotDeclaredException("The variable wasn't declared before");
 		return var;
 	}
 	

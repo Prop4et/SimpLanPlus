@@ -3,6 +3,7 @@ package ast;
 import java.util.ArrayList;
 
 import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -28,8 +29,7 @@ public class ArgNode implements Node{
 	}
 	
 	@Override
-	public Node typeCheck() {
-		// TODO Auto-generated method stub
+	public TypeNode typeCheck() throws TypeException {
 		return null;
 	}
 
@@ -41,8 +41,7 @@ public class ArgNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 	
 }

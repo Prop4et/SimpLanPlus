@@ -3,6 +3,8 @@ package ast.declarations;
 import java.util.ArrayList;
 
 import ast.Node;
+import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -19,8 +21,8 @@ public class DeclarateFunNode extends DeclarationNode{
     }
 
     @Override
-    public Node typeCheck() {
-        return null;
+    public TypeNode typeCheck() throws TypeException {
+        return decFun.typeCheck();
     }
 
     @Override

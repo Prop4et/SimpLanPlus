@@ -14,7 +14,7 @@ public class STentry {
 	//offset used when generating the ASM code
 	private int offset;
 	
-	public Node getType() {
+	public TypeNode getType() {
 		return type;
 	}
 	
