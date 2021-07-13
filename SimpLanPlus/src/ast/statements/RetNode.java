@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import ast.Node;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
+import ast.types.VoidTypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -23,10 +25,13 @@ public class RetNode implements Node{
 	}
 
 	@Override
-	public TypeNode typeCheck() {
-		// TODO Auto-generated method stub
-		return null;
+	public TypeNode typeCheck()  throws TypeException {
+		if(exp == null) {
+			return new VoidTypeNode();
+		}
+		return exp.typeCheck();
 	}
+
 
 	@Override
 	public String codeGeneration() {

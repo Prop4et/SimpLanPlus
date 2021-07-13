@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.Node;
 import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -18,12 +19,12 @@ public class PrintStatNode extends StatementNode{
 	public String toPrint(String indent) {
 		return indent + print.toPrint("");
 	}
-	
+
 	@Override
-	public TypeNode typeCheck() {
-		// TODO Auto-generated method stub
-		return null;
+	public TypeNode typeCheck() throws TypeException {
+		return print.typeCheck();
 	}
+
 
 	@Override
 	public String codeGeneration() {
