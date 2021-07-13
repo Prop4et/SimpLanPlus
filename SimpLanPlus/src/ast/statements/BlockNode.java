@@ -8,6 +8,9 @@ import java.util.List;
 import ast.Node;
 import ast.declarations.DeclarationNode;
 import ast.types.TypeNode;
+import ast.types.VoidTypeNode;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
@@ -32,9 +35,24 @@ public class BlockNode implements Node{
 	}
 
 	@Override
-	public TypeNode typeCheck() {
-		// TODO Auto-generated method stub
-		return null;
+	public TypeNode typeCheck() throws TypeException {
+		Boolean returnFlag = false; 
+		//first check that declarations and statements inside the block are typed correctly
+		for (DeclarationNode dec : decs) {
+			dec.typeCheck();
+		}
+		for (StatementNode stm : stms) {
+			stm.typeCheck();
+			if(stm instanceof RetStatNode)
+				returnFlag = true;
+		}
+		if (stms.size() == 0 || ! returnFlag) {		//if there is no return statement in the block
+			return new VoidTypeNode();
+		}
+		return stms.get(stms.size()).typeCheck();	//se il return è alla fine del blocco
+		// manca il caso  in cui il return è nell'if
+		// non penso sia legale per la grammatica se si triva in altri posti
+
 	}
 
 	@Override
@@ -57,7 +75,7 @@ public class BlockNode implements Node{
 			for(DeclarationNode n : decs)
 				res.addAll(n.checkSemantics(env));
 		}
-		//---------------------------- Pi� tardi
+		//---------------------------- Pi� tardi
 		/*if(stms.size() > 0){
 			env.offset = -2;
 			//if there are children then check semantics for every child and save the results
