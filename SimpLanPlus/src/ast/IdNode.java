@@ -32,7 +32,7 @@ public class IdNode implements Node {
         return null;
     }
     
-    public String getId() {
+    public String getTextId() {
     	return this.id;
     }
     @Override

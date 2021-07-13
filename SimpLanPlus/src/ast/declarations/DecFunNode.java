@@ -10,6 +10,7 @@ import ast.Node;
 import ast.statements.BlockNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
@@ -42,8 +43,9 @@ public class DecFunNode implements Node{
 	}
 
 	@Override
-	public Node typeCheck() {
-		// TODO Auto-generated method stub
+	public TypeNode typeCheck() throws TypeException {
+		if(!Node.sametype(type, body.typeCheck())) 
+			throw new TypeException("Return type and function type are incompatible");
 		return null;
 	}
 
@@ -56,15 +58,23 @@ public class DecFunNode implements Node{
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		ArrayList<SemanticError> errors = new ArrayList<>();
-
-		HashMap<String, STentry> top = env.getSymTable().get(env.getNestingLevel());
-		//function name already declared
 		try{
-			env.addDec(id.getId(), type);
-		}catch(AlreadyDeclaredException e) {
+			//add function name to the environment
+			env.addDec(id.getTextId(), type);
+			//create the new block
+			env.onScopeEntry();
+			//add the arguments to the new scope created
+			//TODO is it right to declare new variables inside the function with the same name of the parameters?
+			//if not, when body gets evaluated there shouldn't be a new scope creation
+			for(ArgNode arg : args) 
+				env.addDec(arg.getId().getTextId(), arg.getType());
+			//body evaluation
+			errors.addAll(body.checkSemantics(env));
+			env.onScopeExit();
+			
+		}catch(AlreadyDeclaredException e){
 			errors.add(new SemanticError(e.getMessage()));
 		}
-			
 		return errors;
 	}
 

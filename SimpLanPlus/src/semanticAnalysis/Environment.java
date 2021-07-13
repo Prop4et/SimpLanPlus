@@ -46,6 +46,7 @@ public class Environment {
 	 * @param id the new declaration name
 	 * @param type the type of the new declaration (var or fun)
 	 * @throws AlreadyDeclaredException if the top hashmap already has an entry for id
+	 * @return STentry for the new declaration 
 	 */
 	public void addDec(final String id, final TypeNode type) throws AlreadyDeclaredException  {
 		HashMap<String, STentry> scope = symTable.get(nl);

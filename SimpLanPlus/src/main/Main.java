@@ -27,7 +27,7 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 
-		String fileName = "Tests/test4.txt";
+		String fileName = "Tests/test1.txt";
 
 		FileInputStream is = new FileInputStream(fileName);
 		ANTLRInputStream input = new ANTLRInputStream(is);
@@ -37,9 +37,8 @@ public class Main {
 		SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
 		SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
 		BlockNode ast = visitor.visitBlock(parser.block()); //generazione AST
-		System.out.println(ast.toPrint(""));
 		//SIMPLE CHECK FOR LEXER ERRORS
-		/*if (lexer.errorCount() > 0){
+		if (lexer.errorCount() > 0){
 			System.out.println("The program was not in the right format. Exiting the compilation process now");
 			
 		} else {
@@ -52,7 +51,7 @@ public class Main {
 			} else {
 				System.out.println("Visualizing AST...");
 				System.out.println(ast.toPrint(""));
-
+			/*
 				//Node type = ast.typeCheck(); //type-checking bottom-up
 				//System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
@@ -79,9 +78,9 @@ public class Main {
 
 				System.out.println("Starting Virtual Machine...");
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
-				vm.cpu();
+				vm.cpu();*/
 			}
-		}*/
+		}
 
 
 	}

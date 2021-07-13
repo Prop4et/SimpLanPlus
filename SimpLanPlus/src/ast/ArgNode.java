@@ -19,6 +19,14 @@ public class ArgNode implements Node{
 		return indent + id.toPrint("") + ":" + type.toPrint(indent);
 	}
 
+	public IdNode getId() {
+		return id;
+	}
+	
+	public TypeNode getType(){
+		return type;
+	}
+	
 	@Override
 	public Node typeCheck() {
 		// TODO Auto-generated method stub

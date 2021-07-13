@@ -1,0 +1,6 @@
+{
+/*try testing recursive functions*/
+	void fun(int a, int b){
+		f(a, b);
+	}
+}

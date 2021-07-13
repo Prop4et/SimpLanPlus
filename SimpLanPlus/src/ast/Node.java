@@ -2,6 +2,7 @@ package ast;
 
 import java.util.ArrayList;
 
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 /**
@@ -19,7 +20,7 @@ public interface Node {
 	 * Effectively checks the types of every nodes
 	 * @return the type of the identifier or expression
 	 */
-	Node typeCheck();
+	Node typeCheck() throws TypeException;
 	/**
 	 * Generates the intermediate code
 	 * @return a string which is the ASM code
