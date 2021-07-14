@@ -1,6 +1,8 @@
 package ast.expressions;
 
 import ast.Node;
+import ast.types.BoolTypeNode;
+import ast.types.IntTypeNode;
 import ast.types.TypeNode;
 import exceptions.TypeException;
 import semanticAnalysis.Environment;
@@ -22,7 +24,9 @@ public class NegExpNode extends ExpNode{
 
     @Override
     public TypeNode typeCheck() throws TypeException {
-        return exp.typeCheck();
+        if( exp.typeCheck() instanceof BoolTypeNode)
+            throw new TypeException("Type Error: Bool expression cannot have negative sign.");
+        return new IntTypeNode();
     }
 
     @Override

@@ -18,7 +18,7 @@ public class CallExpNode extends ExpNode {
         return indent + call.toPrint(indent);
     }
     public TypeNode typeCheck()  {
-        return null;
+        return call.typeCheck();
     }
 
     @Override
