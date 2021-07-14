@@ -25,9 +25,10 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 		}
 		
 		for(SimpLanPlusParser.StatementContext sc : ctx.statement()) {
+		    System.out.print(sc);
 			stms.add((StatementNode) visit(sc));
 		}
-		
+
 		return new BlockNode(decs, stms);
 	}
 	
@@ -35,7 +36,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 		return new AssigtStatNode(visitAssignment(ctx.assignment()));
 	}
 	
-	public DeleteStatNode visitDeletionStat(SimpLanPlusParser.DeleteStatContext ctx) {
+	public DeleteStatNode visitDeleteStat(SimpLanPlusParser.DeleteStatContext ctx) {
 		return new DeleteStatNode(visitDeletion(ctx.deletion()));
 	}
 	
@@ -145,7 +146,6 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
     @Override
     public DeletionNode visitDeletion(SimpLanPlusParser.DeletionContext ctx) {
         IdNode id = new IdNode(ctx.ID().getText());
-
         return new DeletionNode(id);
     }
 

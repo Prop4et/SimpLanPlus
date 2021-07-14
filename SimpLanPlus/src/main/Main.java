@@ -27,7 +27,7 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 
-		String fileName = "./SimpLanPlus/Tests/Test5.txt";
+		String fileName = "./Tests/test8.txt";
 		FileInputStream is = new FileInputStream(fileName);
 		ANTLRInputStream input = new ANTLRInputStream(is);
 		SimpLanPlusLexer lexer = new SimpLanPlusLexer(input);
@@ -36,6 +36,8 @@ public class Main {
 		SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
 		SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
 		BlockNode ast = visitor.visitBlock(parser.block()); //generazione AST
+		System.out.println("Visualizing AST...");
+		System.out.println(ast.toPrint(""));
 		//SIMPLE CHECK FOR LEXER ERRORS
 		if (lexer.errorCount() > 0){
 			System.out.println("The program was not in the right format. Exiting the compilation process now");
