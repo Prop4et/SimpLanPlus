@@ -54,10 +54,10 @@ public class IteNode implements Node{
 
 		//check semantics in the condition
 		res.addAll(cond.checkSemantics(env));
-
 		//check semantics in the then and in the else exp
 		res.addAll(thenB.checkSemantics(env));
-		res.addAll(elseB.checkSemantics(env));
+		if(elseB != null)		//the else branch is optional
+			res.addAll(elseB.checkSemantics(env));
 
 		//bisogna incrementare/decrementare  il nestinglevel quando entriamo/usciamo dai rami then/else?
 
