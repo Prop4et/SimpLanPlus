@@ -60,6 +60,7 @@ public class CallNode implements Node{
 		int nFormalParams = -1;
 		int nActualParams = params.size();
 		try {
+			System.out.print(env.lookup(id.getTextId()).getType().toString());
 			nFormalParams = ((FunTypeNode) env.lookup(id.getTextId()).getType()).getParams().size();
 		} catch (NotDeclaredException e) {
 			//should never here cause we checked before
