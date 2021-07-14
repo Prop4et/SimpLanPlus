@@ -56,6 +56,22 @@ public class Environment {
 		offset-=4;//1?		
 	}
 	
+	public void printEnv() {
+		int nl = 0;
+		System.out.println("VAR TYPE OFFSET NL");
+		for(HashMap<String, STentry> m : symTable) {
+			//System.out.println("{");
+			for(String key : m.keySet()) {
+			    STentry value = m.get(key);
+			    for(int i=0; i<nl; i++)
+			    	System.out.print("\t");
+			    System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl());
+			}
+			//System.out.println("}");
+			nl++;
+		}
+	}
+	
 	/**
 	 * 
 	 * @param id

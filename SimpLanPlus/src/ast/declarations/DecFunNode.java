@@ -1,6 +1,7 @@
 package ast.declarations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ast.ArgNode;
@@ -71,7 +72,7 @@ public class DecFunNode implements Node{
 			for(ArgNode arg : args) 
 				env.addDec(arg.getId().getTextId(), arg.getType());
 			//body evaluation in which yet another scope is created, should we avoid this?
-			errors.addAll(body.checkSemantics(env));
+			env.printEnv();
 			env.onScopeExit();
 			
 		}catch(AlreadyDeclaredException e){

@@ -29,4 +29,11 @@ public class STentry {
 		this.type = type;
 	}
 
+	public int getOffset() {
+		return offset;
+	}
+	
+	public int getNl() {
+		return nl;
+	}
 }  
