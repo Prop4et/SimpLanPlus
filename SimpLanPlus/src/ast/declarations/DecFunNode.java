@@ -3,11 +3,13 @@ package ast.declarations;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ast.ArgNode;
 import ast.IdNode;
 import ast.Node;
 import ast.statements.BlockNode;
+import ast.types.FunTypeNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
 import exceptions.TypeException;
@@ -21,14 +23,18 @@ public class DecFunNode implements Node{
 	private final IdNode id;
 	private final List<ArgNode> args;
 	private final BlockNode body;
-	
+	private final FunTypeNode typeFun;
+
+
+
 	public DecFunNode(final TypeNode type, final IdNode id, final List<ArgNode> args, BlockNode body) {
 		this.type = type;
 		this.id = id;
 		this.args = args;
 		this.body = body;
-		
-		//dovrei mettere i tipi dei parametri
+
+		List<TypeNode> argsType = args.stream().map(ArgNode::getType).collect(Collectors.toList());
+		typeFun = new FunTypeNode(argsType, type);
 	}
 	
 	@Override
@@ -61,7 +67,7 @@ public class DecFunNode implements Node{
 		ArrayList<SemanticError> errors = new ArrayList<>();
 		try{
 			//add function name to the environment
-			env.addDec(id.getTextId(), type);
+			env.addDec(id.getTextId(), typeFun);
 			//create the new block
 			env.onScopeEntry();
 			//add the function to the scope for the arguments in case of (non mutual) recursion

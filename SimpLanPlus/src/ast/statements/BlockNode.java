@@ -83,7 +83,7 @@ public class BlockNode implements Node{
 			}
 			
 		}
-		
+		env.printEnv();
 		//clean the scope, we are leaving a let scope
 		env.onScopeExit();
 
