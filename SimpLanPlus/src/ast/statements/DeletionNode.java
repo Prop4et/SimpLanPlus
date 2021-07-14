@@ -24,6 +24,7 @@ public class DeletionNode extends StatementNode implements Node {
 
 	@Override
 	public TypeNode typeCheck() throws TypeException {
+		//ID can be a variables, a function or a pointer
 		return id.typeCheck();
 	}
 

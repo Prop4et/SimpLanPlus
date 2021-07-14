@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ast.Node;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
+import ast.types.VoidTypeNode;
 import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
@@ -23,7 +24,9 @@ public class PrintNode implements Node{
 
 	@Override
 	public TypeNode typeCheck() throws TypeException {
-		return exp.typeCheck();
+		if( exp.typeCheck() instanceof VoidTypeNode)
+			throw new TypeException("Type Error: need cannot print void expressione");
+		return null;
 	}
 
 	@Override
