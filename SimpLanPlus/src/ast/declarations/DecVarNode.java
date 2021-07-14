@@ -32,9 +32,11 @@ public class DecVarNode implements Node{
 
 	@Override
 	public TypeNode typeCheck() throws TypeException {
-		TypeNode expType = exp.typeCheck();
-		if(!Node.sametype(type, exp.typeCheck()))
-			throw new TypeException("Type Error: " + id + "is of type " + type + "; cannot assign "+ exp +" of type " + expType + ".");
+		if(exp != null) {
+			TypeNode expType = exp.typeCheck();
+			if (!Node.sametype(type,expType ))
+				throw new TypeException("Type Error: " + id + "is of type " + type + "; cannot assign " + exp + " of type " + expType + ".");
+		}
 		return null;
 	}
 
