@@ -1,4 +1,14 @@
 {
 /* declaration without assignment */
-	int x;
+	int x = 2;
+	void f(int z){
+        if(z == 2) {
+            int y;
+            return y;
+        }else{
+            int z=4;
+            return x;
+        }
+     }
+     f(x);
 }
