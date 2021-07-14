@@ -40,7 +40,7 @@ public interface Node {
 	 * @param n2 second node
 	 * @return true if match, false otherwise
 	 */
-	static boolean sametype(Node n1, Node n2) {
+	static boolean sametype(TypeNode n1, TypeNode n2) {
 		return n1.getClass().equals(n2.getClass());
 	}
 }  	
