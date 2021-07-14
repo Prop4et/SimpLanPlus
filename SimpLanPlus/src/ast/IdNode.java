@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class IdNode implements Node {
     private final String id;
     private STentry entry;
-    private int nestinglevel;
+    private int nl;
 
     public IdNode(final String id) {
         this.id = id;
@@ -42,13 +42,10 @@ public class IdNode implements Node {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
         try {
             this.entry = env.lookup(id);    //throw NotDeclaredException if lookup return null
-            nestinglevel = env.getNestingLevel();
-            
+            nl = env.getNestingLevel();
         }catch (NotDeclaredException e){
             res.add(new SemanticError(e.getMessage()));
         }
-
-
         return res;
     }
 

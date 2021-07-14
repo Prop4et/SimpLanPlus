@@ -27,6 +27,12 @@ public class Environment {
 		this(new ArrayList<>(), -1, 0);
 	}
 	
+	public Environment(final HashMap<String, STentry> top) {
+		symTable.add(top);
+		this.nl = 0;
+		this.offset = 0;
+	}
+	
 	public ArrayList<HashMap<String, STentry>> getSymTable(){
 		return symTable;
 	}
@@ -57,27 +63,34 @@ public class Environment {
 	}
 	
 	public void printEnv() {
-		int nl = 0;
+		int currentnl = 0;
 		System.out.println("VAR TYPE OFFSET NL");
 		for(HashMap<String, STentry> m : symTable) {
 			//System.out.println("{");
 			for(String key : m.keySet()) {
 			    STentry value = m.get(key);
-			    for(int i=0; i<nl; i++)
+			    for(int i=0; i<currentnl; i++)
 			    	System.out.print("\t");
 			    System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl());
 			}
 			//System.out.println("}");
-			nl++;
+			currentnl++;
+		}
+	}
+	
+	public void printLevel(HashMap<String, STentry> m) {
+		for(String key : m.keySet()) {
+		    STentry value = m.get(key);
+		    System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl());
 		}
 	}
 	
 	/**
 	 * 
 	 * @param id
-	 * @return null se non � dichiarata, tipo altrimenti
-	 * oppure 
-	 * potrebbe ritornare l'eccezione se non � dichiarata e il tipo altrimenti
+	 * @throws NotDeclaredException if id is not declared inside the scope
+	 * @return the STentry
+	 *
 	 */
 	public STentry lookup(String id) throws NotDeclaredException {
 		//better that way idk

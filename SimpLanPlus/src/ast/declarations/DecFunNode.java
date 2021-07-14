@@ -1,7 +1,6 @@
 package ast.declarations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import ast.ArgNode;
@@ -71,8 +70,13 @@ public class DecFunNode implements Node{
 			//if not, when body gets evaluated there shouldn't be a new scope creation
 			for(ArgNode arg : args) 
 				env.addDec(arg.getId().getTextId(), arg.getType());
-			//body evaluation in which yet another scope is created, should we avoid this?
-			env.printEnv();
+			//body evaluation in which yet another scope is created, should we avoid this? DONE
+			body.setNewScope(false);	
+			//tbh here the environment in which we evaluate the body should be just the top one
+			//this thing is sick tho, what's happening here is that i created a whole new environment with just the scope of the function
+			//i know it's gonna be a pain later on probably, thinking about effects and stuff like that
+			errors.addAll(body.checkSemantics(new Environment(env.getSymTable().get(env.getNestingLevel()))));
+			
 			env.onScopeExit();
 			
 		}catch(AlreadyDeclaredException e){

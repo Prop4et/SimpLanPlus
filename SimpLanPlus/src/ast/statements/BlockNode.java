@@ -17,9 +17,12 @@ public class BlockNode implements Node{
 	final private List<DeclarationNode> decs;
 	final private List<StatementNode> stms;
 	
+	//avoid creating another scope if inside a function
+	private boolean newScope;
 	public BlockNode(final List<DeclarationNode> decs, final List<StatementNode> stms) {
 		this.decs=decs;
 		this.stms=stms;
+		this.newScope = true;
 	}
 	@Override
 	public String toPrint(String indent) {
@@ -62,20 +65,18 @@ public class BlockNode implements Node{
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		//declare resulting list
 		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
-
-		env.onScopeEntry();
-		
+		if(newScope)
+			env.onScopeEntry();
 		//check semantics in the dec list
 		if(decs.size() > 0){
 			for(DeclarationNode d : decs)
 				res.addAll(d.checkSemantics(env));
 		}
-		
+		//if we're inside the body of a function we shouldn't be able to take ids from outside the function params and definitions inside the function
 		if(stms.size() > 0){
 			for(StatementNode s : stms)
 				res.addAll(s.checkSemantics(env));
 		}
-
 		for(StatementNode s : stms) {
 			if (s instanceof RetStatNode) {
 				if(stms.indexOf(s) + 1 < stms.size())
@@ -85,10 +86,14 @@ public class BlockNode implements Node{
 		}
 		
 		//clean the scope, we are leaving a let scope
-		env.onScopeExit();
+		if(newScope)
+			env.onScopeExit();
 
 		//return the result
 		return res;
 	}
 
+	public void setNewScope(boolean newScope) {
+		this.newScope = newScope;
+	}
 }
