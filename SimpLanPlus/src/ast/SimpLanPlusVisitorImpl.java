@@ -25,7 +25,6 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 		}
 		
 		for(SimpLanPlusParser.StatementContext sc : ctx.statement()) {
-		    System.out.print(sc);
 			stms.add((StatementNode) visit(sc));
 		}
 

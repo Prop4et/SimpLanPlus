@@ -21,7 +21,9 @@ public class RetNode implements Node{
 	
 	@Override
 	public String toPrint(String indent) {
-		return indent + "return : " + exp.toPrint(indent);
+		if(exp != null)
+			return indent + "return : " + exp.toPrint(indent);
+		return indent + "return : ";
 	}
 
 	@Override
@@ -41,6 +43,9 @@ public class RetNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
+		if (exp == null){
+			return new ArrayList<>();
+		}
 		return exp.checkSemantics(env);
 	}
 
