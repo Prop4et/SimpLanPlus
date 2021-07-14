@@ -11,8 +11,8 @@ import semanticAnalysis.SemanticError;
 public class BlockStatNode extends StatementNode{
 	private final BlockNode block;
 	
-	public BlockStatNode(final Node block) {
-		this.block =(BlockNode) block;
+	public BlockStatNode(final BlockNode block) {
+		this.block = block;
 	}
 	
 	@Override

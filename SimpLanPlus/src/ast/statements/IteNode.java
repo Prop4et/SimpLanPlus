@@ -23,8 +23,8 @@ public class IteNode implements Node{
 	
 	@Override
 	public String toPrint(String indent) {
-		return indent + "if cond: " + cond.toPrint("") + "\n" + indent + "then: " + thenB.toPrint("") + 
-				(elseB != null ? indent + "else: " + elseB.toPrint("") : "");
+		return indent + "if cond: " + cond.toPrint("") + "\n" + indent + indent + "then: " + thenB.toPrint("") + 
+				(elseB != null ? "\n"+indent +indent + "else:" + indent +"\n"+ elseB.toPrint(indent+indent) : "");
 	}
 
 	@Override

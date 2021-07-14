@@ -70,7 +70,7 @@ public class DecFunNode implements Node{
 			//create the new block
 			env.onScopeEntry();
 			//add the function to the scope for the arguments in case of (non mutual) recursion
-			env.addDec(id.getTextId(), type);		
+			env.addDec(id.getTextId(), typeFun);		
 			//add the arguments to the new scope created
 			//TODO is it right to declare new variables inside the function with the same name of the parameters?
 			//if not, when body gets evaluated there shouldn't be a new scope creation
@@ -81,7 +81,7 @@ public class DecFunNode implements Node{
 			//tbh here the environment in which we evaluate the body should be just the top one
 			//this thing is sick tho, what's happening here is that i created a whole new environment with just the scope of the function
 			//i know it's gonna be a pain later on probably, thinking about effects and stuff like that
-			errors.addAll(body.checkSemantics(new Environment(env.getSymTable().get(env.getNestingLevel()))));
+			errors.addAll(body.checkSemantics(env));
 			
 			env.onScopeExit();
 			

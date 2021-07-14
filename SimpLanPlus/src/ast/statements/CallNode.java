@@ -59,13 +59,9 @@ public class CallNode implements Node{
 		//check if the number of actual parameters is equal to the number of formal parameters
 		int nFormalParams = -1;
 		int nActualParams = params.size();
-		try {
-			System.out.print(env.lookup(id.getTextId()).getType().toString());
-			nFormalParams = ((FunTypeNode) env.lookup(id.getTextId()).getType()).getParams().size();
-		} catch (NotDeclaredException e) {
-			//should never here cause we checked before
-			//TODO maybe change the lookup operation, bringing the exception outside
-		};
+		
+		nFormalParams =  ((FunTypeNode) id.getSTentry().getType()).getParams().size();
+		
 		if(nActualParams != nFormalParams)
 			errors.add(new SemanticError("There's a difference in the number of actual parameters versus the number of formal parameters declared in the function" + id.getTextId()));
 		//idk if i'm missing something but this seems fine to me

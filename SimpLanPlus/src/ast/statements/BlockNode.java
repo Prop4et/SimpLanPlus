@@ -68,15 +68,18 @@ public class BlockNode implements Node{
 		if(newScope)
 			env.onScopeEntry();
 		//check semantics in the dec list
-		if(decs.size() > 0){
-			for(DeclarationNode d : decs)
-				res.addAll(d.checkSemantics(env));
+		if(!decs.isEmpty()){
+			for(DeclarationNode d : decs) 
+				res.addAll(d.checkSemantics(env));		
 		}
+		
 		//if we're inside the body of a function we shouldn't be able to take ids from outside the function params and definitions inside the function
-		if(stms.size() > 0){
-			for(StatementNode s : stms)
-				res.addAll(s.checkSemantics(env));
+		if(!stms.isEmpty()){
+			for(StatementNode s : stms) 
+				res.addAll(s.checkSemantics(env));			
 		}
+		
+		//check if there's something after return
 		for(StatementNode s : stms) {
 			if (s instanceof RetStatNode) {
 				if(stms.indexOf(s) + 1 < stms.size())
@@ -84,7 +87,6 @@ public class BlockNode implements Node{
 			}
 			
 		}
-		env.printEnv();
 		//clean the scope, we are leaving a let scope
 		if(newScope)
 			env.onScopeExit();

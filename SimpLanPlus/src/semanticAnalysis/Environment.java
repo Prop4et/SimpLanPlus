@@ -27,12 +27,6 @@ public class Environment {
 		this(new ArrayList<>(), -1, 0);
 	}
 	
-	public Environment(final HashMap<String, STentry> top) {
-		symTable.add(top);
-		this.nl = 0;
-		this.offset = 0;
-	}
-	
 	public ArrayList<HashMap<String, STentry>> getSymTable(){
 		return symTable;
 	}
@@ -55,11 +49,13 @@ public class Environment {
 	 * @throws AlreadyDeclaredException if the top hashmap already has an entry for id
 	 * @return STentry for the new declaration 
 	 */
-	public void addDec(final String id, final TypeNode type) throws AlreadyDeclaredException  {
+	public STentry addDec(final String id, final TypeNode type) throws AlreadyDeclaredException  {
 		HashMap<String, STentry> scope = symTable.get(nl);
-		if(scope.put(id, new STentry(nl, offset, type)) != null)
+		STentry entry = new STentry(nl, offset, type);
+		if(scope.put(id, entry) != null)
 			throw new AlreadyDeclaredException(id + " already declared");
-		offset-=4;//1?		
+		offset-=4;//1?
+		return entry;
 	}
 	
 	public void printEnv() {
@@ -103,7 +99,7 @@ public class Environment {
 			i--;
 		}
 		if(var == null)
-			throw new NotDeclaredException("The variable " + id + " wasn't declared before");
+			throw new NotDeclaredException("Missing declaration for var: " + id);
 		return var;
 	}
 	

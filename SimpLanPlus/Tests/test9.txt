@@ -1,0 +1,9 @@
+{
+	int a = 1;
+	int b = 1;
+	int f(int x, int y){
+		x = x + y;
+		f(x, y);		
+	}
+	
+}

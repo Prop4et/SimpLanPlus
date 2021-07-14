@@ -9,7 +9,7 @@ import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
-public class DeletionNode extends StatementNode implements Node {
+public class DeletionNode implements Node {
 	final private IdNode id;//idNode?
 	
 	public DeletionNode(IdNode id) {
@@ -36,7 +36,6 @@ public class DeletionNode extends StatementNode implements Node {
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		ArrayList<SemanticError> res = new ArrayList<>();
-
 		res.addAll(id.checkSemantics(env));
 		return res;
 	}

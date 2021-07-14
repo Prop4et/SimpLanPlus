@@ -35,7 +35,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 		return new AssigtStatNode(visitAssignment(ctx.assignment()));
 	}
 	
-	public DeleteStatNode visitDeletionStat(SimpLanPlusParser.DeleteStatContext ctx) {
+	public DeleteStatNode visitDeleteStat(SimpLanPlusParser.DeleteStatContext ctx) {
 		return new DeleteStatNode(visitDeletion(ctx.deletion()));
 	}
 	
@@ -145,7 +145,6 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
     @Override
     public DeletionNode visitDeletion(SimpLanPlusParser.DeletionContext ctx) {
         IdNode id = new IdNode(ctx.ID().getText());
-
         return new DeletionNode(id);
     }
 
@@ -255,20 +254,5 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
     @Override
     public Node visit(ParseTree parseTree) {
         return parseTree!=null ? super.visit(parseTree) : null;
-    }
-
-    @Override
-    public Node visitChildren(RuleNode ruleNode) {
-        return null;
-    }
-
-    @Override
-    public Node visitTerminal(TerminalNode terminalNode) {
-        return null;
-    }
-
-    @Override
-    public Node visitErrorNode(ErrorNode errorNode) {
-        return null;
     }
 }

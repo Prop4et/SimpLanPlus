@@ -14,7 +14,6 @@ public class DeleteStatNode extends StatementNode {
 	
 	public DeleteStatNode(final DeletionNode del) {
 		this.del = del;
-		
 	}
 	@Override
 	public String toPrint(String indent) {
@@ -29,13 +28,11 @@ public class DeleteStatNode extends StatementNode {
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return null;
+		return del.codeGeneration();
 	}
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
 		return del.checkSemantics(env);
 	}	
 }

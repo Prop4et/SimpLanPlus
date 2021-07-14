@@ -18,6 +18,11 @@ public class IdNode implements Node {
     public IdNode(final String id) {
         this.id = id;
     }
+    
+    public void setSTentry(STentry entry) {
+    	this.entry = entry;
+    }
+    
     @Override
     public String toPrint(String indent) {
         return indent + id;
@@ -35,6 +40,10 @@ public class IdNode implements Node {
     
     public String getTextId() {
     	return this.id;
+    }
+    
+    public STentry getSTentry() {
+    	return entry;
     }
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
