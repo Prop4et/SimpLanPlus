@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import ast.statements.BlockNode;
+import ast.types.TypeNode;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -24,41 +25,45 @@ import semanticAnalysis.SemanticError;
 //import ast.SVMVisitorImpl;*/
 
 public class Main {
-	
+
 	public static void main(String[] args) throws Exception {
 
-		//String fileName = "./SimpLanPlus/Tests/Test5.txt";
-		//String fileName = "../../examples/example4.simplan";
-		String fileName = "Tests/test9.txt";
-		FileInputStream is = new FileInputStream(fileName);
-		ANTLRInputStream input = new ANTLRInputStream(is);
-		SimpLanPlusLexer lexer = new SimpLanPlusLexer(input);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-		SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
-		SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
-		BlockNode ast = visitor.visitBlock(parser.block()); //generazione AST
-		//SIMPLE CHECK FOR LEXER ERRORS
-		if (lexer.errorCount() > 0){
-			System.out.println("The program was not in the right format. Exiting the compilation process now");
-			
-		} else {
-			Environment env = new Environment();
-			ArrayList<SemanticError> err = ast.checkSemantics(env);
-			if(!err.isEmpty()){
-				if(err.size() == 1)
-					System.out.println("You had: " +err.size()+" error: ");
-				else
-					System.out.println("You had: " +err.size()+" errors:");
-				for(SemanticError e : err)
-					System.out.println("\t" + e);
-			} else {
-				System.out.println("Visualizing AST...");
-				System.out.println(ast.toPrint(""));
-			/*
-				//Node type = ast.typeCheck(); //type-checking bottom-up
-				//System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
+		File path = new File("./Tests/");
 
+		File[] files = path.listFiles();
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isFile()) {        //test all the files in Tests folder
+				System.out.print("PROCESSING " + files[i] + ": \n");
+				FileInputStream is = new FileInputStream(files[i]);
+				ANTLRInputStream input = new ANTLRInputStream(is);
+				SimpLanPlusLexer lexer = new SimpLanPlusLexer(input);
+				CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+				SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
+				SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
+				BlockNode ast = visitor.visitBlock(parser.block()); //generazione AST
+				//SIMPLE CHECK FOR LEXER ERRORS
+				if (lexer.errorCount() > 0) {
+					System.out.println("The program was not in the right format. Exiting the compilation process now");
+
+				} else {
+					Environment env = new Environment();
+					ArrayList<SemanticError> err = ast.checkSemantics(env);
+					if (!err.isEmpty()) {
+						if (err.size() == 1)
+							System.out.println("You had: " + err.size() + " error: ");
+						else
+							System.out.println("You had: " + err.size() + " errors:");
+						for (SemanticError e : err)
+							System.out.println("\t" + e);
+					} else {
+						System.out.println("Visualizing AST...");
+						System.out.println(ast.toPrint(""));
+
+				TypeNode type = ast.typeCheck(); //type-checking bottom-up
+				System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
+/*
 				// CODE GENERATION  prova.SimpLanPlus.asm
 				String code=ast.codeGeneration(); 
 				BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm")); 
@@ -83,10 +88,12 @@ public class Main {
 				System.out.println("Starting Virtual Machine...");
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				vm.cpu();*/
+					}
+				}
+
+
 			}
+
 		}
-
-
 	}
-
 }

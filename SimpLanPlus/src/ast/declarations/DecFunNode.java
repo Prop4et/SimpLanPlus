@@ -71,6 +71,7 @@ public class DecFunNode implements Node{
 			env.onScopeEntry();
 			//add the function to the scope for the arguments in case of (non mutual) recursion
 			env.addDec(id.getTextId(), typeFun);		
+
 			//add the arguments to the new scope created
 			//TODO is it right to declare new variables inside the function with the same name of the parameters?
 			//if not, when body gets evaluated there shouldn't be a new scope creation

@@ -27,7 +27,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 		for(SimpLanPlusParser.StatementContext sc : ctx.statement()) {
 			stms.add((StatementNode) visit(sc));
 		}
-		
+
 		return new BlockNode(decs, stms);
 	}
 	
