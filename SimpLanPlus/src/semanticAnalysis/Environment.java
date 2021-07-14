@@ -68,9 +68,9 @@ public class Environment {
 		int i = nl;
 		STentry var = null;
 		while(i>-1 && var == null){
-			HashMap<String, STentry> scope = symTable.get(nl);
-			if(scope.containsKey(id))
-				var = scope.get(id);
+			HashMap<String, STentry> scope = symTable.get(i);	
+			//get returns null if there's no mapping for the key
+			var = scope.get(id);
 			i--;
 		}
 		if(var == null)

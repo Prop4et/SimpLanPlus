@@ -1,7 +1,6 @@
 package ast.statements;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -9,10 +8,8 @@ import ast.Node;
 import ast.declarations.DeclarationNode;
 import ast.types.TypeNode;
 import ast.types.VoidTypeNode;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import exceptions.TypeException;
 import semanticAnalysis.Environment;
-import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
 
 public class BlockNode implements Node{
@@ -63,26 +60,30 @@ public class BlockNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		env.onScopeEntry();
-
 		//declare resulting list
 		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
 
+		env.onScopeEntry();
+		
 		//check semantics in the dec list
 		if(decs.size() > 0){
-			env.offset = -2;
-			//if there are children then check semantics for every child and save the results
-			for(DeclarationNode n : decs)
-				res.addAll(n.checkSemantics(env));
+			for(DeclarationNode d : decs)
+				res.addAll(d.checkSemantics(env));
 		}
-		//---------------------------- Pi� tardi
+		
 		if(stms.size() > 0){
-			env.offset = -2;
-			//if there are children then check semantics for every child and save the results
-			for(StatementNode n : stms)
-				res.addAll(n.checkSemantics(env));
+			for(StatementNode s : stms)
+				res.addAll(s.checkSemantics(env));
 		}
 
+		for(StatementNode s : stms) {
+			if (s instanceof RetStatNode) {
+				if(stms.indexOf(s) + 1 < stms.size())
+					res.add(new SemanticError("There's code after a return statement"));
+			}
+			
+		}
+		
 		//clean the scope, we are leaving a let scope
 		env.onScopeExit();
 

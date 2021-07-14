@@ -1,7 +1,7 @@
 {
-/*example of an erroneous*/
+/*example of a function declaration*/
+	int c;
 	int f(int a, int b){
-		int a;
-		return a + b;
+		return a + b + c;
 	}
 }

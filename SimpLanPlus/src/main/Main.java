@@ -27,7 +27,7 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 
-		String fileName = "./SimpLanPlus/Tests/test1.txt";
+		String fileName = "Tests/test5.txt";
 		FileInputStream is = new FileInputStream(fileName);
 		ANTLRInputStream input = new ANTLRInputStream(is);
 		SimpLanPlusLexer lexer = new SimpLanPlusLexer(input);
