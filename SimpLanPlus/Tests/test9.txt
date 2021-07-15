@@ -1,0 +1,7 @@
+{
+//test2 progetto
+^int x = new ;
+x^ = 1 ;
+delete x ;
+y = x^ ;    // questo codice e` sbagliato!
+}
