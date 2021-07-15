@@ -1,0 +1,17 @@
+{
+	void swap(^int a, ^int b){
+		int app;
+		app = a^;
+		a^ = b^;
+		b^ = app;
+	}
+	
+	int main(){
+		int a = 9;
+		int b = 19;
+		swap(a^, b^);
+		print a;
+		print b;
+		return 0;
+	}
+}

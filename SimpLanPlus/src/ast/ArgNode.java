@@ -30,7 +30,7 @@ public class ArgNode implements Node{
 	
 	@Override
 	public TypeNode typeCheck() throws TypeException {
-		return null;
+		return null; //falls back on other stuff
 	}
 
 	@Override

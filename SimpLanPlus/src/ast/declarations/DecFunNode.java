@@ -9,6 +9,7 @@ import ast.IdNode;
 import ast.Node;
 import ast.statements.BlockNode;
 import ast.types.FunTypeNode;
+import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
 import exceptions.TypeException;
@@ -50,6 +51,8 @@ public class DecFunNode implements Node{
 	@Override
 	public TypeNode typeCheck() throws TypeException {
 		//System.out.print(body);
+		if (type instanceof PointerTypeNode)
+			throw new TypeException("Functions are not allowed to return pointers");
 		if (!Node.sametype(type, body.typeCheck()))
 			throw new TypeException("Type Error: Return type and function type are incompatible");
 		return null;

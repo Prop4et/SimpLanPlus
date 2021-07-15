@@ -46,14 +46,34 @@ public class BlockNode implements Node{
 			if(stm instanceof RetStatNode)
 				returnFlag = true;
 		}
-		if (stms.size() == 0 || ! returnFlag) {		//if there is no return statement in the block
+		if (stms.size() == 0) {		//no statements
 			return new VoidTypeNode();
 		}
-		System.out.print("size "+ stms.size());
+		
+		if (!returnFlag) {//no return statement in the block
+			//there's a chance of finding ite stms which could have returns inside them
+			List<StatementNode> iteStatNodes = new ArrayList<>();
+			for(StatementNode stm : stms)
+				if(stm instanceof IteStatNode)
+					iteStatNodes.add(stm);
+			//check the return type of ite nodes
+			if(!iteStatNodes.isEmpty()) {
+				for(int i = 0; i<iteStatNodes.size()-1; i++) {
+					if(!Node.sametype(iteStatNodes.get(i).typeCheck(), iteStatNodes.get(i+1).typeCheck())) {
+						throw new TypeException("Return statement inside if with incompatible types");
+					}
+				}
+				//everything has the same type so we return the first one (there's for sure at least one cause itestatnodes is not empty)
+				return iteStatNodes.get(0).typeCheck();
+			}
+			//no return found
+			return new VoidTypeNode();
+		}
+		//System.out.print("size "+ stms.size());
 
-		return stms.get(stms.size()-1).typeCheck();	//se il return è alla fine del blocco
-		// manca il caso  in cui il return è nell'if
-		// non penso sia legale per la grammatica se si triva in altri posti
+		return stms.get(stms.size()-1).typeCheck();	//return at the end of the block, we checked before that there will be no code after a return
+		// return inside an if missing
+		// shouldn't be any other node in which a return can appear
 
 	}
 

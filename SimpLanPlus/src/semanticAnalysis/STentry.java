@@ -1,5 +1,5 @@
 package semanticAnalysis;
-import ast.Node;
+
 import ast.types.TypeNode;
 
 /**

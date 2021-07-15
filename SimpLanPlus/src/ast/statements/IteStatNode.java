@@ -2,7 +2,6 @@ package ast.statements;
 
 import java.util.ArrayList;
 
-import ast.Node;
 import ast.types.TypeNode;
 import exceptions.TypeException;
 import semanticAnalysis.Environment;
@@ -11,8 +10,8 @@ import semanticAnalysis.SemanticError;
 public class IteStatNode extends StatementNode{
 	private final IteNode ite;
 	
-	public IteStatNode(final Node ite) {
-		this.ite = (IteNode) ite;
+	public IteStatNode(final IteNode ite) {
+		this.ite = ite;
 	}
 	
 	@Override

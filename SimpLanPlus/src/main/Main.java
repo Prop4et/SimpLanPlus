@@ -61,8 +61,8 @@ public class Main {
 						System.out.println("Visualizing AST...");
 						System.out.println(ast.toPrint(""));
 
-				TypeNode type = ast.typeCheck(); //type-checking bottom-up
-				System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
+				//TypeNode type = ast.typeCheck(); //type-checking bottom-up
+				//System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 /*
 				// CODE GENERATION  prova.SimpLanPlus.asm
 				String code=ast.codeGeneration(); 

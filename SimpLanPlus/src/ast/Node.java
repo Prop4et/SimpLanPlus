@@ -35,7 +35,7 @@ public interface Node {
 	ArrayList<SemanticError> checkSemantics(Environment env);
   
 	/**
-	 * Checks if a Node is of the same type (or a subtype) of another Node
+	 * Checks if a Node is of the same type of another Node
 	 * @param n1 first node
 	 * @param n2 second node
 	 * @return true if match, false otherwise

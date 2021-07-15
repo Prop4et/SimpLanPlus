@@ -34,7 +34,7 @@ public class DecVarNode implements Node{
 	public TypeNode typeCheck() throws TypeException {
 		if(exp != null) {
 			TypeNode expType = exp.typeCheck();
-			if (!Node.sametype(type,expType ))
+			if (!Node.sametype(type, expType))
 				throw new TypeException("Type Error: " + id + "is of type " + type + "; cannot assign " + exp + " of type " + expType + ".");
 		}
 		return null;
