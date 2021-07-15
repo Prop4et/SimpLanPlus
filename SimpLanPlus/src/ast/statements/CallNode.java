@@ -43,12 +43,14 @@ public class CallNode implements Node{
 		if(type instanceof FunTypeNode){
 			List<TypeNode> formalParamsTypes = ((FunTypeNode) type).getParams();
 			List<TypeNode>  actualParamsTypes = new ArrayList<>();
+			List<ExpNode>  actualParams = new ArrayList<>();
 			for(ExpNode p: params){
+				actualParams.add(p);
 				actualParamsTypes.add(p.typeCheck());
 			}
 			for(int i=0; i <formalParamsTypes.size(); i++ ){
 				if (!Node.sametype(actualParamsTypes.get(i), formalParamsTypes.get(i)))
-					throw new TypeException("Type Error: actual parameters types don't match with the formal parameters type");
+					throw new TypeException("Type Error: actual parameters types don't match with the formal parameters type. Expected: " + formalParamsTypes + " got " + actualParamsTypes + " in "+ id.toPrint("" )+ actualParams);
 			}
 		}
 		return ((FunTypeNode) type).getReturnedValue();

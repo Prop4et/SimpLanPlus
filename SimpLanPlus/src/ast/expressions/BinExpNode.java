@@ -31,6 +31,7 @@ public class BinExpNode extends ExpNode{
         TypeNode leftExpType = leftExp.typeCheck();
         TypeNode rightExpType = rightExp.typeCheck();
 
+
         if(!Node.sametype(leftExpType, rightExpType))
             throw new TypeException("Type Error: unsupported operand type(s) for the operator" + operator + ": " +leftExpType + " and "+ rightExpType);
 

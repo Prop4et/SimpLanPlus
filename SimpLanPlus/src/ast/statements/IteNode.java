@@ -33,9 +33,12 @@ public class IteNode implements Node{
 		if(! Node.sametype(cond.typeCheck(), new BoolTypeNode()) )			//can be check that cond is instanceof Bool event in case
 			throw new TypeException("Type Error: the if condition " + cond + "is not of type BOOL.");
 		TypeNode thenBType = thenB.typeCheck();
+		System.out.print( "then: "+ thenB.typeCheck().toString() + " \n");
 
-		if (! (elseB == null &&  Node.sametype(thenBType, elseB.typeCheck())))		//TODO: da rivedere meglio le regole di inferenza dell'if e implementazione sameas
-			throw new TypeException("Type Error: Incompatible types in then else branches");
+		System.out.print( "else: "+ elseB.typeCheck().toString() + "\n");
+
+		if (! (elseB != null &&  Node.sametype(thenBType, elseB.typeCheck())))		//TODO: da rivedere meglio le regole di inferenza dell'if e implementazione sameas
+			throw new TypeException("Type Error: Incompatible types in then else branches: then has type " +thenBType + " while else has type " + elseB.typeCheck());
 		//otherwise e == t, so I can return any one between the two
 		return thenBType; //t
 

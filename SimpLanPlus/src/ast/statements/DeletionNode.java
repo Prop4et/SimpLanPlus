@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import ast.IdNode;
 import ast.Node;
+import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
+import ast.types.VoidTypeNode;
 import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
@@ -25,7 +27,9 @@ public class DeletionNode implements Node {
 	@Override
 	public TypeNode typeCheck() throws TypeException {
 		//ID can be a variables, a function or a pointer
-		return id.typeCheck();
+		TypeNode type = id.typeCheck();
+
+		return new VoidTypeNode();
 	}
 
 	@Override
