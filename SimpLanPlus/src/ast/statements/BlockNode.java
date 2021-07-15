@@ -1,4 +1,4 @@
-package ast.statements;
+	package ast.statements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +72,6 @@ public class BlockNode implements Node{
 		//System.out.print("size "+ stms.size());
 
 		return stms.get(stms.size()-1).typeCheck();	//return at the end of the block, we checked before that there will be no code after a return
-		// return inside an if missing
 		// shouldn't be any other node in which a return can appear
 
 	}
