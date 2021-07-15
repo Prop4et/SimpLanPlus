@@ -49,7 +49,7 @@ public class BlockNode implements Node{
 		if (stms.size() == 0 || ! returnFlag) {		//if there is no return statement in the block
 			return new VoidTypeNode();
 		}
-		System.out.print("size "+ stms.size());
+		System.out.print("returned value "+ stms.get(stms.size()-1).typeCheck());
 
 		return stms.get(stms.size()-1).typeCheck();	//se il return è alla fine del blocco
 		// manca il caso  in cui il return è nell'if

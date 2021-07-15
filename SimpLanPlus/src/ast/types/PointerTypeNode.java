@@ -18,7 +18,7 @@ public class PointerTypeNode extends TypeNode {
 		this.pointed = pointed;
 	}
 	
-	public Node getType() {
+	public TypeNode getType() {
 		return this.pointed;
 	}
 	

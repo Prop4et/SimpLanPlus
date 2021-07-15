@@ -2,6 +2,7 @@ package ast;
 
 import java.util.ArrayList;
 
+import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
@@ -28,7 +29,7 @@ public class LhsNode implements Node{
 		if(lhs == null)
 			return id.typeCheck();
 		else
-			return lhs.typeCheck();
+			return ((PointerTypeNode) lhs.typeCheck()).getType();
 	}
 
 	@Override
