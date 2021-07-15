@@ -27,10 +27,12 @@ public class CallNode implements Node{
 	@Override
 	public String toPrint(String indent) {
 		String s = "(";
-		for(ExpNode p : params) {
-			s += p.toPrint("") + ", ";
+		if(!  params.isEmpty()) {
+			for (ExpNode p : params) {
+				s += p.toPrint("") + ", ";
+			}
+			s = s.substring(0, s.length());        //s.length() -2
 		}
-		s=s.substring(0, s.length()-2);
 		s += ")";
 		return indent + "call: " + id.toPrint("") + s; 
 	}
@@ -52,8 +54,10 @@ public class CallNode implements Node{
 				if (!Node.sametype(actualParamsTypes.get(i), formalParamsTypes.get(i)))
 					throw new TypeException("Type Error: actual parameters types don't match with the formal parameters type. Expected: " + formalParamsTypes + " got " + actualParamsTypes + " in "+ id.toPrint("" )+ actualParams);
 			}
+			return ((FunTypeNode) type).getReturnedValue();
 		}
-		return ((FunTypeNode) type).getReturnedValue();
+		else
+			throw new TypeException("Type Error: trying to invocate a non-function identifier:  " +id.toPrint("") + ". ");
 	}
 
 	@Override
@@ -73,11 +77,12 @@ public class CallNode implements Node{
 		for(ExpNode p : params)
 			errors.addAll(p.checkSemantics(env));
 		//check if the number of actual parameters is equal to the number of formal parameters
-		int nFormalParams = -1;
+		int nFormalParams = 0;
 		int nActualParams = params.size();
-		
-		nFormalParams =  ((FunTypeNode) id.getSTentry().getType()).getParams().size();
-		
+
+		if(id.getSTentry().getType() instanceof FunTypeNode)
+			nFormalParams =  ((FunTypeNode) id.getSTentry().getType()).getParams().size();
+
 		if(nActualParams != nFormalParams)
 			errors.add(new SemanticError("There's a difference in the number of actual parameters versus the number of formal parameters declared in the function" + id.getTextId()));
 		//idk if i'm missing something but this seems fine to me
