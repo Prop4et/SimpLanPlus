@@ -57,7 +57,7 @@ public class CallNode implements Node{
 			return ((FunTypeNode) type).getReturnedValue();
 		}
 		else
-			throw new TypeException("Type Error: trying to invocate a non-function identifier:  " +id.toPrint("") + ". ");
+			throw new TypeException("Type Error: trying to invoke a non-function identifier:  " +id.toPrint("") + ". ");
 	}
 
 	@Override
