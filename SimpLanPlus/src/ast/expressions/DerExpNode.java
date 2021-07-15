@@ -3,6 +3,7 @@ package ast.expressions;
 import ast.LhsNode;
 import ast.Node;
 import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -21,7 +22,7 @@ public class DerExpNode extends ExpNode{
     }
 
     @Override
-    public TypeNode typeCheck() {
+    public TypeNode typeCheck() throws TypeException {
        return lhs.typeCheck();
     }
 

@@ -50,7 +50,6 @@ public class BlockNode implements Node{
 			return new VoidTypeNode();
 		}
 		System.out.print("size "+ stms.size());
-		//stms.get(0).get
 
 		return stms.get(stms.size()-1).typeCheck();	//se il return è alla fine del blocco
 		// manca il caso  in cui il return è nell'if

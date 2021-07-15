@@ -1,7 +1,9 @@
 package ast.expressions;
 
 import ast.Node;
+import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -19,8 +21,8 @@ public class NewExpNode extends  ExpNode {
         return indent + "new " + type.toPrint("");    }
 
     @Override
-    public TypeNode typeCheck()  {
-        return null;
+    public TypeNode typeCheck() throws TypeException {
+        return new PointerTypeNode(type);
     }
 
     @Override

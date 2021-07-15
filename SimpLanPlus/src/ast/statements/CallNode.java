@@ -10,6 +10,7 @@ import ast.expressions.ExpNode;
 import ast.types.TypeNode;
 import exceptions.NotDeclaredException;
 import ast.types.FunTypeNode;
+import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -35,9 +36,22 @@ public class CallNode implements Node{
 	}
 
 	@Override
-	public TypeNode typeCheck() {
-		// TODO Auto-generated method stub
-		return null;
+	public TypeNode typeCheck() throws TypeException {
+		//first of all we check that the ID found is a funTypeNode, otherwise it will be a variable or pointer and this element don't allow call
+		TypeNode type = id.typeCheck();
+		//then check that the actual and formal params have the same type
+		if(type instanceof FunTypeNode){
+			List<TypeNode> formalParamsTypes = ((FunTypeNode) type).getParams();
+			List<TypeNode>  actualParamsTypes = new ArrayList<>();
+			for(ExpNode p: params){
+				actualParamsTypes.add(p.typeCheck());
+			}
+			for(int i=0; i <formalParamsTypes.size(); i++ ){
+				if (!Node.sametype(actualParamsTypes.get(i), formalParamsTypes.get(i)))
+					throw new TypeException("Type Error: actual parameters types don't match with the formal parameters type");
+			}
+		}
+		return ((FunTypeNode) type).getReturnedValue();
 	}
 
 	@Override

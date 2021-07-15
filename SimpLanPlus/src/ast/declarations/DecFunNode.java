@@ -49,7 +49,7 @@ public class DecFunNode implements Node{
 
 	@Override
 	public TypeNode typeCheck() throws TypeException {
-		System.out.print(body);
+		//System.out.print(body);
 		if (!Node.sametype(type, body.typeCheck()))
 			throw new TypeException("Type Error: Return type and function type are incompatible");
 		return null;
