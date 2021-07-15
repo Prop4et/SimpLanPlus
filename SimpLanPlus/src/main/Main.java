@@ -9,6 +9,8 @@ import java.util.List;
 
 import ast.statements.BlockNode;
 import ast.types.TypeNode;
+import exceptions.TypeException;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -60,9 +62,13 @@ public class Main {
 					} else {
 						System.out.println("Visualizing AST...");
 						System.out.println(ast.toPrint(""));
-
-				//TypeNode type = ast.typeCheck(); //type-checking bottom-up
-				//System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
+				try {
+					TypeNode type = ast.typeCheck(); //type-checking bottom-up
+					System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
+				}catch(TypeException e) {
+					System.out.println(e.getMessage());
+				}
+				
 /*
 				// CODE GENERATION  prova.SimpLanPlus.asm
 				String code=ast.codeGeneration(); 

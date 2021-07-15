@@ -24,9 +24,10 @@ public class PrintNode implements Node{
 
 	@Override
 	public TypeNode typeCheck() throws TypeException {
-		if( exp.typeCheck() instanceof VoidTypeNode)
+		TypeNode typeExp = exp.typeCheck();
+		if( typeExp instanceof VoidTypeNode)
 			throw new TypeException("Type Error: need cannot print void expressions");
-		return null;
+		return new VoidTypeNode();
 	}
 
 	@Override

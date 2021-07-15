@@ -36,6 +36,7 @@ public class BlockNode implements Node{
 
 	@Override
 	public TypeNode typeCheck() throws TypeException {
+		
 		Boolean returnFlag = false; 
 		//first check that declarations and statements inside the block are typed correctly
 		for (DeclarationNode dec : decs) {

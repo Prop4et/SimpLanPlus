@@ -3,7 +3,7 @@
      int x = 1;
      void f(int y){
         if (y == 0)
-            print(x);
+            print x;
         else
             f(y-1) ;
      }

@@ -1,10 +1,8 @@
 package ast.statements;
 
-import java.util.ArrayList;
-
 import ast.Node;
-import semanticAnalysis.Environment;
-import semanticAnalysis.SemanticError;
+import ast.types.TypeNode;
+import exceptions.TypeException;
 
 public abstract class StatementNode implements Node{
 
@@ -12,4 +10,6 @@ public abstract class StatementNode implements Node{
 	public String toString() {
 		return toPrint("");
 	}
+	
+	public abstract TypeNode typeCheck() throws TypeException;
 }
