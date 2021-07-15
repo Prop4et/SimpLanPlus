@@ -53,7 +53,7 @@ public class Environment {
 		HashMap<String, STentry> scope = symTable.get(nl);
 		STentry entry = new STentry(nl, offset, type);
 		if(scope.put(id, entry) != null)
-			throw new AlreadyDeclaredException(id + " already declared");
+			throw new AlreadyDeclaredException("Var " + id + " was already declared.");
 		offset-=4;//1?
 		return entry;
 	}
