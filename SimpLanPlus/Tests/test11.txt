@@ -1,17 +1,11 @@
 {
-	void swap(^int a, ^int b){
-		int app;
-		app = a^;
-		a^ = b^;
-		b^ = app;
-	}
-	
-	int main(){
-		int a = 9;
-		int b = 19;
-		swap(a^, b^);
-		print a;
-		print b;
-		return 0;
-	}
+//test4 progetto
+    void h(^int x, ^int y){
+        if (y^==0)
+            delete x ;
+        else {
+            x^ = x^ - 1;
+             h(y,x) ;
+        }
+    }
 }

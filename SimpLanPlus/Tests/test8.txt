@@ -1,4 +1,9 @@
 {
-	^int x = new int;
-	delete x;
+	/* check deletion node */	
+	int x;
+	int y;
+	x=3;
+	y=3;
+	delete y;
+	return x;
 }

@@ -3,5 +3,5 @@
 	int fun(int a, int b){
 		return a + b;
 	}
-	fun(1, 2);
+	 fun(1, 2);
 }
