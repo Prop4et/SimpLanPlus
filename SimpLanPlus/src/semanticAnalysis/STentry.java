@@ -25,6 +25,8 @@ public class STentry {
 	public int getNl() {
 		return nl;
 	}
+
+	public Effect varStatus;
 	
 	public STentry(int nl, int offset) {
 		this.nl = nl;

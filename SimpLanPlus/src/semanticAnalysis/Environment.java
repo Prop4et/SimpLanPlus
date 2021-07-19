@@ -131,6 +131,6 @@ public class Environment {
 	//method used for example where an if is involved 
 	//if then else means there's the need to take the max effect for each variable in both environments
 	public Environment max(Environment e1, Environment e2) {
-		
+		return null;
 	}
 }

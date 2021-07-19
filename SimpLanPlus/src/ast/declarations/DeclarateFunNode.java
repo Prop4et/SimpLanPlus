@@ -34,4 +34,9 @@ public class DeclarateFunNode extends DeclarationNode{
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         return decFun.checkSemantics(env);
     }
+
+    @Override
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        return null;
+    }
 }

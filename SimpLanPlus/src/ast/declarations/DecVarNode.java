@@ -7,7 +7,9 @@ import ast.Node;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
+import exceptions.NotDeclaredException;
 import exceptions.TypeException;
+import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -61,6 +63,18 @@ public class DecVarNode implements Node{
 			errors.add(new SemanticError(exception.getMessage()));
 		}
 
+		return errors;
+	}
+
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) throws NotDeclaredException {
+		ArrayList<SemanticError> errors = new ArrayList<>();
+
+		if (exp != null) {
+			id.setStatus(new Effect()); //set id status to INITIALIZED;
+			errors.addAll(exp.checkEffects(env));
+		}
+		
 		return errors;
 	}
 

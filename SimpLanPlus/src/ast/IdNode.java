@@ -3,6 +3,7 @@ import ast.Node;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
 import exceptions.NotDeclaredException;
+import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
 import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
@@ -56,6 +57,20 @@ public class IdNode implements Node {
             res.add(new SemanticError(e.getMessage()));
         }
         return res;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkEffects(Environment env) throws NotDeclaredException{
+        //lookup fun throws not declared exceptiom, however this kind of exception should have been handled by the semantic analysis
+        //So, in theory exception should never be thrown at this point
+        entry = env.lookup(id);
+
+        nl = env.getNestingLevel();
+        return null;
+    }
+
+    public void setStatus(Effect status){
+        entry.varStatus = status;
     }
 
 }
