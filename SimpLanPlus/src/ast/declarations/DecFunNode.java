@@ -78,7 +78,7 @@ public class DecFunNode implements Node{
 
 			//add the arguments to the new scope created
 			//TODO is it right to declare new variables inside the function with the same name of the parameters?
-			//if not, when body gets evaluated there shouldn't be a new scope creation
+			//if not, when body gets evaluated there shouldn't be a new scope creation, that's what happens
 			for(ArgNode arg : args) 
 				env.addDec(arg.getId().getTextId(), arg.getType());
 			//body evaluation in which yet another scope is created, should we avoid this? DONE
