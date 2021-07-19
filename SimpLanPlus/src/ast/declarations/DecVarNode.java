@@ -74,7 +74,8 @@ public class DecVarNode implements Node{
 			id.setStatus(new Effect()); //set id status to INITIALIZED;
 			errors.addAll(exp.checkEffects(env));
 		}
-		
+
+
 		return errors;
 	}
 

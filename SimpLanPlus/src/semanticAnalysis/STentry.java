@@ -13,6 +13,8 @@ public class STentry {
 	private TypeNode type;
 	//offset used when generating the ASM code
 	private int offset;
+
+	public Effect varStatus;
 	
 	public TypeNode getType() {
 		return type;
@@ -25,8 +27,6 @@ public class STentry {
 	public int getNl() {
 		return nl;
 	}
-
-	public Effect varStatus;
 	
 	public STentry(int nl, int offset) {
 		this.nl = nl;
