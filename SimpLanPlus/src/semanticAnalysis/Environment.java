@@ -27,6 +27,22 @@ public class Environment {
 		this(new ArrayList<>(), -1, 0);
 	}
 	
+	public Environment(Environment env) {
+		this(new ArrayList<>(), env.getNestingLevel(), env.getOffset());
+		
+		for(HashMap<String, STentry> symTable : env.getSymTable()) {
+			HashMap<String, STentry> copySymTable = new HashMap<>();
+			for(String id : symTable.keySet()) {
+				copySymTable.put(id, new STentry(symTable.get(id)));
+			}
+			this.symTable.add(copySymTable);
+		}
+	}
+	
+	public int getOffset() {
+		return offset;
+	}
+	
 	public ArrayList<HashMap<String, STentry>> getSymTable(){
 		return symTable;
 	}
@@ -110,5 +126,11 @@ public class Environment {
 
 	public int getNestingLevel(){
 		return nl;
+	}	
+	
+	//method used for example where an if is involved 
+	//if then else means there's the need to take the max effect for each variable in both environments
+	public Environment max(Environment e1, Environment e2) {
+		
 	}
 }

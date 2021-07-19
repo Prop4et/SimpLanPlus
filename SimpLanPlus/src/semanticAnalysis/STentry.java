@@ -18,6 +18,14 @@ public class STentry {
 		return type;
 	}
 	
+	public int getOffset() {
+		return offset;
+	}
+	
+	public int getNl() {
+		return nl;
+	}
+	
 	public STentry(int nl, int offset) {
 		this.nl = nl;
 		this.offset = offset;      
@@ -29,11 +37,10 @@ public class STentry {
 		this.type = type;
 	}
 
-	public int getOffset() {
-		return offset;
+	public STentry(STentry sTentry) {
+		this(sTentry.getNl(), sTentry.getOffset());
+        this.type = sTentry.getType();
 	}
+
 	
-	public int getNl() {
-		return nl;
-	}
 }  
