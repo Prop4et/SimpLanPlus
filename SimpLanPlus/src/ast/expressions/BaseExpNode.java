@@ -38,4 +38,14 @@ public class BaseExpNode extends ExpNode {
         return res;
     }
 
+    @Override
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList<>();
+
+        res.addAll(exp.checkEffects(env));
+
+
+        return res;
+    }
+
 }

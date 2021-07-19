@@ -36,4 +36,9 @@ public class NewExpNode extends  ExpNode {
         return new ArrayList<SemanticError>();
     }
 
+    @Override
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        return new ArrayList<SemanticError>();
+    }
+
 }

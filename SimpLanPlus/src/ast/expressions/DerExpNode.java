@@ -40,4 +40,13 @@ public class DerExpNode extends ExpNode{
         return res;
     }
 
+    @Override
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList<>();
+
+        res.addAll(lhs.checkEffects(env));
+
+        return res;
+    }
+
 }

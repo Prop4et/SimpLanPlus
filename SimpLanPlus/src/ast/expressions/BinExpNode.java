@@ -72,5 +72,15 @@ public class BinExpNode extends ExpNode{
         return res;
     }
 
+    @Override
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList<>();
+
+        res.addAll(leftExp.checkEffects(env));
+        res.addAll(rightExp.checkEffects(env));
+
+        return res;
+    }
+
 
 }

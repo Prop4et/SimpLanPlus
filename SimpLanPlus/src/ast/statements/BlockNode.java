@@ -117,6 +117,11 @@ public class BlockNode implements Node{
 		return res;
 	}
 
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return null;
+	}
+
 	public void setNewScope(boolean newScope) {
 		this.newScope = newScope;
 	}

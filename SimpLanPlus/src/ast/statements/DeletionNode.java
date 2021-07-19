@@ -44,4 +44,9 @@ public class DeletionNode implements Node {
 		res.addAll(id.checkSemantics(env));
 		return res;
 	}
+
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return null;
+	}
 }

@@ -65,4 +65,9 @@ public class IteNode implements Node{
 		return res;
 	}
 
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return null;
+	}
+
 }

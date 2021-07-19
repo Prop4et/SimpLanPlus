@@ -43,4 +43,13 @@ public class NotExpNode extends ExpNode{
         return res;
     }
 
+    @Override
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList<>();
+
+        res.addAll(exp.checkSemantics(env));
+
+        return res;
+    }
+
 }

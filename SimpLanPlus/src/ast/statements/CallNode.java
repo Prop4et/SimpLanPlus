@@ -89,4 +89,9 @@ public class CallNode implements Node{
 		return errors;
 	}
 
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return null;
+	}
+
 }
