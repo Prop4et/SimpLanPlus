@@ -45,4 +45,9 @@ public class FunTypeNode extends TypeNode{
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		return new ArrayList<SemanticError>();
     }
+
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return  new ArrayList<SemanticError>();
+	}
 }

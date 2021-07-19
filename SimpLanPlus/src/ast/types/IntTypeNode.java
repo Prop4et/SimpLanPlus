@@ -32,5 +32,10 @@ public class IntTypeNode extends TypeNode {
 		return new ArrayList<SemanticError>();
 	}
 
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return  new ArrayList<SemanticError>();
+	}
+
 
 }  

@@ -35,4 +35,9 @@ public class RetStatNode extends StatementNode{
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		return ret.checkSemantics(env);
 	}
+
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return ret.checkEffects(env);
+	}
 }

@@ -33,5 +33,10 @@ public class BlockStatNode extends StatementNode{
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		return block.checkSemantics(env);
-	}	
+	}
+
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return block.checkEffects(env);
+	}
 }

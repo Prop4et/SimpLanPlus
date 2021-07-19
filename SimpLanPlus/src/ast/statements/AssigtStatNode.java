@@ -34,4 +34,11 @@ public class AssigtStatNode extends StatementNode{
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		return ass.checkSemantics(env);
 	}
+
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return ass.checkEffects(env);
+	}
+
+
 }

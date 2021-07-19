@@ -42,4 +42,9 @@ public class IntNode extends ExpNode {
 		return new ArrayList<>();
 	}
 
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return  new ArrayList<SemanticError>();
+	}
+
 }

@@ -56,4 +56,9 @@ public class PointerTypeNode extends TypeNode {
 		return new ArrayList<SemanticError>();
 	}  //???
 
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return null;
+	}
+
 }  

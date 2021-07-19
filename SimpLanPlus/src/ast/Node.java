@@ -33,7 +33,7 @@ public interface Node {
 	 * @return list of {@code SemanticError}
 	 */
 	ArrayList<SemanticError> checkSemantics(Environment env);
-  
+	ArrayList<SemanticError> checkEffects(Environment env);
 	/**
 	 * Checks if a Node is of the same type of another Node
 	 * @param n1 first node
