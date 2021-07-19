@@ -1,5 +1,5 @@
-antlr4.antlrRegisteredTools=4.4@C\:\\Users\\franc\\AppData\\Local\\Temp\\antlr-4.4-complete.jar\:4.9.2@E\:\\francesco\\UNI\\CI\\Progetto\\SimpLanPlus\\lib\\antlr-4.9.2-complete.jar\:4.7.1@E\:\\francesco\\UNI\\CI\\antlr-4.7.1-complete.jar
-antlr4.antlrToolPath=E\:\\francesco\\UNI\\CI\\antlr-4.7.1-complete.jar
+antlr4.antlrRegisteredTools=4.4@C\:\\Users\\franc\\AppData\\Local\\Temp\\antlr-4.4-complete.jar\:4.9.2@E\:\\francesco\\UNI\\CI\\Progetto\\SimpLanPlus\\lib\\antlr-4.9.2-complete.jar\:4.7.1@E\:\\francesco\\UNI\\CI\\antlr-4.7.1-complete.jar\:4.7.1@F\:\\UNI\\CI\\SimpLanPlus\\lib\\antlr-4.7.1-complete.jar
+antlr4.antlrToolPath=F\:\\UNI\\CI\\SimpLanPlus\\lib\\antlr-4.7.1-complete.jar
 antlr4.encoding=UTF-8
 antlr4.listener=false
 antlr4.visitor=true
