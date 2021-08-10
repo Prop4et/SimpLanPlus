@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
+import exceptions.NotDeclaredException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -44,6 +45,19 @@ public class LhsNode implements Node{
 		else
 			return lhs.checkSemantics(env);
 	}
+
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env)  {
+		if(lhs == null){
+			return id.checkEffects(env);
+		}
+		else {
+			ArrayList<SemanticError> res = new ArrayList<>();
+			res.addAll(lhs.checkEffects(env));
+			return res;
+		}
+	}
+
 	public IdNode getLhsId() {
 		return id;
 	}

@@ -3,6 +3,7 @@ package ast;
 import java.util.ArrayList;
 
 import ast.types.TypeNode;
+import exceptions.NotDeclaredException;
 import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
@@ -43,5 +44,10 @@ public class ArgNode implements Node{
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		return new ArrayList<>();
 	}
-	
+
+	@Override
+	public ArrayList<SemanticError> checkEffects(Environment env) {
+		return new ArrayList<>();
+	}
+
 }
