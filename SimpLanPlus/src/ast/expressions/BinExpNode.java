@@ -4,6 +4,7 @@ import ast.Node;
 import ast.types.BoolTypeNode;
 import ast.types.IntTypeNode;
 import ast.types.TypeNode;
+import exceptions.NotDeclaredException;
 import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
@@ -73,7 +74,7 @@ public class BinExpNode extends ExpNode{
     }
 
     @Override
-    public ArrayList<SemanticError> checkEffects(Environment env) {
+    public ArrayList<SemanticError> checkEffects(Environment env) throws NotDeclaredException {
         ArrayList<SemanticError> res = new ArrayList<>();
 
         res.addAll(leftExp.checkEffects(env));

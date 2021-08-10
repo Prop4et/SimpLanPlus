@@ -60,17 +60,17 @@ public class IdNode implements Node {
     }
 
     @Override
-    public ArrayList<SemanticError> checkEffects(Environment env) throws NotDeclaredException{
+    public ArrayList<SemanticError> checkEffects(Environment env) {
         //lookup fun throws not declared exceptiom, however this kind of exception should have been handled by the semantic analysis
         //So, in theory exception should never be thrown at this point
-        entry = env.lookup(id);
+        entry = env.lookupForEffectAnalysis(id);
 
         nl = env.getNestingLevel();
         return null;
     }
 
     public void setStatus(Effect status){
-        entry.varStatus = status;
+        entry.setStatus(status);
     }
 
 }

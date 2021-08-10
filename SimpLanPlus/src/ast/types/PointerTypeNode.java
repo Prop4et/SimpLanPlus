@@ -60,5 +60,10 @@ public class PointerTypeNode extends TypeNode {
 	public ArrayList<SemanticError> checkEffects(Environment env) {
 		return null;
 	}
+	@Override
+	public int getDereferenceLevel() {
+		return 1 + pointed.getDereferenceLevel();
+	}
+
 
 }  

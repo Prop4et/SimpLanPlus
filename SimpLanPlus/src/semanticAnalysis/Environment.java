@@ -3,6 +3,7 @@ package semanticAnalysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ast.IdNode;
 import ast.Node;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
@@ -118,6 +119,23 @@ public class Environment {
 			throw new NotDeclaredException("Missing declaration for var: " + id);
 		return var;
 	}
+
+	public STentry lookupForEffectAnalysis(String id) {
+		//better that way idk
+		int i = nl;
+		STentry var = null;
+		while(i>-1 && var == null){
+			HashMap<String, STentry> scope = symTable.get(i);
+			//get returns null if there's no mapping for the key
+			var = scope.get(id);
+			i--;
+		}
+		if(var != null)
+			return var;
+		else
+			System.out.print("Couldn't find the " + id +" into the symbol table. There is something wrong. " );
+		return  null;
+	}
 	
 	public void onScopeExit() {
 		this.symTable.remove(nl);
@@ -130,7 +148,11 @@ public class Environment {
 	
 	//method used for example where an if is involved 
 	//if then else means there's the need to take the max effect for each variable in both environments
-	public Environment max(Environment e1, Environment e2) {
+	/*public Environment max(Environment e1, Environment e2) {
 		return null;
+	}*/
+	public void addEntry(String id, STentry sTentry){
+		symTable.get(nl).put(id, sTentry);		//adding
 	}
+
 }

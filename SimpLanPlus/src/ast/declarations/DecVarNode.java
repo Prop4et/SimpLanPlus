@@ -58,6 +58,8 @@ public class DecVarNode implements Node{
 
 		try {
 			env.addDec(id.getTextId(), type);
+			if (exp != null )
+				id.setStatus(new Effect(Effect.RW)); //set id status to INITIALIZED;
 
 		} catch (AlreadyDeclaredException exception) {
 			errors.add(new SemanticError(exception.getMessage()));
@@ -65,17 +67,16 @@ public class DecVarNode implements Node{
 
 		return errors;
 	}
-
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) throws NotDeclaredException {
 		ArrayList<SemanticError> errors = new ArrayList<>();
 
 		if (exp != null) {
-			id.setStatus(new Effect()); //set id status to INITIALIZED;
+
 			errors.addAll(exp.checkEffects(env));
 		}
 
-
+		//env.addEntry(id.getTextId(),id.getSTentry());  //perchè??
 		return errors;
 	}
 
