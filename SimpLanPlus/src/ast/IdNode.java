@@ -69,8 +69,8 @@ public class IdNode implements Node {
         return null;
     }
 
-    public void setStatus(Effect status){
-        entry.setStatus(status);
+    public void setStatus(Effect status, int numOfDereferentiation){
+        entry.setStatus(status, numOfDereferentiation );
     }
 
 }

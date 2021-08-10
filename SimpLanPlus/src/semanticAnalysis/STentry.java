@@ -68,7 +68,9 @@ public class STentry {
 		this(sTentry.getNl(), sTentry.getOffset());
         this.type = sTentry.getType();
 	}
-
+	public void setStatus(Effect varStatus, int numOfDereferentiation){
+		this.varStatus.set(numOfDereferentiation, varStatus);
+	}
 
 	
 }

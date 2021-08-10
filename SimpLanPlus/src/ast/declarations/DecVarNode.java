@@ -59,7 +59,7 @@ public class DecVarNode implements Node{
 		try {
 			env.addDec(id.getTextId(), type);
 			if (exp != null )
-				id.setStatus(new Effect(Effect.RW)); //set id status to INITIALIZED;
+				id.setStatus(new Effect(Effect.RW),0); //set id status to INITIALIZED;
 
 		} catch (AlreadyDeclaredException exception) {
 			errors.add(new SemanticError(exception.getMessage()));
