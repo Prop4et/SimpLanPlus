@@ -11,6 +11,7 @@ import exceptions.NotDeclaredException;
 import exceptions.TypeException;
 import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
+import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
 
 public class DecVarNode implements Node{
@@ -55,11 +56,8 @@ public class DecVarNode implements Node{
 		if(exp != null) {
 			errors.addAll(exp.checkSemantics(env));
 		}
-
 		try {
 			env.addDec(id.getTextId(), type);
-			if (exp != null )
-				id.setStatus(new Effect(Effect.RW),0); //set id status to INITIALIZED;
 
 		} catch (AlreadyDeclaredException exception) {
 			errors.add(new SemanticError(exception.getMessage()));
@@ -68,15 +66,15 @@ public class DecVarNode implements Node{
 		return errors;
 	}
 	@Override
-	public ArrayList<SemanticError> checkEffects(Environment env) throws NotDeclaredException {
+	public ArrayList<SemanticError> checkEffects(Environment env)  {
 		ArrayList<SemanticError> errors = new ArrayList<>();
-
+		STentry entry = env.lookupForEffectAnalysis(id.getTextId());
+		entry.initializeStatus();		//is it ok here? or is it better to put initialize the status when adding the var to the symbleTable?
 		if (exp != null) {
-
+			id.setStatus(new Effect(Effect.RW),0); //set id status to RW;
 			errors.addAll(exp.checkEffects(env));
-		}
-
-		//env.addEntry(id.getTextId(),id.getSTentry());  //perchè??
+		}else
+			return null;
 		return errors;
 	}
 

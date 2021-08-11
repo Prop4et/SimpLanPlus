@@ -133,7 +133,7 @@ public class Environment {
 		if(var != null)
 			return var;
 		else
-			System.out.print("Couldn't find the " + id +" into the symbol table. There is something wrong. " );
+			System.out.print("Cannot find the " + id +" into the symbol table. There is something wrong. " );
 		return  null;
 	}
 	

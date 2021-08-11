@@ -2,6 +2,7 @@ package semanticAnalysis;
 
 import ast.types.FunTypeNode;
 import ast.types.TypeNode;
+import org.stringtemplate.v4.ST;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,19 @@ public class STentry {
 		this.offset = offset;  
 		this.type = type;
 
-		if ( (type instanceof FunTypeNode)) {
-			for (TypeNode param : ((FunTypeNode) type).getParams()) {
+		/**/
+	}
+
+	public STentry(STentry sTentry) {
+		this(sTentry.getNl(), sTentry.getOffset());
+        this.type = sTentry.getType();
+	}
+	public void setVarStatus(Effect varStatus, int numOfDereferentiation){
+		this.varStatus.set(numOfDereferentiation, varStatus);
+	}
+	public void initializeStatus(){
+		if ( (this.type instanceof FunTypeNode)) {
+			for (TypeNode param : ((FunTypeNode) this.type).getParams()) {
 				List<Effect> paramStatus = new ArrayList<>();
 				int numberOfDereference = param.getDereferenceLevel();
 				for (int i = 0; i < numberOfDereference; i++) {
@@ -62,14 +74,6 @@ public class STentry {
 				this.varStatus.add(new Effect(Effect.BOT));
 			}
 		}
-	}
-
-	public STentry(STentry sTentry) {
-		this(sTentry.getNl(), sTentry.getOffset());
-        this.type = sTentry.getType();
-	}
-	public void setStatus(Effect varStatus, int numOfDereferentiation){
-		this.varStatus.set(numOfDereferentiation, varStatus);
 	}
 
 	

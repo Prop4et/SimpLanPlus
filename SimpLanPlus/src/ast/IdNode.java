@@ -70,7 +70,7 @@ public class IdNode implements Node {
     }
 
     public void setStatus(Effect status, int numOfDereferentiation){
-        entry.setStatus(status, numOfDereferentiation );
+        entry.setVarStatus(status, numOfDereferentiation );
     }
 
 }

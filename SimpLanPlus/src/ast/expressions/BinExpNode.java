@@ -74,7 +74,7 @@ public class BinExpNode extends ExpNode{
     }
 
     @Override
-    public ArrayList<SemanticError> checkEffects(Environment env) throws NotDeclaredException {
+    public ArrayList<SemanticError> checkEffects(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<>();
 
         res.addAll(leftExp.checkEffects(env));

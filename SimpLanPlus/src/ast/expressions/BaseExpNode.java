@@ -40,7 +40,7 @@ public class BaseExpNode extends ExpNode {
     }
 
     @Override
-    public ArrayList<SemanticError> checkEffects(Environment env) throws NotDeclaredException {
+    public ArrayList<SemanticError> checkEffects(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<>();
 
         res.addAll(exp.checkEffects(env));

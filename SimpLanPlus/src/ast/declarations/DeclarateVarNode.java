@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.Node;
 import ast.types.TypeNode;
+import exceptions.NotDeclaredException;
 import exceptions.TypeException;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
@@ -36,7 +37,7 @@ public class DeclarateVarNode extends DeclarationNode{
 	    }
 
 	@Override
-	public ArrayList<SemanticError> checkEffects(Environment env) {
-		return null;
+	public ArrayList<SemanticError> checkEffects(Environment env) throws NotDeclaredException {
+		return decVar.checkEffects(env);
 	}
 }
