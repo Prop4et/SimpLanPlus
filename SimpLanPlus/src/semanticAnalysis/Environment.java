@@ -46,7 +46,9 @@ public class Environment {
 				max(∑,∑')(x)= ⎨
 							  ⎩ ∑(x)			otherwise
 		 */
-		return null;
+		Environment resEnv=new Environment(new ArrayList<>(), env1.getNestingLevel(), env1.offset);
+		
+		return resEnv;
 	}
 	public static Environment seq(Environment env1, Environment env2){
 		/*
@@ -55,7 +57,10 @@ public class Environment {
 		∑⊳∑'(x)= ⎨
 				 ⎩ ∑(x)			otherwise
 		 */
-		return  null;
+
+		Environment resEnv=new Environment(new ArrayList<>(), env1.getNestingLevel(), env1.offset);
+
+		return resEnv;
 	}
 	
 	public int getOffset() {
