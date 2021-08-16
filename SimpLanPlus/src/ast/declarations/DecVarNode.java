@@ -69,7 +69,7 @@ public class DecVarNode implements Node{
 	public ArrayList<SemanticError> checkEffects(Environment env)  {
 		ArrayList<SemanticError> errors = new ArrayList<>();
 		STentry entry = env.lookupForEffectAnalysis(id.getTextId());
-		entry.initializeStatus();		//is it ok here? or is it better to put initialize the status when adding the var to the symbleTable?
+		entry.initializeStatus();		//is it ok here? or is it better to initialize the status when adding the var to the symbleTable?
 		if (exp != null) {
 			id.setStatus(new Effect(Effect.RW),0); //set id status to RW;
 			errors.addAll(exp.checkEffects(env));

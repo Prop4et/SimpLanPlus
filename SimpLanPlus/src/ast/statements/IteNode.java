@@ -60,14 +60,36 @@ public class IteNode implements Node{
 		if(elseB != null)		//the else branch is optional
 			res.addAll(elseB.checkSemantics(env));
 
-		//bisogna incrementare/decrementare  il nestinglevel quando entriamo/usciamo dai rami then/else?
-
 		return res;
 	}
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
-		return null;
+		/*
+		If inference rule:
+
+		Eps |- condition : Eps'    Eps' |- thenBranch : Eps1    Eps' |- elseBranch : Eps2
+         * ---------------------------------------------------------------------------------[If-e]
+         *   env |- 'if' '(' condition ')' thenBranch 'else' elseBranch : max(Eps1, Eps2)
+		 */
+		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+
+		res.addAll(cond.checkEffects(env));
+
+		//check effect in the then and in the else exp
+		if(elseB != null) {    //the else branch is optional
+			Environment thenBranchEnv = new Environment(env);
+			res.addAll(thenB.checkEffects(thenBranchEnv));       	 //creating env1
+
+			Environment elseBranchEnv = new Environment(env);		//creating env2
+			res.addAll(elseB.checkEffects(elseBranchEnv));
+
+			//getting the max environment between Env1 and Env2
+			Environment maxEnv = Environment.max(thenBranchEnv,elseBranchEnv);
+		}
+		else										 	//if there isn't else branch there is no need to calculate max(Eps1,Eps2) so we can work on Eps
+			res.addAll(thenB.checkEffects(env));
+		return res;
 	}
 
 }

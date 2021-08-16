@@ -55,7 +55,12 @@ public class AssignmentNode extends StatementNode implements Node {
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
-		return null;
+		ArrayList<SemanticError> res = new ArrayList<>();
+
+		res.addAll(lhs.checkEffects(env));
+		res.addAll(rhs.checkEffects(env));
+
+		return res;
 	}
 
 }

@@ -119,7 +119,35 @@ public class BlockNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
-		return null;
+		/* Block Inference Rule:
+		Eps°[] |- D: Eps'		Eps'|- S: Eps''
+		Eps'' = Eps''_0 ° Eps''_1  		  (	Eps''_1 <= d)foreach x in dom(Eps''_1)
+		----------------------------------------------------------------------------
+								Eps |- {D S}: Eps''_0
+		 */
+
+
+		//declare resulting list
+		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+		if(newScope)
+			env.onScopeEntry();				//creation of Eps ° []  environment
+		//check Effect  in the dec list
+		if(!decs.isEmpty()){				//creation of Eps' environment
+			for(DeclarationNode d : decs)		//
+				res.addAll(d.checkEffects(env));
+		}
+
+		if(!stms.isEmpty()){							//creation of Eps'' environment. Needs to check the assumptions of the inference rules over Eps'' in s.checkeffect
+			for(StatementNode s : stms)
+				res.addAll(s.checkEffects(env));
+		}
+
+		//clean the scope, we are leaving a let scope
+		if(newScope)
+			env.onScopeExit();
+
+		//return the result
+		return res;
 	}
 
 	public void setNewScope(boolean newScope) {

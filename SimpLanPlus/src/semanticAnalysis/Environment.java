@@ -39,6 +39,24 @@ public class Environment {
 			this.symTable.add(copySymTable);
 		}
 	}
+
+	public static Environment max(Environment env1, Environment env2){
+		/*
+							  ⎧ max{∑(x),∑'(x)} if x∈dom(∑')
+				max(∑,∑')(x)= ⎨
+							  ⎩ ∑(x)			otherwise
+		 */
+		return null;
+	}
+	public static Environment seq(Environment env1, Environment env2){
+		/*
+		operations on ∑ , where we assume dom( ∑') ⊆ dom( ∑ )
+		         ⎧ ∑(x)⊳∑'(x) 	if x∈dom(∑')
+		∑⊳∑'(x)= ⎨
+				 ⎩ ∑(x)			otherwise
+		 */
+		return  null;
+	}
 	
 	public int getOffset() {
 		return offset;
