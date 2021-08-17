@@ -84,7 +84,7 @@ public class Environment {
 				if(entryEnv2 != null) {
 					STentry resEntry = new STentry(entryEnv1);
 					for(int j = 0; j < entryEnv1.getVarStatus().size(); j++) {
-						resEntry.setVarStatus(fn.apply(entryEnv1.getIVarStatus(j), entryEnv2.getIVarStatus(i)), j);				
+						resEntry.setVarStatus(fn.apply(entryEnv1.getIVarStatus(j), entryEnv2.getIVarStatus(j)), j);				
 					}
 					resScope.put(id, resEntry);
 				}
@@ -108,7 +108,7 @@ public class Environment {
 		Environment resEnv = new Environment();
 		HashMap<String,STentry> scopeEnv1 = env1.getSymTable().get(env1.getSymTable().size()-1);
 		HashMap<String,STentry> scopeEnv2 = env2.getSymTable().get(env2.getSymTable().size()-1);
-		resEnv.onScopeEntry();
+		HashMap<String,STentry> resScope = new HashMap<>();
 		//i'm pretty sure there's a smarter way to do this btw
 		for(String id : scopeEnv1.keySet()) {
 			STentry entryEnv1 = scopeEnv1.get(id);
@@ -126,6 +126,16 @@ public class Environment {
 				STentry newEntry = new STentry(entryEnv2);
 				resEnv.addEntry(id, newEntry);
 			}
+		}
+		
+		for(String id : scopeEnv1.keySet()) {
+			STentry entryEnv1 = scopeEnv1.get(id);
+			STentry entryEnv2 = scopeEnv2.get(id);
+			STentry resEntry = new STentry(entryEnv2);
+			for(int j = 0; j < entryEnv1.getVarStatus().size(); j++) {
+				resEntry.setVarStatus(Effect.par(entryEnv1.getIVarStatus(j), entryEnv2.getIVarStatus(j)), j);				
+			}
+			resEnv.addEntry(id, resEntry);
 		}
 		
 		return resEnv;
