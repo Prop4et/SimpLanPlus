@@ -59,6 +59,7 @@ public class IteNode implements Node{
 		res.addAll(thenB.checkSemantics(env));
 		if(elseB != null)		//the else branch is optional
 			res.addAll(elseB.checkSemantics(env));
+		env.printEnv();
 
 		return res;
 	}

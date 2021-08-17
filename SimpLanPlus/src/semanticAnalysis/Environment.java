@@ -2,6 +2,7 @@ package semanticAnalysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import ast.IdNode;
 import ast.Node;
@@ -14,11 +15,11 @@ public class Environment {
 	//THESE VARIABLES SHOULDN'T BE PUBLIC
 	//THIS CAN BE DONE MUCH BETTER
 	
-	public ArrayList<HashMap<String,STentry>>  symTable = new ArrayList<HashMap<String,STentry>>();
+	public List<HashMap<String,STentry>> symTable;
 	public int nl = -1;
 	public int offset = 0;
 	
-	public Environment(ArrayList<HashMap<String, STentry>> symTable, int nl, int offset) {
+	public Environment(List<HashMap<String, STentry>> symTable, int nl, int offset) {
 		this.symTable = symTable;
 		this.nl = nl;
 		this.offset = offset;
@@ -67,7 +68,7 @@ public class Environment {
 		return offset;
 	}
 	
-	public ArrayList<HashMap<String, STentry>> getSymTable(){
+	public List<HashMap<String, STentry>> getSymTable(){
 		return symTable;
 	}
 	
@@ -102,7 +103,7 @@ public class Environment {
 		int currentnl = 0;
 		System.out.println("VAR TYPE OFFSET NL");
 		for(HashMap<String, STentry> m : symTable) {
-			//System.out.println("{");
+			System.out.println(m);
 			for(String key : m.keySet()) {
 			    STentry value = m.get(key);
 			    for(int i=0; i<currentnl; i++)
