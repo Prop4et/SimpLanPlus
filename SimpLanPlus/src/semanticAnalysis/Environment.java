@@ -96,6 +96,40 @@ public class Environment {
 		return resEnv;
 	}
 	
+	/**
+	 * the two environment should be different, par is applied to the top of each environment
+	 * since par is used only for function invocations
+	 * 
+	 * @param env1 
+	 * @param env2
+	 * @return
+	 */
+	public static Environment par(final Environment env1, final Environment env2) {
+		Environment resEnv = new Environment();
+		HashMap<String,STentry> scopeEnv1 = env1.getSymTable().get(env1.getSymTable().size()-1);
+		HashMap<String,STentry> scopeEnv2 = env2.getSymTable().get(env2.getSymTable().size()-1);
+		resEnv.onScopeEntry();
+		//i'm pretty sure there's a smarter way to do this btw
+		for(String id : scopeEnv1.keySet()) {
+			STentry entryEnv1 = scopeEnv1.get(id);
+			// id \not in Sigma'
+			if(!scopeEnv2.containsKey(id)) {
+				STentry newEntry = new STentry(entryEnv1);
+				resEnv.addEntry(id, newEntry);
+			}
+		}
+		
+		for(String id : scopeEnv2.keySet()) {
+			STentry entryEnv2 = scopeEnv2.get(id);
+			// id \not in Sigma
+			if(!scopeEnv1.containsKey(id)) {
+				STentry newEntry = new STentry(entryEnv2);
+				resEnv.addEntry(id, newEntry);
+			}
+		}
+		
+		return resEnv;
+	}
 	
 	public int getOffset() {
 		return offset;
