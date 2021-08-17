@@ -50,9 +50,16 @@ public class STentry {
 		/**/
 	}
 
+	public STentry(STentry sTentry, final List<Effect> varStatus) {
+		this(sTentry.getNl(), sTentry.getOffset(), sTentry.getType());
+        this.funStatus = sTentry.getFunStatus();
+        this.varStatus = varStatus;
+	}
+	
 	public STentry(STentry sTentry) {
-		this(sTentry.getNl(), sTentry.getOffset());
-        this.type = sTentry.getType();
+		this(sTentry.getNl(), sTentry.getOffset(), sTentry.getType());
+        this.varStatus = sTentry.getVarStatus();
+        this.funStatus = sTentry.getFunStatus();
 	}
 	public void setVarStatus(Effect varStatus, int numOfDereferentiation){
 		this.varStatus.set(numOfDereferentiation, varStatus);
@@ -76,5 +83,15 @@ public class STentry {
 		}
 	}
 
+	public List<Effect> getFunStatus(){
+		return this.funStatus;
+	}
 	
+	public List<Effect> getVarStatus() {
+		return this.varStatus;
+	}
+	
+	public Effect getIVarStatus(final int index) {
+		return this.varStatus.get(index);
+	}
 }

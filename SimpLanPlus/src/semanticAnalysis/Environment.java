@@ -3,6 +3,7 @@ package semanticAnalysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.BiFunction;
 
 import ast.IdNode;
 import ast.Node;
@@ -41,28 +42,60 @@ public class Environment {
 		}
 	}
 
-	public static Environment max(Environment env1, Environment env2){
-		/*
-							  ⎧ max{∑(x),∑'(x)} if x∈dom(∑')
-				max(∑,∑')(x)= ⎨
-							  ⎩ ∑(x)			otherwise
-		 */
+	/**
+	 * 
+	 * @param env1 the first environment
+	 * @param env2 the second environment (a subset of the first)
+	 * @return a new environment obtained with {@code maxOrSeq} with the max function
+	 */
+	public static Environment max(final Environment env1, final Environment env2) {
+		return maxOrSeq(env1, env2, Effect::max);
+	}
+	
+	/**
+	 * 
+	 * @param env1 the first environment
+	 * @param env2 the second environment (a subset of the first)
+	 * @return a new environment obtained with {@code maxOrSeq} with the seq function
+	 */
+	public static Environment seq(final Environment env1, final Environment env2) {
+		return maxOrSeq(env1, env2, Effect::seq);
+	}
+	
+	
+	/**
+	 * 
+	 * @param env1 first environment
+	 * @param env2 second environment
+ 	 * @param fn function to apply
+	 * @return the new environment with the correct value for the effect given the function
+	 * 
+	 */
+	public static Environment maxOrSeq(Environment env1, Environment env2, BiFunction<Effect, Effect, Effect> fn){
 		Environment resEnv=new Environment(new ArrayList<>(), env1.getNestingLevel(), env1.offset);
-		
+		for(int i = 0; i < env1.getSymTable().size(); i++) {//cycling through all the scopes
+			HashMap<String,STentry> scopeEnv1 = env1.getSymTable().get(i);
+			HashMap<String,STentry> scopeEnv2 = env2.getSymTable().get(i);
+			HashMap<String,STentry> resScope = new HashMap<>();
+			for(String id : scopeEnv1.keySet()) {//cycling through all the variables inside the scope
+				STentry entryEnv1 = scopeEnv1.get(id);
+				STentry entryEnv2 = scopeEnv2.get(id);
+				//id \in scopeEnv2
+				if(entryEnv2 != null) {
+					STentry resEntry = new STentry(entryEnv1);
+					for(int j = 0; j < entryEnv1.getVarStatus().size(); j++) {
+						resEntry.setVarStatus(fn.apply(entryEnv1.getIVarStatus(j), entryEnv2.getIVarStatus(i)), j);				
+					}
+					resScope.put(id, resEntry);
+				}
+				else
+					resScope.put(id, entryEnv1);
+			}
+			resEnv.symTable.add(resScope);
+		}
 		return resEnv;
 	}
-	public static Environment seq(Environment env1, Environment env2){
-		/*
-		operations on ∑ , where we assume dom( ∑') ⊆ dom( ∑ )
-		         ⎧ ∑(x)⊳∑'(x) 	if x∈dom(∑')
-		∑⊳∑'(x)= ⎨
-				 ⎩ ∑(x)			otherwise
-		 */
-
-		Environment resEnv=new Environment(new ArrayList<>(), env1.getNestingLevel(), env1.offset);
-
-		return resEnv;
-	}
+	
 	
 	public int getOffset() {
 		return offset;

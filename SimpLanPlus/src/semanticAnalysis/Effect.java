@@ -28,11 +28,11 @@ public class Effect {
 		this.type=type;
 	}
 	
-	public Effect max(Effect e1, Effect e2) {
+	public static Effect max(Effect e1, Effect e2) {
 		return new Effect(Math.max(e1.getType(), e2.getType()));
 	}
 	
-	public Effect seq(Effect e1, Effect e2) {
+	public static Effect seq(Effect e1, Effect e2) {
 		int typeMax = max(e1, e2).getType();
 		if (typeMax <= DEL) {
 			return new Effect(typeMax);
@@ -42,7 +42,7 @@ public class Effect {
 		return new Effect(TOP);
 	}
 	
-	public Effect par(Effect e1, Effect e2) {
+	public static Effect par(Effect e1, Effect e2) {
 		if(e2.getType() == BOT)
 			return e1;
 		if(e1.getType() == BOT)
