@@ -3,6 +3,7 @@ package semanticAnalysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiFunction;
 
 import ast.IdNode;
@@ -41,7 +42,13 @@ public class Environment {
 			this.symTable.add(copySymTable);
 		}
 	}
-
+	//used to create a toy environment for the update
+	public Environment(String id, STentry entry) {
+		this.nl = 0;
+		this.offset = 0;
+		this.symTable.get(0).put(id, entry);
+	}
+	
 	/**
 	 * 
 	 * @param env1 the first environment
@@ -131,6 +138,7 @@ public class Environment {
 		for(String id : scopeEnv1.keySet()) {
 			STentry entryEnv1 = scopeEnv1.get(id);
 			STentry entryEnv2 = scopeEnv2.get(id);
+			// id \in Sigma & \in Sigma' 
 			if(entryEnv2 != null) {
 				STentry resEntry = new STentry(entryEnv2);
 				for(int j = 0; j < entryEnv1.getVarStatus().size(); j++) {
@@ -141,6 +149,68 @@ public class Environment {
 		}
 		
 		return resEnv;
+	}
+	
+	/**
+	 * applies the updates in env2 on env1, every time a new 'u' is found it will
+	 * be removed from env2, update is recursively applied
+	 * 
+	 * @param env1 starting environment
+	 * @param env2 environment with new values, it gets modified during the method execution
+	 * @return resEnv the updated environment
+	 */
+	public static Environment update(Environment env1, Environment env2) {
+		Environment resEnv = null;
+		//\sigma' is empty
+		if(env2.getSymTable().isEmpty())
+			return new Environment(env1);
+	
+		HashMap<String, STentry> topScope = env1.getSymTable().get(env1.getSymTable().size()-1);
+		HashMap<String, STentry> scopeEnv2 = env2.getSymTable().get(env2.getSymTable().size()-1);
+		
+		//there's something inside env2
+		try {
+			String firstId = (String) scopeEnv2.keySet().toArray()[0];
+			STentry entry = scopeEnv2.get(firstId);
+			env2.removeUpdate(firstId);
+			//id \in Sigma1
+			if(topScope.containsKey(firstId)) {
+				topScope.put(firstId, entry);
+				resEnv = update(env1, env2);
+			}
+			//id \not in Sigma1
+			else {
+				//[u->a], i need a new environment for that
+				Environment singleEnv = new Environment(firstId, entry);
+				//should get out of the current scope
+				env1.onScopeExit();
+				Environment insideUpdateEnv = update(env1, singleEnv);
+				//once the update is done we put the top scope back in 
+				insideUpdateEnv.onScopeEntry(topScope);
+				//then we can proceed with the outer update
+				resEnv = update(insideUpdateEnv, env2);
+			}
+		}catch(ArrayIndexOutOfBoundsException e) {
+			//this one is never reached cause the if up top should capture it first
+			System.err.println("it shouldn't be reaching that");
+		}
+		return resEnv;
+	}
+	
+	/**
+	 * removes an id and its entry from the environment
+	 * used when an update is required and an entry needs to be removed from env2
+	 * 
+	 * @param id the identifier that needs to be removed
+	 */
+	private void removeUpdate(String id) {
+		int i = this.symTable.size() - 1;
+		while(i >= 0 && this.symTable.get(i).containsKey(id)) {
+			i--;
+		}
+		//found something
+		if(i>-1)
+			this.symTable.get(i).remove(id);
 	}
 	
 	public int getOffset() {
@@ -251,9 +321,7 @@ public class Environment {
 	
 	//method used for example where an if is involved 
 	//if then else means there's the need to take the max effect for each variable in both environments
-	/*public Environment max(Environment e1, Environment e2) {
-		return null;
-	}*/
+	
 	public void addEntry(String id, STentry sTentry){
 		symTable.get(nl).put(id, sTentry);		//adding
 	}
