@@ -53,7 +53,7 @@ public class DeletionNode implements Node {
 				----------------------------------
 					∑ ⊢ delete x; : ∑ ⊳[x ⟼ d]				*/
 		ArrayList<SemanticError> res = new ArrayList<>();
-		Environment newEnv = new Environment(env);
+		Environment newEnv = new Environment();
 
 		res.addAll(id.checkSemantics(env));
 		//environment update
@@ -61,8 +61,10 @@ public class DeletionNode implements Node {
 			res.add(new SemanticError("Variable " + id.getTextId() + " was already deleted."));
 		else {
 			//id.getSTentry().setVarStatus( new Effect(Effect.DEL) ,0);
-			STentry idEntry = newEnv.lookupForEffectAnalysis(id.getTextId());
-			idEntry.setVarStatus(new Effect(Effect.DEL), 0);
+			STentry idEntry = env.lookupForEffectAnalysis(id.getTextId());
+
+			idEntry.setVarStatus(new Effect(Effect.DEL),0);
+			newEnv.addEntry(id.getTextId(), idEntry);
 			Environment seqEnv = Environment.seq(env, newEnv);
 			env.replace(seqEnv);
 		}

@@ -8,7 +8,9 @@ import ast.expressions.ExpNode;
 import ast.types.TypeNode;
 import ast.types.VoidTypeNode;
 import exceptions.TypeException;
+import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
+import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
 
 public class AssignmentNode extends StatementNode implements Node {
@@ -55,10 +57,23 @@ public class AssignmentNode extends StatementNode implements Node {
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
+		/*					∑ ⊢ e : ∑'
+				------------------------------------[Asgn-e]
+					∑ ⊢ x = e; : ∑' ⊳[x ⟼ rw]					*/
 		ArrayList<SemanticError> res = new ArrayList<>();
+		Environment newEnv = new Environment();
 
-		res.addAll(lhs.checkEffects(env));
-		res.addAll(rhs.checkEffects(env));
+		res.addAll(rhs.checkEffects(env));		//creating ∑'
+		//if lhs is a variable,we set its effect to rw easily
+		STentry idEntry = env.lookupForEffectAnalysis(lhs.getLhsId().getTextId());
+
+		idEntry.setVarStatus(new Effect(Effect.RW), lhs.getDereferenceLevel());
+		newEnv.addEntry(lhs.getLhsId().getTextId(), idEntry);
+		Environment seqEnv = Environment.seq(env, newEnv);
+		env.replace(seqEnv);
+
+		//if lhs is a pointer
+		-----
 
 		return res;
 	}
