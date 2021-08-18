@@ -10,6 +10,7 @@ import semanticAnalysis.SemanticError;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class IdNode implements Node {
     private final String id;
@@ -72,5 +73,7 @@ public class IdNode implements Node {
     public void setStatus(Effect status, int numOfDereferentiation){
         entry.setVarStatus(status, numOfDereferentiation );
     }
-
+    public List<Effect> getStatus(){
+        return entry.getVarStatus();
+    }
 }

@@ -87,6 +87,7 @@ public class IteNode implements Node{
 
 			//getting the max environment between Env1 and Env2
 			Environment maxEnv = Environment.max(thenBranchEnv,elseBranchEnv);
+			env.replace(maxEnv);
 		}
 		else										 	//if there isn't else branch there is no need to calculate max(Eps1,Eps2) so we can work on Eps
 			res.addAll(thenB.checkEffects(env));
