@@ -51,16 +51,20 @@ public class LhsNode implements Node{
 	public ArrayList<SemanticError> checkEffects(Environment env)  {
 		ArrayList<SemanticError> res = new ArrayList<>();
 
-		if(lhs == null){
-			return id.checkEffects(env);
-		}
-		else {
-			res.addAll(lhs.checkEffects(env));
-
-			if(lhs.getLhsId().getSTentry().getIVarStatus(lhs.getDereferenceLevel()).equals(Effect.BOT))
+		if (lhs == null) {		//we are processing a dereference node
+			res.addAll(id.checkEffects(env));
+			if(id.getSTentry().getVarStatus().equals(Effect.BOT))
 				res.add(new SemanticError(lhs + " is used before being initialized"));
-			return res;
+
+			return res;		//non va
 		}
+
+		res.addAll(lhs.checkEffects(env));
+		if (! id.getSTentry().getIVarStatus(lhs.getDereferenceLevel() - 1).equals(Effect.RW))
+			res.add(new SemanticError( this + "  has not status READ_WRITE."));
+
+		return res;
+
 	}
 
 	public IdNode getLhsId() {

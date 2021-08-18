@@ -4,6 +4,7 @@ import ast.LhsNode;
 import ast.Node;
 import ast.types.TypeNode;
 import exceptions.TypeException;
+import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -45,6 +46,10 @@ public class DerExpNode extends ExpNode{
         ArrayList<SemanticError> res = new ArrayList<>();
 
         res.addAll(lhs.checkEffects(env));
+        // we are processing a dereferentiation Node 	lhs -> lhs^ -> id^
+        if (lhs.getLhsId().getSTentry().getVarStatus().equals(Effect.BOT)) {
+            res.add(new SemanticError(lhs + " is used prior to initialization."));
+        }
 
         return res;
     }

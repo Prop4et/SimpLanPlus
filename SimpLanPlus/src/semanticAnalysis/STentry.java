@@ -46,7 +46,8 @@ public class STentry {
 		this.nl = nl;
 		this.offset = offset;  
 		this.type = type;
-
+		this.varStatus = new ArrayList<>();
+		this.funStatus = new ArrayList<>();
 		/**/
 	}
 

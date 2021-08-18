@@ -67,7 +67,7 @@ public class IdNode implements Node {
         entry = env.lookupForEffectAnalysis(id);
 
         nl = env.getNestingLevel();
-        return null;
+        return new ArrayList<>();
     }
 
     public void setStatus(Effect status, int numOfDereferentiation){

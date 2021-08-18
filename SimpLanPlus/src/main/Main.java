@@ -50,13 +50,13 @@ public class Main {
 
 				} else {
 					Environment env = new Environment();
-					ArrayList<SemanticError> err = ast.checkSemantics(env);
-					if (!err.isEmpty()) {
-						if (err.size() == 1)
-							System.out.println("You had: " + err.size() + " error: ");
+					ArrayList<SemanticError> SemanticErr = ast.checkSemantics(env);
+					if (!SemanticErr.isEmpty()) {
+						if (SemanticErr.size() == 1)
+							System.out.println("You had: " + SemanticErr.size() + " error: ");
 						else
-							System.out.println("You had: " + err.size() + " errors:");
-						for (SemanticError e : err)
+							System.out.println("You had: " + SemanticErr.size() + " errors:");
+						for (SemanticError e : SemanticErr)
 							System.out.println("\t" + e);
 					} else {
 						System.out.println("Visualizing AST...");
@@ -67,6 +67,14 @@ public class Main {
 				}catch(TypeException e) {
 					System.out.println(e.getMessage());
 				}
+				ArrayList<SemanticError> effectsErr = ast.checkEffects(env);
+				if (!effectsErr.isEmpty()) {
+					System.out.println("Effects analysis:");
+					for (SemanticError e : effectsErr)
+						System.out.println("\t" + e);
+				}
+
+
 				
 /*
 				// CODE GENERATION  prova.SimpLanPlus.asm

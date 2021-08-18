@@ -52,13 +52,13 @@ public class DecVarNode implements Node{
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		ArrayList<SemanticError> errors = new ArrayList<>();
-
+		STentry addedEntry;
 		if(exp != null) {
 			errors.addAll(exp.checkSemantics(env));
 		}
 		try {
-			env.addDec(id.getTextId(), type);
-
+			addedEntry = env.addDec(id.getTextId(), type);
+			id.setSTentry(addedEntry);
 		} catch (AlreadyDeclaredException exception) {
 			errors.add(new SemanticError(exception.getMessage()));
 		}
@@ -68,13 +68,13 @@ public class DecVarNode implements Node{
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env)  {
 		ArrayList<SemanticError> errors = new ArrayList<>();
-		STentry entry = env.lookupForEffectAnalysis(id.getTextId());
-		entry.initializeStatus();		//is it ok here? or is it better to initialize the status when adding the var to the symbleTable?
+
+		id.getSTentry().initializeStatus();	//is it ok here? or is it better to initialize the status when adding the var to the symbleTable?
 		if (exp != null) {
 			id.setStatus(new Effect(Effect.RW),0); //set id status to RW;
 			errors.addAll(exp.checkEffects(env));
-		}else
-			return null;
+		}
+		env.addEntry(id.getTextId(), id.getSTentry());
 		return errors;
 	}
 

@@ -73,7 +73,7 @@ public class AssignmentNode extends StatementNode implements Node {
 		env.replace(seqEnv);
 
 		//if lhs is a pointer
-		-----
+		//-----;
 
 		return res;
 	}
