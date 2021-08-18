@@ -8,7 +8,9 @@ import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
 import ast.types.VoidTypeNode;
 import exceptions.TypeException;
+import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
+import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
 
 public class DeletionNode implements Node {
@@ -47,6 +49,24 @@ public class DeletionNode implements Node {
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
-		return null;
+		/*
+				----------------------------------
+					∑ ⊢ delete x; : ∑ ⊳[x ⟼ d]				*/
+		ArrayList<SemanticError> res = new ArrayList<>();
+		Environment newEnv = new Environment(env);
+
+		res.addAll(id.checkSemantics(env));
+		//environment update
+		if(id.getStatus().equals(Effect.DEL))
+			res.add(new SemanticError("Variable " + id.getTextId() + " was already deleted."));
+		else {
+			//id.getSTentry().setVarStatus( new Effect(Effect.DEL) ,0);
+			STentry idEntry = newEnv.lookupForEffectAnalysis(id.getTextId());
+			idEntry.setVarStatus(new Effect(Effect.DEL), 0);
+			Environment seqEnv = Environment.seq(env, newEnv);
+			env.replace(seqEnv);
+		}
+		return res;
 	}
+
 }
