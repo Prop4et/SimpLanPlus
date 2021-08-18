@@ -326,4 +326,19 @@ public class Environment {
 		symTable.get(nl).put(id, sTentry);		//adding
 	}
 
+	public void replace(Environment env){
+		symTable.clear();
+		//this.symTable = env.getSymTable();		//replace the for loop
+		this.nl = env.getNestingLevel();
+		this.offset = env.getOffset();
+
+		for(HashMap<String, STentry> symTable : env.getSymTable()) {
+			HashMap<String, STentry> copySymTable = new HashMap<>();
+			for(String id : symTable.keySet()) {
+				copySymTable.put(id, new STentry(symTable.get(id)));
+			}
+			this.symTable.add(copySymTable);
+		}
+
+	}
 }

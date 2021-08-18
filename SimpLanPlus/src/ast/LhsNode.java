@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
 import exceptions.NotDeclaredException;
+import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -48,12 +49,16 @@ public class LhsNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env)  {
+		ArrayList<SemanticError> res = new ArrayList<>();
+
 		if(lhs == null){
 			return id.checkEffects(env);
 		}
 		else {
-			ArrayList<SemanticError> res = new ArrayList<>();
 			res.addAll(lhs.checkEffects(env));
+
+			if(lhs.getLhsId().getSTentry().getIVarStatus(lhs.getDereferenceLevel()).equals(Effect.BOT))
+				res.add(new SemanticError(lhs + " is used before being initialized"));
 			return res;
 		}
 	}
@@ -65,5 +70,13 @@ public class LhsNode implements Node{
 	public void setAssignment(boolean assFlag) {
 		this.assFlag = assFlag;
 	}
+	public int getDereferenceLevel() {
+		if (lhs == null) {
+			return 0;
+		}
+
+		return 1 + lhs.getDereferenceLevel();
+	}
+
 
 }
