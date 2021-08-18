@@ -3,11 +3,8 @@ package semanticAnalysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.function.BiFunction;
 
-import ast.IdNode;
-import ast.Node;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
 import exceptions.NotDeclaredException;
