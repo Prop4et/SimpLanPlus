@@ -1,15 +1,14 @@
 {
 /* function declaration and checking if  */
-    int c;
-	int f(){
-	    int y = 4;
-	    if(y==4){
-	        return y;
-	        }
-	    return 5;
+    int c ;
+	int y = 7 ;
+	if(y==4){
+	   return y;
 	}
-	f();
-	c();
+	else{
+	  return 5;
+	}
+	return c;
 
 
 }
