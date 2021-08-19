@@ -247,14 +247,15 @@ public class Environment {
 	
 	public void printEnv() {
 		int currentnl = 0;
-		System.out.println("VAR TYPE OFFSET NL");
+		System.out.println("VAR TYPE OFFSET NL EFFECT ");
+
 		for(HashMap<String, STentry> m : symTable) {
 			System.out.println(m);
 			for(String key : m.keySet()) {
 			    STentry value = m.get(key);
 			    for(int i=0; i<currentnl; i++)
 			    	System.out.print("\t");
-			    System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl());
+			    System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl() + " " +  value.getIVarStatus(0).getType());
 			}
 			//System.out.println("}");
 			currentnl++;
