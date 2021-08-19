@@ -45,6 +45,6 @@ public class NewExpNode extends  ExpNode {
 
     @Override
     public List<LhsNode> getExpVar() {
-        return null;
+        return new ArrayList<>();
     }
 }

@@ -1,10 +1,12 @@
 package ast.expressions;
 
+import ast.IdNode;
 import ast.LhsNode;
 import ast.Node;
 import ast.types.TypeNode;
 import exceptions.NotDeclaredException;
 import exceptions.TypeException;
+import org.stringtemplate.v4.ST;
 import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
 import semanticAnalysis.STentry;
@@ -53,25 +55,20 @@ public class BaseExpNode extends ExpNode {
 
         res.addAll(exp.checkEffects(env));
         //getting variables    ->   ids(e)={x 1 ,...,x n }
-        Environment newEnv = new Environment();
-        newEnv.onScopeEntry();
         List<LhsNode> expVar = getExpVar();
+
         for (LhsNode var: expVar){
-            STentry existingEntry = env.lookupForEffectAnalysis(var.getLhsId().getTextId());
-            STentry tmp = new STentry(existingEntry.getNl(),existingEntry.getOffset(),existingEntry.getType());
-            tmp.initializeStatus();
-            tmp.setVarStatus(new Effect(Effect.RW),0);
-            newEnv.addEntry(var.getLhsId().getTextId(), tmp);
-            Environment seqEnv = Environment.seq(env, newEnv);
-            STentry seqEntry = seqEnv.lookupForEffectAnalysis(var.getLhsId().getTextId());
+            env.applySeq(var.getLhsId(), Effect.RW);
+            STentry seqEntry = env.lookupForEffectAnalysis(var.getLhsId().getTextId());
+
             if(seqEntry.getIVarStatus(var.getDereferenceLevel() ).getType() == Effect.TOP)
-                res.add(new  SemanticError("Variable " + var.getLhsId().getTextId() + "is used after deletion"));
-            env.replace(seqEnv);
+                res.add(new  SemanticError("Variable " + var.getLhsId().getTextId() + " is used after deletion."));
         }
 
 
         return res;
     }
+
 
     @Override
     public List<LhsNode> getExpVar() {

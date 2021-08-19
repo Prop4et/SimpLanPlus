@@ -7,7 +7,9 @@ import ast.types.IntTypeNode;
 import ast.types.TypeNode;
 import exceptions.NotDeclaredException;
 import exceptions.TypeException;
+import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
+import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
 
 import java.util.ArrayList;
@@ -82,12 +84,29 @@ public class BinExpNode extends ExpNode{
         res.addAll(leftExp.checkEffects(env));
         res.addAll(rightExp.checkEffects(env));
 
+        List<LhsNode> expVar = getExpVar();
+
+        for (LhsNode var: expVar){
+            env.applySeq(var.getLhsId(), Effect.RW);
+            STentry seqEntry = env.lookupForEffectAnalysis(var.getLhsId().getTextId());
+
+            if(seqEntry.getIVarStatus(var.getDereferenceLevel() ).getType() == Effect.TOP)
+                res.add(new  SemanticError("Variable " + var.getLhsId().getTextId() + " is used after deletion."));
+
+
+        }
+
         return res;
     }
 
 
     @Override
     public List<LhsNode> getExpVar() {
-        return null;
+        List<LhsNode> var = new ArrayList<>() ;
+        var.addAll(leftExp.getExpVar());
+        var.addAll(rightExp.getExpVar());
+
+
+        return var;
     }
 }

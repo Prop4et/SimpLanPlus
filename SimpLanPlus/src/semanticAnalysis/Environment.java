@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiFunction;
 
+import ast.IdNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
 import exceptions.NotDeclaredException;
@@ -104,7 +105,17 @@ public class Environment {
 		}
 		return resEnv;
 	}
-	
+	public void applySeq(IdNode id, int effectToSet ){
+		Environment newEnv = new Environment();
+		newEnv.onScopeEntry();
+		STentry existingEntry = this.lookupForEffectAnalysis(id.getTextId());
+		STentry tmp = new STentry(existingEntry.getNl(),existingEntry.getOffset(),existingEntry.getType());
+		tmp.initializeStatus();
+		tmp.setVarStatus(new Effect(effectToSet),0);
+		newEnv.addEntry(id.getTextId(), tmp);
+		Environment seqEnv = Environment.seq(this, newEnv);
+		this.replace(seqEnv);
+	}
 	/**
 	 * the two environment should be different, par is applied to the top of each environment
 	 * since par is used only for function invocations
