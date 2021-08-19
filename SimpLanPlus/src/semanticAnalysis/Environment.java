@@ -79,7 +79,11 @@ public class Environment {
 		Environment resEnv=new Environment(new ArrayList<>(), env1.getNestingLevel(), env1.offset);
 		for(int i = 0; i < env1.getSymTable().size(); i++) {//cycling through all the scopes
 			HashMap<String,STentry> scopeEnv1 = env1.getSymTable().get(i);
-			HashMap<String,STentry> scopeEnv2 = env2.getSymTable().get(i);
+			HashMap<String,STentry> scopeEnv2;
+			if(env2.getSymTable().size() > 1 )
+				scopeEnv2 = env2.getSymTable().get(i);
+			else
+				scopeEnv2 = env2.symTable.get(0);		//bcs when using seq we take the Sigma env and a single scope environment 
 			HashMap<String,STentry> resScope = new HashMap<>();
 			for(String id : scopeEnv1.keySet()) {//cycling through all the variables inside the scope
 				STentry entryEnv1 = scopeEnv1.get(id);

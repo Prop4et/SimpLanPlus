@@ -60,17 +60,14 @@ public class DeletionNode implements Node {
 		if(id.getSTentry().getIVarStatus(0).getType() == Effect.DEL)
 			res.add(new SemanticError("Variable " + id.getTextId() + " was already deleted."));
 		else {
-			//id.getSTentry().setVarStatus( new Effect(Effect.DEL) ,0);
 			STentry idEntry = env.lookupForEffectAnalysis(id.getTextId());
 			idEntry.setVarStatus(new Effect(Effect.DEL),0);
-			//System.out.print("deleting " + id.getSTentry().getIVarStatus(0).getType());
 			newEnv.onScopeEntry();
 			newEnv.addEntry(id.getTextId(), idEntry);
 			Environment seqEnv = Environment.seq(env, newEnv);
 			env.replace(seqEnv);
-			//System.out.print;
-			System.out.print("printing environment after deletion \n");
-			env.printEnv();
+			//System.out.print("printing environment after deletion \n");
+			//env.printEnv();
 		}
 		return res;
 	}
