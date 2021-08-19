@@ -83,7 +83,7 @@ public class Environment {
 			if(env2.getSymTable().size() > 1 )
 				scopeEnv2 = env2.getSymTable().get(i);
 			else
-				scopeEnv2 = env2.symTable.get(0);		//bcs when using seq we take the Sigma env and a single scope environment 
+				scopeEnv2 = env2.symTable.get(0);		//bcs when using seq we take seq(Eps, [x->effect]), so the second env is composed of a single scope
 			HashMap<String,STentry> resScope = new HashMap<>();
 			for(String id : scopeEnv1.keySet()) {//cycling through all the variables inside the scope
 				STentry entryEnv1 = scopeEnv1.get(id);
@@ -92,7 +92,8 @@ public class Environment {
 				if(entryEnv2 != null) {
 					STentry resEntry = new STentry(entryEnv1);
 					for(int j = 0; j < entryEnv1.getVarStatus().size(); j++) {
-						resEntry.setVarStatus(fn.apply(entryEnv1.getIVarStatus(j), entryEnv2.getIVarStatus(j)), j);				
+						resEntry.setVarStatus(fn.apply(entryEnv1.getIVarStatus(j), entryEnv2.getIVarStatus(j)), j);
+
 					}
 					resScope.put(id, resEntry);
 				}

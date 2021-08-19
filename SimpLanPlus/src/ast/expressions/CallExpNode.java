@@ -1,5 +1,6 @@
 package ast.expressions;
 
+import ast.LhsNode;
 import ast.Node;
 import ast.statements.CallNode;
 import ast.types.TypeNode;
@@ -8,6 +9,7 @@ import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CallExpNode extends ExpNode {
     final private CallNode call;
@@ -41,5 +43,10 @@ public class CallExpNode extends ExpNode {
 
         res.addAll(call.checkEffects(env));
         return res;
+    }
+
+    @Override
+    public List<LhsNode> getExpVar() {
+        return null;
     }
 }

@@ -54,6 +54,7 @@ public class RetNode implements Node{
 		if (exp == null){
 			return new ArrayList<>();
 		}
+
 		return exp.checkEffects(env);
 	}
 

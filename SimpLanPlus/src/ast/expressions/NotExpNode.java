@@ -1,5 +1,6 @@
 package ast.expressions;
 
+import ast.LhsNode;
 import ast.Node;
 import ast.types.BoolTypeNode;
 import ast.types.IntTypeNode;
@@ -9,6 +10,7 @@ import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NotExpNode extends ExpNode{
     final private ExpNode exp;
@@ -52,4 +54,8 @@ public class NotExpNode extends ExpNode{
         return res;
     }
 
+    @Override
+    public List<LhsNode> getExpVar() {
+        return null;
+    }
 }

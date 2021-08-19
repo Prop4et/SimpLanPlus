@@ -34,7 +34,7 @@ public class Effect {
 	
 	public static Effect seq(Effect e1, Effect e2) {
 		int typeMax = max(e1, e2).getType();
-		if (typeMax <= DEL) {
+		if (typeMax <= RW) {
 			return new Effect(typeMax);
 		}
 		if ((e1.getType() <= RW) || (e1.getType() == DEL && e2.getType() == BOT))

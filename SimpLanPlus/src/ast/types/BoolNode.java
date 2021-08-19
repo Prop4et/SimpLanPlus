@@ -1,10 +1,12 @@
 package ast.types;
 
+import ast.LhsNode;
 import ast.expressions.ExpNode;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Boolean constant in AST
@@ -45,4 +47,8 @@ public class BoolNode extends ExpNode {
 		return  new ArrayList<SemanticError>();
 	}
 
+	@Override
+	public List<LhsNode> getExpVar() {
+		return null;
+	}
 }

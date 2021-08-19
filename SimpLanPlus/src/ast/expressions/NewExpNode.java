@@ -1,5 +1,6 @@
 package ast.expressions;
 
+import ast.LhsNode;
 import ast.Node;
 import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
@@ -8,6 +9,7 @@ import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NewExpNode extends  ExpNode {
     final private TypeNode type;
@@ -41,4 +43,8 @@ public class NewExpNode extends  ExpNode {
         return new ArrayList<SemanticError>();
     }
 
+    @Override
+    public List<LhsNode> getExpVar() {
+        return null;
+    }
 }

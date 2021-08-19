@@ -9,6 +9,7 @@ import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DerExpNode extends ExpNode{
     final private LhsNode lhs;
@@ -52,6 +53,12 @@ public class DerExpNode extends ExpNode{
         }
 
         return res;
+    }
+    @Override
+    public List<LhsNode> getExpVar() {
+        List<LhsNode> var = new ArrayList<>();
+        var.add(lhs);
+        return var;
     }
 
 }
