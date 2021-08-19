@@ -61,16 +61,10 @@ public class AssignmentNode extends StatementNode implements Node {
 				------------------------------------[Asgn-e]
 					∑ ⊢ x = e; : ∑' ⊳[x ⟼ rw]					*/
 		ArrayList<SemanticError> res = new ArrayList<>();
-		Environment newEnv = new Environment();
-
+		res.addAll(lhs.checkEffects(env));
 		res.addAll(rhs.checkEffects(env));		//creating ∑'
 		//if lhs is a variable,we set its effect to rw easily
-		STentry idEntry = env.lookupForEffectAnalysis(lhs.getLhsId().getTextId());
-
-		idEntry.setVarStatus(new Effect(Effect.RW), lhs.getDereferenceLevel());
-		newEnv.addEntry(lhs.getLhsId().getTextId(), idEntry);
-		Environment seqEnv = Environment.seq(env, newEnv);
-		env.replace(seqEnv);
+		env.applySeq(lhs.getLhsId(),Effect.RW);
 
 		//if lhs is a pointer
 		//-----;
