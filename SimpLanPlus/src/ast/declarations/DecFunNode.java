@@ -109,16 +109,41 @@ public class DecFunNode implements Node{
                 ∑|_FUN ⦁ ∑_0 [ f ⟼ ∑_0 → ∑_1 ] ⊢ s : ∑| FUN ⦁ ∑_1 [ f ⟼ ∑_0 → ∑_1 ]                                     //  ∑_1 è l'ambiente che contiene gli effetti dei vari identificatori associati ai parametri  formali della funzione dopo l'analisi del corpo
        ----------------------------------------------------------------------------------------------    [Fseq-e]
             ∑ ⊢ f(var T 1 x 1 ,…,var T m x m ,T 1 ' y 1 ,…,T n ' y n ) s: ∑ [f ⟼ ∑_0 → ∑_1]*/
-		id.getSTentry().initializeStatus();
+		//setting up the effects
+		id.getSTentry().initializeStatus();		//env =		g  , ^int, int -> void 0 1 0, 0, ->0,
+		env.addEntry(id.getTextId(), id.getSTentry());
+		env.printEnv();
+
+		env.onScopeEntry();
+
+		STentry argEntry;
+
 		for (ArgNode arg: args){			//Initializing  ∑_0  environment
 			arg.getId().getSTentry().initializeStatus();
 			env.addEntry(arg.getId().getTextId(), arg.getId().getSTentry());
 		}
-		env.addEntry(id.getTextId(), id.getSTentry());
+		System.out.print("adding args to the env:");
+		env.printEnv();									//env = g  , ^int, int -> void 0 1 0, 0, ->0,
+																	//x ^int -4 1 0
+																	//y int -8 1 0
 
-		Environment env1 = new Environment(env);		 //initializing ∑_1 = [ x 1 ⟼ ⊥,…,x m ⟼ ⊥,y 1 ⟼ ⊥,…,y n ⟼ ⊥ ]
-		Environment oldEnv = new Environment(env1);
-		body.checkEffects(env1); //first iteration of ∑_1
+
+
+		Environment env1 = new Environment(env);		 // initializing ∑_1 = [ x 1 ⟼ ⊥,…,x m ⟼ ⊥,y 1 ⟼ ⊥,…,y n ⟼ ⊥ ]
+		Environment oldEnv = new Environment(env);
+		body.checkEffects(env1);						 // first iteration of ∑_1
+		env1.printEnv();
+
+		for (int argIndex = 0; argIndex < args.size(); argIndex++) {
+			argEntry = env1.lookupForEffectAnalysis(args.get(argIndex).getId().getTextId());
+			id.getSTentry().setArgsStatus(argIndex,argEntry.getIVarStatus(0),0);
+		}
+
+	//	id.getSTentry().setArgsStatus();
+
+
+		env1.printEnv();
+
 		//id.setStatus();
 		while(! oldEnv.equals(env1)) {
 			body.checkEffects(env1);

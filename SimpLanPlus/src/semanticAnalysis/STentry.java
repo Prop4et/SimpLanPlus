@@ -20,7 +20,7 @@ public class STentry {
 	private int offset;
 
 	public List<Effect> varStatus;
-	public List<Effect> funStatus;
+	public List< List<Effect> > funStatus;
 
 
 	public TypeNode getType() {
@@ -65,6 +65,10 @@ public class STentry {
 	public void setVarStatus(Effect varStatus, int numOfDereferentiation){
 		this.varStatus.set(numOfDereferentiation, varStatus);
 	}
+	public void setArgsStatus(int paramIndex, Effect argStatus, int numOfDereferentiation){
+		funStatus.get(paramIndex).set(numOfDereferentiation, argStatus);
+
+	}
 	public void initializeStatus(){
 		if ( (this.type instanceof FunTypeNode)) {
 			for (TypeNode param : ((FunTypeNode) this.type).getParams()) {
@@ -73,7 +77,7 @@ public class STentry {
 				for (int i = 0; i < numberOfDereference; i++) {
 					paramStatus.add(new Effect(Effect.BOT));
 				}
-				this.funStatus.add((Effect) paramStatus);
+				this.funStatus.add(paramStatus);
 			}
 		}
 		else{
@@ -84,7 +88,8 @@ public class STentry {
 		}
 	}
 
-	public List<Effect> getFunStatus(){
+	public List<List<Effect>> getFunStatus(){
+
 		return this.funStatus;
 	}
 	

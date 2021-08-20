@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 import ast.IdNode;
+import ast.types.FunTypeNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
 import exceptions.NotDeclaredException;
@@ -263,15 +264,26 @@ public class Environment {
 	
 	public void printEnv() {
 		int currentnl = 0;
-		System.out.println("VAR TYPE OFFSET NL EFFECT ");
+		System.out.println("VAR TYPE OFFSET NL 			EFFECT ");
 
 		for(HashMap<String, STentry> m : symTable) {
-			System.out.println(m);
 			for(String key : m.keySet()) {
 			    STentry value = m.get(key);
 			    for(int i=0; i<currentnl; i++)
 			    	System.out.print("\t");
-			    System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl() + " " +  value.getIVarStatus(0).getType());
+			    if(value.getType() instanceof FunTypeNode) {
+					String res = key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl() + " ";
+					String formattationStr = "->";
+					for ( List<Effect> input: value.getFunStatus()) {
+						for (Effect e : input)
+							res = res + e.getType() + ", ";
+						res = res + formattationStr;
+						formattationStr = " ";
+					}
+					System.out.print(res + "\n");
+				}
+				else
+				System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl() + " " +  value.getIVarStatus(0).getType());
 			}
 			//System.out.println("}");
 			currentnl++;
