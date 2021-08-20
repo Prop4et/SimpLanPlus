@@ -11,9 +11,11 @@ import ast.expressions.ExpNode;
 import ast.types.TypeNode;
 import exceptions.NotDeclaredException;
 import ast.types.FunTypeNode;
+import ast.types.PointerTypeNode;
 import exceptions.TypeException;
 import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
+import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
 
 public class CallNode implements Node{
@@ -109,17 +111,13 @@ public class CallNode implements Node{
 		for(ExpNode p : params)
 			errors.addAll(p.checkEffects(env));
 		
-		//non so come andare avanti
-		List<List<Effect>> effects = null;
+		//IDK
 		for(ExpNode p : params) {
-			if(p instanceof DerExpNode) {
-				effects.add(((DerExpNode) p).getLhs().getLhsId().getSTentry().getVarStatus());
-			}else {
-				List<Effect> effect = null;
-				effect.add(new Effect(Effect.RW));
-				effects.add(effect);
+			if(p instanceof DerExpNode && ((DerExpNode) p).getLhs().getLhsId().getSTentry().getType() instanceof PointerTypeNode)) {
+				
 			}
 		}
+		
 		return errors;
 	}
 
