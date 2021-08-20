@@ -1,3 +1,4 @@
+
 package ast.declarations;
 
 import java.util.ArrayList;
@@ -13,12 +14,13 @@ import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
 import exceptions.TypeException;
+import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
 import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
 
 public class DecFunNode implements Node{
-	
+
 	private final TypeNode type;
 	private final IdNode id;
 	private final List<ArgNode> args;
@@ -36,16 +38,16 @@ public class DecFunNode implements Node{
 		List<TypeNode> argsType = args.stream().map(ArgNode::getType).collect(Collectors.toList());
 		typeFun = new FunTypeNode(argsType, type);
 	}
-	
+
 	@Override
 	public String toPrint(String indent) {
-		
-	    String dec = indent+"Function: " + id.toPrint("") + " : " +
-			   args.stream().map(arg -> "(" + arg.toPrint("") +")").reduce("",(subtotal, element) -> subtotal + "" + element + " x ");
-	    dec=dec.substring(0, dec.length()-2);
-	    dec += "-> " +type.toPrint("");
-	    return dec + "\n" + body.toPrint(indent);
-			    
+
+		String dec = indent+"Function: " + id.toPrint("") + " : " +
+				args.stream().map(arg -> "(" + arg.toPrint("") +")").reduce("",(subtotal, element) -> subtotal + "" + element + " x ");
+		dec=dec.substring(0, dec.length()-2);
+		dec += "-> " +type.toPrint("");
+		return dec + "\n" + body.toPrint(indent);
+
 	}
 
 	@Override
@@ -68,28 +70,33 @@ public class DecFunNode implements Node{
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		ArrayList<SemanticError> errors = new ArrayList<>();
+		STentry argEntry, functionEntry;
+
 		try{
 			//add function name to the environment
 			env.addDec(id.getTextId(), typeFun);
 			//create the new block
 			env.onScopeEntry();
 			//add the function to the scope for the arguments in case of (non mutual) recursion
-			env.addDec(id.getTextId(), typeFun);		
+			functionEntry = env.addDec(id.getTextId(), typeFun);
+			id.setSTentry(functionEntry);
 
 			//add the arguments to the new scope created
 			//TODO is it right to declare new variables inside the function with the same name of the parameters?
 			//if not, when body gets evaluated there shouldn't be a new scope creation, that's what happens
-			for(ArgNode arg : args) 
-				env.addDec(arg.getId().getTextId(), arg.getType());
+			for(ArgNode arg : args) {
+				argEntry = env.addDec(arg.getId().getTextId(), arg.getType());
+				arg.getId().setSTentry(argEntry);
+			}
 			//body evaluation in which yet another scope is created, should we avoid this? DONE
-			body.setNewScope(false);	
+			body.setNewScope(false);
 			//tbh here the environment in which we evaluate the body should be just the top one
 			//this thing is sick tho, what's happening here is that i created a whole new environment with just the scope of the function
 			//i know it's gonna be a pain later on probably, thinking about effects and stuff like that
 			errors.addAll(body.checkSemantics(env));
-			
+
 			env.onScopeExit();
-			
+
 		}catch(AlreadyDeclaredException e){
 			errors.add(new SemanticError(e.getMessage()));
 		}
@@ -98,9 +105,36 @@ public class DecFunNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
-		ArrayList<SemanticError> errors = new ArrayList<>();
-		
-		return errors;
+		  /*                  ∑_0 = [ x 1 ⟼ ⊥,…,x m ⟼ ⊥,y 1 ⟼ ⊥,…,y n ⟼ ⊥ ]                                               // ∑_0 è l'ambiente di partenza che inizializza gli effetti dei parametri
+                ∑|_FUN ⦁ ∑_0 [ f ⟼ ∑_0 → ∑_1 ] ⊢ s : ∑| FUN ⦁ ∑_1 [ f ⟼ ∑_0 → ∑_1 ]                                     //  ∑_1 è l'ambiente che contiene gli effetti dei vari identificatori associati ai parametri  formali della funzione dopo l'analisi del corpo
+       ----------------------------------------------------------------------------------------------    [Fseq-e]
+            ∑ ⊢ f(var T 1 x 1 ,…,var T m x m ,T 1 ' y 1 ,…,T n ' y n ) s: ∑ [f ⟼ ∑_0 → ∑_1]*/
+		id.getSTentry().initializeStatus();
+		for (ArgNode arg: args){			//Initializing  ∑_0  environment
+			arg.getId().getSTentry().initializeStatus();
+			env.addEntry(arg.getId().getTextId(), arg.getId().getSTentry());
+		}
+		env.addEntry(id.getTextId(), id.getSTentry());
+
+		Environment env1 = new Environment(env);		 //initializing ∑_1 = [ x 1 ⟼ ⊥,…,x m ⟼ ⊥,y 1 ⟼ ⊥,…,y n ⟼ ⊥ ]
+		Environment oldEnv = new Environment(env1);
+		body.checkEffects(env1); //first iteration of ∑_1
+		//id.setStatus();
+		while(! oldEnv.equals(env1)) {
+			body.checkEffects(env1);
+		}
+
+
+		System.out.print("\n ∑_1: \n");
+		env.printEnv();
+
+		return new ArrayList<>();
+
 	}
 
 }
+
+
+
+
+
