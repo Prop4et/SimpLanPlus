@@ -112,8 +112,17 @@ public class CallNode implements Node{
 			errors.addAll(p.checkEffects(env));
 		
 		//IDK
+		//i should be able to relate every parameter in the call to the effect of the parameter studied during the declaration
+		//after that i need to check if value parameters are top
+		//can compute \sigma'
+		//can compute \sigma''
+		//can update
 		for(ExpNode p : params) {
-			if(p instanceof DerExpNode && ((DerExpNode) p).getLhs().getLhsId().getSTentry().getType() instanceof PointerTypeNode)) {
+			if(p instanceof DerExpNode && ((DerExpNode) p).getLhs().getLhsId().getSTentry().getType() instanceof PointerTypeNode) {
+				//ref passing
+			}
+			else {
+				//val passing
 				
 			}
 		}
