@@ -95,7 +95,7 @@ public class CallNode implements Node{
 	public ArrayList<SemanticError> checkEffects(Environment env) {
 		ArrayList<SemanticError> errors = new ArrayList<>();
 		//\Gamma |- f : &t1 x .. x &tm x t1' x .. x tn' -> void 
-		//\Sigma(f) = \Sigma_0 -> Sigma_1
+		//\Sigma(f) = \Sigma_0 -> Sigma_1 ??
 		//\Sigma_1(yi) <= d, 1<=i<=n
 		//\Sigma' = \Sigma [(zi -> \Sigma(zi) seq rw) where zi \in parameters passed as value], \Sigma(zi) = effect status of zi
 		//\Sigma'' = par [ui -> \Sigma(ui) seq \Sigma1(xi)] 1 <= i <= m, where ui are the parameters passed as reference
@@ -109,7 +109,17 @@ public class CallNode implements Node{
 		for(ExpNode p : params)
 			errors.addAll(p.checkEffects(env));
 		
-		Environment envFirst = env.applySeq(id, Effect.RW);
+		//non so come andare avanti
+		List<List<Effect>> effects = null;
+		for(ExpNode p : params) {
+			if(p instanceof DerExpNode) {
+				effects.add(((DerExpNode) p).getLhs().getLhsId().getSTentry().getVarStatus());
+			}else {
+				List<Effect> effect = null;
+				effect.add(new Effect(Effect.RW));
+				effects.add(effect);
+			}
+		}
 		return errors;
 	}
 

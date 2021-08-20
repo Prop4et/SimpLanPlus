@@ -60,5 +60,9 @@ public class DerExpNode extends ExpNode{
         var.add(lhs);
         return var;
     }
+    
+    public LhsNode getLhs() {
+    	return this.lhs;
+    }
 
 }
