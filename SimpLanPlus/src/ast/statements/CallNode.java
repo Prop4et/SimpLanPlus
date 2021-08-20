@@ -6,11 +6,13 @@ import java.util.List;
 
 import ast.IdNode;
 import ast.Node;
+import ast.expressions.DerExpNode;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
 import exceptions.NotDeclaredException;
 import ast.types.FunTypeNode;
 import exceptions.TypeException;
+import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -91,7 +93,24 @@ public class CallNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
-		return null;
+		ArrayList<SemanticError> errors = new ArrayList<>();
+		//\Gamma |- f : &t1 x .. x &tm x t1' x .. x tn' -> void 
+		//\Sigma(f) = \Sigma_0 -> Sigma_1
+		//\Sigma_1(yi) <= d, 1<=i<=n
+		//\Sigma' = \Sigma [(zi -> \Sigma(zi) seq rw) where zi \in parameters passed as value], \Sigma(zi) = effect status of zi
+		//\Sigma'' = par [ui -> \Sigma(ui) seq \Sigma1(xi)] 1 <= i <= m, where ui are the parameters passed as reference
+		// ui should be the status outside the function, xi should be the status inside the function
+		//-------------------------------------------------------
+		//\Sigma |- f(u1, .., um, e1, .., en) : update(\Sigma', \Sigma'')
+		
+
+		errors.addAll(id.checkEffects(env));
+		
+		for(ExpNode p : params)
+			errors.addAll(p.checkEffects(env));
+		
+		Environment envFirst = env.applySeq(id, Effect.RW);
+		return errors;
 	}
 
 }

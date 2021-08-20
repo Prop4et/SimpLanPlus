@@ -98,7 +98,9 @@ public class DecFunNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
-		return null;
+		ArrayList<SemanticError> errors = new ArrayList<>();
+		
+		return errors;
 	}
 
 }
