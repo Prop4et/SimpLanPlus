@@ -2,6 +2,7 @@
 package ast.declarations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,10 +35,11 @@ public class DecFunNode implements Node{
 		this.id = id;
 		this.args = args;
 		this.body = body;
-
 		List<TypeNode> argsType = args.stream().map(ArgNode::getType).collect(Collectors.toList());
 		typeFun = new FunTypeNode(argsType, type);
 	}
+
+	public List<ArgNode> getArgs(){return this.args;}
 
 	@Override
 	public String toPrint(String indent) {
@@ -110,19 +112,21 @@ public class DecFunNode implements Node{
        ----------------------------------------------------------------------------------------------    [Fseq-e]
             ∑ ⊢ f(var T 1 x 1 ,…,var T m x m ,T 1 ' y 1 ,…,T n ' y n ) s: ∑ [f ⟼ ∑_0 → ∑_1]*/
 		//setting up the effects
-
-		id.getSTentry().initializeStatus();		// ∑_0[f ->∑_0 ]  environment
-		List<List<Effect>> s1  = new ArrayList<>();
-		s1.addAll(id.getSTentry().getFunStatus()); // ∑_1  environment
+		id.getSTentry().setFunNode(this);
+		id.getSTentry().initializeStatus(id);		// ∑_0[f ->∑_0 ]  environment
 		env.addEntry(id.getTextId(), id.getSTentry());
 		env.printEnv();
+		List<HashMap<String, Effect>> s1  = new ArrayList<>();
+		s1.addAll(id.getSTentry().getFunStatus()); // ∑_1  environment
+
+		System.out.print("printing s1 " + s1);
 
 		env.onScopeEntry();
 
 		STentry argEntry;
 
 		for (ArgNode arg: args){			//Initializing  ∑_0  environment
-			arg.getId().getSTentry().initializeStatus();
+			arg.getId().getSTentry().initializeStatus(arg.getId());
 			env.addEntry(arg.getId().getTextId(), arg.getId().getSTentry());
 		}
 		System.out.print("adding args to the env:");
@@ -146,13 +150,13 @@ public class DecFunNode implements Node{
 			if(argEntry.getType() instanceof PointerTypeNode) {
 				int numberOfDereference = argEntry.getType().getDereferenceLevel() - 1;
 				for (int i = numberOfDereference; i >= 0; i--) {
-					System.out.print(argEntry.getType().toPrint("") + argEntry.getIVarStatus(i).getType());
-					id.getSTentry().setArgsStatus(argIndex, argEntry.getIVarStatus(i), 0);
+					System.out.print(argEntry.getType().toPrint("") + argEntry.getIVarStatus(id.getTextId()).getType());
+					id.getSTentry().setArgsStatus(argIndex, argEntry.getIVarStatus(id.getTextId()), 0);
 				}
 			}
 			else{
-				System.out.print(argEntry.getType().toPrint("") + argEntry.getIVarStatus(0).getType());
-				id.getSTentry().setArgsStatus(argIndex, argEntry.getIVarStatus(0), 0);
+				System.out.print(argEntry.getType().toPrint("") + argEntry.getIVarStatus(id.getTextId()).getType());
+				id.getSTentry().setArgsStatus(argIndex, argEntry.getIVarStatus(id.getTextId()), 0);
 
 			}
 		}

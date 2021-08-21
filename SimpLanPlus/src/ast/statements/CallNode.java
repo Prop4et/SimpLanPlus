@@ -47,7 +47,7 @@ public class CallNode implements Node{
 		TypeNode type = id.typeCheck();
 		//then check that the actual and formal params have the same type
 		if(type instanceof FunTypeNode){
-			List<TypeNode> formalParamsTypes = ((FunTypeNode) type).getParams();
+			List<TypeNode> formalParamsTypes = ((FunTypeNode) type).getParamsType();
 			List<TypeNode>  actualParamsTypes = new ArrayList<>();
 			List<ExpNode>  actualParams = new ArrayList<>();
 			for(ExpNode p: params){
@@ -85,7 +85,7 @@ public class CallNode implements Node{
 		int nActualParams = params.size();
 
 		if(id.getSTentry().getType() instanceof FunTypeNode)
-			nFormalParams =  ((FunTypeNode) id.getSTentry().getType()).getParams().size();
+			nFormalParams =  ((FunTypeNode) id.getSTentry().getType()).getParamsType().size();
 
 		if(nActualParams != nFormalParams)
 			errors.add(new SemanticError("There's a difference in the number of actual parameters versus the number of formal parameters declared in the function" + id.getTextId()));

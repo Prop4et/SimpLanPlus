@@ -64,7 +64,7 @@ public class AssignmentNode extends StatementNode implements Node {
 		res.addAll(lhs.checkEffects(env));
 		res.addAll(rhs.checkEffects(env));		//creating ∑'
 		//if lhs is a variable,we set its effect to rw easily
-		env.applySeq(lhs.getLhsId(),Effect.RW);
+		//env.applySeq(lhs.getLhsId(),Effect.RW);
 
 		//if lhs is a pointer
 		//-----;

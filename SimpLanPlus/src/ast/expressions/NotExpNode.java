@@ -60,7 +60,7 @@ public class NotExpNode extends ExpNode{
             env.applySeq(var.getLhsId(), Effect.RW);
             STentry seqEntry = env.lookupForEffectAnalysis(var.getLhsId().getTextId());
 
-            if(seqEntry.getIVarStatus(var.getDereferenceLevel() ).getType() == Effect.TOP)
+            if(seqEntry.getIVarStatus(var.getLhsId().getTextId()).getType() == Effect.TOP)
                 res.add(new  SemanticError("Variable " + var.getLhsId().getTextId() + " is used after deletion."));
         }
 
