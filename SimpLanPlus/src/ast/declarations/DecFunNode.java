@@ -14,7 +14,6 @@ import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
 import exceptions.TypeException;
-import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
 import semanticAnalysis.STentry;
 import semanticAnalysis.SemanticError;
@@ -105,10 +104,10 @@ public class DecFunNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
-		  /*                  ∑_0 = [ x 1 ⟼ ⊥,…,x m ⟼ ⊥,y 1 ⟼ ⊥,…,y n ⟼ ⊥ ]                                               // ∑_0 è l'ambiente di partenza che inizializza gli effetti dei parametri
-                ∑|_FUN ⦁ ∑_0 [ f ⟼ ∑_0 → ∑_1 ] ⊢ s : ∑| FUN ⦁ ∑_1 [ f ⟼ ∑_0 → ∑_1 ]                                     //  ∑_1 è l'ambiente che contiene gli effetti dei vari identificatori associati ai parametri  formali della funzione dopo l'analisi del corpo
+		  /*                  âˆ‘_0 = [ x 1 âŸ¼ âŠ¥,â€¦,x m âŸ¼ âŠ¥,y 1 âŸ¼ âŠ¥,â€¦,y n âŸ¼ âŠ¥ ]                                               // âˆ‘_0 Ã¨ l'ambiente di partenza che inizializza gli effetti dei parametri
+                âˆ‘|_FUN â¦� âˆ‘_0 [ f âŸ¼ âˆ‘_0 â†’ âˆ‘_1 ] âŠ¢ s : âˆ‘| FUN â¦� âˆ‘_1 [ f âŸ¼ âˆ‘_0 â†’ âˆ‘_1 ]                                     //  âˆ‘_1 Ã¨ l'ambiente che contiene gli effetti dei vari identificatori associati ai parametri  formali della funzione dopo l'analisi del corpo
        ----------------------------------------------------------------------------------------------    [Fseq-e]
-            ∑ ⊢ f(var T 1 x 1 ,…,var T m x m ,T 1 ' y 1 ,…,T n ' y n ) s: ∑ [f ⟼ ∑_0 → ∑_1]*/
+            âˆ‘ âŠ¢ f(var T 1 x 1 ,â€¦,var T m x m ,T 1 ' y 1 ,â€¦,T n ' y n ) s: âˆ‘ [f âŸ¼ âˆ‘_0 â†’ âˆ‘_1]*/
 		//setting up the effects
 		id.getSTentry().initializeStatus();		//env =		g  , ^int, int -> void 0 1 0, 0, ->0,
 		env.addEntry(id.getTextId(), id.getSTentry());
@@ -118,7 +117,7 @@ public class DecFunNode implements Node{
 
 		STentry argEntry;
 
-		for (ArgNode arg: args){			//Initializing  ∑_0  environment
+		for (ArgNode arg: args){			//Initializing  âˆ‘_0  environment
 			arg.getId().getSTentry().initializeStatus();
 			env.addEntry(arg.getId().getTextId(), arg.getId().getSTentry());
 		}
@@ -129,9 +128,9 @@ public class DecFunNode implements Node{
 
 
 
-		Environment env1 = new Environment(env);		 // initializing ∑_1 = [ x 1 ⟼ ⊥,…,x m ⟼ ⊥,y 1 ⟼ ⊥,…,y n ⟼ ⊥ ]
+		Environment env1 = new Environment(env);		 // initializing âˆ‘_1 = [ x 1 âŸ¼ âŠ¥,â€¦,x m âŸ¼ âŠ¥,y 1 âŸ¼ âŠ¥,â€¦,y n âŸ¼ âŠ¥ ]
 		Environment oldEnv = new Environment(env);
-		body.checkEffects(env1);						 // first iteration of ∑_1
+		body.checkEffects(env1);						 // first iteration of âˆ‘_1
 		env1.printEnv();
 
 		for (int argIndex = 0; argIndex < args.size(); argIndex++) {
@@ -150,7 +149,7 @@ public class DecFunNode implements Node{
 		}
 
 
-		System.out.print("\n ∑_1: \n");
+		System.out.print("\n âˆ‘_1: \n");
 		env.printEnv();
 
 		return new ArrayList<>();
