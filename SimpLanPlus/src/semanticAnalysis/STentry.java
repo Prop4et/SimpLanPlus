@@ -1,5 +1,6 @@
 package semanticAnalysis;
 
+import ast.Node;
 import ast.types.FunTypeNode;
 import ast.types.TypeNode;
 import org.stringtemplate.v4.ST;
@@ -66,19 +67,25 @@ public class STentry {
 		this.varStatus.set(numOfDereferentiation, varStatus);
 	}
 	public void setArgsStatus(int paramIndex, Effect argStatus, int numOfDereferentiation){
-		funStatus.get(paramIndex).set(numOfDereferentiation, argStatus);
+		funStatus.get(1).get(paramIndex).setType(argStatus.getType());
 
 	}
 	public void initializeStatus(){
+
 		if ( (this.type instanceof FunTypeNode)) {
+
 			for (TypeNode param : ((FunTypeNode) this.type).getParams()) {
-				List<Effect> paramStatus = new ArrayList<>();
-				int numberOfDereference = param.getDereferenceLevel();
-				for (int i = 0; i < numberOfDereference; i++) {
-					paramStatus.add(new Effect(Effect.BOT));
+					List<Effect> paramStatus = new ArrayList<>();
+					int numberOfDereference = param.getDereferenceLevel();
+					for (int i = 0; i < numberOfDereference; i++) {
+						paramStatus.add(new Effect(Effect.BOT));
+
+					}
+					this.funStatus.add(paramStatus);
 				}
-				this.funStatus.add(paramStatus);
-			}
+
+			//funStatus.stream().forEach(s->s.stream().forEach(s1 -> System.out.print(s1.getType() )));
+
 		}
 		else{
 			int numberOfDereference = type.getDereferenceLevel();

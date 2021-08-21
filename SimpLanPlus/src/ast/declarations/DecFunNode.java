@@ -110,7 +110,10 @@ public class DecFunNode implements Node{
        ----------------------------------------------------------------------------------------------    [Fseq-e]
             ∑ ⊢ f(var T 1 x 1 ,…,var T m x m ,T 1 ' y 1 ,…,T n ' y n ) s: ∑ [f ⟼ ∑_0 → ∑_1]*/
 		//setting up the effects
-		id.getSTentry().initializeStatus();		//env =		g  , ^int, int -> void 0 1 0, 0, ->0,
+
+		id.getSTentry().initializeStatus();		// ∑_0[f ->∑_0 ]  environment
+		List<List<Effect>> s1  = new ArrayList<>();
+		s1.addAll(id.getSTentry().getFunStatus()); // ∑_1  environment
 		env.addEntry(id.getTextId(), id.getSTentry());
 		env.printEnv();
 
@@ -126,17 +129,32 @@ public class DecFunNode implements Node{
 		env.printEnv();									//env = g  , ^int, int -> void 0 1 0, 0, ->0,
 																	//x ^int -4 1 0
 																	//y int -8 1 0
+	//fine	primo ∑| FUN ⦁ ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ]
 
 
 
 		Environment env1 = new Environment(env);		 // initializing ∑_1 = [ x 1 ⟼ ⊥,…,x m ⟼ ⊥,y 1 ⟼ ⊥,…,y n ⟼ ⊥ ]
 		Environment oldEnv = new Environment(env);
 		body.checkEffects(env1);						 // first iteration of ∑_1
+		System.out.print("env1: ");
 		env1.printEnv();
 
 		for (int argIndex = 0; argIndex < args.size(); argIndex++) {
 			argEntry = env1.lookupForEffectAnalysis(args.get(argIndex).getId().getTextId());
-			id.getSTentry().setArgsStatus(argIndex,argEntry.getIVarStatus(0),0);
+			//STentry getEnvEntry = env1.lookupForEffectAnalysis(args.get(argIndex).getId().getTextId());
+
+			if(argEntry.getType() instanceof PointerTypeNode) {
+				int numberOfDereference = argEntry.getType().getDereferenceLevel() - 1;
+				for (int i = numberOfDereference; i >= 0; i--) {
+					System.out.print(argEntry.getType().toPrint("") + argEntry.getIVarStatus(i).getType());
+					id.getSTentry().setArgsStatus(argIndex, argEntry.getIVarStatus(i), 0);
+				}
+			}
+			else{
+				System.out.print(argEntry.getType().toPrint("") + argEntry.getIVarStatus(0).getType());
+				id.getSTentry().setArgsStatus(argIndex, argEntry.getIVarStatus(0), 0);
+
+			}
 		}
 
 	//	id.getSTentry().setArgsStatus();

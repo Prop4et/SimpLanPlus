@@ -273,7 +273,7 @@ public class Environment {
 			    	System.out.print("\t");
 			    if(value.getType() instanceof FunTypeNode) {
 					String res = key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl() + " ";
-					String formattationStr = "->";
+					String formattationStr = "; ";
 					for ( List<Effect> input: value.getFunStatus()) {
 						for (Effect e : input)
 							res = res + e.getType() + ", ";
