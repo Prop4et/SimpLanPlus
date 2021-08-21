@@ -72,8 +72,8 @@ public class STentry {
 	public void setVarStatus(String id, Effect varStatus){
 		this.varStatus.put(id, varStatus);
 	}
-	public void setArgsStatus(int paramIndex, Effect argStatus, int numOfDereferentiation){
-		funStatus.get(1).get(paramIndex).setType(argStatus.getType());
+	public void updateArgsStatus(String id, Effect argStatus){
+		funStatus.get(1).put(id,argStatus);
 
 	}
 
@@ -99,8 +99,8 @@ public class STentry {
 
 				//	this.funStatus.add(paramStatus);
 				}
-			this.funStatus.add(paramStatus);
-			this.funStatus.add(paramStatus);     
+			this.funStatus.add(paramStatus);               //∑_0
+			this.funStatus.add(paramStatus);               //∑_0
 
 			//funStatus.stream().forEach(s->s.stream().forEach(s1 -> System.out.print(s1.getType() )));
 

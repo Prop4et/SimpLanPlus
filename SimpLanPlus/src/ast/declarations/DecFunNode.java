@@ -113,13 +113,12 @@ public class DecFunNode implements Node{
             ∑ ⊢ f(var T 1 x 1 ,…,var T m x m ,T 1 ' y 1 ,…,T n ' y n ) s: ∑ [f ⟼ ∑_0 → ∑_1]*/
 		//setting up the effects
 		id.getSTentry().setFunNode(this);
-		id.getSTentry().initializeStatus(id);		// ∑_0[f ->∑_0 ]  environment
+		id.getSTentry().initializeStatus(id);		// ∑_0[f ->∑_0 ->∑_1]  environment
 		env.addEntry(id.getTextId(), id.getSTentry());
-		env.printEnv();
-		List<HashMap<String, Effect>> s1  = new ArrayList<>();
-		s1.addAll(id.getSTentry().getFunStatus()); // ∑_1  environment
+		//env.printEnv();
+		//List<HashMap<String, Effect>> s1  = new ArrayList<>();
+		//s1.addAll(id.getSTentry().getFunStatus()); // ∑_1  environment
 
-		System.out.print("printing s1 " + s1);
 
 		env.onScopeEntry();
 
@@ -129,10 +128,10 @@ public class DecFunNode implements Node{
 			arg.getId().getSTentry().initializeStatus(arg.getId());
 			env.addEntry(arg.getId().getTextId(), arg.getId().getSTentry());
 		}
-		System.out.print("adding args to the env:");
-		env.printEnv();									//env = g  , ^int, int -> void 0 1 0, 0, ->0,
-																	//x ^int -4 1 0
-																	//y int -8 1 0
+		System.out.print("args addes to the env: \n");
+		env.printEnv();									//g  , ^int, int -> void 0 1 x:  0, y:  0, -> x:  0, y:  0,
+															//	x ^int -4 1 0
+															//  y int -8 1 0
 	//fine	primo ∑| FUN ⦁ ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ]
 
 
@@ -143,22 +142,10 @@ public class DecFunNode implements Node{
 		System.out.print("env1: ");
 		env1.printEnv();
 
-		for (int argIndex = 0; argIndex < args.size(); argIndex++) {
-			argEntry = env1.lookupForEffectAnalysis(args.get(argIndex).getId().getTextId());
-			//STentry getEnvEntry = env1.lookupForEffectAnalysis(args.get(argIndex).getId().getTextId());
-
-			if(argEntry.getType() instanceof PointerTypeNode) {
-				int numberOfDereference = argEntry.getType().getDereferenceLevel() - 1;
-				for (int i = numberOfDereference; i >= 0; i--) {
-					System.out.print(argEntry.getType().toPrint("") + argEntry.getIVarStatus(id.getTextId()).getType());
-					id.getSTentry().setArgsStatus(argIndex, argEntry.getIVarStatus(id.getTextId()), 0);
-				}
-			}
-			else{
-				System.out.print(argEntry.getType().toPrint("") + argEntry.getIVarStatus(id.getTextId()).getType());
-				id.getSTentry().setArgsStatus(argIndex, argEntry.getIVarStatus(id.getTextId()), 0);
-
-			}
+		STentry argStatusInBodyEnv ;
+		for (ArgNode arg: args) {
+			argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
+			id.getSTentry().updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
 		}
 
 	//	id.getSTentry().setArgsStatus();
@@ -168,12 +155,13 @@ public class DecFunNode implements Node{
 
 		//id.setStatus();
 		while(! oldEnv.equals(env1)) {
+			oldEnv = env1;
 			body.checkEffects(env1);
 		}
 
 
-		System.out.print("\n ∑_1: \n");
-		env.printEnv();
+		System.out.print("\n fixed point has been found. result environment ∑_1: \n");
+		env1.printEnv();
 
 		return new ArrayList<>();
 
