@@ -111,59 +111,51 @@ public class DecFunNode implements Node{
                 ∑|_FUN ⦁ ∑_0 [ f ⟼ ∑_0 → ∑_1 ] ⊢ s : ∑| FUN ⦁ ∑_1 [ f ⟼ ∑_0 → ∑_1 ]                                     //  ∑_1 è l'ambiente che contiene gli effetti dei vari identificatori associati ai parametri  formali della funzione dopo l'analisi del corpo
        ----------------------------------------------------------------------------------------------    [Fseq-e]
             ∑ ⊢ f(var T 1 x 1 ,…,var T m x m ,T 1 ' y 1 ,…,T n ' y n ) s: ∑ [f ⟼ ∑_0 → ∑_1]*/
+
+		ArrayList<SemanticError> errors = new ArrayList<>();
+
+
 		//setting up the effects
 		id.getSTentry().setFunNode(this);
 		id.getSTentry().initializeStatus(id);		// ∑_0[f ->∑_0 ->∑_1]  environment
 		env.addEntry(id.getTextId(), id.getSTentry());
-		//env.printEnv();
-		//List<HashMap<String, Effect>> s1  = new ArrayList<>();
-		//s1.addAll(id.getSTentry().getFunStatus()); // ∑_1  environment
-
 
 		env.onScopeEntry();
 
 		STentry argEntry;
 
-		for (ArgNode arg: args){			//Initializing  ∑_0  environment
-			arg.getId().getSTentry().initializeStatus(arg.getId());
+		for (ArgNode arg: args){							//Initializing  effect inside the symbol table
+			arg.getId().getSTentry().setVarStatus(arg.getId().getTextId(),new Effect(Effect.RW)); 		//dev'essere inizializzata a RW o BOT?
 			env.addEntry(arg.getId().getTextId(), arg.getId().getSTentry());
 		}
-		System.out.print("args addes to the env: \n");
-		env.printEnv();									//g  , ^int, int -> void 0 1 x:  0, y:  0, -> x:  0, y:  0,
-															//	x ^int -4 1 0
-															//  y int -8 1 0
-	//fine	primo ∑| FUN ⦁ ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ]
+
+		//fine	primo ∑| FUN ⦁ ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ]
 
 
 
 		Environment env1 = new Environment(env);		 // initializing ∑_1 = [ x 1 ⟼ ⊥,…,x m ⟼ ⊥,y 1 ⟼ ⊥,…,y n ⟼ ⊥ ]
 		Environment oldEnv = new Environment(env);
-		body.checkEffects(env1);						 // first iteration of ∑_1
-		System.out.print("env1: ");
-		env1.printEnv();
+		errors.addAll(body.checkEffects(env1));						 // first iteration of ∑_1
 
-		STentry argStatusInBodyEnv ;
+		STentry argStatusInBodyEnv ;						//come si gestiscono gli effetti all'interno della dichiarazione di funzione, se settati a bottom i nodi interni daranno errori perchè non si ha un'inizializzazione esplicita nel corpo,
+															// vengono inizializzati con lo stato passato nell'invocazione della funzione?
 		for (ArgNode arg: args) {
 			argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
 			id.getSTentry().updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
 		}
 
-	//	id.getSTentry().setArgsStatus();
 
-
-		env1.printEnv();
-
-		//id.setStatus();
 		while(! oldEnv.equals(env1)) {
 			oldEnv = env1;
-			body.checkEffects(env1);
+			errors.addAll(body.checkEffects(env1));
 		}
 
-
-		System.out.print("\n fixed point has been found. result environment ∑_1: \n");
+		System.out.print("\n Fixed point has been found. result environment ∑_1: \n");
 		env1.printEnv();
+		env.replace(env1);
+		env.onScopeExit();
 
-		return new ArrayList<>();
+		return errors;
 
 	}
 

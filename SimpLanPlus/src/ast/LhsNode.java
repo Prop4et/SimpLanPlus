@@ -60,8 +60,10 @@ public class LhsNode implements Node{
 		}
 
 		res.addAll(lhs.checkEffects(env));
+		String lhsId = this.getLhsId().getTextId();
 		if (! (id.getSTentry().getIVarStatus(lhs.getLhsId().getTextId()).getType() == Effect.RW))
-			res.add(new SemanticError( this + "  has not status READ_WRITE."));
+
+			res.add(new SemanticError( lhsId + " has status " +this.getLhsId().getStatus().get(lhsId).getType() + " while it should have been READ_WRITE." ));
 
 		return res;
 

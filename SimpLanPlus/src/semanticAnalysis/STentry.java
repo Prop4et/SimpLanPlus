@@ -88,19 +88,21 @@ public class STentry {
 	public void initializeStatus(IdNode id){
 
 		if ( (this.type instanceof FunTypeNode)) {
-			HashMap<String, Effect> paramStatus = new HashMap<>();
+			HashMap<String, Effect> init_env_0 = new HashMap<>();
+			HashMap<String, Effect> init_env_1 = new HashMap<>();
 
 			for (ArgNode param : this.getFunNode().getArgs()) {
 				//	int numberOfDereference = param.getDereferenceLevel();
 				//	for (int i = 0; i < numberOfDereference; i++) {
-						paramStatus.put(param.getId().getTextId(), new Effect(Effect.BOT));
+				init_env_0.put(param.getId().getTextId(), new Effect(Effect.BOT));
+				init_env_1.put(param.getId().getTextId(), new Effect(Effect.BOT));
 
 				//	}
 
 				//	this.funStatus.add(paramStatus);
 				}
-			this.funStatus.add(paramStatus);               //∑_0
-			this.funStatus.add(paramStatus);               //∑_0
+			this.funStatus.add(init_env_0);               //∑_0
+			this.funStatus.add(init_env_1);               //∑_1
 
 			//funStatus.stream().forEach(s->s.stream().forEach(s1 -> System.out.print(s1.getType() )));
 
