@@ -2,8 +2,10 @@ package ast.statements;
 
 import java.util.ArrayList;
 
+import ast.IdNode;
 import ast.LhsNode;
 import ast.Node;
+import ast.expressions.BaseExpNode;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
 import ast.types.VoidTypeNode;
@@ -57,14 +59,21 @@ public class AssignmentNode extends StatementNode implements Node {
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
-		/*					∑ ⊢ e : ∑'
+		/*					∑ ⊢ rhs : ∑'
 				------------------------------------[Asgn-e]
-					∑ ⊢ x = e; : ∑' ⊳[x ⟼ rw]					*/
+					∑ ⊢ lhs = rhs; : ∑' ⊳[rhs ⟼ rw]					*/
 		ArrayList<SemanticError> res = new ArrayList<>();
 		res.addAll(lhs.checkEffects(env));
 		res.addAll(rhs.checkEffects(env));		//creating ∑'
 		//if lhs is a variable,we set its effect to rw easily
-		//env.applySeq(lhs.getLhsId(),Effect.RW);
+		IdNode var ;
+		for(int i=0;  i < rhs.getExpVar().size(); i ++) {
+			var = rhs.getExpVar().get(i).getLhsId();
+			env.applySeq(var,Effect.RW);
+
+		}
+
+		env.printEnv();
 
 		//if lhs is a pointer
 		//-----;

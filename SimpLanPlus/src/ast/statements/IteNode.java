@@ -79,7 +79,8 @@ public class IteNode implements Node{
 
 		//check effect in the then and in the else exp
 		if(elseB != null) {    //the else branch is optional
-			Environment thenBranchEnv = new Environment(env);
+			Environment thenBranchEnv = new Environment(env);		//TODO: problem: new Environment(env) it's creating a copy by references, not by values, so when we modify then/elsebranchEnv we're modifying also env. In this way, we're storing one branch effects and analysing the other one w.r.t the the previous branch.
+																	// what we want is analysing the effects of each branch independently and store them inside E1 and E2 and then get the and then get maximum effect  for the variable between the e1 and e2  .
 			res.addAll(thenB.checkEffects(thenBranchEnv));       	 //creating env1
 
 			Environment elseBranchEnv = new Environment(env);		//creating env2
