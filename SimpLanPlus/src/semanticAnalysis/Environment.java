@@ -3,6 +3,7 @@ package semanticAnalysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 
 import ast.IdNode;
@@ -30,12 +31,12 @@ public class Environment {
 		this(new ArrayList<>(), -1, 0);
 	}
 	
-	public Environment(Environment env) {	
+	public Environment(Environment env) {
 		this(new ArrayList<>(), env.getNestingLevel(), env.getOffset());
 		//up to this should be fine
-		for (var scope : env.symTable) {
+		for (HashMap<String,STentry> scope : env.symTable) {
             final HashMap<String, STentry> copy = new HashMap<>();
-            for (var id : scope.keySet()) {
+            for (String id : scope.keySet()) {
                 copy.put(id, new STentry(scope.get(id)));
             }
             this.symTable.add(copy);
@@ -369,5 +370,43 @@ public class Environment {
 			this.symTable.add(copySymTable);
 		}
 
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		Environment env = (Environment) obj;
+
+		if (nl != env.nl) {
+			return false;
+		}
+
+		if (offset != env.offset) {
+			return false;
+		}
+
+		if (symTable.size() != env.symTable.size()) {
+			return false;
+		}
+
+		for (int i = 0; i < symTable.size(); i++) {
+			HashMap<String, STentry> scope = symTable.get(i);
+			HashMap<String, STentry>  scope2 = env.symTable.get(i);
+
+			if (!scope2.keySet().equals(scope.keySet())) {
+				return false;
+			}
+
+			for (Map.Entry<String,STentry> entry : scope2.entrySet()) {
+				STentry entryEnv = scope.get(entry.getKey());
+				if (!entry.getValue().equals(entryEnv)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 }

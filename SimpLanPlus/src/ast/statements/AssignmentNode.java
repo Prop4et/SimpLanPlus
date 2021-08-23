@@ -66,22 +66,21 @@ public class AssignmentNode extends StatementNode implements Node {
 		//res.addAll(lhs.checkEffects(env));
 		res.addAll(rhs.checkEffects(env));		//∑'
 		//if lhs is a variable,we set its effect to rw easily
-		IdNode var =null;
+		IdNode var = null;
+		//if(rhs.().getSTentry().getIVarStatus(lhs.getLhsId().getTextId()).getType() == Effect.TOP){
+		//	res.add(new SemanticError("Trying to assign variable with status " + lhs.getLhsId().getSTentry().getIVarStatus(lhs.getLhsId().getTextId()).getType()));
+		//}
+		env.applySeq(lhs.getLhsId(), Effect.RW);
 		for (int i =0; i<rhs.getExpVar().size(); i++){
 			var = rhs.getExpVar().get(i).getLhsId();
 			if(! (var.getSTentry().getIVarStatus(var.getTextId()).getType() == Effect.RW)) {
-				env.applySeq(lhs.getLhsId(), Effect.TOP);        //se mi trovo in uno di questi casi setto lhs a TOP?
+				//env.applySeq(lhs.getLhsId(), Effect.TOP);        //se mi trovo in uno di questi casi setto lhs a TOP?
 
-				if (var.getSTentry().getIVarStatus(var.getTextId()).getType() == Effect.DEL)
-					res.add(new SemanticError("Trying to access deleted var " + var.getTextId()));
-				else if (var.getSTentry().getIVarStatus(var.getTextId()).getType() == Effect.BOT)
-					res.add(new SemanticError("Trying to access not initialized var " + var.getTextId()));
-
+				res.add(new SemanticError("Trying to assign a bad expression: "));
 			}
 		}
-		env.applySeq(lhs.getLhsId(), Effect.RW);
 
-
+		env.printEnv();
 		//if lhs is a pointer
 		//-----;
 
