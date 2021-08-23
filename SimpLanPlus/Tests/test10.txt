@@ -3,5 +3,7 @@
     void f(^int x, ^int y){
         delete x;
         delete y;
-    }     /*  cosa accade in {^int x = new ; f(x,x) ;}*/
+    }     
+    /*^int x = new int;
+    f(x,x);*/
 }

@@ -20,6 +20,11 @@ public class Effect {
 		this.type = BOT;
 	}
 	
+	public Effect(Effect effect) {
+		// TODO Auto-generated constructor stub
+		this.type = effect.getType();
+	}
+
 	public int getType() {
 		return type;
 	}

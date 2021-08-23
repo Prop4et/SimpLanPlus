@@ -30,16 +30,16 @@ public class Environment {
 		this(new ArrayList<>(), -1, 0);
 	}
 	
-	public Environment(Environment env) {
+	public Environment(Environment env) {	
 		this(new ArrayList<>(), env.getNestingLevel(), env.getOffset());
-		
-		for(HashMap<String, STentry> symTable : env.getSymTable()) {
-			HashMap<String, STentry> copySymTable = new HashMap<>();
-			for(String id : symTable.keySet()) {
-				copySymTable.put(id, new STentry(symTable.get(id)));
-			}
-			this.symTable.add(copySymTable);
-		}
+		//up to this should be fine
+		for (var scope : env.symTable) {
+            final HashMap<String, STentry> copy = new HashMap<>();
+            for (var id : scope.keySet()) {
+                copy.put(id, new STentry(scope.get(id)));
+            }
+            this.symTable.add(copy);
+        }
 	}
 	//used to create a toy environment for the update
 	public Environment(String id, STentry entry) {

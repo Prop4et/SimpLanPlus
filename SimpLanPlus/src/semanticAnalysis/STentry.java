@@ -27,7 +27,7 @@ public class STentry {
 	private DecFunNode funNode;
 
 	public HashMap<String, Effect> varStatus;
-	public List<HashMap<String,Effect> > funStatus;
+	public List<HashMap<String,Effect>> funStatus;
 
 
 	public TypeNode getType() {
@@ -64,11 +64,28 @@ public class STentry {
         this.varStatus = varStatus;
 	}
 	
-	public STentry(STentry sTentry) {
+	/*public STentry(STentry sTentry) {
 		this(sTentry.getNl(), sTentry.getOffset(), sTentry.getType());
         this.varStatus = sTentry.getVarStatus();
         this.funStatus = sTentry.getFunStatus();
-	}
+	}*/
+	
+	public STentry(STentry sTentry) {
+        this(sTentry.nl, sTentry.offset);
+        this.type = sTentry.type;
+        for (HashMap<String,Effect> fnStatus : sTentry.funStatus) {
+        	HashMap<String,Effect> paramStatus = new HashMap<>();
+            for (String key : fnStatus.keySet()) {
+                paramStatus.put(key, new Effect(fnStatus.get(key).getType()));
+            }
+            this.funStatus.add(paramStatus);
+        }
+        for (String key : sTentry.varStatus.keySet()) {
+            this.varStatus.put(key, new Effect(sTentry.varStatus.get(key).getType()));
+        }
+        this.funNode = sTentry.funNode;
+    }
+	
 	public void setVarStatus(String id, Effect varStatus){
 		this.varStatus.put(id, varStatus);
 	}
