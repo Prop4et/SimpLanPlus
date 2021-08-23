@@ -108,10 +108,11 @@ public class DecFunNode implements Node{
 
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
-		  /*                  âˆ‘_0 = [ x 1 âŸ¼ âŠ¥,â€¦,x m âŸ¼ âŠ¥,y 1 âŸ¼ âŠ¥,â€¦,y n âŸ¼ âŠ¥ ]                                               // âˆ‘_0 Ã¨ l'ambiente di partenza che inizializza gli effetti dei parametri
-                âˆ‘|_FUN â¦� âˆ‘_0 [ f âŸ¼ âˆ‘_0 â†’ âˆ‘_1 ] âŠ¢ s : âˆ‘| FUN â¦� âˆ‘_1 [ f âŸ¼ âˆ‘_0 â†’ âˆ‘_1 ]                                     //  âˆ‘_1 Ã¨ l'ambiente che contiene gli effetti dei vari identificatori associati ai parametri  formali della funzione dopo l'analisi del corpo
-       ----------------------------------------------------------------------------------------------    [Fseq-e]
-            ∑ ⊢ f(var T 1 x 1 ,…,var T m x m ,T 1 ' y 1 ,…,T n ' y n ) s: ∑ [f ⟼ ∑_0 → ∑_1]*/
+		/*				        ∑ 0 = [ x 1 ⟼ ⊥,…,x m ⟼ ⊥,y 1 ⟼ ⊥,…,y n ⟼ ⊥ ]
+						∑| FUN ⦁ ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ] ⊢ s : ∑| FUN ⦁ ∑ 1 [ f ⟼ ∑ 0 → ∑ 1 ]
+				-----------------------------------------------------------------------------------[Fseq-e]
+				∑ ⊢ f(var T 1 x 1 ,…,var T m x m ,T 1 ' y 1 ,…,T n ' y n ) s: ∑ [f ⟼ ∑ 0 → ∑ 1]						 */
+
 
 		ArrayList<SemanticError> errors = new ArrayList<>();
 
@@ -140,14 +141,13 @@ public class DecFunNode implements Node{
 		errors.addAll(body.checkEffects(env1));						 // first iteration of ∑_1
 		//env1.printEnv();
 
-		STentry argStatusInBodyEnv ;						//come si gestiscono gli effetti all'interno della dichiarazione di funzione, se settati a bottom i nodi interni daranno errori perchè non si ha un'inizializzazione esplicita nel corpo,
-															// vengono inizializzati con lo stato passato nell'invocazione della funzione?
-		//
+		STentry argStatusInBodyEnv ;
+		//updating fun
 		for (ArgNode arg: args) {
 			argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
-			//questo però poi deve essere aggiunto all'ambiente no?
-			id.getSTentry().updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
-			//env1.lookupForEffectAnalysis(id.getTextId()).updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
+			env1.lookupForEffectAnalysis(id.getTextId()).updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
+			//re-setting args effect to RW for the next evaluation of the body effect.
+			env1.lookupForEffectAnalysis(arg.getId().getTextId()).setVarStatus(arg.getId().getTextId(), new Effect(Effect.RW));
 		}
 
 		while(!oldEnv.equals(env1)) {
@@ -156,10 +156,7 @@ public class DecFunNode implements Node{
 			//updating arg
 			for (ArgNode arg: args) {
 				argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
-				//questo però poi deve essere aggiunto all'ambiente no?
-				id.getSTentry().updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
-
-				//env1.lookupForEffectAnalysis(id.getTextId()).updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
+				env1.lookupForEffectAnalysis(id.getTextId()).updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
 
 			}
 		}
