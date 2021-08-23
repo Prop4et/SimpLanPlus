@@ -147,15 +147,10 @@ public class DecFunNode implements Node{
 			argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
 			//questo però poi deve essere aggiunto all'ambiente no?
 			//id.getSTentry().updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
-			try {
-				env1.lookup(id.getTextId()).updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
-			} catch (NotDeclaredException e) {
-				e.printStackTrace();
-			}
 		}
 
-		while(! oldEnv.equals(env1)) {
-			oldEnv = env1;
+		while(!oldEnv.equals(env1)) {
+			oldEnv=env1;
 			errors.addAll(body.checkEffects(env1));
 		}
 

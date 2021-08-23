@@ -359,20 +359,20 @@ public class Environment {
 	}
 
 	public void replace(Environment env){
-		symTable.clear();
+		this.symTable.clear();
 		//this.symTable = env.getSymTable();		//replace the for loop
 		this.nl = env.getNestingLevel();
 		this.offset = env.getOffset();
-
-		for(HashMap<String, STentry> symTable : env.getSymTable()) {
-			HashMap<String, STentry> copySymTable = new HashMap<>();
-			for(String id : symTable.keySet()) {
-				copySymTable.put(id, new STentry(symTable.get(id)));
-			}
-			this.symTable.add(copySymTable);
-		}
+		for (HashMap<String, STentry> scope : env.symTable) {
+            final HashMap<String, STentry> copy = new HashMap<>();
+            for (String id : scope.keySet()) {
+                copy.put(id, new STentry(scope.get(id)));
+            }
+            this.symTable.add(copy);
+        }
 
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
