@@ -14,6 +14,7 @@ import ast.types.FunTypeNode;
 import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
+import exceptions.NotDeclaredException;
 import exceptions.TypeException;
 import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
@@ -141,15 +142,20 @@ public class DecFunNode implements Node{
 
 		STentry argStatusInBodyEnv ;						//come si gestiscono gli effetti all'interno della dichiarazione di funzione, se settati a bottom i nodi interni daranno errori perchè non si ha un'inizializzazione esplicita nel corpo,
 															// vengono inizializzati con lo stato passato nell'invocazione della funzione?
+		//not working apparently
 		for (ArgNode arg: args) {
 			argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
-			id.getSTentry().updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
-			env1.printEnv();
-
+			//questo però poi deve essere aggiunto all'ambiente no?
+			//id.getSTentry().updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
+			try {
+				env1.lookup(id.getTextId()).updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
+			} catch (NotDeclaredException e) {
+				e.printStackTrace();
+			}
 		}
 
 		while(! oldEnv.equals(env1)) {
-			oldEnv.replace(env1);
+			oldEnv = env1;
 			errors.addAll(body.checkEffects(env1));
 		}
 
