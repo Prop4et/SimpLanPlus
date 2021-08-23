@@ -64,7 +64,7 @@ public class AssignmentNode extends StatementNode implements Node {
 					∑ ⊢ lhs = rhs; : ∑' ⊳[lhs ⟼ rw]					*/
 		ArrayList<SemanticError> res = new ArrayList<>();
 		//res.addAll(lhs.checkEffects(env));
-		res.addAll(rhs.checkEffects(env));		//∑'
+		ArrayList<SemanticError> expError = rhs.checkEffects(env);		//∑'
 		//if lhs is a variable,we set its effect to rw easily
 		IdNode var = null;
 		//if(rhs.().getSTentry().getIVarStatus(lhs.getLhsId().getTextId()).getType() == Effect.TOP){
@@ -73,10 +73,10 @@ public class AssignmentNode extends StatementNode implements Node {
 		env.applySeq(lhs.getLhsId(), Effect.RW);
 		for (int i =0; i<rhs.getExpVar().size(); i++){
 			var = rhs.getExpVar().get(i).getLhsId();
-			if(! (var.getSTentry().getIVarStatus(var.getTextId()).getType() == Effect.RW)) {
-				//env.applySeq(lhs.getLhsId(), Effect.TOP);        //se mi trovo in uno di questi casi setto lhs a TOP?
+			if(! (var.getSTentry().getIVarStatus(var.getTextId()).getType() == Effect.RW)) {			//so I'm trying to assign a Not initialized var or a deleted var
 
-				res.add(new SemanticError("Trying to assign a bad expression: "));
+				res.add(new SemanticError("Trying to assign a bad expression: " ));
+				res.addAll( expError);
 			}
 		}
 
