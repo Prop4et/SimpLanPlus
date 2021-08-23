@@ -3,6 +3,8 @@ package semanticAnalysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.BiFunction;
 
 import ast.IdNode;
@@ -33,9 +35,9 @@ public class Environment {
 	public Environment(Environment env) {	
 		this(new ArrayList<>(), env.getNestingLevel(), env.getOffset());
 		//up to this should be fine
-		for (var scope : env.symTable) {
+		for (HashMap<String, STentry> scope : env.symTable) {
             final HashMap<String, STentry> copy = new HashMap<>();
-            for (var id : scope.keySet()) {
+            for (String id : scope.keySet()) {
                 copy.put(id, new STentry(scope.get(id)));
             }
             this.symTable.add(copy);
@@ -370,4 +372,5 @@ public class Environment {
 		}
 
 	}
+	
 }
