@@ -61,20 +61,26 @@ public class AssignmentNode extends StatementNode implements Node {
 	public ArrayList<SemanticError> checkEffects(Environment env) {
 		/*					∑ ⊢ rhs : ∑'
 				------------------------------------[Asgn-e]
-					∑ ⊢ lhs = rhs; : ∑' ⊳[rhs ⟼ rw]					*/
+					∑ ⊢ lhs = rhs; : ∑' ⊳[lhs ⟼ rw]					*/
 		ArrayList<SemanticError> res = new ArrayList<>();
-		res.addAll(lhs.checkEffects(env));
-		res.addAll(rhs.checkEffects(env));		//creating ∑'
+		//res.addAll(lhs.checkEffects(env));
+		res.addAll(rhs.checkEffects(env));		//∑'
 		//if lhs is a variable,we set its effect to rw easily
-		IdNode var ;
-		for(int i=0;  i < rhs.getExpVar().size(); i ++) {
+		IdNode var = null;
+		//if(rhs.().getSTentry().getIVarStatus(lhs.getLhsId().getTextId()).getType() == Effect.TOP){
+		//	res.add(new SemanticError("Trying to assign variable with status " + lhs.getLhsId().getSTentry().getIVarStatus(lhs.getLhsId().getTextId()).getType()));
+		//}
+		env.applySeq(lhs.getLhsId(), Effect.RW);
+		for (int i =0; i<rhs.getExpVar().size(); i++){
 			var = rhs.getExpVar().get(i).getLhsId();
-			env.applySeq(var,Effect.RW);
+			if(! (var.getSTentry().getIVarStatus(var.getTextId()).getType() == Effect.RW)) {
+				//env.applySeq(lhs.getLhsId(), Effect.TOP);        //se mi trovo in uno di questi casi setto lhs a TOP?
 
+				res.add(new SemanticError("Trying to assign a bad expression: "));
+			}
 		}
 
 		env.printEnv();
-
 		//if lhs is a pointer
 		//-----;
 

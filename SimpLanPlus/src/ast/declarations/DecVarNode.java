@@ -75,11 +75,7 @@ public class DecVarNode implements Node{
 			errors.addAll(exp.checkEffects(env));
 		}
 		env.addEntry(id.getTextId(), id.getSTentry());
-		/*System.out.print("checking  " +id.getTextId() );
-		if(id.getSTentry().getIVarStatus(0).getType() ==   Effect.BOT)
-			System.out.print("BOT"  + "\n");
-		else
-			System.out.print("RW"  + "\n");*/
+
 
 		return errors;
 	}

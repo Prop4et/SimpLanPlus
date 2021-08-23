@@ -55,6 +55,8 @@ public class LhsNode implements Node{
 			res.addAll(id.checkEffects(env));
 			if(id.getSTentry().getIVarStatus(id.getTextId()).getType() == Effect.BOT)
 				res.add(new SemanticError(id.getTextId() + " is used before being initialized"));
+			if(id.getSTentry().getIVarStatus(id.getTextId()).getType() == Effect.DEL)
+				res.add(new SemanticError(id.getTextId() + " is used after being deleted."));
 
 			return res;
 		}

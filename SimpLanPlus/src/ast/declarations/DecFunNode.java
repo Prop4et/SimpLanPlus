@@ -137,17 +137,19 @@ public class DecFunNode implements Node{
 		Environment env1 = new Environment(env);		 // initializing âˆ‘_1 = [ x 1 âŸ¼ âŠ¥,â€¦,x m âŸ¼ âŠ¥,y 1 âŸ¼ âŠ¥,â€¦,y n âŸ¼ âŠ¥ ]
 		Environment oldEnv = new Environment(env);
 		errors.addAll(body.checkEffects(env1));						 // first iteration of ∑_1
+		//env1.printEnv();
 
 		STentry argStatusInBodyEnv ;						//come si gestiscono gli effetti all'interno della dichiarazione di funzione, se settati a bottom i nodi interni daranno errori perchè non si ha un'inizializzazione esplicita nel corpo,
 															// vengono inizializzati con lo stato passato nell'invocazione della funzione?
 		for (ArgNode arg: args) {
 			argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
 			id.getSTentry().updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
+			env1.printEnv();
+
 		}
 
-
 		while(! oldEnv.equals(env1)) {
-			oldEnv = env1;
+			oldEnv.replace(env1);
 			errors.addAll(body.checkEffects(env1));
 		}
 
