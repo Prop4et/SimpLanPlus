@@ -108,6 +108,32 @@ public class CallNode implements Node{
 		//-------------------------------------------------------
 		//\Sigma |- f(u1, .., um, e1, .., en) : update(\Sigma', \Sigma'')
 
+		errors.addAll(id.checkEffects(env));
+		List<ExpNode> pointerParams = new ArrayList<>();
+		List<ExpNode> varParams = new ArrayList<>();
+		List<HashMap<String, Effect>> effects = new ArrayList<HashMap<String, Effect>>();
+		
+        // Creating the statuses of the variables given as input to the function call.
+        // If actual parameters are expressions not instance of DereferenceExpNode, Effect.READ_WRITE is the status given.		
+		int mapIndex = 0;
+		for(ExpNode p : params) {
+			expEvalErrors.addAll(p.checkEffects(env));
+			HashMap<String, Effect> tmp = new HashMap<>();
+			
+			if(p instanceof DerExpNode) {
+				pointerParams.add(p);
+				HashMap<String, Effect> map = p.getExpVar().get(0).getLhsId().getSTentry().getVarStatus();
+				for(String id : map.keySet())
+					tmp.put(id, map.get(id));
+			}
+			else {
+				varParams.add(p);
+				tmp.put(Integer.toString(mapIndex), new Effect(Effect.RW));
+				mapIndex++;
+			}
+			effects.add(tmp);
+		}
+		
 		STentry fun = env.lookupForEffectAnalysis(id.getTextId());
 		//getting Sigma1
 		HashMap<String, Effect> sigma1 = fun.getFunStatus().get(1);
@@ -123,20 +149,8 @@ public class CallNode implements Node{
 		}
 		//getting effect of z_i in ∑ while invoking function
 
-		errors.addAll(id.checkEffects(env));
-		List<ExpNode> pointerParams = new ArrayList<>();
-		List<ExpNode> varParams = new ArrayList<>();
-
-		for(ExpNode p : params) {
-			if(p instanceof DerExpNode)
-				pointerParams.add(p);
-			else
-				varParams.add(p);
-		}
-		for( ExpNode p: varParams){
-			expEvalErrors.addAll(p.checkEffects(env));
-			if(env.lookupForEffectAnalysis());
-		}
+		
+		
 		//IDK
 		//i should be able to relate every parameter in the call to the effect of the parameter studied during the declaration
 		//after that i need to check if value parameters are top

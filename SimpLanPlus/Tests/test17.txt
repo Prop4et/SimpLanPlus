@@ -1,11 +1,7 @@
 {
-	^int x = new int;
-	int n = 0;
-	x^ = 1;
-	if(n==0){
-		delete x;
+	void f(int a){
+		print(a);
 	}
-	else{
-		delete x;
-	}
+	int x;
+	f(x);
 }
