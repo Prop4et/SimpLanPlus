@@ -2,6 +2,7 @@ package ast.statements;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ast.IdNode;
@@ -13,6 +14,7 @@ import exceptions.NotDeclaredException;
 import ast.types.FunTypeNode;
 import ast.types.PointerTypeNode;
 import exceptions.TypeException;
+import org.stringtemplate.v4.ST;
 import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
 import semanticAnalysis.STentry;
@@ -96,6 +98,7 @@ public class CallNode implements Node{
 	@Override
 	public ArrayList<SemanticError> checkEffects(Environment env) {
 		ArrayList<SemanticError> errors = new ArrayList<>();
+		ArrayList<SemanticError> expEvalErrors = new ArrayList<>();
 		//\Gamma |- f : &t1 x .. x &tm x t1' x .. x tn' -> void 
 		//\Sigma(f) = \Sigma_0 -> Sigma_1 ??
 		//\Sigma_1(yi) <= d, 1<=i<=n
@@ -104,13 +107,36 @@ public class CallNode implements Node{
 		// ui should be the status outside the function, xi should be the status inside the function
 		//-------------------------------------------------------
 		//\Sigma |- f(u1, .., um, e1, .., en) : update(\Sigma', \Sigma'')
-		
+
+		STentry fun = env.lookupForEffectAnalysis(id.getTextId());
+		//getting Sigma1
+		HashMap<String, Effect> sigma1 = fun.getFunStatus().get(1);
+		//checking	∑"= ⊗ i ∈ 1..m [ u i ⟼ ∑(u i)
+		for (String id:  sigma1.keySet()){
+			Effect e = sigma1.get(id);
+			if( !( env.lookupForEffectAnalysis(id).getType() instanceof PointerTypeNode)) {
+				if (e.getType() > Effect.DEL)
+					errors.add(new SemanticError("Cannot use " + id + "with effect " + e.getType() + "inside a function. "));
+
+			}
+
+		}
+		//getting effect of z_i in ∑ while invoking function
 
 		errors.addAll(id.checkEffects(env));
-		
-		for(ExpNode p : params)
-			errors.addAll(p.checkEffects(env));
-		
+		List<ExpNode> pointerParams = new ArrayList<>();
+		List<ExpNode> varParams = new ArrayList<>();
+
+		for(ExpNode p : params) {
+			if(p instanceof DerExpNode)
+				pointerParams.add(p);
+			else
+				varParams.add(p);
+		}
+		for( ExpNode p: varParams){
+			expEvalErrors.addAll(p.checkEffects(env));
+			if(env.lookupForEffectAnalysis());
+		}
 		//IDK
 		//i should be able to relate every parameter in the call to the effect of the parameter studied during the declaration
 		//after that i need to check if value parameters are top
@@ -125,7 +151,8 @@ public class CallNode implements Node{
 				//val passing
 			}
 		}
-		
+		errors.add(new SemanticError("During invocation you're trying to use bad expression: "));
+		errors.addAll(expEvalErrors);
 		return errors;
 	}
 
