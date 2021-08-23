@@ -2,6 +2,7 @@
 package ast.declarations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,10 +35,11 @@ public class DecFunNode implements Node{
 		this.id = id;
 		this.args = args;
 		this.body = body;
-
 		List<TypeNode> argsType = args.stream().map(ArgNode::getType).collect(Collectors.toList());
 		typeFun = new FunTypeNode(argsType, type);
 	}
+
+	public List<ArgNode> getArgs(){return this.args;}
 
 	@Override
 	public String toPrint(String indent) {
@@ -108,71 +110,53 @@ public class DecFunNode implements Node{
 		  /*                  âˆ‘_0 = [ x 1 âŸ¼ âŠ¥,â€¦,x m âŸ¼ âŠ¥,y 1 âŸ¼ âŠ¥,â€¦,y n âŸ¼ âŠ¥ ]                                               // âˆ‘_0 Ã¨ l'ambiente di partenza che inizializza gli effetti dei parametri
                 âˆ‘|_FUN â¦� âˆ‘_0 [ f âŸ¼ âˆ‘_0 â†’ âˆ‘_1 ] âŠ¢ s : âˆ‘| FUN â¦� âˆ‘_1 [ f âŸ¼ âˆ‘_0 â†’ âˆ‘_1 ]                                     //  âˆ‘_1 Ã¨ l'ambiente che contiene gli effetti dei vari identificatori associati ai parametri  formali della funzione dopo l'analisi del corpo
        ----------------------------------------------------------------------------------------------    [Fseq-e]
-            âˆ‘ âŠ¢ f(var T 1 x 1 ,â€¦,var T m x m ,T 1 ' y 1 ,â€¦,T n ' y n ) s: âˆ‘ [f âŸ¼ âˆ‘_0 â†’ âˆ‘_1]*/
-		//setting up the effects
+            ∑ ⊢ f(var T 1 x 1 ,…,var T m x m ,T 1 ' y 1 ,…,T n ' y n ) s: ∑ [f ⟼ ∑_0 → ∑_1]*/
 
-		id.getSTentry().initializeStatus();		// ∑_0[f ->∑_0 ]  environment
-		List<List<Effect>> s1  = new ArrayList<>();
-		s1.addAll(id.getSTentry().getFunStatus()); // ∑_1  environment
+		ArrayList<SemanticError> errors = new ArrayList<>();
+
+
+		//setting up the effects
+		id.getSTentry().setFunNode(this);
+		id.getSTentry().initializeStatus(id);		// ∑_0[f ->∑_0 ->∑_1]  environment
 		env.addEntry(id.getTextId(), id.getSTentry());
-		env.printEnv();
 
 		env.onScopeEntry();
 
 		STentry argEntry;
 
-		for (ArgNode arg: args){			//Initializing  âˆ‘_0  environment
-			arg.getId().getSTentry().initializeStatus();
+
+		for (ArgNode arg: args){							//Initializing  effect inside the symbol table
+			arg.getId().getSTentry().setVarStatus(arg.getId().getTextId(),new Effect(Effect.RW)); 		//dev'essere inizializzata a RW o BOT?
 			env.addEntry(arg.getId().getTextId(), arg.getId().getSTentry());
 		}
-		System.out.print("adding args to the env:");
-		env.printEnv();									//env = g  , ^int, int -> void 0 1 0, 0, ->0,
-																	//x ^int -4 1 0
-																	//y int -8 1 0
-	//fine	primo ∑| FUN ⦁ ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ]
+
+		//fine	primo ∑| FUN ⦁ ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ]
 
 
 
 		Environment env1 = new Environment(env);		 // initializing âˆ‘_1 = [ x 1 âŸ¼ âŠ¥,â€¦,x m âŸ¼ âŠ¥,y 1 âŸ¼ âŠ¥,â€¦,y n âŸ¼ âŠ¥ ]
 		Environment oldEnv = new Environment(env);
-		body.checkEffects(env1);						 // first iteration of ∑_1
-		System.out.print("env1: ");
-		env1.printEnv();
+		errors.addAll(body.checkEffects(env1));						 // first iteration of ∑_1
 
-		for (int argIndex = 0; argIndex < args.size(); argIndex++) {
-			argEntry = env1.lookupForEffectAnalysis(args.get(argIndex).getId().getTextId());
-			//STentry getEnvEntry = env1.lookupForEffectAnalysis(args.get(argIndex).getId().getTextId());
-
-			if(argEntry.getType() instanceof PointerTypeNode) {
-				int numberOfDereference = argEntry.getType().getDereferenceLevel() - 1;
-				for (int i = numberOfDereference; i >= 0; i--) {
-					System.out.print(argEntry.getType().toPrint("") + argEntry.getIVarStatus(i).getType());
-					id.getSTentry().setArgsStatus(argIndex, argEntry.getIVarStatus(i), 0);
-				}
-			}
-			else{
-				System.out.print(argEntry.getType().toPrint("") + argEntry.getIVarStatus(0).getType());
-				id.getSTentry().setArgsStatus(argIndex, argEntry.getIVarStatus(0), 0);
-
-			}
+		STentry argStatusInBodyEnv ;						//come si gestiscono gli effetti all'interno della dichiarazione di funzione, se settati a bottom i nodi interni daranno errori perchè non si ha un'inizializzazione esplicita nel corpo,
+															// vengono inizializzati con lo stato passato nell'invocazione della funzione?
+		for (ArgNode arg: args) {
+			argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
+			id.getSTentry().updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
 		}
 
-	//	id.getSTentry().setArgsStatus();
 
-
-		env1.printEnv();
-
-		//id.setStatus();
 		while(! oldEnv.equals(env1)) {
-			body.checkEffects(env1);
+			oldEnv = env1;
+			errors.addAll(body.checkEffects(env1));
 		}
 
+		System.out.print("\n Fixed point has been found. result environment ∑_1: \n");
+		env1.printEnv();
+		env.replace(env1);
+		env.onScopeExit();
 
-		System.out.print("\n âˆ‘_1: \n");
-		env.printEnv();
-
-		return new ArrayList<>();
-
+		return errors;
 	}
 
 }

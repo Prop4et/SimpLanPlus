@@ -18,7 +18,7 @@ public class FunTypeNode extends TypeNode{
 		this.ret = ret;
 	}
 	
-	public List<TypeNode> getParams() {
+	public List<TypeNode> getParamsType() {
 		return params;
 	}
 	

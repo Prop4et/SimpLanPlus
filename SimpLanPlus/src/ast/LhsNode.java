@@ -53,15 +53,17 @@ public class LhsNode implements Node{
 
 		if (lhs == null) {		//we are processing a dereference node
 			res.addAll(id.checkEffects(env));
-			if(id.getSTentry().getIVarStatus(0).getType() == Effect.BOT)
+			if(id.getSTentry().getIVarStatus(id.getTextId()).getType() == Effect.BOT)
 				res.add(new SemanticError(id.getTextId() + " is used before being initialized"));
 
 			return res;
 		}
 
 		res.addAll(lhs.checkEffects(env));
-		if (! (id.getSTentry().getIVarStatus(lhs.getDereferenceLevel() - 1).getType() == Effect.RW))
-			res.add(new SemanticError( this + "  has not status READ_WRITE."));
+		String lhsId = this.getLhsId().getTextId();
+		if (! (id.getSTentry().getIVarStatus(lhs.getLhsId().getTextId()).getType() == Effect.RW))
+
+			res.add(new SemanticError( lhsId + " has status " +this.getLhsId().getStatus().get(lhsId).getType() + " while it should have been READ_WRITE." ));
 
 		return res;
 

@@ -1,11 +1,15 @@
 package semanticAnalysis;
 
+import ast.ArgNode;
+import ast.IdNode;
 import ast.Node;
+import ast.declarations.DecFunNode;
 import ast.types.FunTypeNode;
 import ast.types.TypeNode;
 import org.stringtemplate.v4.ST;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,8 +24,10 @@ public class STentry {
 	//offset used when generating the ASM code
 	private int offset;
 
-	public List<Effect> varStatus;
-	public List< List<Effect> > funStatus;
+	private DecFunNode funNode;
+
+	public HashMap<String, Effect> varStatus;
+	public List<HashMap<String,Effect> > funStatus;
 
 
 	public TypeNode getType() {
@@ -39,7 +45,7 @@ public class STentry {
 	public STentry(int nl, int offset) {
 		this.nl = nl;
 		this.offset = offset;
-		this.varStatus = new ArrayList<>();
+		this.varStatus = new HashMap<>();
 		this.funStatus = new ArrayList<>();
 	}
 	
@@ -47,12 +53,12 @@ public class STentry {
 		this.nl = nl;
 		this.offset = offset;  
 		this.type = type;
-		this.varStatus = new ArrayList<>();
-		this.funStatus = new ArrayList<>();
-		/**/
+		this.varStatus =  new HashMap<>();
+		this.funStatus =  new ArrayList<>();
+
 	}
 
-	public STentry(STentry sTentry, final List<Effect> varStatus) {
+	public STentry(STentry sTentry, final  HashMap<String, Effect> varStatus) {
 		this(sTentry.getNl(), sTentry.getOffset(), sTentry.getType());
         this.funStatus = sTentry.getFunStatus();
         this.varStatus = varStatus;
@@ -63,48 +69,62 @@ public class STentry {
         this.varStatus = sTentry.getVarStatus();
         this.funStatus = sTentry.getFunStatus();
 	}
-	public void setVarStatus(Effect varStatus, int numOfDereferentiation){
-		this.varStatus.set(numOfDereferentiation, varStatus);
+	public void setVarStatus(String id, Effect varStatus){
+		this.varStatus.put(id, varStatus);
 	}
-	public void setArgsStatus(int paramIndex, Effect argStatus, int numOfDereferentiation){
-		funStatus.get(1).get(paramIndex).setType(argStatus.getType());
+	public void updateArgsStatus(String id, Effect argStatus){
+		funStatus.get(1).put(id,argStatus);
 
 	}
-	public void initializeStatus(){
+
+	public  DecFunNode getFunNode(){
+		return funNode;
+	}
+
+	public void setFunNode(DecFunNode funNode) {
+		this.funNode = funNode;
+	}
+
+	public void initializeStatus(IdNode id){
 
 		if ( (this.type instanceof FunTypeNode)) {
+			HashMap<String, Effect> init_env_0 = new HashMap<>();
+			HashMap<String, Effect> init_env_1 = new HashMap<>();
 
-			for (TypeNode param : ((FunTypeNode) this.type).getParams()) {
-					List<Effect> paramStatus = new ArrayList<>();
-					int numberOfDereference = param.getDereferenceLevel();
-					for (int i = 0; i < numberOfDereference; i++) {
-						paramStatus.add(new Effect(Effect.BOT));
+			for (ArgNode param : this.getFunNode().getArgs()) {
+				//	int numberOfDereference = param.getDereferenceLevel();
+				//	for (int i = 0; i < numberOfDereference; i++) {
+				init_env_0.put(param.getId().getTextId(), new Effect(Effect.BOT));
+				init_env_1.put(param.getId().getTextId(), new Effect(Effect.BOT));
 
-					}
-					this.funStatus.add(paramStatus);
+				//	}
+
+				//	this.funStatus.add(paramStatus);
 				}
+			this.funStatus.add(init_env_0);               //∑_0
+			this.funStatus.add(init_env_1);               //∑_1
 
 			//funStatus.stream().forEach(s->s.stream().forEach(s1 -> System.out.print(s1.getType() )));
 
 		}
 		else{
-			int numberOfDereference = type.getDereferenceLevel();
-			for (int i = 0; i < numberOfDereference; i++) {
-				this.varStatus.add(new Effect(Effect.BOT));
-			}
+			//int numberOfDereference = type.getDereferenceLevel();
+			//for (int i = 0; i < numberOfDereference; i++) {
+			this.varStatus.put(id.getTextId(), new Effect(Effect.BOT));
+			//}
 		}
 	}
 
-	public List<List<Effect>> getFunStatus(){
+	public List<HashMap<String,Effect> > getFunStatus(){
 
 		return this.funStatus;
 	}
 	
-	public List<Effect> getVarStatus() {
+	public HashMap<String, Effect> getVarStatus() {                                   //secondo me si può togliere
 		return this.varStatus;
 	}
 	
-	public Effect getIVarStatus(final int index) {
-		return this.varStatus.get(index);
+	public Effect getIVarStatus(final String key) {
+		return this.varStatus.get(key);
 	}
 }

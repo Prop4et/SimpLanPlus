@@ -57,7 +57,7 @@ public class DeletionNode implements Node {
 
 
 		//environment update
-		if(id.getSTentry().getIVarStatus(0).getType() == Effect.DEL)
+		if(id.getSTentry().getIVarStatus(id.getTextId()).getType() == Effect.DEL)
 			res.add(new SemanticError("Variable " + id.getTextId() + " was already deleted."));
 		else {
 

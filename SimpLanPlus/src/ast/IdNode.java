@@ -70,10 +70,10 @@ public class IdNode implements Node {
         return new ArrayList<>();
     }
 
-    public void setStatus(Effect status, int numOfDereferentiation){
-        entry.setVarStatus(status, numOfDereferentiation );
+    public void setStatus(Effect status){
+        entry.setVarStatus(id, status );
     }
-    public List<Effect> getStatus(){
+    public HashMap<String, Effect>getStatus(){
         return entry.getVarStatus();
     }
 }

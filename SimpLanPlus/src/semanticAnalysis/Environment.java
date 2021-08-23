@@ -17,7 +17,7 @@ public class Environment {
 	//THIS CAN BE DONE MUCH BETTER
 	
 	public List<HashMap<String,STentry>> symTable;
-	public int nl = -1;
+	public int nl ;
 	public int offset = 0;
 	
 	public Environment(List<HashMap<String, STentry>> symTable, int nl, int offset) {
@@ -94,7 +94,7 @@ public class Environment {
 				if(entryEnv2 != null) {
 					STentry resEntry = new STentry(entryEnv1);
 					for(int j = 0; j < entryEnv1.getVarStatus().size(); j++) {
-						resEntry.setVarStatus(fn.apply(entryEnv1.getIVarStatus(j), entryEnv2.getIVarStatus(j)), j);
+						resEntry.setVarStatus(id, fn.apply(entryEnv1.getIVarStatus(id), entryEnv2.getIVarStatus(id)));
 
 					}
 					resScope.put(id, resEntry);
@@ -111,8 +111,8 @@ public class Environment {
 		newEnv.onScopeEntry();
 		STentry existingEntry = this.lookupForEffectAnalysis(id.getTextId());
 		STentry tmp = new STentry(existingEntry.getNl(),existingEntry.getOffset(),existingEntry.getType());
-		tmp.initializeStatus();
-		tmp.setVarStatus(new Effect(effectToSet),0);
+		tmp.initializeStatus(id);
+		tmp.setVarStatus(id.getTextId() ,new Effect(effectToSet));
 		newEnv.addEntry(id.getTextId(), tmp);
 		Environment seqEnv = Environment.seq(this, newEnv);
 		this.replace(seqEnv);
@@ -125,6 +125,7 @@ public class Environment {
 	 * @param env2
 	 * @return
 	 */
+
 	public static Environment par(final Environment env1, final Environment env2) {
 		Environment resEnv = new Environment();
 		HashMap<String,STentry> scopeEnv1 = env1.getSymTable().get(env1.getSymTable().size()-1);
@@ -156,7 +157,7 @@ public class Environment {
 			if(entryEnv2 != null) {
 				STentry resEntry = new STentry(entryEnv2);
 				for(int j = 0; j < entryEnv1.getVarStatus().size(); j++) {
-					resEntry.setVarStatus(Effect.par(entryEnv1.getIVarStatus(j), entryEnv2.getIVarStatus(j)), j);				
+					resEntry.setVarStatus(id, Effect.par(entryEnv1.getIVarStatus(id), entryEnv2.getIVarStatus(id)));
 				}
 				resEnv.addEntry(id, resEntry);
 			}
@@ -173,6 +174,7 @@ public class Environment {
 	 * @param env2 environment with new values, it gets modified during the method execution
 	 * @return resEnv the updated environment
 	 */
+
 	public static Environment update(Environment env1, Environment env2) {
 		Environment resEnv = null;
 		//\sigma' is empty
@@ -217,6 +219,7 @@ public class Environment {
 	 * 
 	 * @param id the identifier that needs to be removed
 	 */
+
 	private void removeUpdate(String id) {
 		int i = this.symTable.size() - 1;
 		while(i >= 0 && this.symTable.get(i).containsKey(id)) {
@@ -273,17 +276,17 @@ public class Environment {
 			    	System.out.print("\t");
 			    if(value.getType() instanceof FunTypeNode) {
 					String res = key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl() + " ";
-					String formattationStr = "; ";
-					for ( List<Effect> input: value.getFunStatus()) {
-						for (Effect e : input)
-							res = res + e.getType() + ", ";
+					String formattationStr = "-> ";
+					for ( HashMap<String,Effect> input: value.getFunStatus()) {
+						for (String argKey : input.keySet())
+							res = res + argKey + ":  " + input.get(argKey).getType() + ", ";
 						res = res + formattationStr;
 						formattationStr = " ";
 					}
 					System.out.print(res + "\n");
 				}
 				else
-				System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl() + " " +  value.getIVarStatus(0).getType());
+				System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl() + " " +  value.getIVarStatus(key).getType());
 			}
 			//System.out.println("}");
 			currentnl++;
