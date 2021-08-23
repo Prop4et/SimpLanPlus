@@ -6,6 +6,7 @@ Progetto di compilatori e interpreti, A. A. 2021
    - [ ] corretto uso dei puntatori
    - [ ] (inclusa la verifica sui parametri passati per var)
    - [ ] la delete non deve funzionare su id non puntatori
+   - [ ] variabili globali non devono essere visibili dalle funzioni
    
 #IN PROGRESS: 
    - [ ] la correttezza dei tipi (da finire di testare) 
