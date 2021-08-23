@@ -142,14 +142,15 @@ public class DecFunNode implements Node{
 
 		STentry argStatusInBodyEnv ;						//come si gestiscono gli effetti all'interno della dichiarazione di funzione, se settati a bottom i nodi interni daranno errori perchè non si ha un'inizializzazione esplicita nel corpo,
 															// vengono inizializzati con lo stato passato nell'invocazione della funzione?
-		//
+		//updating fun
 		for (ArgNode arg: args) {
 			argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
 			//questo però poi deve essere aggiunto all'ambiente no?
 			//id.getSTentry().updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
 
 			env1.lookupForEffectAnalysis(id.getTextId()).updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
-
+			//re-setting args effect to RW for the next evaluation of the body effect.
+			env1.lookupForEffectAnalysis(arg.getId().getTextId()).setVarStatus(arg.getId().getTextId(), new Effect(Effect.RW));
 		}
 
 		while(! oldEnv.equals(env1)) {
@@ -164,6 +165,8 @@ public class DecFunNode implements Node{
 				env1.lookupForEffectAnalysis(id.getTextId()).updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
 
 			}
+			env1.printEnv();
+
 		}
 
 		System.out.print("\n Fixed point has been found. result environment ∑_1: \n");
