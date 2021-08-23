@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ast.IdNode;
+import ast.LhsNode;
 import ast.Node;
 import ast.expressions.DerExpNode;
 import ast.expressions.ExpNode;
@@ -109,46 +110,45 @@ public class CallNode implements Node{
 		//\Sigma |- f(u1, .., um, e1, .., en) : update(\Sigma', \Sigma'')
 
 		errors.addAll(id.checkEffects(env));
-		List<ExpNode> pointerParams = new ArrayList<>();
-		List<ExpNode> varParams = new ArrayList<>();
-		List<HashMap<String, Effect>> effects = new ArrayList<HashMap<String, Effect>>();
-		
+		List<ExpNode> passedByReference = new ArrayList<>();
+		List<ExpNode> passedByValueParams = new ArrayList<>();
+
         // Creating the statuses of the variables given as input to the function call.
         // If actual parameters are expressions not instance of DereferenceExpNode, Effect.READ_WRITE is the status given.		
-		int mapIndex = 0;
 		for(ExpNode p : params) {
-			expEvalErrors.addAll(p.checkEffects(env));
-			HashMap<String, Effect> tmp = new HashMap<>();
-			
-			if(p instanceof DerExpNode) {
-				pointerParams.add(p);
-				HashMap<String, Effect> map = p.getExpVar().get(0).getLhsId().getSTentry().getVarStatus();
-				for(String id : map.keySet())
-					tmp.put(id, map.get(id));
-			}
-			else {
-				varParams.add(p);
-				tmp.put(Integer.toString(mapIndex), new Effect(Effect.RW));
-				mapIndex++;
-			}
-			effects.add(tmp);
+			if (p instanceof DerExpNode)
+				passedByReference.add(p);
+			else
+				passedByValueParams.add(p);
 		}
-		
+
+
+
 		STentry fun = env.lookupForEffectAnalysis(id.getTextId());
 		//getting Sigma1
 		HashMap<String, Effect> sigma1 = fun.getFunStatus().get(1);
-		//checking	∑"= ⊗ i ∈ 1..m [ u i ⟼ ∑(u i)
+		//checking	( ∑ 1 (y i ) ≤ d ) 1 ≤ i ≤ n
 		for (String id:  sigma1.keySet()){
 			Effect e = sigma1.get(id);
 			if( !( env.lookupForEffectAnalysis(id).getType() instanceof PointerTypeNode)) {
 				if (e.getType() > Effect.DEL)
 					errors.add(new SemanticError("Cannot use " + id + "with effect " + e.getType() + "inside a function. "));
-
 			}
 
 		}
 		//getting effect of z_i in ∑ while invoking function
+		//	∑'= ∑ [( z i ⟼ ∑(z i )⊳rw ) zi ∈ var(e1,…,en) ]
+		for (ExpNode exp: passedByValueParams){
+			//getting exp variable and setting to rw
+			for (LhsNode expVar : exp.getExpVar()){
+				//getting ∑(z i )
+				STentry varInSigma =env.lookupForEffectAnalysis(expVar.getLhsId().getTextId());
+				Effect previousEffect = varInSigma.getIVarStatus(expVar.getLhsId().getTextId());
+				varInSigma.setVarStatus(expVar.getLhsId().getTextId(), Effect.seq(previousEffect, new Effect(Effect.RW)));
 
+			}
+
+		}
 		
 		
 		//IDK
