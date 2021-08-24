@@ -4,6 +4,6 @@
         delete x;
         delete y;
     }     
-    /*^int x = new int;
-    f(x,x);*/
+    ^int x = new int;
+    /*f(x,x);*/
 }

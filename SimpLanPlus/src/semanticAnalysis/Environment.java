@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import java.util.function.BiFunction;
@@ -46,9 +47,13 @@ public class Environment {
 	}
 	//used to create a toy environment for the update
 	public Environment(String id, STentry entry) {
+		this.symTable = new ArrayList<>();
 		this.nl = 0;
 		this.offset = 0;
-		this.symTable.get(0).put(id, entry);
+		//for(int i = 0; i < this.symTable.size(); i++)
+		HashMap<String, STentry> tmp = new HashMap<>();
+		tmp.put(id, entry);
+		this.symTable.add(tmp);
 	}
 	
 	/**
@@ -183,39 +188,40 @@ public class Environment {
 
 	public static Environment update(Environment env1, Environment env2) {
 		Environment resEnv = null;
-		//\sigma' is empty
-		if(env2.getSymTable().isEmpty())
-			return new Environment(env1);
-	
+		if (env2.symTable.size() == 0 || env1.symTable.size() == 0) {
+            return new Environment(env1);
+        }
+		
 		HashMap<String, STentry> topScope = env1.getSymTable().get(env1.getSymTable().size()-1);
 		HashMap<String, STentry> scopeEnv2 = env2.getSymTable().get(env2.getSymTable().size()-1);
 		
+		//\sigma' is empty
+		if(scopeEnv2.keySet().isEmpty()) 
+			return new Environment(env1);
+		
+		
 		//there's something inside env2
-		try {
-			String firstId = (String) scopeEnv2.keySet().toArray()[0];
-			STentry entry = scopeEnv2.get(firstId);
-			env2.removeUpdate(firstId);
-			//id \in Sigma1
-			if(topScope.containsKey(firstId)) {
-				topScope.put(firstId, entry);
-				resEnv = update(env1, env2);
-			}
-			//id \not in Sigma1
-			else {
-				//[u->a], i need a new environment for that
-				Environment singleEnv = new Environment(firstId, entry);
-				//should get out of the current scope
-				env1.onScopeExit();
-				Environment insideUpdateEnv = update(env1, singleEnv);
-				//once the update is done we put the top scope back in 
-				insideUpdateEnv.onScopeEntry(topScope);
-				//then we can proceed with the outer update
-				resEnv = update(insideUpdateEnv, env2);
-			}
-		}catch(ArrayIndexOutOfBoundsException e) {
-			//this one is never reached cause the if up top should capture it first
-			System.err.println("it shouldn't be reaching that");
+		Entry<String, STentry> t = scopeEnv2.entrySet().stream().findFirst().get();
+	
+		env2.removeUpdate(t.getKey());
+		//id \in Sigma1
+		if(topScope.containsKey(t.getKey())) {
+			topScope.put(t.getKey(), t.getValue());
+			resEnv = update(env1, env2);
 		}
+		//id \not in Sigma1
+		else {
+			//[u->a], i need a new environment for that
+			Environment singleEnv = new Environment(t.getKey(), t.getValue());
+			//should get out of the current scope
+			env1.onScopeExit();
+			Environment insideUpdateEnv = update(env1, singleEnv);
+			//once the update is done we put the top scope back in 
+			insideUpdateEnv.onScopeEntry(topScope);
+			//then we can proceed with the outer update
+			resEnv = update(insideUpdateEnv, env2);
+		}
+		
 		return resEnv;
 	}
 	
@@ -227,13 +233,13 @@ public class Environment {
 	 */
 
 	private void removeUpdate(String id) {
-		int i = this.symTable.size() - 1;
-		while(i >= 0 && this.symTable.get(i).containsKey(id)) {
-			i--;
-		}
-		//found something
-		if(i>-1)
-			this.symTable.get(i).remove(id);
+		for (int i = symTable.size() - 1; i >= 0; i--) {
+            if (symTable.get(i).containsKey(id)) {
+                symTable.get(i).remove(id);
+                return;
+            }
+        }
+		
 	}
 	
 	public int getOffset() {
@@ -267,6 +273,15 @@ public class Environment {
 		STentry entry = new STentry(nl, offset, type);
 		if(scope.put(id, entry) != null)
 			throw new AlreadyDeclaredException("Var " + id + " was already declared.");
+		offset-=4;//1?
+		return entry;
+	}
+	
+	public STentry addDecUpdate(final String id, final TypeNode type) {
+		HashMap<String, STentry> scope = symTable.get(nl);
+		STentry entry = new STentry(nl, offset, type);
+		if(scope.put(id, entry) != null)
+			System.err.println("Var " + id + " was already declared.");
 		offset-=4;//1?
 		return entry;
 	}
