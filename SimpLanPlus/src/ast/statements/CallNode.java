@@ -110,7 +110,7 @@ public class CallNode implements Node{
 		//-------------------------------------------------------
 		//\Sigma |- f(u1, .., um, e1, .., en) : update(\Sigma', \Sigma'')
 
-		errors.addAll(id.checkEffects(env));
+		expEvalErrors.addAll(id.checkEffects(env));
 		List<ExpNode> passedByReferenceParams = new ArrayList<>();
 		List<ExpNode> passedByValueParams = new ArrayList<>();
 
@@ -192,10 +192,10 @@ public class CallNode implements Node{
 			}
 		}
 
-//		Environment updatedEnv = Environment.update(env,sigmaSecondo);
-//		env.replace(updatedEnv);
+		Environment updatedEnv = Environment.update(env,sigmaSecondo);
+		env.replace(updatedEnv);
 
-		if(expEvalErrors.isEmpty()) {
+		if(! expEvalErrors.isEmpty()) {
 			errors.add(new SemanticError("During invocation you're trying to use bad expression: "));
 			errors.addAll(expEvalErrors);
 		}

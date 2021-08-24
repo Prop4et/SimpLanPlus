@@ -80,7 +80,7 @@ public class AssignmentNode extends StatementNode implements Node {
 			}
 		}
 
-		env.printEnv();
+		//env.printEnv();
 		//if lhs is a pointer
 		//-----;
 
