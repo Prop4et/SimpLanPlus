@@ -5,5 +5,5 @@ effects analysis should recognize a delete before a use, so it's a top*/
 	^int x = new int;
 	x^ = 1 ;
 	delete x ;
-	y = x^ ;    // questo codice e` sbagliato!
+	y^ = x^ ;    // questo codice e` sbagliato!
 }

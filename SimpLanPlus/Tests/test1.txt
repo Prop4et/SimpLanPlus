@@ -3,6 +3,8 @@
     int c ;
 	int y = 7 ;
 	if(y==4){
+	   delete y;
+	   c=y;
 	   return y;
 	}
 	else{

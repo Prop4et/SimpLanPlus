@@ -67,22 +67,13 @@ public class AssignmentNode extends StatementNode implements Node {
 		ArrayList<SemanticError> expError = rhs.checkEffects(env);		//∑'
 		//if lhs is a variable,we set its effect to rw easily
 		IdNode var = null;
-		//if(rhs.().getSTentry().getIVarStatus(lhs.getLhsId().getTextId()).getType() == Effect.TOP){
-		//	res.add(new SemanticError("Trying to assign variable with status " + lhs.getLhsId().getSTentry().getIVarStatus(lhs.getLhsId().getTextId()).getType()));
-		//}
+
 		env.applySeq(lhs.getLhsId(), Effect.RW);
-		for (int i =0; i<rhs.getExpVar().size(); i++){
-			var = rhs.getExpVar().get(i).getLhsId();
-			if(! (var.getSTentry().getIVarStatus(var.getTextId()).getType() == Effect.RW)) {			//so I'm trying to assign a Not initialized var or a deleted var
 
-				res.add(new SemanticError("Trying to assign a bad expression: " ));
-				res.addAll( expError);
-			}
+		if(! expError.isEmpty()) {
+			res.add(new SemanticError("Trying to assign a bad expression: "));
+			res.addAll(expError);
 		}
-
-		//env.printEnv();
-		//if lhs is a pointer
-		//-----;
 
 		return res;
 	}
