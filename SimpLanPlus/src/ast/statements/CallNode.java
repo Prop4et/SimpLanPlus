@@ -159,7 +159,7 @@ public class CallNode implements Node{
 
 		for (int i = 0; i<passedByReferenceParams.size(); i++){
 			ExpNode ithParam = passedByReferenceParams.get(i);
-			for(LhsNode actualParam = ithParam.getExpVar()) {        //theorically we don't need the cycle bcs the ithParam is a pointer, therefore expNode is a DereferenceNode that will return a single variable. So, we will cycle once.
+			for(LhsNode actualParam : ithParam.getExpVar()) {        //theorically we don't need the cycle bcs the ithParam is a pointer, therefore expNode is a DereferenceNode that will return a single variable. So, we will cycle once.
 				//getting formal and actual params effect from the respective environment.
 				varInSigma = env.lookupForEffectAnalysis(actualParam.getLhsId().getTextId());
 				varInSigmaEffect = varInSigma.getIVarStatus(actualParam.getLhsId().getTextId());
