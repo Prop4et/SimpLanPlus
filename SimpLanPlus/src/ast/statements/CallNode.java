@@ -100,10 +100,10 @@ public class CallNode implements Node{
 	public ArrayList<SemanticError> checkEffects(Environment env) {
 		ArrayList<SemanticError> errors = new ArrayList<>();
 		ArrayList<SemanticError> expEvalErrors = new ArrayList<>();
-		//\Gamma |- f : &t1 x .. x &tm x t1' x .. x tn' -> void 
-		//\Sigma(f) = \Sigma_0 -> Sigma_1 ??
-		//\Sigma_1(yi) <= d, 1<=i<=n
-		//\Sigma' = \Sigma [(zi -> \Sigma(zi) seq rw) where zi \in parameters passed as value], \Sigma(zi) = effect status of zi
+		//\Gamma |- f : &t1 x .. x &tm x t1' x .. x tn' -> void 			DONE
+		//\Sigma(f) = \Sigma_0 -> Sigma_1 ??								DONE
+		//\Sigma_1(yi) <= d, 1<=i<=n										DONE
+		//\Sigma' = \Sigma [(zi -> \Sigma(zi) seq rw) where zi \in parameters passed as value], \Sigma(zi) = effect status of zi				DONE
 		//\Sigma'' = par [ui -> \Sigma(ui) seq \Sigma1(xi)] 1 <= i <= m, where ui are the parameters passed as reference
 		// ui should be the status outside the function, xi should be the status inside the function
 		//-------------------------------------------------------
@@ -138,19 +138,22 @@ public class CallNode implements Node{
 		}
 		//getting effect of z_i in ∑ while invoking function
 		//	∑'= ∑ [( z i ⟼ ∑(z i )⊳rw ) zi ∈ var(e1,…,en) ]
+		Environment env1 = new Environment(env);
 		for (ExpNode exp: passedByValueParams){
 			//getting exp variable and setting to rw
 			for (LhsNode expVar : exp.getExpVar()){
 				//getting ∑(z i )
-				STentry varInSigma =env.lookupForEffectAnalysis(expVar.getLhsId().getTextId());
+				STentry varInSigma =env1.lookupForEffectAnalysis(expVar.getLhsId().getTextId());
 				Effect previousEffect = varInSigma.getIVarStatus(expVar.getLhsId().getTextId());
 				varInSigma.setVarStatus(expVar.getLhsId().getTextId(), Effect.seq(previousEffect, new Effect(Effect.RW)));
-
 			}
-
 		}
+		Environment env2 = new Environment(env);
 		
-		
+
+
+
+
 		//IDK
 		//i should be able to relate every parameter in the call to the effect of the parameter studied during the declaration
 		//after that i need to check if value parameters are top
