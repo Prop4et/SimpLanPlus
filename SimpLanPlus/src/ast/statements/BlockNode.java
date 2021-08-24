@@ -6,6 +6,7 @@ import java.util.List;
 
 import ast.Node;
 import ast.declarations.DeclarationNode;
+import ast.expressions.BaseExpNode;
 import ast.types.TypeNode;
 import ast.types.VoidTypeNode;
 import exceptions.TypeException;
@@ -19,10 +20,13 @@ public class BlockNode implements Node{
 
 	//avoid creating another scope if inside a function
 	private boolean newScope;
+	//body function
+	private boolean function;
 	public BlockNode(final List<DeclarationNode> decs, final List<StatementNode> stms) {
 		this.decs=decs;
 		this.stms=stms;
 		this.newScope = true;
+		this.function = false;
 	}
 	@Override
 	public String toPrint(String indent) {
@@ -96,6 +100,7 @@ public class BlockNode implements Node{
 		}
 
 		//if we're inside the body of a function we shouldn't be able to take ids from outside the function params and definitions inside the function
+		
 		if(!stms.isEmpty()){
 			for(StatementNode s : stms) 
 				res.addAll(s.checkSemantics(env));			
@@ -148,6 +153,10 @@ public class BlockNode implements Node{
 
 		//return the result
 		return res;
+	}
+	
+	public void setFunction(boolean function) {
+		this.function = function;
 	}
 
 	public void setNewScope(boolean newScope) {

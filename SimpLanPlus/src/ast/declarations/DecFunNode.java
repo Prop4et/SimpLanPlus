@@ -73,19 +73,17 @@ public class DecFunNode implements Node{
 
 	//should be fine for what concerns the checksemantics
 	@Override
-	public ArrayList<SemanticError> checkSemantics(Environment env) {
+	public ArrayList<SemanticError> checkSemantics(Environment env1) {
 		ArrayList<SemanticError> errors = new ArrayList<>();
 		STentry argEntry, functionEntry;
 
 		try{
-			//add function name to the environment
-			env.addDec(id.getTextId(), typeFun);
+			//add the function to the scope for the arguments in case of (non mutual) recursion
+			functionEntry = env1.addDec(id.getTextId(), typeFun);
+			id.setSTentry(functionEntry);
+			Environment env = new Environment(id.getTextId(), functionEntry);
 			//create the new block
 			env.onScopeEntry();
-			//add the function to the scope for the arguments in case of (non mutual) recursion
-			functionEntry = env.addDec(id.getTextId(), typeFun);
-			id.setSTentry(functionEntry);
-
 			//add the arguments to the new scope created
 			//TODO is it right to declare new variables inside the function with the same name of the parameters?
 			//if not, when body gets evaluated there shouldn't be a new scope creation, that's what happens
@@ -93,11 +91,12 @@ public class DecFunNode implements Node{
 				argEntry = env.addDec(arg.getId().getTextId(), arg.getType());
 				arg.getId().setSTentry(argEntry);
 			}
+			//add function name to the environment
+			env.addDec(id.getTextId(), typeFun);
 			//body evaluation in which yet another scope is created, should we avoid this? DONE
 			body.setNewScope(false);
-			//tbh here the environment in which we evaluate the body should be just the top one
-			//this thing is sick tho, what's happening here is that i created a whole new environment with just the scope of the function
-			//i know it's gonna be a pain later on probably, thinking about effects and stuff like that
+			//when evaluating it finds global variables too, but i don't want it to
+			
 			errors.addAll(body.checkSemantics(env));
 
 			env.onScopeExit();

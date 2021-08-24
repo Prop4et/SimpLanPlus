@@ -117,6 +117,7 @@ public class CallNode implements Node{
         // Creating the statuses of the variables given as input to the function call.
         // If actual parameters are expressions not instance of DereferenceExpNode, Effect.READ_WRITE is the status given.		
 		for(ExpNode p : params) {
+			errors.addAll(p.checkEffects(env));
 			if (p instanceof DerExpNode)
 				passedByReferenceParams.add(p);
 			else
