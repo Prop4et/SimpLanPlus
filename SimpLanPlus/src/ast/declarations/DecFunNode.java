@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import ast.ArgNode;
 import ast.IdNode;
 import ast.Node;
+import ast.expressions.DerExpNode;
+import ast.expressions.ExpNode;
 import ast.statements.BlockNode;
 import ast.types.FunTypeNode;
 import ast.types.PointerTypeNode;
@@ -104,6 +106,24 @@ public class DecFunNode implements Node{
 			errors.add(new SemanticError(e.getMessage()));
 		}
 		return errors;
+	}
+	public List<ArgNode> getPassedByReferenceParams(){
+		List<ArgNode> passedByReferenceArgs = new ArrayList<>();
+
+		for(ArgNode p : this.args) {
+			if (p.getType() instanceof PointerTypeNode)
+				passedByReferenceArgs.add(p);
+		}
+		return passedByReferenceArgs;
+	}
+	public List<ArgNode> getPassedByValueParams(){
+		List<ArgNode> passedByValueArgs = new ArrayList<>();
+
+		for(ArgNode p : this.args) {
+			if (p.getType() instanceof PointerTypeNode)
+				passedByValueArgs.add(p);
+		}
+		return passedByValueArgs;
 	}
 
 	@Override

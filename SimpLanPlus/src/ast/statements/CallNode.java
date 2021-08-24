@@ -105,7 +105,7 @@ public class CallNode implements Node{
 		//\Sigma(f) = \Sigma_0 -> Sigma_1 ??								DONE
 		//\Sigma_1(yi) <= d, 1<=i<=n										DONE
 		//\Sigma' = \Sigma [(zi -> \Sigma(zi) seq rw) where zi \in parameters passed as value], \Sigma(zi) = effect status of zi				DONE
-		//\Sigma'' = par [ui -> \Sigma(ui) seq \Sigma1(xi)] 1 <= i <= m, where ui are the parameters passed as reference
+		//\Sigma'' = par [ui -> \Sigma(ui) seq \Sigma1(xi)] 1 <= i <= m, where ui are the parameters passed as reference						DONE?
 		// ui should be the status outside the function, xi should be the status inside the function
 		//-------------------------------------------------------
 		//\Sigma |- f(u1, .., um, e1, .., en) : update(\Sigma', \Sigma'')
@@ -128,20 +128,26 @@ public class CallNode implements Node{
 		STentry fun = env.lookupForEffectAnalysis(id.getTextId());
 		//getting Sigma1
 		HashMap<String, Effect> sigma1 = fun.getFunStatus().get(1);
-		//checking	( ∑ 1 (y i ) ≤ d ) 1 ≤ i ≤ n
-		for (String id:  sigma1.keySet()){
-			Effect e = sigma1.get(id);
-			if( !( env.lookupForEffectAnalysis(id).getType() instanceof PointerTypeNode)) {
+		//checking	( ∑ 1 (y i ) ≤ d ) 1 ≤ i ≤ n								//all this  can be moved inside decfunNode
+		for (int i =0 ;i<fun.getFunNode().getArgs().size(); i++){
+			ArgNode arg = fun.getFunNode().getArgs().get(i);
+			Effect e = sigma1.get(arg.getId().getTextId());
+
+			List<ArgNode> passedByValueArgs = fun.getFunNode().getPassedByValueParams();
+
+			if( passedByValueArgs.contains(arg) ) {
 				if (e.getType() > Effect.DEL)
 					errors.add(new SemanticError("Cannot use " + id + "with effect " + e.getType() + "inside a function. "));
 			}
-
 		}
+
+
+		// getting effect of z_i in ∑ while invoking function
+		// ∑'= ∑ [( z i ⟼ ∑(z i )⊳rw ) zi ∈ var(e1,…,en) ]
 		STentry varInSigma = new STentry(0,0);
 		Effect varInSigmaEffect = new Effect();
-		//getting effect of z_i in ∑ while invoking function
-		//	∑'= ∑ [( z i ⟼ ∑(z i )⊳rw ) zi ∈ var(e1,…,en) ]
-		Environment sigmaPrimo = new Environment(env);			// TODO: is not useful because bcs is equal to the updated env, so I can work directly on env.
+
+		Environment sigmaPrimo = new Environment(env);			// TODO: is it useful? bcs is equal to the updated env, so I think I can work directly on env.
 		for (ExpNode exp: passedByValueParams){
 			//getting exp variable and setting to rw
 			for (LhsNode expVar : exp.getExpVar()){		//what happens if  f( x + y, x + y) ?
@@ -186,12 +192,13 @@ public class CallNode implements Node{
 			}
 		}
 
-		Environment updatedEnv = Environment.update(env,sigmaSecondo);
-		env.replace(updatedEnv);
+//		Environment updatedEnv = Environment.update(env,sigmaSecondo);
+//		env.replace(updatedEnv);
 
-
-		errors.add(new SemanticError("During invocation you're trying to use bad expression: "));
-		errors.addAll(expEvalErrors);
+		if(expEvalErrors.isEmpty()) {
+			errors.add(new SemanticError("During invocation you're trying to use bad expression: "));
+			errors.addAll(expEvalErrors);
+		}
 		return errors;
 	}
 
