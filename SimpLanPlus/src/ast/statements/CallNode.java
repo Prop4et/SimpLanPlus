@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ast.ArgNode;
 import ast.IdNode;
+import ast.LhsNode;
 import ast.Node;
 import ast.expressions.DerExpNode;
 import ast.expressions.ExpNode;
@@ -99,73 +101,93 @@ public class CallNode implements Node{
 	public ArrayList<SemanticError> checkEffects(Environment env) {
 		ArrayList<SemanticError> errors = new ArrayList<>();
 		ArrayList<SemanticError> expEvalErrors = new ArrayList<>();
-		//\Gamma |- f : &t1 x .. x &tm x t1' x .. x tn' -> void 
-		//\Sigma(f) = \Sigma_0 -> Sigma_1 ??
-		//\Sigma_1(yi) <= d, 1<=i<=n
-		//\Sigma' = \Sigma [(zi -> \Sigma(zi) seq rw) where zi \in parameters passed as value], \Sigma(zi) = effect status of zi
+		//\Gamma |- f : &t1 x .. x &tm x t1' x .. x tn' -> void 			DONE
+		//\Sigma(f) = \Sigma_0 -> Sigma_1 ??								DONE
+		//\Sigma_1(yi) <= d, 1<=i<=n										DONE
+		//\Sigma' = \Sigma [(zi -> \Sigma(zi) seq rw) where zi \in parameters passed as value], \Sigma(zi) = effect status of zi				DONE
 		//\Sigma'' = par [ui -> \Sigma(ui) seq \Sigma1(xi)] 1 <= i <= m, where ui are the parameters passed as reference
 		// ui should be the status outside the function, xi should be the status inside the function
 		//-------------------------------------------------------
 		//\Sigma |- f(u1, .., um, e1, .., en) : update(\Sigma', \Sigma'')
 
 		errors.addAll(id.checkEffects(env));
-		List<ExpNode> pointerParams = new ArrayList<>();
-		List<ExpNode> varParams = new ArrayList<>();
-		List<HashMap<String, Effect>> effects = new ArrayList<HashMap<String, Effect>>();
-		
+		List<ExpNode> passedByReferenceParams = new ArrayList<>();
+		List<ExpNode> passedByValueParams = new ArrayList<>();
+
         // Creating the statuses of the variables given as input to the function call.
         // If actual parameters are expressions not instance of DereferenceExpNode, Effect.READ_WRITE is the status given.		
-		int mapIndex = 0;
 		for(ExpNode p : params) {
-			expEvalErrors.addAll(p.checkEffects(env));
-			HashMap<String, Effect> tmp = new HashMap<>();
-			
-			if(p instanceof DerExpNode) {
-				pointerParams.add(p);
-				HashMap<String, Effect> map = p.getExpVar().get(0).getLhsId().getSTentry().getVarStatus();
-				for(String id : map.keySet())
-					tmp.put(id, map.get(id));
-			}
-			else {
-				varParams.add(p);
-				tmp.put(Integer.toString(mapIndex), new Effect(Effect.RW));
-				mapIndex++;
-			}
-			effects.add(tmp);
+			if (p instanceof DerExpNode)
+				passedByReferenceParams.add(p);
+			else
+				passedByValueParams.add(p);
 		}
-		
 		
 		STentry fun = env.lookupForEffectAnalysis(id.getTextId());
 		//getting Sigma1
 		HashMap<String, Effect> sigma1 = fun.getFunStatus().get(1);
-		//checking	∑"= ⊗ i ∈ 1..m [ u i ⟼ ∑(u i)
+		//checking	( ∑ 1 (y i ) ≤ d ) 1 ≤ i ≤ n
 		for (String id:  sigma1.keySet()){
 			Effect e = sigma1.get(id);
 			if( !( env.lookupForEffectAnalysis(id).getType() instanceof PointerTypeNode)) {
 				if (e.getType() > Effect.DEL)
 					errors.add(new SemanticError("Cannot use " + id + "with effect " + e.getType() + "inside a function. "));
-
 			}
 
 		}
+		STentry varInSigma = new STentry(0,0);
+		Effect varInSigmaEffect = new Effect();
 		//getting effect of z_i in ∑ while invoking function
+		//	∑'= ∑ [( z i ⟼ ∑(z i )⊳rw ) zi ∈ var(e1,…,en) ]
+		Environment sigmaPrimo = new Environment(env);			// TODO: is not useful because bcs is equal to the updated env, so I can work directly on env.
+		for (ExpNode exp: passedByValueParams){
+			//getting exp variable and setting to rw
+			for (LhsNode expVar : exp.getExpVar()){		//what happens if  f( x + y, x + y) ?
 
-		
-		
-		//IDK
-		//i should be able to relate every parameter in the call to the effect of the parameter studied during the declaration
-		//after that i need to check if value parameters are top
-		//can compute \sigma'
-		//can compute \sigma''
-		//can update
-		for(ExpNode p : params) {
-			if(p instanceof DerExpNode && ((DerExpNode) p).getLhs().getLhsId().getSTentry().getType() instanceof PointerTypeNode) {
-				//ref passing
-			}
-			else {
-				//val passing
+				//getting ∑(z i )
+				varInSigma  = sigmaPrimo.lookupForEffectAnalysis(expVar.getLhsId().getTextId());
+				varInSigmaEffect = varInSigma.getIVarStatus(expVar.getLhsId().getTextId());
+				varInSigma.setVarStatus(expVar.getLhsId().getTextId(), Effect.seq(varInSigmaEffect, new Effect(Effect.RW)));
 			}
 		}
+		//∑"= ⊗ i ∈ 1..m [ u i ⟼ ∑(u i )⊳ ∑ 1 (x i )]
+		Effect formalParamEffect ;
+		List<Environment> resultingEnvironment = new ArrayList<>();
+		Environment sigmaSecondo = new Environment(env);
+
+		for (int i = 0; i<passedByReferenceParams.size(); i++){
+			ExpNode ithParam = passedByReferenceParams.get(i);
+			for(LhsNode actualParam : ithParam.getExpVar()) {        //theorically we don't need the cycle bcs the ithParam is a pointer, therefore expNode is a DereferenceNode that will return a single variable. So, we will cycle once.
+				//getting formal and actual params effect from the respective environment.
+				varInSigma = env.lookupForEffectAnalysis(actualParam.getLhsId().getTextId());
+				varInSigmaEffect = varInSigma.getIVarStatus(actualParam.getLhsId().getTextId());
+				ArgNode formalParam = fun.getFunNode().getArgs().get(i);
+				formalParamEffect = sigma1.get(formalParam.getId().getTextId());
+
+				//creating the environment that will be used for the Sigma'' creation with par, where we will set the actual params effect to the result of ∑(u i )⊳ ∑ 1 (x i )
+				Environment newEnv = new Environment();
+				newEnv.onScopeEntry();
+				STentry tmp = new STentry(varInSigma.getNl(),varInSigma.getOffset(),varInSigma.getType());
+				tmp.initializeStatus(actualParam.getLhsId());
+				tmp.setVarStatus(actualParam.getLhsId().getTextId() ,Effect.seq(varInSigmaEffect,formalParamEffect));
+				newEnv.addEntry(actualParam.getLhsId().getTextId(), tmp);
+
+				resultingEnvironment.add(newEnv);
+			}
+		}
+		//missing par of all env
+
+		if(resultingEnvironment.size()>0) {
+			sigmaSecondo = resultingEnvironment.get(0);
+			for (int i = 1; i < resultingEnvironment.size(); i++) {
+				sigmaSecondo = Environment.par(sigmaSecondo, resultingEnvironment.get(i));
+			}
+		}
+
+		Environment updatedEnv = Environment.update(env,sigmaSecondo);
+		env.replace(updatedEnv);
+
+
 		errors.add(new SemanticError("During invocation you're trying to use bad expression: "));
 		errors.addAll(expEvalErrors);
 		return errors;

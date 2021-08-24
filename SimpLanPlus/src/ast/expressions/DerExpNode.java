@@ -57,7 +57,9 @@ public class DerExpNode extends ExpNode{
     @Override
     public List<LhsNode> getExpVar() {
         List<LhsNode> var = new ArrayList<>();
-        var.add(lhs);
+        if(!( lhs == null)) {
+            var.add(lhs);
+        }
         return var;
     }
     
