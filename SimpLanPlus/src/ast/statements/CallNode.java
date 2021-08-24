@@ -134,6 +134,7 @@ public class CallNode implements Node{
 			effects.add(tmp);
 		}
 		
+		
 		STentry fun = env.lookupForEffectAnalysis(id.getTextId());
 		//getting Sigma1
 		HashMap<String, Effect> sigma1 = fun.getFunStatus().get(1);
