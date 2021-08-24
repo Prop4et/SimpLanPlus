@@ -141,20 +141,20 @@ public class CallNode implements Node{
 		Effect varInSigmaEffect = new Effect();
 		//getting effect of z_i in ∑ while invoking function
 		//	∑'= ∑ [( z i ⟼ ∑(z i )⊳rw ) zi ∈ var(e1,…,en) ]
-		//Environment sigmaPrimo = new Environment(env);			//is not useful because bcs is equal to the updated env, so I can work directly on env.
+		Environment sigmaPrimo = new Environment(env);			// TODO: is not useful because bcs is equal to the updated env, so I can work directly on env.
 		for (ExpNode exp: passedByValueParams){
 			//getting exp variable and setting to rw
 			for (LhsNode expVar : exp.getExpVar()){		//what happens if  f( x + y, x + y) ?
 
 				//getting ∑(z i )
-				varInSigma  = env.lookupForEffectAnalysis(expVar.getLhsId().getTextId());
+				varInSigma  = sigmaPrimo.lookupForEffectAnalysis(expVar.getLhsId().getTextId());
 				varInSigmaEffect = varInSigma.getIVarStatus(expVar.getLhsId().getTextId());
 				varInSigma.setVarStatus(expVar.getLhsId().getTextId(), Effect.seq(varInSigmaEffect, new Effect(Effect.RW)));
 			}
 		}
 		//∑"= ⊗ i ∈ 1..m [ u i ⟼ ∑(u i )⊳ ∑ 1 (x i )]
-		Effect formalParamEffect = new Effect();
-
+		Effect formalParamEffect ;
+		List<Environment> resultingEnvironment = new ArrayList<>();
 		Environment sigmaSecondo = new Environment(env);
 
 		for (int i = 0; i<passedByReferenceParams.size(); i++){
@@ -173,30 +173,23 @@ public class CallNode implements Node{
 				tmp.initializeStatus(actualParam.getLhsId());
 				tmp.setVarStatus(actualParam.getLhsId().getTextId() ,Effect.seq(varInSigmaEffect,formalParamEffect));
 				newEnv.addEntry(actualParam.getLhsId().getTextId(), tmp);
-			}
-			//missing par of all env
 
-		}
-
-
-
-
-
-
-		//IDK
-		//i should be able to relate every parameter in the call to the effect of the parameter studied during the declaration
-		//after that i need to check if value parameters are top
-		//can compute \sigma'
-		//can compute \sigma''
-		//can update
-		for(ExpNode p : params) {
-			if(p instanceof DerExpNode && ((DerExpNode) p).getLhs().getLhsId().getSTentry().getType() instanceof PointerTypeNode) {
-				//ref passing
-			}
-			else {
-				//val passing
+				resultingEnvironment.add(newEnv);
 			}
 		}
+		//missing par of all env
+
+		if(resultingEnvironment.size()>0) {
+			sigmaSecondo = resultingEnvironment.get(0);
+			for (int i = 1; i < resultingEnvironment.size(); i++) {
+				sigmaSecondo = Environment.par(sigmaSecondo, resultingEnvironment.get(i));
+			}
+		}
+
+		Environment updatedEnv = Environment.update(env,sigmaSecondo);
+		env.replace(updatedEnv);
+
+
 		errors.add(new SemanticError("During invocation you're trying to use bad expression: "));
 		errors.addAll(expEvalErrors);
 		return errors;
