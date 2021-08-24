@@ -120,6 +120,9 @@ public class Environment {
 		Environment seqEnv = Environment.seq(this, newEnv);
 		this.replace(seqEnv);
 	}
+	public void applyPar(IdNode id, Effect formalParamEffect, Effect actualParamEffect){
+
+	}
 	/**
 	 * the two environment should be different, par is applied to the top of each environment
 	 * since par is used only for function invocations

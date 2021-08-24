@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ast.ArgNode;
 import ast.IdNode;
 import ast.LhsNode;
 import ast.Node;
@@ -110,14 +111,14 @@ public class CallNode implements Node{
 		//\Sigma |- f(u1, .., um, e1, .., en) : update(\Sigma', \Sigma'')
 
 		errors.addAll(id.checkEffects(env));
-		List<ExpNode> passedByReference = new ArrayList<>();
+		List<ExpNode> passedByReferenceParams = new ArrayList<>();
 		List<ExpNode> passedByValueParams = new ArrayList<>();
 
         // Creating the statuses of the variables given as input to the function call.
         // If actual parameters are expressions not instance of DereferenceExpNode, Effect.READ_WRITE is the status given.		
 		for(ExpNode p : params) {
 			if (p instanceof DerExpNode)
-				passedByReference.add(p);
+				passedByReferenceParams.add(p);
 			else
 				passedByValueParams.add(p);
 		}
@@ -136,20 +137,48 @@ public class CallNode implements Node{
 			}
 
 		}
+		STentry varInSigma = new STentry(0,0);
+		Effect varInSigmaEffect = new Effect();
 		//getting effect of z_i in ∑ while invoking function
 		//	∑'= ∑ [( z i ⟼ ∑(z i )⊳rw ) zi ∈ var(e1,…,en) ]
-		Environment env1 = new Environment(env);
+		//Environment sigmaPrimo = new Environment(env);			//is not useful because bcs is equal to the updated env, so I can work directly on env.
 		for (ExpNode exp: passedByValueParams){
 			//getting exp variable and setting to rw
-			for (LhsNode expVar : exp.getExpVar()){
+			for (LhsNode expVar : exp.getExpVar()){		//what happens if  f( x + y, x + y) ?
+
 				//getting ∑(z i )
-				STentry varInSigma =env1.lookupForEffectAnalysis(expVar.getLhsId().getTextId());
-				Effect previousEffect = varInSigma.getIVarStatus(expVar.getLhsId().getTextId());
-				varInSigma.setVarStatus(expVar.getLhsId().getTextId(), Effect.seq(previousEffect, new Effect(Effect.RW)));
+				varInSigma  = env.lookupForEffectAnalysis(expVar.getLhsId().getTextId());
+				varInSigmaEffect = varInSigma.getIVarStatus(expVar.getLhsId().getTextId());
+				varInSigma.setVarStatus(expVar.getLhsId().getTextId(), Effect.seq(varInSigmaEffect, new Effect(Effect.RW)));
 			}
 		}
-		Environment env2 = new Environment(env);
-		
+		//∑"= ⊗ i ∈ 1..m [ u i ⟼ ∑(u i )⊳ ∑ 1 (x i )]
+		Effect formalParamEffect = new Effect();
+
+		Environment sigmaSecondo = new Environment(env);
+
+		for (int i = 0; i<passedByReferenceParams.size(); i++){
+			ExpNode ithParam = passedByReferenceParams.get(i);
+			for(LhsNode actualParam = ithParam.getExpVar()) {        //theorically we don't need the cycle bcs the ithParam is a pointer, therefore expNode is a DereferenceNode that will return a single variable. So, we will cycle once.
+				//getting formal and actual params effect from the respective environment.
+				varInSigma = env.lookupForEffectAnalysis(actualParam.getLhsId().getTextId());
+				varInSigmaEffect = varInSigma.getIVarStatus(actualParam.getLhsId().getTextId());
+				ArgNode formalParam = fun.getFunNode().getArgs().get(i);
+				formalParamEffect = sigma1.get(formalParam.getId().getTextId());
+
+				//creating the environment that will be used for the Sigma'' creation with par, where we will set the actual params effect to the result of ∑(u i )⊳ ∑ 1 (x i )
+				Environment newEnv = new Environment();
+				newEnv.onScopeEntry();
+				STentry tmp = new STentry(varInSigma.getNl(),varInSigma.getOffset(),varInSigma.getType());
+				tmp.initializeStatus(actualParam.getLhsId());
+				tmp.setVarStatus(actualParam.getLhsId().getTextId() ,Effect.seq(varInSigmaEffect,formalParamEffect));
+				newEnv.addEntry(actualParam.getLhsId().getTextId(), tmp);
+			}
+			//missing par of all env
+
+		}
+
+
 
 
 

@@ -41,6 +41,7 @@ public class STentry {
 	public int getNl() {
 		return nl;
 	}
+
 	
 	public STentry(int nl, int offset) {
 		this.nl = nl;
@@ -64,12 +65,6 @@ public class STentry {
         this.varStatus = varStatus;
 	}
 	
-	/*public STentry(STentry sTentry) {
-		this(sTentry.getNl(), sTentry.getOffset(), sTentry.getType());
-        this.varStatus = sTentry.getVarStatus();
-        this.funStatus = sTentry.getFunStatus();
-	}*/
-	
 	public STentry(STentry sTentry) {
         this(sTentry.nl, sTentry.offset);
         this.type = sTentry.type;
@@ -89,9 +84,9 @@ public class STentry {
 	public void setVarStatus(String id, Effect varStatus){
 		this.varStatus.put(id, varStatus);
 	}
+
 	public void updateArgsStatus(String id, Effect argStatus){
 		funStatus.get(1).put(id,argStatus);
-
 	}
 
 	public  DecFunNode getFunNode(){
@@ -109,26 +104,14 @@ public class STentry {
 			HashMap<String, Effect> init_env_1 = new HashMap<>();
 
 			for (ArgNode param : this.getFunNode().getArgs()) {
-				//	int numberOfDereference = param.getDereferenceLevel();
-				//	for (int i = 0; i < numberOfDereference; i++) {
 				init_env_0.put(param.getId().getTextId(), new Effect(Effect.BOT));
 				init_env_1.put(param.getId().getTextId(), new Effect(Effect.BOT));
-
-				//	}
-
-				//	this.funStatus.add(paramStatus);
 				}
 			this.funStatus.add(init_env_0);               //∑_0
 			this.funStatus.add(init_env_1);               //∑_1
-
-			//funStatus.stream().forEach(s->s.stream().forEach(s1 -> System.out.print(s1.getType() )));
-
 		}
 		else{
-			//int numberOfDereference = type.getDereferenceLevel();
-			//for (int i = 0; i < numberOfDereference; i++) {
 			this.varStatus.put(id.getTextId(), new Effect(Effect.BOT));
-			//}
 		}
 	}
 
