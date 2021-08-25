@@ -180,8 +180,8 @@ public class DecFunNode implements Node{
 			}
 		}
 
-		System.out.print("\n Fixed point has been found. result environment ∑_1: \n");
-		env1.printEnv();
+	//	System.out.print("\n Fixed point has been found. result environment ∑_1: \n");
+		//env1.printEnv();
 		env.replace(env1);
 		env.onScopeExit();
 

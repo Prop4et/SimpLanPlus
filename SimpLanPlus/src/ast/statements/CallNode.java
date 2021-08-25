@@ -164,23 +164,23 @@ public class CallNode implements Node{
 
 		for (int i = 0; i<passedByReferenceParams.size(); i++){
 			ExpNode ithParam = passedByReferenceParams.get(i);
-			for(LhsNode actualParam : ithParam.getExpVar()) {        //theorically we don't need the cycle bcs the ithParam is a pointer, therefore expNode is a DereferenceNode that will return a single variable. So, we will cycle once.
-				//getting formal and actual params effect from the respective environment.
-				varInSigma = env.lookupForEffectAnalysis(actualParam.getLhsId().getTextId());
-				varInSigmaEffect = varInSigma.getIVarStatus(actualParam.getLhsId().getTextId());
-				ArgNode formalParam = fun.getFunNode().getArgs().get(i);
-				formalParamEffect = sigma1.get(formalParam.getId().getTextId());
+			LhsNode actualParam = ithParam.getExpVar().get(0) ;
+			//getting formal and actual params effect from the respective environment.
+			varInSigma = env.lookupForEffectAnalysis(actualParam.getLhsId().getTextId());
+			varInSigmaEffect = varInSigma.getIVarStatus(actualParam.getLhsId().getTextId());
+			ArgNode formalParam = fun.getFunNode().getArgs().get(i);
+			formalParamEffect = sigma1.get(formalParam.getId().getTextId());
 
 				//creating the environment that will be used for the Sigma'' creation with par, where we will set the actual params effect to the result of ∑(u i )⊳ ∑ 1 (x i )
-				Environment newEnv = new Environment();
-				newEnv.onScopeEntry();
-				STentry tmp = new STentry(varInSigma.getNl(),varInSigma.getOffset(),varInSigma.getType());
-				tmp.initializeStatus(actualParam.getLhsId());
-				tmp.setVarStatus(actualParam.getLhsId().getTextId() ,Effect.seq(varInSigmaEffect,formalParamEffect));
-				newEnv.addEntry(actualParam.getLhsId().getTextId(), tmp);
+			Environment newEnv = new Environment();
+			newEnv.onScopeEntry();
+			STentry tmp = new STentry(varInSigma.getNl(),varInSigma.getOffset(),varInSigma.getType());
+			tmp.initializeStatus(actualParam.getLhsId());
+			tmp.setVarStatus(actualParam.getLhsId().getTextId() ,Effect.seq(varInSigmaEffect,formalParamEffect));
+			newEnv.addEntry(actualParam.getLhsId().getTextId(), tmp);
 
-				resultingEnvironment.add(newEnv);
-			}
+			resultingEnvironment.add(newEnv);
+
 		}
 		//missing par of all env
 
@@ -190,9 +190,12 @@ public class CallNode implements Node{
 				sigmaSecondo = Environment.par(sigmaSecondo, resultingEnvironment.get(i));
 			}
 		}
-
+		System.out.print("Env before calling function: ");
+		env.printEnv();
 		Environment updatedEnv = Environment.update(env,sigmaSecondo);
 		env.replace(updatedEnv);
+		System.out.print("Env after calling function: ");
+		env.printEnv();
 
 		if(! expEvalErrors.isEmpty()) {
 			errors.add(new SemanticError("During invocation you're trying to use bad expression: "));
