@@ -2,9 +2,9 @@
 Progetto di compilatori e interpreti, A. A. 2021
 
 #TODO: 
-   - [ ] uso di variabili non inizializzate
-   - [ ] corretto uso dei puntatori
-   - [ ] (inclusa la verifica sui parametri passati per var)
+   - [x] uso di variabili non inizializzate
+   - [x] corretto uso dei puntatori
+   - [x] (inclusa la verifica sui parametri passati per var)
    - [x] la delete non deve funzionare su id non puntatori
    - [x] variabili globali non devono essere visibili dalle funzioni
    
