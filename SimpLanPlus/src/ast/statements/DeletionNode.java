@@ -29,7 +29,10 @@ public class DeletionNode implements Node {
 	@Override
 	public TypeNode typeCheck() throws TypeException {
 		//ID can be a variables, a function or a pointer
-		TypeNode type = id.typeCheck();
+		if (!(id.typeCheck() instanceof PointerTypeNode)) {
+			throw new TypeException("Variable " + id.getTextId() + " is not a pointer.");
+	    }
+
 
 		return new VoidTypeNode();
 	}
