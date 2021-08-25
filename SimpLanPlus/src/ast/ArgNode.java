@@ -36,8 +36,9 @@ public class ArgNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return null;
+		String begin = "; BEGIN " + this + "\n";
+		String end = "; END " + this + "\n";
+		return begin + "addi $sp $sp 1 ; allocates space on the stack for the argument " + id + "\n" + end;
 	}
 
 	@Override

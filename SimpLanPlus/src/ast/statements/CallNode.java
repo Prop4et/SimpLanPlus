@@ -26,6 +26,7 @@ public class CallNode implements Node{
 	private final IdNode id;
 
 	private final List<ExpNode> params;//ExpNode
+	private int currentNl;
 	
 	public CallNode(final IdNode id, final List<ExpNode> params) {
 		this.id = id;
@@ -70,9 +71,25 @@ public class CallNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return null;
+		String parCode="";
+		for (int i=params.size()-1; i>=0; i--)
+			parCode+=params.get(i).codeGeneration();
+
+		String getAR="";
+		for (int i=0; i<currentNl-id.getSTentry().getNl(); i++)
+			getAR+="lw\n";
+		// formato AR: control_link+parameters+access_link+dich_locali
+		return "lfp\n"+ 				// CL
+				parCode+
+				"lfp\n"+getAR+ 		// setto AL risalendo la catena statica
+				// ora recupero l'indirizzo a cui saltare e lo metto sullo stack
+				"push "+id.getSTentry().getOffset()+"\n"+ // metto offset sullo stack
+				"lfp\n"+getAR+ 		// risalgo la catena statica
+				"add\n"+
+				"lw\n"+ 				// carico sullo stack il valore all'indirizzo ottenuto
+				"js\n";
 	}
+
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
@@ -85,6 +102,7 @@ public class CallNode implements Node{
 		for(ExpNode p : params)
 			errors.addAll(p.checkSemantics(env));
 		//check if the number of actual parameters is equal to the number of formal parameters
+		currentNl = env.getNestingLevel();
 		int nFormalParams = 0;
 		int nActualParams = params.size();
 
@@ -190,12 +208,12 @@ public class CallNode implements Node{
 				sigmaSecondo = Environment.par(sigmaSecondo, resultingEnvironment.get(i));
 			}
 		}
-		System.out.print("Env before calling function: ");
-		env.printEnv();
+		//System.out.print("Env before calling function: ");
+		//env.printEnv();
 		Environment updatedEnv = Environment.update(env,sigmaSecondo);
 		env.replace(updatedEnv);
-		System.out.print("Env after calling function: ");
-		env.printEnv();
+		//System.out.print("Env after calling function: ");
+		//env.printEnv();
 
 		if(! expEvalErrors.isEmpty()) {
 			errors.add(new SemanticError("During invocation you're trying to use bad expression: "));

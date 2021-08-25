@@ -26,7 +26,7 @@ public class CallExpNode extends ExpNode {
 
     @Override
     public String codeGeneration() {
-        return null;
+        return call.codeGeneration();
     }
 
     @Override

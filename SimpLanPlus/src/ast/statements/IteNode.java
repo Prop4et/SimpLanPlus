@@ -1,5 +1,6 @@
 package ast.statements;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import ast.Node;
@@ -7,6 +8,7 @@ import ast.expressions.ExpNode;
 import ast.types.BoolTypeNode;
 import ast.types.TypeNode;
 import exceptions.TypeException;
+import main.LabelLib;
 import semanticAnalysis.Environment;
 import semanticAnalysis.SemanticError;
 
@@ -44,8 +46,16 @@ public class IteNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return null;
+		String l1 = LabelLib.freshLabel();
+		String l2 = LabelLib.freshLabel();
+		return cond.codeGeneration()+
+				"push 1\n"+
+				"beq "+ l1 +"\n"+
+				thenB.codeGeneration()+
+				"b " + l2 + "\n" +
+				l1 + ":\n"+
+				thenB.codeGeneration()+
+				l2 + ":\n";
 	}
 
 	@Override
