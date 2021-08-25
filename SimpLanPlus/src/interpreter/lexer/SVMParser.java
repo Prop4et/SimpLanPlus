@@ -20,8 +20,8 @@ public class SVMParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, COL=31, LABEL=32, 
-		NUMBER=33, BOOL=34, REGISTER=35, WS=36, LINECOMMENTS=37, ERR=38;
+		T__24=25, T__25=26, T__26=27, COL=28, LABEL=29, NUMBER=30, BOOL=31, REGISTER=32, 
+		WS=33, LINECOMMENTS=34, ERR=35;
 	public static final int
 		RULE_assembly = 0, RULE_instruction = 1;
 	public static final String[] ruleNames = {
@@ -29,16 +29,16 @@ public class SVMParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'push'", "'pop'", "'lw'", "'('", "')'", "'sw'", "'li'", "'add'", 
-		"'sub'", "'mult'", "'div'", "'addi'", "'subi'", "'multi'", "'divi'", "'and'", 
-		"'or'", "'not'", "'andb'", "'orb'", "'notb'", "'mv'", "'beq'", "'bleq'", 
-		"'b'", "'jal'", "'jr'", "'del'", "'print'", "'halt'", "':'"
+		null, "'push'", "'pop'", "'lw'", "'('", "')'", "'sw'", "'li'", "'mv'", 
+		"'add'", "'sub'", "'mult'", "'div'", "'addi'", "'subi'", "'multi'", "'divi'", 
+		"'and'", "'or'", "'not'", "'beq'", "'bleq'", "'b'", "'jal'", "'jr'", "'del'", 
+		"'print'", "'halt'", "':'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, "COL", "LABEL", "NUMBER", "BOOL", 
-		"REGISTER", "WS", "LINECOMMENTS", "ERR"
+		null, null, null, null, "COL", "LABEL", "NUMBER", "BOOL", "REGISTER", 
+		"WS", "LINECOMMENTS", "ERR"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -117,7 +117,7 @@ public class SVMParser extends Parser {
 			setState(7);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << T__11) | (1L << T__12) | (1L << T__13) | (1L << T__14) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__21) | (1L << T__22) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << T__27) | (1L << T__28) | (1L << T__29) | (1L << LABEL))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << T__11) | (1L << T__12) | (1L << T__13) | (1L << T__14) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__21) | (1L << T__22) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << LABEL))) != 0)) {
 				{
 				{
 				setState(4);
@@ -182,17 +182,6 @@ public class SVMParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class NotBoolContext extends InstructionContext {
-		public Token out;
-		public TerminalNode BOOL() { return getToken(SVMParser.BOOL, 0); }
-		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
-		public NotBoolContext(InstructionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitNotBool(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class MultIntContext extends InstructionContext {
 		public Token out;
 		public Token in;
@@ -250,9 +239,9 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class StoreWordContext extends InstructionContext {
-		public Token out;
-		public Token offset;
 		public Token in;
+		public Token offset;
+		public Token out;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
@@ -433,21 +422,6 @@ public class SVMParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class AndBoolContext extends InstructionContext {
-		public Token out;
-		public Token in;
-		public TerminalNode BOOL() { return getToken(SVMParser.BOOL, 0); }
-		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
-		public TerminalNode REGISTER(int i) {
-			return getToken(SVMParser.REGISTER, i);
-		}
-		public AndBoolContext(InstructionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitAndBool(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class BranchIfLessEqualContext extends InstructionContext {
 		public Token in;
 		public Token in2;
@@ -508,27 +482,12 @@ public class SVMParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class OrBoolContext extends InstructionContext {
-		public Token out;
-		public Token in;
-		public TerminalNode BOOL() { return getToken(SVMParser.BOOL, 0); }
-		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
-		public TerminalNode REGISTER(int i) {
-			return getToken(SVMParser.REGISTER, i);
-		}
-		public OrBoolContext(InstructionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitOrBool(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 
 	public final InstructionContext instruction() throws RecognitionException {
 		InstructionContext _localctx = new InstructionContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_instruction);
 		try {
-			setState(106);
+			setState(95);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
@@ -574,13 +533,13 @@ public class SVMParser extends Parser {
 				setState(19);
 				match(T__5);
 				setState(20);
-				((StoreWordContext)_localctx).out = match(REGISTER);
+				((StoreWordContext)_localctx).in = match(REGISTER);
 				setState(21);
 				((StoreWordContext)_localctx).offset = match(NUMBER);
 				setState(22);
 				match(T__3);
 				setState(23);
-				((StoreWordContext)_localctx).in = match(REGISTER);
+				((StoreWordContext)_localctx).out = match(REGISTER);
 				setState(24);
 				match(T__4);
 				}
@@ -598,303 +557,263 @@ public class SVMParser extends Parser {
 				}
 				break;
 			case T__7:
-				_localctx = new AddContext(_localctx);
+				_localctx = new MoveContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(28);
 				match(T__7);
 				setState(29);
-				((AddContext)_localctx).out = match(REGISTER);
+				((MoveContext)_localctx).out = match(REGISTER);
 				setState(30);
-				((AddContext)_localctx).in = match(REGISTER);
-				setState(31);
-				((AddContext)_localctx).in2 = match(REGISTER);
+				((MoveContext)_localctx).in = match(REGISTER);
 				}
 				break;
 			case T__8:
-				_localctx = new SubContext(_localctx);
+				_localctx = new AddContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(32);
+				setState(31);
 				match(T__8);
+				setState(32);
+				((AddContext)_localctx).out = match(REGISTER);
 				setState(33);
-				((SubContext)_localctx).out = match(REGISTER);
+				((AddContext)_localctx).in = match(REGISTER);
 				setState(34);
-				((SubContext)_localctx).in = match(REGISTER);
-				setState(35);
-				((SubContext)_localctx).in2 = match(REGISTER);
+				((AddContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__9:
-				_localctx = new MultContext(_localctx);
+				_localctx = new SubContext(_localctx);
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(36);
+				setState(35);
 				match(T__9);
+				setState(36);
+				((SubContext)_localctx).out = match(REGISTER);
 				setState(37);
-				((MultContext)_localctx).out = match(REGISTER);
+				((SubContext)_localctx).in = match(REGISTER);
 				setState(38);
-				((MultContext)_localctx).in = match(REGISTER);
-				setState(39);
-				((MultContext)_localctx).in2 = match(REGISTER);
+				((SubContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__10:
-				_localctx = new DivContext(_localctx);
+				_localctx = new MultContext(_localctx);
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(40);
+				setState(39);
 				match(T__10);
+				setState(40);
+				((MultContext)_localctx).out = match(REGISTER);
 				setState(41);
-				((DivContext)_localctx).out = match(REGISTER);
+				((MultContext)_localctx).in = match(REGISTER);
 				setState(42);
-				((DivContext)_localctx).in = match(REGISTER);
-				setState(43);
-				((DivContext)_localctx).in2 = match(REGISTER);
+				((MultContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__11:
-				_localctx = new AddIntContext(_localctx);
+				_localctx = new DivContext(_localctx);
 				enterOuterAlt(_localctx, 10);
 				{
-				setState(44);
+				setState(43);
 				match(T__11);
+				setState(44);
+				((DivContext)_localctx).out = match(REGISTER);
 				setState(45);
-				((AddIntContext)_localctx).out = match(REGISTER);
+				((DivContext)_localctx).in = match(REGISTER);
 				setState(46);
-				((AddIntContext)_localctx).in = match(REGISTER);
-				setState(47);
-				match(NUMBER);
+				((DivContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__12:
-				_localctx = new SubIntContext(_localctx);
+				_localctx = new AddIntContext(_localctx);
 				enterOuterAlt(_localctx, 11);
 				{
-				setState(48);
+				setState(47);
 				match(T__12);
+				setState(48);
+				((AddIntContext)_localctx).out = match(REGISTER);
 				setState(49);
-				((SubIntContext)_localctx).out = match(REGISTER);
+				((AddIntContext)_localctx).in = match(REGISTER);
 				setState(50);
-				((SubIntContext)_localctx).in = match(REGISTER);
-				setState(51);
 				match(NUMBER);
 				}
 				break;
 			case T__13:
-				_localctx = new MultIntContext(_localctx);
+				_localctx = new SubIntContext(_localctx);
 				enterOuterAlt(_localctx, 12);
 				{
-				setState(52);
+				setState(51);
 				match(T__13);
+				setState(52);
+				((SubIntContext)_localctx).out = match(REGISTER);
 				setState(53);
-				((MultIntContext)_localctx).out = match(REGISTER);
+				((SubIntContext)_localctx).in = match(REGISTER);
 				setState(54);
-				((MultIntContext)_localctx).in = match(REGISTER);
-				setState(55);
 				match(NUMBER);
 				}
 				break;
 			case T__14:
-				_localctx = new DivIntContext(_localctx);
+				_localctx = new MultIntContext(_localctx);
 				enterOuterAlt(_localctx, 13);
 				{
-				setState(56);
+				setState(55);
 				match(T__14);
+				setState(56);
+				((MultIntContext)_localctx).out = match(REGISTER);
 				setState(57);
-				((DivIntContext)_localctx).out = match(REGISTER);
+				((MultIntContext)_localctx).in = match(REGISTER);
 				setState(58);
-				((DivIntContext)_localctx).in = match(REGISTER);
-				setState(59);
 				match(NUMBER);
 				}
 				break;
 			case T__15:
-				_localctx = new AndContext(_localctx);
+				_localctx = new DivIntContext(_localctx);
 				enterOuterAlt(_localctx, 14);
 				{
-				setState(60);
+				setState(59);
 				match(T__15);
+				setState(60);
+				((DivIntContext)_localctx).out = match(REGISTER);
 				setState(61);
-				((AndContext)_localctx).out = match(REGISTER);
+				((DivIntContext)_localctx).in = match(REGISTER);
 				setState(62);
-				((AndContext)_localctx).in = match(REGISTER);
-				setState(63);
-				((AndContext)_localctx).in2 = match(REGISTER);
+				match(NUMBER);
 				}
 				break;
 			case T__16:
-				_localctx = new OrContext(_localctx);
+				_localctx = new AndContext(_localctx);
 				enterOuterAlt(_localctx, 15);
 				{
-				setState(64);
+				setState(63);
 				match(T__16);
+				setState(64);
+				((AndContext)_localctx).out = match(REGISTER);
 				setState(65);
-				((OrContext)_localctx).out = match(REGISTER);
+				((AndContext)_localctx).in = match(REGISTER);
 				setState(66);
-				((OrContext)_localctx).in = match(REGISTER);
-				setState(67);
-				((OrContext)_localctx).in2 = match(REGISTER);
+				((AndContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__17:
-				_localctx = new NotContext(_localctx);
+				_localctx = new OrContext(_localctx);
 				enterOuterAlt(_localctx, 16);
 				{
-				setState(68);
+				setState(67);
 				match(T__17);
+				setState(68);
+				((OrContext)_localctx).out = match(REGISTER);
 				setState(69);
-				((NotContext)_localctx).out = match(REGISTER);
+				((OrContext)_localctx).in = match(REGISTER);
 				setState(70);
-				((NotContext)_localctx).in = match(REGISTER);
+				((OrContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__18:
-				_localctx = new AndBoolContext(_localctx);
+				_localctx = new NotContext(_localctx);
 				enterOuterAlt(_localctx, 17);
 				{
 				setState(71);
 				match(T__18);
 				setState(72);
-				((AndBoolContext)_localctx).out = match(REGISTER);
+				((NotContext)_localctx).out = match(REGISTER);
 				setState(73);
-				((AndBoolContext)_localctx).in = match(REGISTER);
-				setState(74);
-				match(BOOL);
+				((NotContext)_localctx).in = match(REGISTER);
 				}
 				break;
 			case T__19:
-				_localctx = new OrBoolContext(_localctx);
+				_localctx = new BranchIfEqualContext(_localctx);
 				enterOuterAlt(_localctx, 18);
 				{
-				setState(75);
+				setState(74);
 				match(T__19);
+				setState(75);
+				((BranchIfEqualContext)_localctx).in = match(REGISTER);
 				setState(76);
-				((OrBoolContext)_localctx).out = match(REGISTER);
+				((BranchIfEqualContext)_localctx).in2 = match(REGISTER);
 				setState(77);
-				((OrBoolContext)_localctx).in = match(REGISTER);
-				setState(78);
-				match(BOOL);
+				match(LABEL);
 				}
 				break;
 			case T__20:
-				_localctx = new NotBoolContext(_localctx);
+				_localctx = new BranchIfLessEqualContext(_localctx);
 				enterOuterAlt(_localctx, 19);
 				{
-				setState(79);
+				setState(78);
 				match(T__20);
+				setState(79);
+				((BranchIfLessEqualContext)_localctx).in = match(REGISTER);
 				setState(80);
-				((NotBoolContext)_localctx).out = match(REGISTER);
+				((BranchIfLessEqualContext)_localctx).in2 = match(REGISTER);
 				setState(81);
-				match(BOOL);
+				match(LABEL);
 				}
 				break;
 			case T__21:
-				_localctx = new MoveContext(_localctx);
+				_localctx = new BranchContext(_localctx);
 				enterOuterAlt(_localctx, 20);
 				{
 				setState(82);
 				match(T__21);
 				setState(83);
-				((MoveContext)_localctx).out = match(REGISTER);
-				setState(84);
-				((MoveContext)_localctx).in = match(REGISTER);
-				}
-				break;
-			case T__22:
-				_localctx = new BranchIfEqualContext(_localctx);
-				enterOuterAlt(_localctx, 21);
-				{
-				setState(85);
-				match(T__22);
-				setState(86);
-				((BranchIfEqualContext)_localctx).in = match(REGISTER);
-				setState(87);
-				((BranchIfEqualContext)_localctx).in2 = match(REGISTER);
-				setState(88);
-				match(LABEL);
-				}
-				break;
-			case T__23:
-				_localctx = new BranchIfLessEqualContext(_localctx);
-				enterOuterAlt(_localctx, 22);
-				{
-				setState(89);
-				match(T__23);
-				setState(90);
-				((BranchIfLessEqualContext)_localctx).in = match(REGISTER);
-				setState(91);
-				((BranchIfLessEqualContext)_localctx).in2 = match(REGISTER);
-				setState(92);
-				match(LABEL);
-				}
-				break;
-			case T__24:
-				_localctx = new BranchContext(_localctx);
-				enterOuterAlt(_localctx, 23);
-				{
-				setState(93);
-				match(T__24);
-				setState(94);
 				match(LABEL);
 				}
 				break;
 			case LABEL:
 				_localctx = new LabelContext(_localctx);
-				enterOuterAlt(_localctx, 24);
+				enterOuterAlt(_localctx, 21);
 				{
-				setState(95);
+				setState(84);
 				match(LABEL);
-				setState(96);
+				setState(85);
 				match(COL);
 				}
 				break;
-			case T__25:
+			case T__22:
 				_localctx = new JumpToFunctionContext(_localctx);
-				enterOuterAlt(_localctx, 25);
+				enterOuterAlt(_localctx, 22);
 				{
-				setState(97);
-				match(T__25);
-				setState(98);
+				setState(86);
+				match(T__22);
+				setState(87);
 				match(LABEL);
 				}
 				break;
-			case T__26:
+			case T__23:
 				_localctx = new JumpToRegisterContext(_localctx);
+				enterOuterAlt(_localctx, 23);
+				{
+				setState(88);
+				match(T__23);
+				setState(89);
+				match(REGISTER);
+				}
+				break;
+			case T__24:
+				_localctx = new DeleteContext(_localctx);
+				enterOuterAlt(_localctx, 24);
+				{
+				setState(90);
+				match(T__24);
+				setState(91);
+				match(REGISTER);
+				}
+				break;
+			case T__25:
+				_localctx = new PrintContext(_localctx);
+				enterOuterAlt(_localctx, 25);
+				{
+				setState(92);
+				match(T__25);
+				setState(93);
+				match(REGISTER);
+				}
+				break;
+			case T__26:
+				_localctx = new HaltContext(_localctx);
 				enterOuterAlt(_localctx, 26);
 				{
-				setState(99);
+				setState(94);
 				match(T__26);
-				setState(100);
-				match(REGISTER);
-				}
-				break;
-			case T__27:
-				_localctx = new DeleteContext(_localctx);
-				enterOuterAlt(_localctx, 27);
-				{
-				setState(101);
-				match(T__27);
-				setState(102);
-				match(REGISTER);
-				}
-				break;
-			case T__28:
-				_localctx = new PrintContext(_localctx);
-				enterOuterAlt(_localctx, 28);
-				{
-				setState(103);
-				match(T__28);
-				setState(104);
-				match(REGISTER);
-				}
-				break;
-			case T__29:
-				_localctx = new HaltContext(_localctx);
-				enterOuterAlt(_localctx, 29);
-				{
-				setState(105);
-				match(T__29);
 				}
 				break;
 			default:
@@ -913,35 +832,33 @@ public class SVMParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3(o\4\2\t\2\4\3\t\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3%d\4\2\t\2\4\3\t\3"+
 		"\3\2\7\2\b\n\2\f\2\16\2\13\13\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3"+
-		"m\n\3\3\3\2\2\4\2\4\2\2\2\u0089\2\t\3\2\2\2\4l\3\2\2\2\6\b\5\4\3\2\7\6"+
-		"\3\2\2\2\b\13\3\2\2\2\t\7\3\2\2\2\t\n\3\2\2\2\n\3\3\2\2\2\13\t\3\2\2\2"+
-		"\f\r\7\3\2\2\rm\7%\2\2\16m\7\4\2\2\17\20\7\5\2\2\20\21\7%\2\2\21\22\7"+
-		"#\2\2\22\23\7\6\2\2\23\24\7%\2\2\24m\7\7\2\2\25\26\7\b\2\2\26\27\7%\2"+
-		"\2\27\30\7#\2\2\30\31\7\6\2\2\31\32\7%\2\2\32m\7\7\2\2\33\34\7\t\2\2\34"+
-		"\35\7%\2\2\35m\7#\2\2\36\37\7\n\2\2\37 \7%\2\2 !\7%\2\2!m\7%\2\2\"#\7"+
-		"\13\2\2#$\7%\2\2$%\7%\2\2%m\7%\2\2&\'\7\f\2\2\'(\7%\2\2()\7%\2\2)m\7%"+
-		"\2\2*+\7\r\2\2+,\7%\2\2,-\7%\2\2-m\7%\2\2./\7\16\2\2/\60\7%\2\2\60\61"+
-		"\7%\2\2\61m\7#\2\2\62\63\7\17\2\2\63\64\7%\2\2\64\65\7%\2\2\65m\7#\2\2"+
-		"\66\67\7\20\2\2\678\7%\2\289\7%\2\29m\7#\2\2:;\7\21\2\2;<\7%\2\2<=\7%"+
-		"\2\2=m\7#\2\2>?\7\22\2\2?@\7%\2\2@A\7%\2\2Am\7%\2\2BC\7\23\2\2CD\7%\2"+
-		"\2DE\7%\2\2Em\7%\2\2FG\7\24\2\2GH\7%\2\2Hm\7%\2\2IJ\7\25\2\2JK\7%\2\2"+
-		"KL\7%\2\2Lm\7$\2\2MN\7\26\2\2NO\7%\2\2OP\7%\2\2Pm\7$\2\2QR\7\27\2\2RS"+
-		"\7%\2\2Sm\7$\2\2TU\7\30\2\2UV\7%\2\2Vm\7%\2\2WX\7\31\2\2XY\7%\2\2YZ\7"+
-		"%\2\2Zm\7\"\2\2[\\\7\32\2\2\\]\7%\2\2]^\7%\2\2^m\7\"\2\2_`\7\33\2\2`m"+
-		"\7\"\2\2ab\7\"\2\2bm\7!\2\2cd\7\34\2\2dm\7\"\2\2ef\7\35\2\2fm\7%\2\2g"+
-		"h\7\36\2\2hm\7%\2\2ij\7\37\2\2jm\7%\2\2km\7 \2\2l\f\3\2\2\2l\16\3\2\2"+
-		"\2l\17\3\2\2\2l\25\3\2\2\2l\33\3\2\2\2l\36\3\2\2\2l\"\3\2\2\2l&\3\2\2"+
-		"\2l*\3\2\2\2l.\3\2\2\2l\62\3\2\2\2l\66\3\2\2\2l:\3\2\2\2l>\3\2\2\2lB\3"+
-		"\2\2\2lF\3\2\2\2lI\3\2\2\2lM\3\2\2\2lQ\3\2\2\2lT\3\2\2\2lW\3\2\2\2l[\3"+
-		"\2\2\2l_\3\2\2\2la\3\2\2\2lc\3\2\2\2le\3\2\2\2lg\3\2\2\2li\3\2\2\2lk\3"+
-		"\2\2\2m\5\3\2\2\2\4\tl";
+		"\3\3\3\3\3\3\3\3\3\3\3\5\3b\n\3\3\3\2\2\4\2\4\2\2\2{\2\t\3\2\2\2\4a\3"+
+		"\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\13\3\2\2\2\t\7\3\2\2\2\t\n\3\2\2\2\n"+
+		"\3\3\2\2\2\13\t\3\2\2\2\f\r\7\3\2\2\rb\7\"\2\2\16b\7\4\2\2\17\20\7\5\2"+
+		"\2\20\21\7\"\2\2\21\22\7 \2\2\22\23\7\6\2\2\23\24\7\"\2\2\24b\7\7\2\2"+
+		"\25\26\7\b\2\2\26\27\7\"\2\2\27\30\7 \2\2\30\31\7\6\2\2\31\32\7\"\2\2"+
+		"\32b\7\7\2\2\33\34\7\t\2\2\34\35\7\"\2\2\35b\7 \2\2\36\37\7\n\2\2\37 "+
+		"\7\"\2\2 b\7\"\2\2!\"\7\13\2\2\"#\7\"\2\2#$\7\"\2\2$b\7\"\2\2%&\7\f\2"+
+		"\2&\'\7\"\2\2\'(\7\"\2\2(b\7\"\2\2)*\7\r\2\2*+\7\"\2\2+,\7\"\2\2,b\7\""+
+		"\2\2-.\7\16\2\2./\7\"\2\2/\60\7\"\2\2\60b\7\"\2\2\61\62\7\17\2\2\62\63"+
+		"\7\"\2\2\63\64\7\"\2\2\64b\7 \2\2\65\66\7\20\2\2\66\67\7\"\2\2\678\7\""+
+		"\2\28b\7 \2\29:\7\21\2\2:;\7\"\2\2;<\7\"\2\2<b\7 \2\2=>\7\22\2\2>?\7\""+
+		"\2\2?@\7\"\2\2@b\7 \2\2AB\7\23\2\2BC\7\"\2\2CD\7\"\2\2Db\7\"\2\2EF\7\24"+
+		"\2\2FG\7\"\2\2GH\7\"\2\2Hb\7\"\2\2IJ\7\25\2\2JK\7\"\2\2Kb\7\"\2\2LM\7"+
+		"\26\2\2MN\7\"\2\2NO\7\"\2\2Ob\7\37\2\2PQ\7\27\2\2QR\7\"\2\2RS\7\"\2\2"+
+		"Sb\7\37\2\2TU\7\30\2\2Ub\7\37\2\2VW\7\37\2\2Wb\7\36\2\2XY\7\31\2\2Yb\7"+
+		"\37\2\2Z[\7\32\2\2[b\7\"\2\2\\]\7\33\2\2]b\7\"\2\2^_\7\34\2\2_b\7\"\2"+
+		"\2`b\7\35\2\2a\f\3\2\2\2a\16\3\2\2\2a\17\3\2\2\2a\25\3\2\2\2a\33\3\2\2"+
+		"\2a\36\3\2\2\2a!\3\2\2\2a%\3\2\2\2a)\3\2\2\2a-\3\2\2\2a\61\3\2\2\2a\65"+
+		"\3\2\2\2a9\3\2\2\2a=\3\2\2\2aA\3\2\2\2aE\3\2\2\2aI\3\2\2\2aL\3\2\2\2a"+
+		"P\3\2\2\2aT\3\2\2\2aV\3\2\2\2aX\3\2\2\2aZ\3\2\2\2a\\\3\2\2\2a^\3\2\2\2"+
+		"a`\3\2\2\2b\5\3\2\2\2\4\ta";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

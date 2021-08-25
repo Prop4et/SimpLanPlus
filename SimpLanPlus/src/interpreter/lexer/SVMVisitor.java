@@ -52,6 +52,13 @@ public interface SVMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLoadInteger(SVMParser.LoadIntegerContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code move}
+	 * labeled alternative in {@link SVMParser#instruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMove(SVMParser.MoveContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code add}
 	 * labeled alternative in {@link SVMParser#instruction}.
 	 * @param ctx the parse tree
@@ -128,34 +135,6 @@ public interface SVMVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNot(SVMParser.NotContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code andBool}
-	 * labeled alternative in {@link SVMParser#instruction}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAndBool(SVMParser.AndBoolContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code orBool}
-	 * labeled alternative in {@link SVMParser#instruction}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitOrBool(SVMParser.OrBoolContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code notBool}
-	 * labeled alternative in {@link SVMParser#instruction}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNotBool(SVMParser.NotBoolContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code move}
-	 * labeled alternative in {@link SVMParser#instruction}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMove(SVMParser.MoveContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code branchIfEqual}
 	 * labeled alternative in {@link SVMParser#instruction}.
