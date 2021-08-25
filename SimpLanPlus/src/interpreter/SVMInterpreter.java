@@ -136,6 +136,9 @@ public class SVMInterpreter {
                 	break;
                 case "halt":
                 	return;
+                default:
+                	System.err.println("Wait, this assembly instruction is not recognized");
+                	return;
                 }
         	}
     	}
