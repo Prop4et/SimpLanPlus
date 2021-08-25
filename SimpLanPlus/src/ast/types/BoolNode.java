@@ -30,13 +30,12 @@ public class BoolNode extends ExpNode {
 	
 	public TypeNode typeCheck() {
 		return new BoolTypeNode();
-	}    
+	}
 
 	@Override
-  	public String codeGeneration() {
-  		//TODO
-  		return null;
-  	}
+	public String codeGeneration() {
+		return "push "+(val?1:0)+"\n";
+	}
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		return new ArrayList<SemanticError>();
@@ -51,4 +50,5 @@ public class BoolNode extends ExpNode {
 	public List<LhsNode> getExpVar() {
 		return new ArrayList<>();
 	}
+
 }

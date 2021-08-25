@@ -36,8 +36,7 @@ public class IntNode extends ExpNode {
 
 	@Override
 	public String codeGeneration() {
-		//TODO
-		return null;
+		return "push "+val+"\n";
 	}
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {

@@ -37,7 +37,14 @@ public class IdNode implements Node {
 
     @Override
     public String codeGeneration() {
-        return null;
+        String getAR="";
+        for (int i=0; i<nl-entry.getNl(); i++)
+            getAR+="lw\n";
+        return "push "+entry.getOffset()+"\n"+ //metto offset sullo stack
+                "lfp\n"+getAR+ //risalgo la catena statica
+                "add\n"+
+                "lw\n"; //carico sullo stack il valore all'indirizzo ottenuto
+
     }
     
     public String getTextId() {
