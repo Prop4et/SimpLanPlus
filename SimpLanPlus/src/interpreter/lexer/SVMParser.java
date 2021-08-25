@@ -153,9 +153,9 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class SubContext extends InstructionContext {
-		public Token output;
-		public Token input1;
-		public Token input2;
+		public Token out;
+		public Token in;
+		public Token in2;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
@@ -168,9 +168,9 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class MultContext extends InstructionContext {
-		public Token output;
-		public Token input1;
-		public Token input2;
+		public Token out;
+		public Token in;
+		public Token in2;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
@@ -183,7 +183,7 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class NotBoolContext extends InstructionContext {
-		public Token output;
+		public Token out;
 		public TerminalNode BOOL() { return getToken(SVMParser.BOOL, 0); }
 		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
 		public NotBoolContext(InstructionContext ctx) { copyFrom(ctx); }
@@ -194,8 +194,8 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class MultIntContext extends InstructionContext {
-		public Token output;
-		public Token input;
+		public Token out;
+		public Token in;
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
@@ -235,9 +235,9 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class DivContext extends InstructionContext {
-		public Token output;
-		public Token input1;
-		public Token input2;
+		public Token out;
+		public Token in;
+		public Token in2;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
@@ -250,13 +250,14 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class StoreWordContext extends InstructionContext {
-		public Token output;
-		public Token input;
-		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
+		public Token out;
+		public Token offset;
+		public Token in;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
 		}
+		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public StoreWordContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -265,8 +266,8 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class NotContext extends InstructionContext {
-		public Token output;
-		public Token input;
+		public Token out;
+		public Token in;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
@@ -279,13 +280,14 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class LoadWordContext extends InstructionContext {
-		public Token output;
-		public Token input;
-		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
+		public Token out;
+		public Token offset;
+		public Token in;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
 		}
+		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public LoadWordContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -294,8 +296,8 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class SubIntContext extends InstructionContext {
-		public Token output;
-		public Token input;
+		public Token out;
+		public Token in;
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
@@ -309,9 +311,9 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class AndContext extends InstructionContext {
-		public Token output;
-		public Token input1;
-		public Token input2;
+		public Token out;
+		public Token in;
+		public Token in2;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
@@ -343,9 +345,9 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class AddContext extends InstructionContext {
-		public Token output;
-		public Token input1;
-		public Token input2;
+		public Token out;
+		public Token in;
+		public Token in2;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
@@ -358,8 +360,8 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class MoveContext extends InstructionContext {
-		public Token output;
-		public Token input;
+		public Token out;
+		public Token in;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
@@ -372,9 +374,9 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class OrContext extends InstructionContext {
-		public Token output;
-		public Token input1;
-		public Token input2;
+		public Token out;
+		public Token in;
+		public Token in2;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
@@ -432,8 +434,8 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class AndBoolContext extends InstructionContext {
-		public Token output;
-		public Token input;
+		public Token out;
+		public Token in;
 		public TerminalNode BOOL() { return getToken(SVMParser.BOOL, 0); }
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
@@ -447,8 +449,8 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class BranchIfLessEqualContext extends InstructionContext {
-		public Token input1;
-		public Token input2;
+		public Token in;
+		public Token in2;
 		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
@@ -462,8 +464,8 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class BranchIfEqualContext extends InstructionContext {
-		public Token input1;
-		public Token input2;
+		public Token in;
+		public Token in2;
 		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
@@ -477,8 +479,8 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class AddIntContext extends InstructionContext {
-		public Token output;
-		public Token input;
+		public Token out;
+		public Token in;
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
@@ -492,8 +494,8 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class DivIntContext extends InstructionContext {
-		public Token output;
-		public Token input;
+		public Token out;
+		public Token in;
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
@@ -507,8 +509,8 @@ public class SVMParser extends Parser {
 		}
 	}
 	public static class OrBoolContext extends InstructionContext {
-		public Token output;
-		public Token input;
+		public Token out;
+		public Token in;
 		public TerminalNode BOOL() { return getToken(SVMParser.BOOL, 0); }
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
@@ -554,13 +556,13 @@ public class SVMParser extends Parser {
 				setState(13);
 				match(T__2);
 				setState(14);
-				((LoadWordContext)_localctx).output = match(REGISTER);
+				((LoadWordContext)_localctx).out = match(REGISTER);
 				setState(15);
-				match(NUMBER);
+				((LoadWordContext)_localctx).offset = match(NUMBER);
 				setState(16);
 				match(T__3);
 				setState(17);
-				((LoadWordContext)_localctx).input = match(REGISTER);
+				((LoadWordContext)_localctx).in = match(REGISTER);
 				setState(18);
 				match(T__4);
 				}
@@ -572,13 +574,13 @@ public class SVMParser extends Parser {
 				setState(19);
 				match(T__5);
 				setState(20);
-				((StoreWordContext)_localctx).output = match(REGISTER);
+				((StoreWordContext)_localctx).out = match(REGISTER);
 				setState(21);
-				match(NUMBER);
+				((StoreWordContext)_localctx).offset = match(NUMBER);
 				setState(22);
 				match(T__3);
 				setState(23);
-				((StoreWordContext)_localctx).input = match(REGISTER);
+				((StoreWordContext)_localctx).in = match(REGISTER);
 				setState(24);
 				match(T__4);
 				}
@@ -602,11 +604,11 @@ public class SVMParser extends Parser {
 				setState(28);
 				match(T__7);
 				setState(29);
-				((AddContext)_localctx).output = match(REGISTER);
+				((AddContext)_localctx).out = match(REGISTER);
 				setState(30);
-				((AddContext)_localctx).input1 = match(REGISTER);
+				((AddContext)_localctx).in = match(REGISTER);
 				setState(31);
-				((AddContext)_localctx).input2 = match(REGISTER);
+				((AddContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__8:
@@ -616,11 +618,11 @@ public class SVMParser extends Parser {
 				setState(32);
 				match(T__8);
 				setState(33);
-				((SubContext)_localctx).output = match(REGISTER);
+				((SubContext)_localctx).out = match(REGISTER);
 				setState(34);
-				((SubContext)_localctx).input1 = match(REGISTER);
+				((SubContext)_localctx).in = match(REGISTER);
 				setState(35);
-				((SubContext)_localctx).input2 = match(REGISTER);
+				((SubContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__9:
@@ -630,11 +632,11 @@ public class SVMParser extends Parser {
 				setState(36);
 				match(T__9);
 				setState(37);
-				((MultContext)_localctx).output = match(REGISTER);
+				((MultContext)_localctx).out = match(REGISTER);
 				setState(38);
-				((MultContext)_localctx).input1 = match(REGISTER);
+				((MultContext)_localctx).in = match(REGISTER);
 				setState(39);
-				((MultContext)_localctx).input2 = match(REGISTER);
+				((MultContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__10:
@@ -644,11 +646,11 @@ public class SVMParser extends Parser {
 				setState(40);
 				match(T__10);
 				setState(41);
-				((DivContext)_localctx).output = match(REGISTER);
+				((DivContext)_localctx).out = match(REGISTER);
 				setState(42);
-				((DivContext)_localctx).input1 = match(REGISTER);
+				((DivContext)_localctx).in = match(REGISTER);
 				setState(43);
-				((DivContext)_localctx).input2 = match(REGISTER);
+				((DivContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__11:
@@ -658,9 +660,9 @@ public class SVMParser extends Parser {
 				setState(44);
 				match(T__11);
 				setState(45);
-				((AddIntContext)_localctx).output = match(REGISTER);
+				((AddIntContext)_localctx).out = match(REGISTER);
 				setState(46);
-				((AddIntContext)_localctx).input = match(REGISTER);
+				((AddIntContext)_localctx).in = match(REGISTER);
 				setState(47);
 				match(NUMBER);
 				}
@@ -672,9 +674,9 @@ public class SVMParser extends Parser {
 				setState(48);
 				match(T__12);
 				setState(49);
-				((SubIntContext)_localctx).output = match(REGISTER);
+				((SubIntContext)_localctx).out = match(REGISTER);
 				setState(50);
-				((SubIntContext)_localctx).input = match(REGISTER);
+				((SubIntContext)_localctx).in = match(REGISTER);
 				setState(51);
 				match(NUMBER);
 				}
@@ -686,9 +688,9 @@ public class SVMParser extends Parser {
 				setState(52);
 				match(T__13);
 				setState(53);
-				((MultIntContext)_localctx).output = match(REGISTER);
+				((MultIntContext)_localctx).out = match(REGISTER);
 				setState(54);
-				((MultIntContext)_localctx).input = match(REGISTER);
+				((MultIntContext)_localctx).in = match(REGISTER);
 				setState(55);
 				match(NUMBER);
 				}
@@ -700,9 +702,9 @@ public class SVMParser extends Parser {
 				setState(56);
 				match(T__14);
 				setState(57);
-				((DivIntContext)_localctx).output = match(REGISTER);
+				((DivIntContext)_localctx).out = match(REGISTER);
 				setState(58);
-				((DivIntContext)_localctx).input = match(REGISTER);
+				((DivIntContext)_localctx).in = match(REGISTER);
 				setState(59);
 				match(NUMBER);
 				}
@@ -714,11 +716,11 @@ public class SVMParser extends Parser {
 				setState(60);
 				match(T__15);
 				setState(61);
-				((AndContext)_localctx).output = match(REGISTER);
+				((AndContext)_localctx).out = match(REGISTER);
 				setState(62);
-				((AndContext)_localctx).input1 = match(REGISTER);
+				((AndContext)_localctx).in = match(REGISTER);
 				setState(63);
-				((AndContext)_localctx).input2 = match(REGISTER);
+				((AndContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__16:
@@ -728,11 +730,11 @@ public class SVMParser extends Parser {
 				setState(64);
 				match(T__16);
 				setState(65);
-				((OrContext)_localctx).output = match(REGISTER);
+				((OrContext)_localctx).out = match(REGISTER);
 				setState(66);
-				((OrContext)_localctx).input1 = match(REGISTER);
+				((OrContext)_localctx).in = match(REGISTER);
 				setState(67);
-				((OrContext)_localctx).input2 = match(REGISTER);
+				((OrContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__17:
@@ -742,9 +744,9 @@ public class SVMParser extends Parser {
 				setState(68);
 				match(T__17);
 				setState(69);
-				((NotContext)_localctx).output = match(REGISTER);
+				((NotContext)_localctx).out = match(REGISTER);
 				setState(70);
-				((NotContext)_localctx).input = match(REGISTER);
+				((NotContext)_localctx).in = match(REGISTER);
 				}
 				break;
 			case T__18:
@@ -754,9 +756,9 @@ public class SVMParser extends Parser {
 				setState(71);
 				match(T__18);
 				setState(72);
-				((AndBoolContext)_localctx).output = match(REGISTER);
+				((AndBoolContext)_localctx).out = match(REGISTER);
 				setState(73);
-				((AndBoolContext)_localctx).input = match(REGISTER);
+				((AndBoolContext)_localctx).in = match(REGISTER);
 				setState(74);
 				match(BOOL);
 				}
@@ -768,9 +770,9 @@ public class SVMParser extends Parser {
 				setState(75);
 				match(T__19);
 				setState(76);
-				((OrBoolContext)_localctx).output = match(REGISTER);
+				((OrBoolContext)_localctx).out = match(REGISTER);
 				setState(77);
-				((OrBoolContext)_localctx).input = match(REGISTER);
+				((OrBoolContext)_localctx).in = match(REGISTER);
 				setState(78);
 				match(BOOL);
 				}
@@ -782,7 +784,7 @@ public class SVMParser extends Parser {
 				setState(79);
 				match(T__20);
 				setState(80);
-				((NotBoolContext)_localctx).output = match(REGISTER);
+				((NotBoolContext)_localctx).out = match(REGISTER);
 				setState(81);
 				match(BOOL);
 				}
@@ -794,9 +796,9 @@ public class SVMParser extends Parser {
 				setState(82);
 				match(T__21);
 				setState(83);
-				((MoveContext)_localctx).output = match(REGISTER);
+				((MoveContext)_localctx).out = match(REGISTER);
 				setState(84);
-				((MoveContext)_localctx).input = match(REGISTER);
+				((MoveContext)_localctx).in = match(REGISTER);
 				}
 				break;
 			case T__22:
@@ -806,9 +808,9 @@ public class SVMParser extends Parser {
 				setState(85);
 				match(T__22);
 				setState(86);
-				((BranchIfEqualContext)_localctx).input1 = match(REGISTER);
+				((BranchIfEqualContext)_localctx).in = match(REGISTER);
 				setState(87);
-				((BranchIfEqualContext)_localctx).input2 = match(REGISTER);
+				((BranchIfEqualContext)_localctx).in2 = match(REGISTER);
 				setState(88);
 				match(LABEL);
 				}
@@ -820,9 +822,9 @@ public class SVMParser extends Parser {
 				setState(89);
 				match(T__23);
 				setState(90);
-				((BranchIfLessEqualContext)_localctx).input1 = match(REGISTER);
+				((BranchIfLessEqualContext)_localctx).in = match(REGISTER);
 				setState(91);
-				((BranchIfLessEqualContext)_localctx).input2 = match(REGISTER);
+				((BranchIfLessEqualContext)_localctx).in2 = match(REGISTER);
 				setState(92);
 				match(LABEL);
 				}

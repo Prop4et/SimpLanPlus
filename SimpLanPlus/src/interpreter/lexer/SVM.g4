@@ -16,26 +16,26 @@ assembly: (instruction)*;
 instruction:
 	'push' REGISTER													# push
 	| 'pop'															# pop
-	| 'lw' output = REGISTER NUMBER '(' input = REGISTER ')'		# loadWord
-	| 'sw' output = REGISTER NUMBER '(' input = REGISTER ')'		# storeWord
+	| 'lw' out = REGISTER offset = NUMBER '(' in = REGISTER ')'		# loadWord
+	| 'sw' out = REGISTER offset = NUMBER '(' in = REGISTER ')'		# storeWord
 	| 'li' REGISTER NUMBER											# loadInteger
-	| 'add' output = REGISTER input1 = REGISTER input2 = REGISTER	# add
-	| 'sub' output = REGISTER input1 = REGISTER input2 = REGISTER	# sub
-	| 'mult' output = REGISTER input1 = REGISTER input2 = REGISTER	# mult
-	| 'div' output = REGISTER input1 = REGISTER input2 = REGISTER	# div
-	| 'addi' output = REGISTER input = REGISTER NUMBER				# addInt
-	| 'subi' output = REGISTER input = REGISTER NUMBER				# subInt
-	| 'multi' output = REGISTER input = REGISTER NUMBER				# multInt
-	| 'divi' output = REGISTER input = REGISTER NUMBER				# divInt
-	| 'and' output = REGISTER input1 = REGISTER input2 = REGISTER	# and
-	| 'or' output = REGISTER input1 = REGISTER input2 = REGISTER	# or
-	| 'not' output = REGISTER input = REGISTER						# not
-	| 'andb' output = REGISTER input = REGISTER BOOL				# andBool
-	| 'orb' output = REGISTER input = REGISTER BOOL					# orBool
-	| 'notb' output = REGISTER BOOL									# notBool
-	| 'mv' output = REGISTER input = REGISTER						# move
-	| 'beq' input1 = REGISTER input2 = REGISTER LABEL				# branchIfEqual
-	| 'bleq' input1 = REGISTER input2 = REGISTER LABEL				# branchIfLessEqual
+	| 'add' out = REGISTER in = REGISTER in2 = REGISTER	# add
+	| 'sub' out = REGISTER in = REGISTER in2 = REGISTER	# sub
+	| 'mult' out = REGISTER in = REGISTER in2 = REGISTER	# mult
+	| 'div' out = REGISTER in = REGISTER in2 = REGISTER	# div
+	| 'addi' out = REGISTER in = REGISTER NUMBER				# addInt
+	| 'subi' out = REGISTER in = REGISTER NUMBER				# subInt
+	| 'multi' out = REGISTER in = REGISTER NUMBER				# multInt
+	| 'divi' out = REGISTER in = REGISTER NUMBER				# divInt
+	| 'and' out = REGISTER in = REGISTER in2 = REGISTER	# and
+	| 'or' out = REGISTER in = REGISTER in2 = REGISTER	# or
+	| 'not' out = REGISTER in = REGISTER						# not
+	| 'andb' out = REGISTER in = REGISTER BOOL				# andBool
+	| 'orb' out = REGISTER in = REGISTER BOOL					# orBool
+	| 'notb' out = REGISTER BOOL									# notBool
+	| 'mv' out = REGISTER in = REGISTER						# move
+	| 'beq' in = REGISTER in2 = REGISTER LABEL				# branchIfEqual
+	| 'bleq' in = REGISTER in2 = REGISTER LABEL				# branchIfLessEqual
 	| 'b' LABEL														# branch
 	| LABEL COL														# label
 	| 'jal' LABEL													# jumpToFunction
