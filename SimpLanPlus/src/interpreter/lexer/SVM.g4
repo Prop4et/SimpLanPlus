@@ -19,23 +19,23 @@ instruction:
 	| 'lw' out = REGISTER offset = NUMBER '(' in = REGISTER ')'		# loadWord
 	| 'sw' out = REGISTER offset = NUMBER '(' in = REGISTER ')'		# storeWord
 	| 'li' REGISTER NUMBER											# loadInteger
-	| 'add' out = REGISTER in = REGISTER in2 = REGISTER	# add
-	| 'sub' out = REGISTER in = REGISTER in2 = REGISTER	# sub
-	| 'mult' out = REGISTER in = REGISTER in2 = REGISTER	# mult
-	| 'div' out = REGISTER in = REGISTER in2 = REGISTER	# div
-	| 'addi' out = REGISTER in = REGISTER NUMBER				# addInt
-	| 'subi' out = REGISTER in = REGISTER NUMBER				# subInt
-	| 'multi' out = REGISTER in = REGISTER NUMBER				# multInt
-	| 'divi' out = REGISTER in = REGISTER NUMBER				# divInt
-	| 'and' out = REGISTER in = REGISTER in2 = REGISTER	# and
-	| 'or' out = REGISTER in = REGISTER in2 = REGISTER	# or
-	| 'not' out = REGISTER in = REGISTER						# not
-	| 'andb' out = REGISTER in = REGISTER BOOL				# andBool
-	| 'orb' out = REGISTER in = REGISTER BOOL					# orBool
+	| 'add' out = REGISTER in = REGISTER in2 = REGISTER				# add
+	| 'sub' out = REGISTER in = REGISTER in2 = REGISTER				# sub
+	| 'mult' out = REGISTER in = REGISTER in2 = REGISTER			# mult
+	| 'div' out = REGISTER in = REGISTER in2 = REGISTER				# div
+	| 'addi' out = REGISTER in = REGISTER NUMBER					# addInt
+	| 'subi' out = REGISTER in = REGISTER NUMBER					# subInt
+	| 'multi' out = REGISTER in = REGISTER NUMBER					# multInt
+	| 'divi' out = REGISTER in = REGISTER NUMBER					# divInt
+	| 'and' out = REGISTER in = REGISTER in2 = REGISTER				# and
+	| 'or' out = REGISTER in = REGISTER in2 = REGISTER				# or
+	| 'not' out = REGISTER in = REGISTER							# not
+	| 'andb' out = REGISTER in = REGISTER BOOL						# andBool
+	| 'orb' out = REGISTER in = REGISTER BOOL						# orBool
 	| 'notb' out = REGISTER BOOL									# notBool
-	| 'mv' out = REGISTER in = REGISTER						# move
-	| 'beq' in = REGISTER in2 = REGISTER LABEL				# branchIfEqual
-	| 'bleq' in = REGISTER in2 = REGISTER LABEL				# branchIfLessEqual
+	| 'mv' out = REGISTER in = REGISTER								# move
+	| 'beq' in = REGISTER in2 = REGISTER LABEL						# branchIfEqual
+	| 'bleq' in = REGISTER in2 = REGISTER LABEL						# branchIfLessEqual
 	| 'b' LABEL														# branch
 	| LABEL COL														# label
 	| 'jal' LABEL													# jumpToFunction
