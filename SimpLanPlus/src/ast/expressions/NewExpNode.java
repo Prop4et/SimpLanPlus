@@ -29,7 +29,7 @@ public class NewExpNode extends  ExpNode {
 
     @Override
     public String codeGeneration() {
-        return null;
+        return "";
     }
 
     @Override

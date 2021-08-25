@@ -30,7 +30,7 @@ public class DerExpNode extends ExpNode{
 
     @Override
     public String codeGeneration() {
-        return null;
+        return lhs.codeGeneration();
     }
 
     @Override

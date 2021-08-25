@@ -35,7 +35,7 @@ public class NotExpNode extends ExpNode{
 
     @Override
     public String codeGeneration() {
-        return null;
+        return exp.codeGeneration() + "notExp";
     }
 
     @Override
