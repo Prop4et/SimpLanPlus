@@ -13,7 +13,7 @@ import semanticAnalysis.SemanticError;
 public class RetNode implements Node{
 
 	private final ExpNode exp; //ExpNode
-	private String label; //label 
+	private String label; //label is set inside decfunnode when generating the code
 	
 	public RetNode(final ExpNode exp) {
 		this.exp = exp;

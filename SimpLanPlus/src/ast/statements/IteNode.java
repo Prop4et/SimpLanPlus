@@ -47,8 +47,8 @@ public class IteNode implements Node{
 	@Override
 	public String codeGeneration() {
 		String ret;
-		String then = LabelLib.freshLabel();
-		String end = LabelLib.freshLabel();
+		String then = LabelLib.freshLabel("then");
+		String end = "endif " + then;
 		ret = cond.codeGeneration() +
 				"li $t1 1\n" +
 				"beq $a0 $t1\n";

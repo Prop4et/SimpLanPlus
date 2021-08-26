@@ -71,23 +71,16 @@ public class CallNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		String parCode="";
-		for (int i=params.size()-1; i>=0; i--)
-			parCode+=params.get(i).codeGeneration();
-
-		String getAR="";
-		for (int i=0; i<currentNl-id.getSTentry().getNl(); i++)
-			getAR+="lw\n";
-		// formato AR: control_link+parameters+access_link+dich_locali
-		return "lfp\n"+ 				// CL
-				parCode+
-				"lfp\n"+getAR+ 		// setto AL risalendo la catena statica
-				// ora recupero l'indirizzo a cui saltare e lo metto sullo stack
-				"push "+id.getSTentry().getOffset()+"\n"+ // metto offset sullo stack
-				"lfp\n"+getAR+ 		// risalgo la catena statica
-				"add\n"+
-				"lw\n"+ 				// carico sullo stack il valore all'indirizzo ottenuto
-				"js\n";
+		//i feel like something's missing
+		String ret = "push $fp\n";
+		for(ExpNode p : params) {
+			ret += p.codeGeneration() + 
+					"push $a0\n";
+			
+		}
+				
+		ret += "jal " + id.getTextId();
+		return ret;
 	}
 
 
