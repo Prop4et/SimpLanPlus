@@ -45,9 +45,14 @@ public class DecVarNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return null;
+		String begin = "; BEGIN " + this + "\n";
+		String end = "; END " + this + "\n";
+		if (exp == null) {
+			return begin + "addi $sp $sp -1\n" + end;
+		}
+		return begin + exp.codeGeneration() + "push $a0\n" + end;
 	}
+
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
