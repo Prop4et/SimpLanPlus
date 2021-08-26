@@ -38,8 +38,7 @@ public class FunTypeNode extends TypeNode{
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 	
 	public ArrayList<SemanticError> checkSemantics(Environment env) {

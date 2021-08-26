@@ -34,7 +34,8 @@ public class BoolNode extends ExpNode {
 
 	@Override
 	public String codeGeneration() {
-		return "push "+(val?1:0)+"\n";
+		int val = this.val ? 1 : 0;
+		return "li $a0 " + val;
 	}
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
