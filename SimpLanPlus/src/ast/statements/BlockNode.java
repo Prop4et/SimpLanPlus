@@ -84,7 +84,12 @@ public class BlockNode implements Node{
 	@Override
 	public String codeGeneration() {
 		//block could be a function body or a normal block, or the main
+		//that's a starting point i believe
 		String ret = "";
+		for(DeclarationNode dec : decs)
+			ret += dec.codeGeneration();
+		for(StatementNode stm : stms)
+			ret += stm.codeGeneration();
 		return ret;
 	}
 

@@ -64,7 +64,6 @@ REGISTER:
 	| '$fp' //points to al relative to the active frame
 	| '$al' //static chain for scopes
 	| '$ra' //return address where the address of the next instruction is saved
-	| '$hp' //top of the heap
 	;
 
 
