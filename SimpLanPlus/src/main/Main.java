@@ -44,6 +44,7 @@ public class Main {
 				SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
 				SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
 				BlockNode ast = visitor.visitBlock(parser.block()); //generazione AST
+				ast.setMain(true); //i need this for code generation
 				//SIMPLE CHECK FOR LEXER ERRORS
 				if (lexer.errorCount() > 0) {
 					System.out.println("The program was not in the right format. Exiting the compilation process now");

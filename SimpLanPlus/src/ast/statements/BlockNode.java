@@ -22,6 +22,8 @@ public class BlockNode implements Node{
 	private boolean newScope;
 	//body function
 	private boolean function;
+	//main
+	private boolean main;
 	public BlockNode(final List<DeclarationNode> decs, final List<StatementNode> stms) {
 		this.decs=decs;
 		this.stms=stms;
@@ -84,12 +86,25 @@ public class BlockNode implements Node{
 	@Override
 	public String codeGeneration() {
 		//block could be a function body or a normal block, or the main
-		//that's a starting point i believe
+		//ra in function right?
 		String ret = "";
+		if(newScope) {//this means we are not inside a function 
+			if(main) //
+				ret += "push $sp\n";//just for consistency, to have the same stack structure everywhere
+			else {
+				ret += "push $fp\n";
+			}
+			ret += "mv $al $fp\n push $al\n";//used to go through the static chain
+		}
+				
 		for(DeclarationNode dec : decs)
 			ret += dec.codeGeneration();
 		for(StatementNode stm : stms)
 			ret += stm.codeGeneration();
+		
+		if(main)
+			ret += "halt\n";
+		
 		return ret;
 	}
 
@@ -167,5 +182,9 @@ public class BlockNode implements Node{
 
 	public void setNewScope(boolean newScope) {
 		this.newScope = newScope;
+	}
+	
+	public void setMain(boolean main) {
+		this.main = main;
 	}
 }
