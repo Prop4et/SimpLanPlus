@@ -25,6 +25,10 @@ public class IdNode implements Node {
     	this.entry = entry;
     }
     
+    public int getNl() {
+    	return nl;
+    }
+    
     @Override
     public String toPrint(String indent) {
         return indent + id;
@@ -37,14 +41,13 @@ public class IdNode implements Node {
 
     @Override
     public String codeGeneration() {
-        String getAR="";
-        for (int i=0; i<nl-entry.getNl(); i++)
-            getAR+="lw\n";
-        return "push "+entry.getOffset()+"\n"+ //metto offset sullo stack
-                "lfp\n"+getAR+ //risalgo la catena statica
-                "add\n"+
-                "lw\n"; //carico sullo stack il valore all'indirizzo ottenuto
+    	String ret = "mv $al $fp \n";
+        for (int i = 0; i < nl - entry.getNl(); i++) {
+            ret += "lw $al 0($al)\n";
+        }
 
+        ret += "lw $a0 " + entry.getOffset() + "($al)\n";
+        return ret;
     }
     
     public String getTextId() {

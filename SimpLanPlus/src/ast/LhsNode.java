@@ -36,7 +36,23 @@ public class LhsNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		return  null;
+		String ret="";
+		if(assFlag) {
+			ret = "mv $al $fp\n";
+			for (int i = 0; i < (id.getNl() - id.getSTentry().getNl()); i++) {
+                ret += "lw $al 0($al)\n";
+            }
+			ret += "addi $a0 $al " + id.getSTentry().getOffset() +"\n";
+		}else
+			ret = id.codeGeneration();
+		
+		LhsNode pointer = lhs;
+		while(pointer != null) { //dereference pointer
+			ret += "lw $a0 0($a0)\n";
+			pointer = pointer.lhs;
+		}
+			
+		return ret;
 	}
 
 	@Override

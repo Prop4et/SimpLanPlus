@@ -35,7 +35,7 @@ public class BoolNode extends ExpNode {
 	@Override
 	public String codeGeneration() {
 		int val = this.val ? 1 : 0;
-		return "li $a0 " + val;
+		return "li $a0 " + val +"\n";
 	}
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {

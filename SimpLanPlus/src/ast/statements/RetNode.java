@@ -13,10 +13,14 @@ import semanticAnalysis.SemanticError;
 public class RetNode implements Node{
 
 	private final ExpNode exp; //ExpNode
-	
+	private String label;
 	
 	public RetNode(final ExpNode exp) {
 		this.exp = exp;
+	}
+	
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	
 	@Override
@@ -37,9 +41,11 @@ public class RetNode implements Node{
 
 	@Override
 	public String codeGeneration() {
+		String ret = "";
 		if(exp != null)
-			exp.codeGeneration();
-		return null;
+			ret = exp.codeGeneration();
+		ret += "b " + label + "\n";
+		return ret;
 	}
 
 	@Override

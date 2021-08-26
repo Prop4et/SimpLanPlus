@@ -43,8 +43,13 @@ public class AssignmentNode extends StatementNode implements Node {
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return null;
+		return rhs.codeGeneration() +
+				"push $a0\n" +
+				lhs.codeGeneration() +
+				"lw $t1 0($sp)\n" +
+				"pop\n" +
+				"sw $t1 0($a0)\n";
+				
 	}
 
 	@Override
