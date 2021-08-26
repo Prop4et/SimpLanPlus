@@ -46,8 +46,8 @@ public class IteNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		String l1 = LabelLib.freshLabel();
-		String l2 = LabelLib.freshLabel();
+		String l1 = LabelLib.freshLabel("");
+		String l2 = LabelLib.freshLabel("");
 		return cond.codeGeneration()+
 				"push 1\n"+
 				"beq "+ l1 +"\n"+
