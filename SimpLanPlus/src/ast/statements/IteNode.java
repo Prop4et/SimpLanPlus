@@ -59,7 +59,7 @@ public class IteNode implements Node{
 		ret += thenB.codeGeneration();
 				
 		return ret + end + " :\n";
-				
+
 	}
 
 	@Override
