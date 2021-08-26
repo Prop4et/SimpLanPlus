@@ -37,7 +37,8 @@ public class RetNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
+		if(exp != null)
+			exp.codeGeneration();
 		return null;
 	}
 

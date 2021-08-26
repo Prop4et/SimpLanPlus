@@ -116,20 +116,19 @@ public class SVMInterpreter {
                 	System.out.println(registers.get(arg1));
                 	break;
                 case "beq":
-                	if(registers.get(arg1) == registers.get(arg2)) {
-                		//wait how do we jump?
-                	}
+                	if(registers.get(arg1) == registers.get(arg2)) 
+                		ip = Integer.parseInt(arg1);
                 	break;
                 case "bleq":
-                	if(registers.get(arg1) <= registers.get(arg2)) {
-                		//wait how do we jump?
-                	}
+                	if(registers.get(arg1) <= registers.get(arg2))
+                		ip = Integer.parseInt(arg1);
                 	break;
                 case "b":
+                	ip = Integer.parseInt(arg1);
                 	break;
                 case "jal":
                 	registers.put("ra", ip); //save the next instruction in ra
-                	//HOW DO WE JUMP
+                	ip = Integer.parseInt(arg1);
                 	break;
                 case "jr":
                 	ip = registers.get(arg1);
