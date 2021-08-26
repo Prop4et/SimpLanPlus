@@ -95,11 +95,12 @@ public class BinExpNode extends ExpNode{
                 String endCheckLabel = "end" + trueBranchLabel;
 
                 buffer.append("beq $t1 $a0 ").append(trueBranchLabel).append("\n");
-                //False branch
-                buffer.append("li $a0 1 ;e1 != e2\n");
+                //False branch e1 != e2
+                buffer.append("li $a0 1 \n");
                 buffer.append("b ").append(endCheckLabel).append("\n");
                 buffer.append(trueBranchLabel).append(":\n");
-                buffer.append("li $a0 0 ;e1 == e2\n");
+                //e1 == e2
+                buffer.append("li $a0 0 \n");
                 buffer.append(endCheckLabel).append(":\n");
                 break;
             }
