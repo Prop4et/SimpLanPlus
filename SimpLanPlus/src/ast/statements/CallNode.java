@@ -83,8 +83,7 @@ public class CallNode implements Node{
 		for(int i = 0; i < currentNl - id.getNl(); i++)
 			ret += "lw $al 0($al)\n";
 		ret += "push $al\n";
-		ret += "subi $sp $sp 1\n";//need to make space for the ra which is automatically saved by jal
-		ret += "jal " + id.getTextId();
+		ret += "jal " + id.getTextId(); //decfun saves ra firstly
 		return ret;
 	}
 

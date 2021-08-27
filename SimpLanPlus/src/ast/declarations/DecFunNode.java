@@ -67,8 +67,16 @@ public class DecFunNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return "\n";
+		String labelFun = id.getTextId();
+		String ret = labelFun + ":\n";
+		ret += "mv $fp $sp\n"; //bring the fp up top, where ra is located (space for)
+		ret += "push $ra\n";
+		ret += body.codeGeneration();//this code generation should be done in another stable, that is stablee in the example
+		ret += "lw $ra 0($sp)\n";//$t1<-top
+		ret += "addi $sp $sp " + args.size() + "\n";
+		ret += "lw $fp 0($sp)\n pop\n jr $ra\n";
+		
+		return ret;
 	}
 
 	//should be fine for what concerns the checksemantics
