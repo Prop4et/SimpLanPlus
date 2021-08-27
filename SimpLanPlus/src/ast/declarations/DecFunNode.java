@@ -68,7 +68,7 @@ public class DecFunNode implements Node{
 	@Override
 	public String codeGeneration() {
 		// TODO Auto-generated method stub
-		return null;
+		return "\n";
 	}
 
 	//should be fine for what concerns the checksemantics
