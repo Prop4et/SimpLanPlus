@@ -73,12 +73,17 @@ public class CallNode implements Node{
 	public String codeGeneration() {
 		//i feel like something's missing
 		String ret = "push $fp\n";
-		for(ExpNode p : params) {
-			ret += p.codeGeneration() + 
+		for(int i = params.size()-1; i >= 0; i--)
+		{
+			ret += params.get(i).codeGeneration() + 
 					"push $a0\n";
 			
 		}
-				
+		ret += "lw $al 0($fp)\n";
+		for(int i = 0; i < currentNl - id.getNl(); i++)
+			ret += "lw $al 0($al)\n";
+		ret += "push $al\n";
+		ret += "subi $sp $sp 1\n";//need to make space for the ra which is automatically saved by jal
 		ret += "jal " + id.getTextId();
 		return ret;
 	}
