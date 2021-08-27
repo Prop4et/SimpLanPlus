@@ -87,12 +87,12 @@ public class BlockNode implements Node{
 	public String codeGeneration() {
 		//block could be a function body or a normal block, or the main
 		//ra in function right?
-		String ret = "; NEW BLOCK";
+		String ret = "; NEW BLOCK \n";
 		if(newScope) {//this means we are not inside a function 
 			if(main) //
 				ret += "\t push $sp\n";//just for consistency, to have the same stack structure everywhere
 			else {
-				ret += "\t push $fp\n";
+				ret += "\t push $fp\n"; //is it not initialized??
 			}
 			ret += "\t mv $al $fp\n \t push $al\n";//used to go through the static chain
 		}

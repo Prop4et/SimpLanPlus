@@ -39,7 +39,7 @@ public class DeletionNode implements Node {
 
 	@Override
 	public String codeGeneration() {
-		return id.codeGeneration() + "del $a0\n";
+		return id.codeGeneration() + "\t del $a0\n";
 	}
 
 	@Override
