@@ -51,7 +51,7 @@ public class IteNode implements Node{
 		String end = "endif" + then;
 		ret += cond.codeGeneration() +
 				" \t li $t1 1\n" +
-				"\t beq $a0 $t1\n";
+				"\t beq $a0 $t1 " + then + "\n";
 		if(elseB != null) {
 			ret += "; BEGIN ELSE BRANCH \n" +  elseB.codeGeneration() + " ;END ELSE BRANCH \n";
 		}
