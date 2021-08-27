@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import ast.SVMVisitorImpl;
 import ast.statements.BlockNode;
 import ast.types.TypeNode;
 import exceptions.TypeException;
 
+import interpreter.lexer.SVMLexer;
+import interpreter.lexer.SVMParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -77,15 +80,15 @@ public class Main {
 
 
 				
-/*
+
 				// CODE GENERATION  prova.SimpLanPlus.asm
-				String code=ast.codeGeneration(); 
-				BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm")); 
+				String code=ast.codeGeneration();
+				BufferedWriter out = new BufferedWriter(new FileWriter(files[0]+".asm"));
 				out.write(code);
 				out.close(); 
 				System.out.println("Code generated! Assembling and running generated code.");
 
-				FileInputStream isASM = new FileInputStream(fileName+".asm");
+				FileInputStream isASM = new FileInputStream(files[0]+".asm");
 				ANTLRInputStream inputASM = new ANTLRInputStream(isASM);
 				SVMLexer lexerASM = new SVMLexer(inputASM);
 				CommonTokenStream tokensASM = new CommonTokenStream(lexerASM);
@@ -96,12 +99,12 @@ public class Main {
 				SVMVisitorImpl visitorSVM = new SVMVisitorImpl();
 				visitorSVM.visit(parserASM.assembly()); 
 
-				System.out.println("You had: "+lexerASM.lexicalErrors+" lexical errors and "+parserASM.getNumberOfSyntaxErrors()+" syntax errors.");
-				if (lexerASM.lexicalErrors>0 || parserASM.getNumberOfSyntaxErrors()>0) System.exit(1);
+				System.out.println("You had: "+lexerASM.errorCount()+" lexical errors and "+parserASM.getNumberOfSyntaxErrors()+" syntax errors.");
+				if (lexerASM.errorCount()>0 || parserASM.getNumberOfSyntaxErrors()>0) System.exit(1);
 
-				System.out.println("Starting Virtual Machine...");
-				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
-				vm.cpu();*/
+			//	System.out.println("Starting Virtual Machine...");
+			//	ExecuteVM vm = new ExecuteVM(visitorSVM.code);
+			//	vm.cpu();*/
 					}
 				}
 

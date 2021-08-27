@@ -65,59 +65,57 @@ public class BinExpNode extends ExpNode{
 
     @Override
     public String codeGeneration() {
-        StringBuilder buffer = new StringBuilder();
+        String ret = "; BEGIN " + 	this.toPrint("") + "\n" ;
         LabelLib labelManager = LabelLib.getInstance();
 
-        buffer.append("; BEGIN ").append(this).append("\n");
-
-        buffer.append(leftExp.codeGeneration());
-        buffer.append("push $a0 ; push on the stack e1\n");
-        buffer.append(rightExp.codeGeneration());
-        buffer.append("lw $t1 0($sp) ;$t1 = e1, $a0 = e2\n");
-        buffer.append("pop ;pop e1 from the stack\n");
+        ret +=leftExp.codeGeneration();
+        ret +="\t "+ "push $a0 ; push on the stack e1\n";
+        ret +=""+ rightExp.codeGeneration();
+        ret +="\t "+"lw $t1 0($sp) ;$t1 = e1, $a0 = e2\n";
+        ret +="\t "+"pop ;pop e1 from the stack\n";
 
         switch (operator) {
             case "==": {
                 String trueBranchLabel = labelManager.freshLabel("equalTrueBranch");
                 String endCheckLabel = "end" + trueBranchLabel;
 
-                buffer.append("beq $t1 $a0 ").append(trueBranchLabel).append("\n");
+                ret +="\t "+"beq $t1 $a0 " + trueBranchLabel + "\n";
                 //False branch
-                buffer.append("li $a0 0 ;e1 != e2\n");
-                buffer.append("b ").append(endCheckLabel).append("\n");
-                buffer.append(trueBranchLabel).append(":\n");
-                buffer.append("li $a0 1 ;e1 == e2\n");
-                buffer.append(endCheckLabel).append(":\n");
+                ret +="\t "+ "li $a0 0 ;e1 != e2\n";
+                ret +="\t "+"b " +endCheckLabel +"\n";
+                ret +="\t "+trueBranchLabel +":\n";
+                ret +="\t "+"li $a0 1 ;e1 == e2\n";
+                ret +="\t "+endCheckLabel + ":\n";
                 break;
             }
             case "!=": {
                 String trueBranchLabel = labelManager.freshLabel("unequalTrueBranch");
                 String endCheckLabel = "end" + trueBranchLabel;
 
-                buffer.append("beq $t1 $a0 ").append(trueBranchLabel).append("\n");
+                ret +="\t "+"beq $t1 $a0 " +trueBranchLabel+"\n";
                 //False branch e1 != e2
-                buffer.append("li $a0 1 \n");
-                buffer.append("b ").append(endCheckLabel).append("\n");
-                buffer.append(trueBranchLabel).append(":\n");
+                ret +="\t "+"li $a0 1 \n";
+                ret +="\t "+"b " + endCheckLabel +"\n";
+                ret +="\t "+ trueBranchLabel +":\n";
                 //e1 == e2
-                buffer.append("li $a0 0 \n");
-                buffer.append(endCheckLabel).append(":\n");
+                ret +="\t "+"li $a0 0 \n";
+                ret +="\t "+endCheckLabel + ":\n";
                 break;
             }
             case "*": {
-                buffer.append("mult $a0 $t1 $a0\n");
+                ret +="\t "+"mult $a0 $t1 $a0\n";
                 break;
             }
             case "/": {
-                buffer.append("div $a0 $t1 $a0\n");
+                ret +="\t "+"div $a0 $t1 $a0\n";
                 break;
             }
             case "+": {
-                buffer.append("add $a0 $t1 $a0\n");
+                ret +="\t "+"add $a0 $t1 $a0\n";
                 break;
             }
             case "-": {
-                buffer.append("sub $a0 $t1 $a0\n");
+                ret +="\t "+"sub $a0 $t1 $a0\n";
                 break;
             }
             case "<": {
@@ -126,19 +124,19 @@ public class BinExpNode extends ExpNode{
                 String lesseqTrueBranch = labelManager.freshLabel("lesseqTrueBranch");
                 String endLesseqCheck = "end" + lesseqTrueBranch;
 
-                buffer.append("beq $t1 $a0 ").append(equalTrueBranch).append("\n");
+                ret +="\t "+"beq $t1 $a0 "+ equalTrueBranch+"\n";
                 //False branch => e1 != e2
-                buffer.append("bleq $t1 $a0 ").append(lesseqTrueBranch).append("\n");
+                ret +="\t "+"bleq $t1 $a0 "+ lesseqTrueBranch +"\n";
                 //InnerFalse branch => e1 > e2
-                buffer.append("li $a0 0\n");
-                buffer.append("b ").append(endLesseqCheck).append("\n");
-                buffer.append(lesseqTrueBranch).append(":\n");
-                buffer.append("li $a0 1\n"); // e1 < e2
-                buffer.append(endLesseqCheck).append(":\n");
-                buffer.append("b ").append(endEqualCheck).append("\n");
-                buffer.append(equalTrueBranch).append(":\n");
-                buffer.append("li $a0 0\n");
-                buffer.append(endEqualCheck).append(":\n");
+                ret +="\t "+"li $a0 0\n";
+                ret +="\t "+"b "+ endLesseqCheck +"\n";
+                ret +="\t "+ lesseqTrueBranch +":\n";
+                ret +="\t "+"li $a0 1\n"; // e1 < e2
+                ret +="\t "+ endLesseqCheck + ":\n";
+                ret +="\t "+ "b " + endEqualCheck + "\n";
+                ret +="\t "+ equalTrueBranch + ":\n";
+                ret +="\t "+ "li $a0 0\n";
+                ret +="\t "+ endEqualCheck + ":\n";
 
                 break;
             }
@@ -146,26 +144,26 @@ public class BinExpNode extends ExpNode{
                 String trueBranchLabel = labelManager.freshLabel("lesseqTrueBranch");
                 String endCheckLabel = "end" + trueBranchLabel;
 
-                buffer.append("bleq $t1 $a0").append(trueBranchLabel).append("\n");
+                ret +="\t "+"bleq $t1 $a0" + trueBranchLabel + "\n";
                 //False branch
-                buffer.append("li $a0 0\n");
-                buffer.append("b ").append(endCheckLabel).append("\n");
-                buffer.append(trueBranchLabel).append(":\n");
-                buffer.append("li $a0 1\n");
-                buffer.append(endCheckLabel).append(":\n");
+                ret +="\t "+ "li $a0 0\n";
+                ret +="\t "+"b " + endCheckLabel + "\n";
+                ret +="\t "+ trueBranchLabel +":\n";
+                ret +="\t "+"li $a0 1\n";
+                ret +="\t "+ endCheckLabel + ":\n";
                 break;
             }
             case ">": {
                 String trueBranchLabel = labelManager.freshLabel("greaterTrueBranch");
                 String endCheckLabel = "end" + trueBranchLabel;
 
-                buffer.append("bleq $t1 $a0").append(trueBranchLabel).append("\n");
+                ret +="\t "+ "bleq $t1 $a0" + trueBranchLabel + "\n";
                 //False branch
-                buffer.append("li $a0 1\n");
-                buffer.append("b ").append(endCheckLabel).append("\n");
-                buffer.append(trueBranchLabel).append(":\n");
-                buffer.append("li $a0 0\n");
-                buffer.append(endCheckLabel).append(":\n");
+                ret +="\t "+"li $a0 1\n";
+                ret +="\t "+"b " + endCheckLabel +"\n";
+                ret +="\t "+ trueBranchLabel + ":\n";
+                ret +="\t "+"li $a0 0\n";
+                ret +="\t "+ endCheckLabel + ":\n";
                 break;
             }
             case ">=": {
@@ -174,35 +172,35 @@ public class BinExpNode extends ExpNode{
                 String lesseqTrueBranch = labelManager.freshLabel("lesseqTrueBranch");
                 String endLesseqCheck = "end" + lesseqTrueBranch;
 
-                buffer.append("beq $t1 $a0 ").append(equalTrueBranch).append("\n");
+                ret +="\t "+ "beq $t1 $a0 "+ equalTrueBranch + "\n";
                 //False branch => e1 != e2
-                buffer.append("bleq $t1 $a0 ").append(lesseqTrueBranch).append("\n");
+                ret +="\t "+"bleq $t1 $a0 "+ lesseqTrueBranch + "\n";
                 //InnerFalse branch => e1 > e2
-                buffer.append("li $a0 1\n");
-                buffer.append("b ").append(endLesseqCheck).append("\n");
-                buffer.append(lesseqTrueBranch).append(":\n");
-                buffer.append("li $a0 0\n"); // e1 < e2
-                buffer.append(endLesseqCheck).append(":\n");
-                buffer.append("b ").append(endEqualCheck).append("\n");
-                buffer.append(equalTrueBranch).append(":\n");
-                buffer.append("li $a0 1\n"); // e1 == e2
-                buffer.append(endEqualCheck).append(":\n");
+                ret +="\t "+"li $a0 1\n";
+                ret +="\t "+"b "+ endLesseqCheck +"\n";
+                ret +="\t "+lesseqTrueBranch + ":\n";
+                ret +="\t "+"li $a0 0\n"; // e1 < e2
+                ret +="\t "+endLesseqCheck +":\n";
+                ret +="\t "+"b " + endEqualCheck + "\n";
+                ret +="\t "+equalTrueBranch+":\n";
+                ret +="\t "+"li $a0 1\n"; // e1 == e2
+                ret +="\t "+endEqualCheck + ":\n";
 
                 break;
             }
             case "&&": {
-                buffer.append("and $a0 $t1 $a0\n");
+                ret +="\t "+"and $a0 $t1 $a0\n";
                 break;
             }
             case "||": {
-                buffer.append("or $a0 $t1 $a0\n");
+                ret +="\t "+"or $a0 $t1 $a0\n";
                 break;
             }
         }
 
-        buffer.append("; END ").append(this).append("\n");
+        ret +="\t "+"; END " + this +"\n";
 
-        return buffer.toString();
+        return ret ;
     }
 
     @Override

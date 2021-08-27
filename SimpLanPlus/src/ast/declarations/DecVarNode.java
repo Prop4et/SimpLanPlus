@@ -45,12 +45,18 @@ public class DecVarNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		String begin = "; BEGIN " + this + "\n";
-		String end = "; END " + this + "\n";
-		if (exp == null) {
-			return begin + "addi $sp $sp -1\n" + end;
+		String begin = "; BEGIN " +this.type.toString() + " " +  this.id.getTextId() + "\n";
+		String end = "; END " +this.type.toString() + " " +  this.id.getTextId() + "\n";
+
+		if(exp != null) {
+			begin = "; BEGIN " + this.type.toString() + " " + this.id.getTextId() + " = " + this.exp.toString() + "\n";
+			end = "; END " + this.type.toString() + " " + this.id.getTextId() + " = " + this.exp.toString() + "\n";
+
 		}
-		return begin + exp.codeGeneration() + "push $a0\n" + end;
+		if (exp == null) {
+			return begin + "\t addi $sp $sp -1\n" + end;
+		}
+		return begin + exp.codeGeneration() + "\t push $a0\n" + end;
 	}
 
 

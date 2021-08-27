@@ -36,7 +36,7 @@ public class IntNode extends ExpNode {
 
 	@Override
 	public String codeGeneration() {
-		return "li $a0 " + val +"\n";
+		return "\t li $a0 " + val +"\n";
 	}
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {

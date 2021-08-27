@@ -87,14 +87,14 @@ public class BlockNode implements Node{
 	public String codeGeneration() {
 		//block could be a function body or a normal block, or the main
 		//ra in function right?
-		String ret = "";
+		String ret = "; NEW BLOCK";
 		if(newScope) {//this means we are not inside a function 
 			if(main) //
-				ret += "push $sp\n";//just for consistency, to have the same stack structure everywhere
+				ret += "\t push $sp\n";//just for consistency, to have the same stack structure everywhere
 			else {
-				ret += "push $fp\n";
+				ret += "\t push $fp\n";
 			}
-			ret += "mv $al $fp\n push $al\n";//used to go through the static chain
+			ret += "\t mv $al $fp\n \t push $al\n";//used to go through the static chain
 		}
 				
 		for(DeclarationNode dec : decs)
@@ -103,7 +103,7 @@ public class BlockNode implements Node{
 			ret += stm.codeGeneration();
 		
 		if(main)
-			ret += "halt\n";
+			ret += "\t halt\n";
 		
 		return ret;
 	}

@@ -41,10 +41,11 @@ public class RetNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		String ret = "";
+		String ret = "; RETURN "  + "\n" ;
 		if(exp != null)
-			ret = exp.codeGeneration();
-		ret += "b " + label + "\n";
+			ret += exp.codeGeneration();
+		ret += "\t b " + label + "\n";
+		ret += ";END RETURN " + "\n";
 		return ret;
 	}
 

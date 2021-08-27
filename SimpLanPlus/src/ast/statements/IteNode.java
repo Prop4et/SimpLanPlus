@@ -46,17 +46,19 @@ public class IteNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		String ret;
+		String ret = "; BEGIN IF " ;
 		String then = LabelLib.freshLabel("then");
-		String end = "endif " + then;
-		ret = cond.codeGeneration() +
-				"li $t1 1\n" +
-				"beq $a0 $t1\n";
+		String end = "endif" + then;
+		ret += cond.codeGeneration() +
+				" \t li $t1 1\n" +
+				"\t beq $a0 $t1\n";
 		if(elseB != null) {
-			ret += elseB.codeGeneration();
+			ret += "; BEGIN ELSE BRANCH \n" +  elseB.codeGeneration() + " ;END ELSE BRANCH \n";
 		}
-		ret += "b " + end +"\n" + then + ":\n";
-		ret += thenB.codeGeneration();
+		ret += "\t b " + end +"\n" + "\t"+ then + ":\n";
+		ret += "; THAN BRANCH \n" +thenB.codeGeneration()+ " ;END THAN BRANCH \n";;
+
+		ret += "; END IF \n";
 				
 		return ret + end + " :\n";
 

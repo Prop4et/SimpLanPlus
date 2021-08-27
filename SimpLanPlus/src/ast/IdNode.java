@@ -41,12 +41,14 @@ public class IdNode implements Node {
 
     @Override
     public String codeGeneration() {
-    	String ret = "mv $al $fp \n";
+    	String ret = "; BEGIN " + this.getTextId() + " EVAL \n ";
+        ret += "\t mv $al $fp \n";
         for (int i = 0; i < nl - entry.getNl(); i++) {
-            ret += "lw $al 0($al)\n";
+            ret += "\t lw $al 0($al)\n";
         }
 
-        ret += "lw $a0 " + entry.getOffset() + "($al)\n";
+        ret += "\t lw $a0 " + entry.getOffset() + "($al)\n";
+        ret += "; END "+ this.getTextId() + " EVAL \n";
         return ret;
     }
     

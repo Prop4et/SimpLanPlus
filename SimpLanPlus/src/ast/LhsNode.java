@@ -36,19 +36,19 @@ public class LhsNode implements Node{
 
 	@Override
 	public String codeGeneration() {
-		String ret="";
+		String ret="; BEGIN  DEREFERANTION NODE \n";
 		if(assFlag) {
-			ret = "mv $al $fp\n";
+			ret += "\t mv $al $fp\n";
 			for (int i = 0; i < (id.getNl() - id.getSTentry().getNl()); i++) {
-                ret += "lw $al 0($al)\n";
+                ret += "\t lw $al 0($al)\n";
             }
-			ret += "addi $a0 $al " + id.getSTentry().getOffset() +"\n";
+			ret += " \t addi $a0 $al " + id.getSTentry().getOffset() +"\n";
 		}else
 			ret = id.codeGeneration();
 		
 		LhsNode pointer = lhs;
 		while(pointer != null) { //dereference pointer
-			ret += "lw $a0 0($a0)\n";
+			ret += " \t lw $a0 0($a0)\n";
 			pointer = pointer.lhs;
 		}
 			

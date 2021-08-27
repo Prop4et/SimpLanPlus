@@ -43,12 +43,14 @@ public class AssignmentNode extends StatementNode implements Node {
 
 	@Override
 	public String codeGeneration() {
-		return rhs.codeGeneration() +
-				"push $a0\n" +
-				lhs.codeGeneration() +
-				"lw $t1 0($sp)\n" +
-				"pop\n" +
-				"sw $t1 0($a0)\n";
+		return  "; BEGIN " + 	this.toPrint("") + "\n" +
+				"" + rhs.codeGeneration() +
+				"\t push $a0\n" +
+				"" + lhs.codeGeneration() +
+				"\t lw $t1 0($sp)\n" +
+				"\t pop\n" +
+				"\t sw $t1 0($a0)\n" +
+				"; END " + 	this.toPrint("") + "\n";
 				
 	}
 
