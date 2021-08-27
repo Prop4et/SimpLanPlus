@@ -38,6 +38,7 @@ public class DecFunNode implements Node{
 		this.id = id;
 		this.args = args;
 		this.body = body;
+		this.body.setFunction(true);
 		List<TypeNode> argsType = args.stream().map(ArgNode::getType).collect(Collectors.toList());
 		typeFun = new FunTypeNode(argsType, type);
 	}

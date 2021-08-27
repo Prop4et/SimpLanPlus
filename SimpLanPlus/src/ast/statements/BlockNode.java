@@ -91,8 +91,8 @@ public class BlockNode implements Node{
 		if(newScope) {//this means we are not inside a function 
 			if(main) //
 				ret += "\t push $sp\n";//just for consistency, to have the same stack structure everywhere
-			else {
-				ret += "\t push $fp\n"; //is it not initialized??
+			else if(!function){
+				ret += "\t push $fp\n"; //if is not a function fp needs to be saved cause it's not saved otherwise, inside a function the callee pushes the fp 
 			}
 			ret += "\t mv $al $fp\n \t push $al\n";//used to go through the static chain
 		}
