@@ -19,21 +19,25 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     public List<Instruction> getCode(){
     	return code;
     }
-    
+
+
     @Override 
     public Void visitAssembly(SVMParser.AssemblyContext ctx) { 
     	visitChildren(ctx);
-    	for (Integer refAdd: labelRef.keySet()) {
+        System.out.print(labelRef + "\n");  //non capisco come funzionano labelRef e labelAdd e se funzionano correttamente
+        System.out.print(labelAdd + "\n");
+
+        for (Integer labelInt: labelRef.keySet()) {
     		//that's what should happen, but code is Instruction, so i have to build the instruction
             //code.put(refAdd, labelAdd.get(labelRef.get(refAdd)));
-            String label = labelRef.get(refAdd);
-            
-            Instruction instr = code.get(refAdd);
+            String labelString = labelRef.get(labelInt);
+
+            Instruction instr = code.get(labelInt);
             //instead of directly assigning the address i have to create the instruction with the address of the instruction instead of the label
             if(instr.getInstruction().equals("beq") || instr.getInstruction().equals("bleq")) {
-            	code.add(refAdd, new Instruction(instr.getInstruction(), instr.getArg1(), 0, instr.getArg2(), labelAdd.get(label).toString()));
+            	code.add(labelInt, new Instruction(instr.getInstruction(), instr.getArg1(), 0, instr.getArg2(), labelAdd.get(labelString).toString()));
             }else if(instr.getInstruction().equals("b") || instr.getInstruction().equals("jal")) {
-            	code.add(refAdd, new Instruction(instr.getInstruction(), labelAdd.get(label).toString(), 0, null, null));
+            	code.add(labelInt, new Instruction(instr.getInstruction(), labelAdd.get(labelString).toString(), 0, null, null));
             }
            
         }
@@ -157,7 +161,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     @Override 
     public Void visitB(SVMParser.BContext ctx) {
     	labelRef.put(code.size(), ctx.LABEL().getText());
-    	code.add(new Instruction("b", ctx.LABEL().getText(), 0, null, null));
+        code.add(new Instruction("b", ctx.LABEL().getText(), 0, null, null));
     	return null;
     }
     

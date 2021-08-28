@@ -39,7 +39,7 @@ public class ExecuteSVM {
         		throw  new MemoryAccessException("Error: Out of memory");
         	}else {
         		Instruction bytecode = code.get(ip); // fetch
-				System.out.print("getting instr: "+ code.get(ip).getInstruction() +code.get(ip).getArg1() + code.get(ip).getArg2() + code.get(ip).getArg3() +"\n " );
+				//System.out.print("getting instr: "+ code.get(ip).getInstruction() +" " + code.get(ip).getArg1() +" " + code.get(ip).getArg2() +" " + code.get(ip).getArg3() +"\n " );
         		ip++;
         		String arg1 = bytecode.getArg1();
                 String arg2 = bytecode.getArg2();
@@ -134,11 +134,13 @@ public class ExecuteSVM {
                 		ip = Integer.parseInt(arg3);
                 	break;
                 case "b":
-                	ip = Integer.parseInt(arg1);
+					bytecode.printInstruction();
+					ip = Integer.parseInt(arg1);
                 	break;
                 case "jal":
                 	registers.put("$ra", ip); //save the next instruction in $ra
-					//label sono "label + num univoco", devo ragionare solo sul numero? 
+					//label sono "label + num univoco", devo ragionare solo sul numero?
+					bytecode.printInstruction();
 					ip = Integer.parseInt(arg1);
                 	break;
                 case "jr":
