@@ -16,6 +16,10 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void>{
     //labelRef = (3, endif3)
     private HashMap<Integer,String> labelRef = new HashMap<Integer,String>();
     
+    public List<Instruction> getCode(){
+    	return code;
+    }
+    
     @Override 
     public Void visitAssembly(SVMParser.AssemblyContext ctx) { 
     	visitChildren(ctx);

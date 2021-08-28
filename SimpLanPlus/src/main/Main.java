@@ -11,7 +11,7 @@ import ast.SVMVisitorImpl;
 import ast.statements.BlockNode;
 import ast.types.TypeNode;
 import exceptions.TypeException;
-
+import interpreter.ExecuteSVM;
 import interpreter.lexer.SVMLexer;
 import interpreter.lexer.SVMParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -62,53 +62,54 @@ public class Main {
 							System.out.println("You had: " + SemanticErr.size() + " errors:");
 						for (SemanticError e : SemanticErr)
 							System.out.println("\t" + e);
-					} else {
-						System.out.println("Visualizing AST...");
-						System.out.println(ast.toPrint(""));
-				try {
-					TypeNode type = ast.typeCheck(); //type-checking bottom-up
-					System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
-				}catch(TypeException e) {
-					System.out.println(e.getMessage());
-				}
-				ArrayList<SemanticError> effectsErr = ast.checkEffects(env);
-				if (!effectsErr.isEmpty()) {
-					System.out.println("Effects analysis:");
-					for (SemanticError e : effectsErr)
-						System.out.println("\t" + e);
-				}
-
+					} 
+					System.out.println("Visualizing AST...");
+					System.out.println(ast.toPrint(""));
+					try {
+						TypeNode type = ast.typeCheck(); //type-checking bottom-up
+						System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
+					}catch(TypeException e) {
+						System.out.println(e.getMessage());
+					}
+					ArrayList<SemanticError> effectsErr = ast.checkEffects(env);
+					if (!effectsErr.isEmpty()) {
+						System.out.println("Effects analysis:");
+						for (SemanticError e : effectsErr)
+							System.out.println("\t" + e);
+					}
+					else {
 
 				
 
-				// CODE GENERATION  prova.SimpLanPlus.asm
+						// CODE GENERATION  prova.SimpLanPlus.asm
 						File dir = new File("Tests/compiledTests/");
 						if (!dir.exists()){
 							dir.mkdirs();
 						}
-				String code=ast.codeGeneration();
-				BufferedWriter out = new BufferedWriter(new FileWriter("Tests/compiledTests/" + files[i].getPath().replace("./Tests/", "")+".asm"));
-				out.write(code);
-				out.close(); 
-				System.out.println("Code generated! Assembling and running generated code.");
-
-				FileInputStream isASM = new FileInputStream("Tests/compiledTests/" + files[i].getPath().replace("./Tests/", "")+".asm");
-				ANTLRInputStream inputASM = new ANTLRInputStream(isASM);
-				SVMLexer lexerASM = new SVMLexer(inputASM);
-				CommonTokenStream tokensASM = new CommonTokenStream(lexerASM);
-				SVMParser parserASM = new SVMParser(tokensASM);
-
-				//parserASM.assembly();
-
-				SVMVisitorImpl visitorSVM = new SVMVisitorImpl();
-				visitorSVM.visit(parserASM.assembly()); 
-
-				System.out.println("You had: "+lexerASM.errorCount()+" lexical errors and "+parserASM.getNumberOfSyntaxErrors()+" syntax errors.");
-				if (lexerASM.errorCount()>0 || parserASM.getNumberOfSyntaxErrors()>0) System.exit(1);
-
-			//	System.out.println("Starting Virtual Machine...");
-			//	ExecuteVM vm = new ExecuteVM(visitorSVM.code);
-			//	vm.cpu();*/
+						String code=ast.codeGeneration();
+						System.out.println(code);
+						BufferedWriter out = new BufferedWriter(new FileWriter("Tests/compiledTests/" + files[i].getPath().replace("./Tests/", "")+".asm"));
+						out.write(code);
+						out.close(); 
+						System.out.println("Code generated! Assembling and running generated code.");
+		
+						FileInputStream isASM = new FileInputStream("Tests/compiledTests/" + files[i].getPath().replace("./Tests/", "")+".asm");
+						ANTLRInputStream inputASM = new ANTLRInputStream(isASM);
+						SVMLexer lexerASM = new SVMLexer(inputASM);
+						CommonTokenStream tokensASM = new CommonTokenStream(lexerASM);
+						SVMParser parserASM = new SVMParser(tokensASM);
+		
+						//parserASM.assembly();
+		
+						SVMVisitorImpl visitorSVM = new SVMVisitorImpl();
+						visitorSVM.visit(parserASM.assembly()); 
+		
+						System.out.println("You had: "+lexerASM.errorCount()+" lexical errors and "+parserASM.getNumberOfSyntaxErrors()+" syntax errors.");
+						if (lexerASM.errorCount()>0 || parserASM.getNumberOfSyntaxErrors()>0) System.exit(1);
+		
+					//	System.out.println("Starting Virtual Machine...");
+						ExecuteSVM vm = new ExecuteSVM(1000, visitorSVM.getCode());
+						vm.run();
 					}
 				}
 
