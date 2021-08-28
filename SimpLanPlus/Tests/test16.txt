@@ -1,5 +1,5 @@
 {
-	int u = 1 ;
+	^int u = new int;
 	void f(^int x, int n){ 
 		if (n == 0) {
 		 print(x) ;
@@ -12,5 +12,8 @@
 	    }
 	}
 
+    u^ =1 ;
+    if(u^ ==0)
+    	    print(u^);
 	f(u,6) ;
 }

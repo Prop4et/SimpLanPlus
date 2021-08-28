@@ -1,11 +1,10 @@
 {
 /* function declaration and checking if  */
-    int c ;
+    int c =7;
 	int y = 7 ;
 	if(y==4){
 	   delete y;
-	   c=y;
-	   return y;
+	   return c;
 	}
 	else{
 	  return 5;
