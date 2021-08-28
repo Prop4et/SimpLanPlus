@@ -103,7 +103,7 @@ public class BinExpNode extends ExpNode{
                 break;
             }
             case "*": {
-                ret +="\t "+"mult $a0 $t1 $a0\n";
+                ret +="\t "+"mul $a0 $t1 $a0\n";
                 break;
             }
             case "/": {

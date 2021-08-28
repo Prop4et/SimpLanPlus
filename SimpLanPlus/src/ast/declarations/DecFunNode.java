@@ -69,13 +69,15 @@ public class DecFunNode implements Node{
 	@Override
 	public String codeGeneration() {
 		String labelFun = id.getTextId();
-		String ret = labelFun + ":\n";
+		String ret = "; BEGIN DEFINITION OF " + labelFun + ":\n";
+		ret += labelFun + ":\n";
 		ret += "mv $fp $sp\n"; //bring the fp up top, where ra is located (space for)
 		ret += "push $ra\n";
 		ret += body.codeGeneration();//this code generation should be done in another stable, that is stablee in the example
 		ret += "lw $ra 0($sp)\n";//$t1<-top
 		ret += "addi $sp $sp " + args.size() + "\n";
 		ret += "lw $fp 0($sp)\n pop\n jr $ra\n";
+		ret += ";END DEFINITION OF " + labelFun + "\n";
 		
 		return ret;
 	}

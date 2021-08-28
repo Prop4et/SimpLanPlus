@@ -38,6 +38,7 @@ public class ExecuteSVM {
                 return;
         	}else {
         		Instruction bytecode = code.get(ip); // fetch
+				System.out.print("getting instr: "+ code.get(ip).getInstruction() +code.get(ip).getArg1() + code.get(ip).getArg2() + code.get(ip).getArg3() +"\n " );
         		ip++;
         		String arg1 = bytecode.getArg1();
                 String arg2 = bytecode.getArg2();
@@ -47,19 +48,25 @@ public class ExecuteSVM {
                 case "push":
                 	registers.put("$sp", registers.get("$sp") - 1); 
                 	bytecode.printInstruction();
-                	memory[registers.get("$sp")] = registers.get(arg1); //push $r1
+					registers.get(arg1);
+                	memory[registers.get("$sp")] = registers.get(arg1);
                 	break;
                 case "pop":
                 	registers.put("$sp", registers.get("$sp") + 1); 
                 	break;
                 case "lw":
+                	////pop the value x on top of the stack and push MEMORY[x]
                 	registers.put(arg1, memory[registers.get(arg2)+offset]); //lw $r1 offset($r2)
                 	break;
-                case "sw":
-                	memory[registers.get(arg2)+offset] = registers.get(arg1); //sw $r1 offset($r2)
+                case "sw":															//	sw $r1 offset($r2)		//L'azione di store word prende il contenuto di un registro e lo memorizza all'interno della memoria.
+																										//Quindi memorizza la parola contenuta nel registro $r1 all'indirizzo di memoria $r2+offset (solitamente $r2 è il puntatore allo stack $sp)
+                	memory[registers.get(arg2)+offset] = registers.get(arg1); //non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
+					registers.put("$a0", registers.get(arg1) );
                 	break;
                 case "li":
-                	memory[registers.get(arg1)] = Integer.parseInt(arg2);
+                	// memory[registers.get(arg1)] = Integer.parseInt(arg2); perchè memorizzi in memoria? non bisogna fare l'update solo del registro. In ogni caso cosi faccio l'accesso su memory[null]
+					//secondo me
+					registers.put(arg1,Integer.parseInt(arg2));
                 	break;
                 case "mv":
                 	registers.put(arg1, registers.get(arg2));

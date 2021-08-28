@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import ast.Node;
+import ast.declarations.DeclarateFunNode;
 import ast.declarations.DeclarationNode;
 import ast.expressions.BaseExpNode;
 import ast.types.TypeNode;
@@ -88,19 +89,26 @@ public class BlockNode implements Node{
 		//block could be a function body or a normal block, or the main
 		//ra in function right?
 		String ret = "; NEW BLOCK \n";
-		if(newScope) {//this means we are not inside a function 
-			if(main) //
+		if (newScope) {//this means we are not inside a function
+			if (main) //
 				ret += "\t push $sp\n";//just for consistency, to have the same stack structure everywhere
-			else if(!function){
+			else if (!function) {
 				ret += "\t push $fp\n"; //if is not a function fp needs to be saved cause it's not saved otherwise, inside a function the callee pushes the fp 
 			}
 			ret += "\t mv $al $fp\n \t push $al\n";//used to go through the static chain
 		}
-				
-		for(DeclarationNode dec : decs)
-			ret += dec.codeGeneration();
+		List<DeclarationNode> funDeclarations = new ArrayList<>();
+		for (DeclarationNode dec : decs) {
+			if (!( dec instanceof DeclarateFunNode)) {
+				funDeclarations.add(dec);
+				ret += dec.codeGeneration();
+			}
+		}
 		for(StatementNode stm : stms)
 			ret += stm.codeGeneration();
+		//we need to put function declaration at the end of the assembly code, otherwise they refer to register that aren't yet been initialized by the callee, for example the ra register
+		for(DeclarationNode dec: funDeclarations)
+			ret += dec.codeGeneration();
 		
 		if(main)
 			ret += "\t halt\n";

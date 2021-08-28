@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import ast.SVMVisitorImpl;
 import ast.statements.BlockNode;
@@ -107,7 +105,7 @@ public class Main {
 						System.out.println("You had: "+lexerASM.errorCount()+" lexical errors and "+parserASM.getNumberOfSyntaxErrors()+" syntax errors.");
 						if (lexerASM.errorCount()>0 || parserASM.getNumberOfSyntaxErrors()>0) System.exit(1);
 		
-					//	System.out.println("Starting Virtual Machine...");
+						System.out.println("Starting Virtual Machine...");
 						ExecuteSVM vm = new ExecuteSVM(1000, visitorSVM.getCode());
 						vm.run();
 					}

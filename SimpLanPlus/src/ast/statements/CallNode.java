@@ -72,7 +72,8 @@ public class CallNode implements Node{
 	@Override
 	public String codeGeneration() {
 		//i feel like something's missing
-		String ret = "push $fp\n";
+		String ret = "; BEGIN CALLING " + id.getTextId() + "\n";
+		ret += "push $fp\n";
 		for(int i = params.size()-1; i >= 0; i--)
 		{
 			ret += params.get(i).codeGeneration() + 
@@ -84,6 +85,7 @@ public class CallNode implements Node{
 			ret += "lw $al 0($al)\n";
 		ret += "push $al\n";
 		ret += "jal " + id.getTextId(); //decfun saves ra firstly
+		ret += "; END CALLING " + id.getTextId()+ "\n;";
 		return ret;
 	}
 

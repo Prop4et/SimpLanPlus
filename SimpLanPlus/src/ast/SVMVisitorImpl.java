@@ -8,7 +8,7 @@ import interpreter.Instruction;
 import interpreter.lexer.SVMBaseVisitor;
 import interpreter.lexer.SVMParser;
 
-public class SVMVisitorImpl extends SVMBaseVisitor<Void>{
+public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 	private final List<Instruction> code = new ArrayList<>();
 	//private int i = 0; could directly use code.size() instead
 	//labelAdd = (endif3, 3)

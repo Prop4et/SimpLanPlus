@@ -56,7 +56,7 @@ public class DecVarNode implements Node{
 		if (exp == null) {
 			return begin + "\t addi $sp $sp -1\n" + end;
 		}
-		return begin + exp.codeGeneration() + "\t push $a0\n" + end;
+		return begin + exp.codeGeneration() + "\t push $a0\n" + end;		//if I'm declaring a pointer I do not need to push its values, what should I do?
 	}
 
 
