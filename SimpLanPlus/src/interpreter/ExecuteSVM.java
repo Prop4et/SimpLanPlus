@@ -1,5 +1,7 @@
 package interpreter;
 
+import exceptions.MemoryAccessException;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class ExecuteSVM {
 
         registers = new HashMap<>();
         registers.put("$sp", memSize);
-        registers.put("$fp", memSize);
+        registers.put("$fp", memSize - 1);
         registers.put("$hp", 0);
         registers.put("$ra", null);
         registers.put("$al", null);
@@ -31,11 +33,10 @@ public class ExecuteSVM {
         
         }
     
-    public void run() {
+    public void run() throws MemoryAccessException {
     	while(true) {
     		if(registers.get("$hp")+1>=registers.get("$sp")) {
-        		System.out.println("\nError: Out of memory");
-                return;
+        		throw  new MemoryAccessException("Error: Out of memory");
         	}else {
         		Instruction bytecode = code.get(ip); // fetch
 				System.out.print("getting instr: "+ code.get(ip).getInstruction() +code.get(ip).getArg1() + code.get(ip).getArg2() + code.get(ip).getArg3() +"\n " );
@@ -55,12 +56,19 @@ public class ExecuteSVM {
                 	registers.put("$sp", registers.get("$sp") + 1); 
                 	break;
                 case "lw":
-                	////pop the value x on top of the stack and push MEMORY[x]
-                	registers.put(arg1, memory[registers.get(arg2)+offset]); //lw $r1 offset($r2)
+                	//pop the value x on top of the stack and push MEMORY[x]
+					int address;
+					try{
+						System.out.print(registers.get("$al"));
+						 address = memory[registers.get(arg2)+offset];		//a cosa sto accedendo?
+					}catch (IndexOutOfBoundsException e){
+						throw new MemoryAccessException("Cannot address this area. ");
+					};
+                	registers.put(arg1, address); //lw $r1 offset($r2)
                 	break;
-                case "sw":															//	sw $r1 offset($r2)		//L'azione di store word prende il contenuto di un registro e lo memorizza all'interno della memoria.
-																										//Quindi memorizza la parola contenuta nel registro $r1 all'indirizzo di memoria $r2+offset (solitamente $r2 è il puntatore allo stack $sp)
-                	memory[registers.get(arg2)+offset] = registers.get(arg1); //non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
+                case "sw":															//	sw $r1 offset($r2)  ----> L'azione di store word prende il contenuto di un registro e lo memorizza all'interno della memoria.
+																					//Quindi memorizza la parola contenuta nel registro $r1 all'indirizzo di memoria $r2+offset (solitamente $r2 è il puntatore allo stack $sp)
+                	memory[registers.get(arg2)+offset] = registers.get(arg1); 		//non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
 					registers.put("$a0", registers.get(arg1) );
                 	break;
                 case "li":
@@ -130,7 +138,8 @@ public class ExecuteSVM {
                 	break;
                 case "jal":
                 	registers.put("$ra", ip); //save the next instruction in $ra
-                	ip = Integer.parseInt(arg1);
+					//label sono "label + num univoco", devo ragionare solo sul numero? 
+					ip = Integer.parseInt(arg1);
                 	break;
                 case "jr":
                 	ip = registers.get(arg1);
