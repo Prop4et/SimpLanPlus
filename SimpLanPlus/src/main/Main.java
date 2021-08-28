@@ -87,13 +87,13 @@ public class Main {
 							dir.mkdirs();
 						}
 						String code=ast.codeGeneration();
-						System.out.println(code);
-						BufferedWriter out = new BufferedWriter(new FileWriter("Tests/compiledTests/" + files[i].getPath().replace("./Tests/", "")+".asm"));
+						String tmp = files[i].getPath().substring(8);
+						BufferedWriter out = new BufferedWriter(new FileWriter("Tests/compiledTests/" + tmp +".asm"));
 						out.write(code);
 						out.close(); 
 						System.out.println("Code generated! Assembling and running generated code.");
 		
-						FileInputStream isASM = new FileInputStream("Tests/compiledTests/" + files[i].getPath().replace("./Tests/", "")+".asm");
+						FileInputStream isASM = new FileInputStream("Tests/compiledTests/" + tmp +".asm");
 						ANTLRInputStream inputASM = new ANTLRInputStream(isASM);
 						SVMLexer lexerASM = new SVMLexer(inputASM);
 						CommonTokenStream tokensASM = new CommonTokenStream(lexerASM);
