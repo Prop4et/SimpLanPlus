@@ -38,28 +38,28 @@ public class SVMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements SV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLoadWord(SVMParser.LoadWordContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLw(SVMParser.LwContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStoreWord(SVMParser.StoreWordContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSw(SVMParser.SwContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLoadInteger(SVMParser.LoadIntegerContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLi(SVMParser.LiContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMove(SVMParser.MoveContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMv(SVMParser.MvContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -80,7 +80,7 @@ public class SVMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements SV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMult(SVMParser.MultContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMul(SVMParser.MulContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -94,28 +94,28 @@ public class SVMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements SV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAddInt(SVMParser.AddIntContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAddi(SVMParser.AddiContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSubInt(SVMParser.SubIntContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSubi(SVMParser.SubiContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMultInt(SVMParser.MultIntContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMuli(SVMParser.MuliContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDivInt(SVMParser.DivIntContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDivi(SVMParser.DiviContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -143,21 +143,21 @@ public class SVMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements SV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBranchIfEqual(SVMParser.BranchIfEqualContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBeq(SVMParser.BeqContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBranchIfLessEqual(SVMParser.BranchIfLessEqualContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBleq(SVMParser.BleqContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBranch(SVMParser.BranchContext ctx) { return visitChildren(ctx); }
+	@Override public T visitB(SVMParser.BContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -171,21 +171,21 @@ public class SVMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements SV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitJumpToFunction(SVMParser.JumpToFunctionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitJal(SVMParser.JalContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitJumpToRegister(SVMParser.JumpToRegisterContext ctx) { return visitChildren(ctx); }
+	@Override public T visitJr(SVMParser.JrContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDelete(SVMParser.DeleteContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDel(SVMParser.DelContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

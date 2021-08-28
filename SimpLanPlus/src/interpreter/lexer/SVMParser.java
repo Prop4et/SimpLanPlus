@@ -20,8 +20,8 @@ public class SVMParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, COL=28, LABEL=29, NUMBER=30, BOOL=31, REGISTER=32, 
-		WS=33, LINECOMMENTS=34, ERR=35;
+		T__24=25, T__25=26, T__26=27, T__27=28, LABEL=29, NUMBER=30, REGISTER=31, 
+		WS=32, LINECOMMENTS=33, ERR=34;
 	public static final int
 		RULE_assembly = 0, RULE_instruction = 1;
 	public static final String[] ruleNames = {
@@ -30,15 +30,15 @@ public class SVMParser extends Parser {
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'push'", "'pop'", "'lw'", "'('", "')'", "'sw'", "'li'", "'mv'", 
-		"'add'", "'sub'", "'mult'", "'div'", "'addi'", "'subi'", "'multi'", "'divi'", 
-		"'and'", "'or'", "'not'", "'beq'", "'bleq'", "'b'", "'jal'", "'jr'", "'del'", 
-		"'print'", "'halt'", "':'"
+		"'add'", "'sub'", "'mul'", "'div'", "'addi'", "'subi'", "'muli'", "'divi'", 
+		"'and'", "'or'", "'not'", "'beq'", "'bleq'", "'b'", "':'", "'jal'", "'jr'", 
+		"'del'", "'print'", "'halt'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, "COL", "LABEL", "NUMBER", "BOOL", "REGISTER", 
-		"WS", "LINECOMMENTS", "ERR"
+		null, null, null, null, null, "LABEL", "NUMBER", "REGISTER", "WS", "LINECOMMENTS", 
+		"ERR"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -117,7 +117,7 @@ public class SVMParser extends Parser {
 			setState(7);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << T__11) | (1L << T__12) | (1L << T__13) | (1L << T__14) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__21) | (1L << T__22) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << LABEL))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << T__11) | (1L << T__12) | (1L << T__13) | (1L << T__14) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__21) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << T__27) | (1L << LABEL))) != 0)) {
 				{
 				{
 				setState(4);
@@ -167,7 +167,7 @@ public class SVMParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class MultContext extends InstructionContext {
+	public static class MulContext extends InstructionContext {
 		public Token out;
 		public Token in;
 		public Token in2;
@@ -175,43 +175,75 @@ public class SVMParser extends Parser {
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
 		}
-		public MultContext(InstructionContext ctx) { copyFrom(ctx); }
+		public MulContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitMult(this);
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitMul(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class MultIntContext extends InstructionContext {
+	public static class AddiContext extends InstructionContext {
 		public Token out;
 		public Token in;
-		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
+		public Token in2;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
 		}
-		public MultIntContext(InstructionContext ctx) { copyFrom(ctx); }
+		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
+		public AddiContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitMultInt(this);
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitAddi(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class BranchContext extends InstructionContext {
-		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
-		public BranchContext(InstructionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitBranch(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class DeleteContext extends InstructionContext {
+	public static class JrContext extends InstructionContext {
 		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
-		public DeleteContext(InstructionContext ctx) { copyFrom(ctx); }
+		public JrContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitDelete(this);
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitJr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DelContext extends InstructionContext {
+		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
+		public DelContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitDel(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LwContext extends InstructionContext {
+		public Token out;
+		public Token offset;
+		public Token in;
+		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
+		public TerminalNode REGISTER(int i) {
+			return getToken(SVMParser.REGISTER, i);
+		}
+		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
+		public LwContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitLw(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BeqContext extends InstructionContext {
+		public Token in;
+		public Token in2;
+		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
+		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
+		public TerminalNode REGISTER(int i) {
+			return getToken(SVMParser.REGISTER, i);
+		}
+		public BeqContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitBeq(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -238,22 +270,6 @@ public class SVMParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class StoreWordContext extends InstructionContext {
-		public Token in;
-		public Token offset;
-		public Token out;
-		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
-		public TerminalNode REGISTER(int i) {
-			return getToken(SVMParser.REGISTER, i);
-		}
-		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
-		public StoreWordContext(InstructionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitStoreWord(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class NotContext extends InstructionContext {
 		public Token out;
 		public Token in;
@@ -268,34 +284,28 @@ public class SVMParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class LoadWordContext extends InstructionContext {
-		public Token out;
-		public Token offset;
-		public Token in;
-		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
-		public TerminalNode REGISTER(int i) {
-			return getToken(SVMParser.REGISTER, i);
-		}
-		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
-		public LoadWordContext(InstructionContext ctx) { copyFrom(ctx); }
+	public static class JalContext extends InstructionContext {
+		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
+		public JalContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitLoadWord(this);
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitJal(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class SubIntContext extends InstructionContext {
+	public static class MuliContext extends InstructionContext {
 		public Token out;
 		public Token in;
-		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
+		public Token in2;
 		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
 		public TerminalNode REGISTER(int i) {
 			return getToken(SVMParser.REGISTER, i);
 		}
-		public SubIntContext(InstructionContext ctx) { copyFrom(ctx); }
+		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
+		public MuliContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitSubInt(this);
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitMuli(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -314,22 +324,50 @@ public class SVMParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class JumpToFunctionContext extends InstructionContext {
-		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
-		public JumpToFunctionContext(InstructionContext ctx) { copyFrom(ctx); }
+	public static class DiviContext extends InstructionContext {
+		public Token out;
+		public Token in;
+		public Token in2;
+		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
+		public TerminalNode REGISTER(int i) {
+			return getToken(SVMParser.REGISTER, i);
+		}
+		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
+		public DiviContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitJumpToFunction(this);
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitDivi(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class LoadIntegerContext extends InstructionContext {
-		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
-		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
-		public LoadIntegerContext(InstructionContext ctx) { copyFrom(ctx); }
+	public static class BleqContext extends InstructionContext {
+		public Token in;
+		public Token in2;
+		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
+		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
+		public TerminalNode REGISTER(int i) {
+			return getToken(SVMParser.REGISTER, i);
+		}
+		public BleqContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitLoadInteger(this);
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitBleq(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class SubiContext extends InstructionContext {
+		public Token out;
+		public Token in;
+		public Token in2;
+		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
+		public TerminalNode REGISTER(int i) {
+			return getToken(SVMParser.REGISTER, i);
+		}
+		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
+		public SubiContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitSubi(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -348,17 +386,12 @@ public class SVMParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class MoveContext extends InstructionContext {
-		public Token out;
-		public Token in;
-		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
-		public TerminalNode REGISTER(int i) {
-			return getToken(SVMParser.REGISTER, i);
-		}
-		public MoveContext(InstructionContext ctx) { copyFrom(ctx); }
+	public static class BContext extends InstructionContext {
+		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
+		public BContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitMove(this);
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitB(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -377,18 +410,38 @@ public class SVMParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class JumpToRegisterContext extends InstructionContext {
-		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
-		public JumpToRegisterContext(InstructionContext ctx) { copyFrom(ctx); }
+	public static class SwContext extends InstructionContext {
+		public Token in;
+		public Token offset;
+		public Token out;
+		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
+		public TerminalNode REGISTER(int i) {
+			return getToken(SVMParser.REGISTER, i);
+		}
+		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
+		public SwContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitJumpToRegister(this);
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitSw(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MvContext extends InstructionContext {
+		public Token out;
+		public Token in;
+		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
+		public TerminalNode REGISTER(int i) {
+			return getToken(SVMParser.REGISTER, i);
+		}
+		public MvContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitMv(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class LabelContext extends InstructionContext {
 		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
-		public TerminalNode COL() { return getToken(SVMParser.COL, 0); }
 		public LabelContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -422,63 +475,15 @@ public class SVMParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class BranchIfLessEqualContext extends InstructionContext {
-		public Token in;
-		public Token in2;
-		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
-		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
-		public TerminalNode REGISTER(int i) {
-			return getToken(SVMParser.REGISTER, i);
-		}
-		public BranchIfLessEqualContext(InstructionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitBranchIfLessEqual(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class BranchIfEqualContext extends InstructionContext {
-		public Token in;
-		public Token in2;
-		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
-		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
-		public TerminalNode REGISTER(int i) {
-			return getToken(SVMParser.REGISTER, i);
-		}
-		public BranchIfEqualContext(InstructionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitBranchIfEqual(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class AddIntContext extends InstructionContext {
+	public static class LiContext extends InstructionContext {
 		public Token out;
 		public Token in;
+		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
-		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
-		public TerminalNode REGISTER(int i) {
-			return getToken(SVMParser.REGISTER, i);
-		}
-		public AddIntContext(InstructionContext ctx) { copyFrom(ctx); }
+		public LiContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitAddInt(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class DivIntContext extends InstructionContext {
-		public Token out;
-		public Token in;
-		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
-		public List<TerminalNode> REGISTER() { return getTokens(SVMParser.REGISTER); }
-		public TerminalNode REGISTER(int i) {
-			return getToken(SVMParser.REGISTER, i);
-		}
-		public DivIntContext(InstructionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitDivInt(this);
+			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitLi(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -509,63 +514,63 @@ public class SVMParser extends Parser {
 				}
 				break;
 			case T__2:
-				_localctx = new LoadWordContext(_localctx);
+				_localctx = new LwContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(13);
 				match(T__2);
 				setState(14);
-				((LoadWordContext)_localctx).out = match(REGISTER);
+				((LwContext)_localctx).out = match(REGISTER);
 				setState(15);
-				((LoadWordContext)_localctx).offset = match(NUMBER);
+				((LwContext)_localctx).offset = match(NUMBER);
 				setState(16);
 				match(T__3);
 				setState(17);
-				((LoadWordContext)_localctx).in = match(REGISTER);
+				((LwContext)_localctx).in = match(REGISTER);
 				setState(18);
 				match(T__4);
 				}
 				break;
 			case T__5:
-				_localctx = new StoreWordContext(_localctx);
+				_localctx = new SwContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(19);
 				match(T__5);
 				setState(20);
-				((StoreWordContext)_localctx).in = match(REGISTER);
+				((SwContext)_localctx).in = match(REGISTER);
 				setState(21);
-				((StoreWordContext)_localctx).offset = match(NUMBER);
+				((SwContext)_localctx).offset = match(NUMBER);
 				setState(22);
 				match(T__3);
 				setState(23);
-				((StoreWordContext)_localctx).out = match(REGISTER);
+				((SwContext)_localctx).out = match(REGISTER);
 				setState(24);
 				match(T__4);
 				}
 				break;
 			case T__6:
-				_localctx = new LoadIntegerContext(_localctx);
+				_localctx = new LiContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(25);
 				match(T__6);
 				setState(26);
-				match(REGISTER);
+				((LiContext)_localctx).out = match(REGISTER);
 				setState(27);
-				match(NUMBER);
+				((LiContext)_localctx).in = match(NUMBER);
 				}
 				break;
 			case T__7:
-				_localctx = new MoveContext(_localctx);
+				_localctx = new MvContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(28);
 				match(T__7);
 				setState(29);
-				((MoveContext)_localctx).out = match(REGISTER);
+				((MvContext)_localctx).out = match(REGISTER);
 				setState(30);
-				((MoveContext)_localctx).in = match(REGISTER);
+				((MvContext)_localctx).in = match(REGISTER);
 				}
 				break;
 			case T__8:
@@ -597,17 +602,17 @@ public class SVMParser extends Parser {
 				}
 				break;
 			case T__10:
-				_localctx = new MultContext(_localctx);
+				_localctx = new MulContext(_localctx);
 				enterOuterAlt(_localctx, 9);
 				{
 				setState(39);
 				match(T__10);
 				setState(40);
-				((MultContext)_localctx).out = match(REGISTER);
+				((MulContext)_localctx).out = match(REGISTER);
 				setState(41);
-				((MultContext)_localctx).in = match(REGISTER);
+				((MulContext)_localctx).in = match(REGISTER);
 				setState(42);
-				((MultContext)_localctx).in2 = match(REGISTER);
+				((MulContext)_localctx).in2 = match(REGISTER);
 				}
 				break;
 			case T__11:
@@ -625,59 +630,59 @@ public class SVMParser extends Parser {
 				}
 				break;
 			case T__12:
-				_localctx = new AddIntContext(_localctx);
+				_localctx = new AddiContext(_localctx);
 				enterOuterAlt(_localctx, 11);
 				{
 				setState(47);
 				match(T__12);
 				setState(48);
-				((AddIntContext)_localctx).out = match(REGISTER);
+				((AddiContext)_localctx).out = match(REGISTER);
 				setState(49);
-				((AddIntContext)_localctx).in = match(REGISTER);
+				((AddiContext)_localctx).in = match(REGISTER);
 				setState(50);
-				match(NUMBER);
+				((AddiContext)_localctx).in2 = match(NUMBER);
 				}
 				break;
 			case T__13:
-				_localctx = new SubIntContext(_localctx);
+				_localctx = new SubiContext(_localctx);
 				enterOuterAlt(_localctx, 12);
 				{
 				setState(51);
 				match(T__13);
 				setState(52);
-				((SubIntContext)_localctx).out = match(REGISTER);
+				((SubiContext)_localctx).out = match(REGISTER);
 				setState(53);
-				((SubIntContext)_localctx).in = match(REGISTER);
+				((SubiContext)_localctx).in = match(REGISTER);
 				setState(54);
-				match(NUMBER);
+				((SubiContext)_localctx).in2 = match(NUMBER);
 				}
 				break;
 			case T__14:
-				_localctx = new MultIntContext(_localctx);
+				_localctx = new MuliContext(_localctx);
 				enterOuterAlt(_localctx, 13);
 				{
 				setState(55);
 				match(T__14);
 				setState(56);
-				((MultIntContext)_localctx).out = match(REGISTER);
+				((MuliContext)_localctx).out = match(REGISTER);
 				setState(57);
-				((MultIntContext)_localctx).in = match(REGISTER);
+				((MuliContext)_localctx).in = match(REGISTER);
 				setState(58);
-				match(NUMBER);
+				((MuliContext)_localctx).in2 = match(NUMBER);
 				}
 				break;
 			case T__15:
-				_localctx = new DivIntContext(_localctx);
+				_localctx = new DiviContext(_localctx);
 				enterOuterAlt(_localctx, 14);
 				{
 				setState(59);
 				match(T__15);
 				setState(60);
-				((DivIntContext)_localctx).out = match(REGISTER);
+				((DiviContext)_localctx).out = match(REGISTER);
 				setState(61);
-				((DivIntContext)_localctx).in = match(REGISTER);
+				((DiviContext)_localctx).in = match(REGISTER);
 				setState(62);
-				match(NUMBER);
+				((DiviContext)_localctx).in2 = match(NUMBER);
 				}
 				break;
 			case T__16:
@@ -721,35 +726,35 @@ public class SVMParser extends Parser {
 				}
 				break;
 			case T__19:
-				_localctx = new BranchIfEqualContext(_localctx);
+				_localctx = new BeqContext(_localctx);
 				enterOuterAlt(_localctx, 18);
 				{
 				setState(74);
 				match(T__19);
 				setState(75);
-				((BranchIfEqualContext)_localctx).in = match(REGISTER);
+				((BeqContext)_localctx).in = match(REGISTER);
 				setState(76);
-				((BranchIfEqualContext)_localctx).in2 = match(REGISTER);
+				((BeqContext)_localctx).in2 = match(REGISTER);
 				setState(77);
 				match(LABEL);
 				}
 				break;
 			case T__20:
-				_localctx = new BranchIfLessEqualContext(_localctx);
+				_localctx = new BleqContext(_localctx);
 				enterOuterAlt(_localctx, 19);
 				{
 				setState(78);
 				match(T__20);
 				setState(79);
-				((BranchIfLessEqualContext)_localctx).in = match(REGISTER);
+				((BleqContext)_localctx).in = match(REGISTER);
 				setState(80);
-				((BranchIfLessEqualContext)_localctx).in2 = match(REGISTER);
+				((BleqContext)_localctx).in2 = match(REGISTER);
 				setState(81);
 				match(LABEL);
 				}
 				break;
 			case T__21:
-				_localctx = new BranchContext(_localctx);
+				_localctx = new BContext(_localctx);
 				enterOuterAlt(_localctx, 20);
 				{
 				setState(82);
@@ -765,55 +770,55 @@ public class SVMParser extends Parser {
 				setState(84);
 				match(LABEL);
 				setState(85);
-				match(COL);
+				match(T__22);
 				}
 				break;
-			case T__22:
-				_localctx = new JumpToFunctionContext(_localctx);
+			case T__23:
+				_localctx = new JalContext(_localctx);
 				enterOuterAlt(_localctx, 22);
 				{
 				setState(86);
-				match(T__22);
+				match(T__23);
 				setState(87);
 				match(LABEL);
 				}
 				break;
-			case T__23:
-				_localctx = new JumpToRegisterContext(_localctx);
+			case T__24:
+				_localctx = new JrContext(_localctx);
 				enterOuterAlt(_localctx, 23);
 				{
 				setState(88);
-				match(T__23);
+				match(T__24);
 				setState(89);
 				match(REGISTER);
 				}
 				break;
-			case T__24:
-				_localctx = new DeleteContext(_localctx);
+			case T__25:
+				_localctx = new DelContext(_localctx);
 				enterOuterAlt(_localctx, 24);
 				{
 				setState(90);
-				match(T__24);
+				match(T__25);
 				setState(91);
 				match(REGISTER);
 				}
 				break;
-			case T__25:
+			case T__26:
 				_localctx = new PrintContext(_localctx);
 				enterOuterAlt(_localctx, 25);
 				{
 				setState(92);
-				match(T__25);
+				match(T__26);
 				setState(93);
 				match(REGISTER);
 				}
 				break;
-			case T__26:
+			case T__27:
 				_localctx = new HaltContext(_localctx);
 				enterOuterAlt(_localctx, 26);
 				{
 				setState(94);
-				match(T__26);
+				match(T__27);
 				}
 				break;
 			default:
@@ -832,7 +837,7 @@ public class SVMParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3%d\4\2\t\2\4\3\t\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$d\4\2\t\2\4\3\t\3"+
 		"\3\2\7\2\b\n\2\f\2\16\2\13\13\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
@@ -840,25 +845,24 @@ public class SVMParser extends Parser {
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\5\3b\n\3\3\3\2\2\4\2\4\2\2\2{\2\t\3\2\2\2\4a\3"+
 		"\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\13\3\2\2\2\t\7\3\2\2\2\t\n\3\2\2\2\n"+
-		"\3\3\2\2\2\13\t\3\2\2\2\f\r\7\3\2\2\rb\7\"\2\2\16b\7\4\2\2\17\20\7\5\2"+
-		"\2\20\21\7\"\2\2\21\22\7 \2\2\22\23\7\6\2\2\23\24\7\"\2\2\24b\7\7\2\2"+
-		"\25\26\7\b\2\2\26\27\7\"\2\2\27\30\7 \2\2\30\31\7\6\2\2\31\32\7\"\2\2"+
-		"\32b\7\7\2\2\33\34\7\t\2\2\34\35\7\"\2\2\35b\7 \2\2\36\37\7\n\2\2\37 "+
-		"\7\"\2\2 b\7\"\2\2!\"\7\13\2\2\"#\7\"\2\2#$\7\"\2\2$b\7\"\2\2%&\7\f\2"+
-		"\2&\'\7\"\2\2\'(\7\"\2\2(b\7\"\2\2)*\7\r\2\2*+\7\"\2\2+,\7\"\2\2,b\7\""+
-		"\2\2-.\7\16\2\2./\7\"\2\2/\60\7\"\2\2\60b\7\"\2\2\61\62\7\17\2\2\62\63"+
-		"\7\"\2\2\63\64\7\"\2\2\64b\7 \2\2\65\66\7\20\2\2\66\67\7\"\2\2\678\7\""+
-		"\2\28b\7 \2\29:\7\21\2\2:;\7\"\2\2;<\7\"\2\2<b\7 \2\2=>\7\22\2\2>?\7\""+
-		"\2\2?@\7\"\2\2@b\7 \2\2AB\7\23\2\2BC\7\"\2\2CD\7\"\2\2Db\7\"\2\2EF\7\24"+
-		"\2\2FG\7\"\2\2GH\7\"\2\2Hb\7\"\2\2IJ\7\25\2\2JK\7\"\2\2Kb\7\"\2\2LM\7"+
-		"\26\2\2MN\7\"\2\2NO\7\"\2\2Ob\7\37\2\2PQ\7\27\2\2QR\7\"\2\2RS\7\"\2\2"+
-		"Sb\7\37\2\2TU\7\30\2\2Ub\7\37\2\2VW\7\37\2\2Wb\7\36\2\2XY\7\31\2\2Yb\7"+
-		"\37\2\2Z[\7\32\2\2[b\7\"\2\2\\]\7\33\2\2]b\7\"\2\2^_\7\34\2\2_b\7\"\2"+
-		"\2`b\7\35\2\2a\f\3\2\2\2a\16\3\2\2\2a\17\3\2\2\2a\25\3\2\2\2a\33\3\2\2"+
-		"\2a\36\3\2\2\2a!\3\2\2\2a%\3\2\2\2a)\3\2\2\2a-\3\2\2\2a\61\3\2\2\2a\65"+
-		"\3\2\2\2a9\3\2\2\2a=\3\2\2\2aA\3\2\2\2aE\3\2\2\2aI\3\2\2\2aL\3\2\2\2a"+
-		"P\3\2\2\2aT\3\2\2\2aV\3\2\2\2aX\3\2\2\2aZ\3\2\2\2a\\\3\2\2\2a^\3\2\2\2"+
-		"a`\3\2\2\2b\5\3\2\2\2\4\ta";
+		"\3\3\2\2\2\13\t\3\2\2\2\f\r\7\3\2\2\rb\7!\2\2\16b\7\4\2\2\17\20\7\5\2"+
+		"\2\20\21\7!\2\2\21\22\7 \2\2\22\23\7\6\2\2\23\24\7!\2\2\24b\7\7\2\2\25"+
+		"\26\7\b\2\2\26\27\7!\2\2\27\30\7 \2\2\30\31\7\6\2\2\31\32\7!\2\2\32b\7"+
+		"\7\2\2\33\34\7\t\2\2\34\35\7!\2\2\35b\7 \2\2\36\37\7\n\2\2\37 \7!\2\2"+
+		" b\7!\2\2!\"\7\13\2\2\"#\7!\2\2#$\7!\2\2$b\7!\2\2%&\7\f\2\2&\'\7!\2\2"+
+		"\'(\7!\2\2(b\7!\2\2)*\7\r\2\2*+\7!\2\2+,\7!\2\2,b\7!\2\2-.\7\16\2\2./"+
+		"\7!\2\2/\60\7!\2\2\60b\7!\2\2\61\62\7\17\2\2\62\63\7!\2\2\63\64\7!\2\2"+
+		"\64b\7 \2\2\65\66\7\20\2\2\66\67\7!\2\2\678\7!\2\28b\7 \2\29:\7\21\2\2"+
+		":;\7!\2\2;<\7!\2\2<b\7 \2\2=>\7\22\2\2>?\7!\2\2?@\7!\2\2@b\7 \2\2AB\7"+
+		"\23\2\2BC\7!\2\2CD\7!\2\2Db\7!\2\2EF\7\24\2\2FG\7!\2\2GH\7!\2\2Hb\7!\2"+
+		"\2IJ\7\25\2\2JK\7!\2\2Kb\7!\2\2LM\7\26\2\2MN\7!\2\2NO\7!\2\2Ob\7\37\2"+
+		"\2PQ\7\27\2\2QR\7!\2\2RS\7!\2\2Sb\7\37\2\2TU\7\30\2\2Ub\7\37\2\2VW\7\37"+
+		"\2\2Wb\7\31\2\2XY\7\32\2\2Yb\7\37\2\2Z[\7\33\2\2[b\7!\2\2\\]\7\34\2\2"+
+		"]b\7!\2\2^_\7\35\2\2_b\7!\2\2`b\7\36\2\2a\f\3\2\2\2a\16\3\2\2\2a\17\3"+
+		"\2\2\2a\25\3\2\2\2a\33\3\2\2\2a\36\3\2\2\2a!\3\2\2\2a%\3\2\2\2a)\3\2\2"+
+		"\2a-\3\2\2\2a\61\3\2\2\2a\65\3\2\2\2a9\3\2\2\2a=\3\2\2\2aA\3\2\2\2aE\3"+
+		"\2\2\2aI\3\2\2\2aL\3\2\2\2aP\3\2\2\2aT\3\2\2\2aV\3\2\2\2aX\3\2\2\2aZ\3"+
+		"\2\2\2a\\\3\2\2\2a^\3\2\2\2a`\3\2\2\2b\5\3\2\2\2\4\ta";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

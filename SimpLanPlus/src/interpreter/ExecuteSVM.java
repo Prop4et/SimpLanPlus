@@ -111,11 +111,11 @@ public class ExecuteSVM {
                 	break;
                 case "beq":
                 	if(registers.get(arg1) == registers.get(arg2)) 
-                		ip = Integer.parseInt(arg1);
+                		ip = Integer.parseInt(arg3);
                 	break;
                 case "bleq":
                 	if(registers.get(arg1) <= registers.get(arg2))
-                		ip = Integer.parseInt(arg1);
+                		ip = Integer.parseInt(arg3);
                 	break;
                 case "b":
                 	ip = Integer.parseInt(arg1);

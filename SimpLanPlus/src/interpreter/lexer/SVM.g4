@@ -16,36 +16,36 @@ assembly: (instruction)*;
 instruction:
 	'push' REGISTER													# push
 	| 'pop'															# pop
-	| 'lw' out = REGISTER offset = NUMBER '(' in = REGISTER ')'		# loadWord
-	| 'sw' in = REGISTER offset = NUMBER '(' out = REGISTER ')'		# storeWord
-	| 'li' REGISTER NUMBER											# loadInteger
-	| 'mv' out = REGISTER in = REGISTER								# move
+	| 'lw' out = REGISTER offset = NUMBER '(' in = REGISTER ')'		# lw
+	| 'sw' in = REGISTER offset = NUMBER '(' out = REGISTER ')'		# sw
+	| 'li' out = REGISTER in = NUMBER								# li
+	| 'mv' out = REGISTER in = REGISTER								# mv
 	| 'add' out = REGISTER in = REGISTER in2 = REGISTER				# add
 	| 'sub' out = REGISTER in = REGISTER in2 = REGISTER				# sub
-	| 'mult' out = REGISTER in = REGISTER in2 = REGISTER			# mult
+	| 'mul' out = REGISTER in = REGISTER in2 = REGISTER				# mul
 	| 'div' out = REGISTER in = REGISTER in2 = REGISTER				# div
-	| 'addi' out = REGISTER in = REGISTER NUMBER					# addInt
-	| 'subi' out = REGISTER in = REGISTER NUMBER					# subInt
-	| 'multi' out = REGISTER in = REGISTER NUMBER					# multInt
-	| 'divi' out = REGISTER in = REGISTER NUMBER					# divInt
+	| 'addi' out = REGISTER in = REGISTER in2 = NUMBER				# addi
+	| 'subi' out = REGISTER in = REGISTER in2 = NUMBER				# subi
+	| 'muli' out = REGISTER in = REGISTER in2 = NUMBER				# muli
+	| 'divi' out = REGISTER in = REGISTER in2 = NUMBER				# divi
 	| 'and' out = REGISTER in = REGISTER in2 = REGISTER				# and
 	| 'or' out = REGISTER in = REGISTER in2 = REGISTER				# or
 	| 'not' out = REGISTER in = REGISTER							# not
-	| 'beq' in = REGISTER in2 = REGISTER LABEL						# branchIfEqual
-	| 'bleq' in = REGISTER in2 = REGISTER LABEL						# branchIfLessEqual
-	| 'b' LABEL														# branch
-	| LABEL COL														# label
-	| 'jal' LABEL													# jumpToFunction
-	| 'jr' REGISTER													# jumpToRegister
-	| 'del' REGISTER									            # delete
+	| 'beq' in = REGISTER in2 = REGISTER LABEL						# beq
+	| 'bleq' in = REGISTER in2 = REGISTER LABEL						# bleq
+	| 'b' LABEL														# b
+	| LABEL ':'														# label
+	| 'jal' LABEL													# jal
+	| 'jr' REGISTER													# jr
+	| 'del' REGISTER									            # del
 	| 'print' REGISTER												# print
-	| 'halt'														# halt;
+	| 'halt'														# halt
+	;
 
 
 
 
 // LABELS
-COL: ':';
 LABEL: ('a' ..'z' | 'A' ..'Z') (
 		'a' ..'z'
 		| 'A' ..'Z'
@@ -54,7 +54,6 @@ LABEL: ('a' ..'z' | 'A' ..'Z') (
 
 // NUMBERS AND BOOLEANS
 NUMBER: '0' | ('-')? (('1' ..'9') ('0' ..'9')*);
-BOOL: '0' | '1';
 
 //REGISTERS
 REGISTER:
