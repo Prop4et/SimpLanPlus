@@ -3,7 +3,7 @@ package interpreter;
 import java.util.HashMap;
 import java.util.List;
 
-public class SVMInterpreter {
+public class ExecuteSVM {
 	private final int memSize; // Max size of the memory (heap + stack)
 
     private final List<Instruction> code;
@@ -12,15 +12,9 @@ public class SVMInterpreter {
     
     private int ip = 0;
     private HashMap<String, Integer> registers;
-    private int sp;
-    private int hp = 0;
-    private int fp;
-    private int ra;
-    private int al;
-    private int a0;
-    private int t1;
+ 
     
-    public SVMInterpreter(int memSize, List<Instruction> code) {
+    public ExecuteSVM(int memSize, List<Instruction> code) {
     	this.memSize = memSize;
         this.code = code;
         
@@ -39,7 +33,7 @@ public class SVMInterpreter {
     
     public void run() {
     	while(true) {
-    		if(hp+1>=sp) {
+    		if(registers.get("hp")+1>=registers.get("sp")) {
         		System.out.println("\nError: Out of memory");
                 return;
         	}else {
@@ -51,11 +45,11 @@ public class SVMInterpreter {
                 int offset = bytecode.getOffset();
                 switch(bytecode.getInstruction()) {
                 case "push":
-                	sp -= 4; //why don't we just use 1 since everything has the same dimension?
-                	memory[sp] = registers.get(arg1); //push $r1
+                	registers.put("sp", registers.get("sp") - 1); 
+                	memory[registers.get("sp")] = registers.get(arg1); //push $r1
                 	break;
                 case "pop":
-                	sp += 4;
+                	registers.put("sp", registers.get("sp") + 1); 
                 	break;
                 case "lw":
                 	registers.put(arg1, memory[registers.get(arg2)+offset]); //lw $r1 offset($r2)
