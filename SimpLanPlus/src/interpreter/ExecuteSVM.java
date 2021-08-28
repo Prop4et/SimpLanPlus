@@ -21,19 +21,19 @@ public class ExecuteSVM {
         memory = new int[memSize];
 
         registers = new HashMap<>();
-        registers.put("sp", memSize);
-        registers.put("fp", memSize);
-        registers.put("hp", 0);
-        registers.put("ra", null);
-        registers.put("al", null);
-        registers.put("a0", null);
-        registers.put("t1", null);
+        registers.put("$sp", memSize);
+        registers.put("$fp", memSize);
+        registers.put("$hp", 0);
+        registers.put("$ra", null);
+        registers.put("$al", null);
+        registers.put("$a0", null);
+        registers.put("$t1", null);
         
         }
     
     public void run() {
     	while(true) {
-    		if(registers.get("hp")+1>=registers.get("sp")) {
+    		if(registers.get("$hp")+1>=registers.get("$sp")) {
         		System.out.println("\nError: Out of memory");
                 return;
         	}else {
@@ -45,11 +45,12 @@ public class ExecuteSVM {
                 int offset = bytecode.getOffset();
                 switch(bytecode.getInstruction()) {
                 case "push":
-                	registers.put("sp", registers.get("sp") - 1); 
-                	memory[registers.get("sp")] = registers.get(arg1); //push $r1
+                	registers.put("$sp", registers.get("$sp") - 1); 
+                	bytecode.printInstruction();
+                	memory[registers.get("$sp")] = registers.get(arg1); //push $r1
                 	break;
                 case "pop":
-                	registers.put("sp", registers.get("sp") + 1); 
+                	registers.put("$sp", registers.get("$sp") + 1); 
                 	break;
                 case "lw":
                 	registers.put(arg1, memory[registers.get(arg2)+offset]); //lw $r1 offset($r2)
@@ -61,7 +62,7 @@ public class ExecuteSVM {
                 	memory[registers.get(arg1)] = Integer.parseInt(arg2);
                 	break;
                 case "mv":
-                	memory[registers.get(arg1)] = memory[registers.get(arg2)];
+                	registers.put(arg1, registers.get(arg2));
                 	break;
                 case "add":
                 	registers.put(arg1, registers.get(arg2) + registers.get(arg3));
@@ -121,7 +122,7 @@ public class ExecuteSVM {
                 	ip = Integer.parseInt(arg1);
                 	break;
                 case "jal":
-                	registers.put("ra", ip); //save the next instruction in ra
+                	registers.put("$ra", ip); //save the next instruction in $ra
                 	ip = Integer.parseInt(arg1);
                 	break;
                 case "jr":

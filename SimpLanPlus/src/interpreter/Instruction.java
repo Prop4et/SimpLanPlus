@@ -34,6 +34,10 @@ public class Instruction {
 	public String getArg3() {
 		return arg3;
 	}
+	
+	public void printInstruction() {
+		System.out.println(instr + " " + arg1 + " " + offset + "("+arg2+")" + " " + arg3);
+	}
     
     
 }
