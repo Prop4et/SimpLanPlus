@@ -157,7 +157,7 @@ public class BinExpNode extends ExpNode{
                 String trueBranchLabel = labelManager.freshLabel("greaterTrueBranch");
                 String endCheckLabel = "end" + trueBranchLabel;
 
-                ret +="\t "+ "bleq $t1 $a0" + trueBranchLabel + "\n";
+                ret +="\t "+ "bleq $t1 $a0 " + trueBranchLabel + "\n";
                 //False branch
                 ret +="\t "+"li $a0 1\n";
                 ret +="\t "+"b " + endCheckLabel +"\n";

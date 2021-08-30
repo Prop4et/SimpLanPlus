@@ -1,7 +1,25 @@
 {
-	int a = 1;
-	if (a > 1)
-		print a;
-	else
-		print 0;
-}
+ int a = 4;
+ 	{
+ 		int b = 3;
+ 		{	
+ 			int c;
+ 			print a;
+ 			{
+ 				c = 8;
+ 				print c;
+				print b;
+				{
+					if (a != b) print c;
+					else
+					{
+						print a;
+						print b;
+						print c;
+					}
+				}
+ 			}
+ 		}
+ 	}
+ }
+ 

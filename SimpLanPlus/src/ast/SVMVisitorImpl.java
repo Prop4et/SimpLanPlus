@@ -24,9 +24,6 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     @Override 
     public Void visitAssembly(SVMParser.AssemblyContext ctx) { 
     	visitChildren(ctx);
-        System.out.print(labelRef + "\n");  //non capisco come funzionano labelRef e labelAdd e se funzionano correttamente
-        System.out.print(labelAdd + "\n");
-
         for (Integer labelInt: labelRef.keySet()) {
     		//that's what should happen, but code is Instruction, so i have to build the instruction
             //code.put(refAdd, labelAdd.get(labelRef.get(refAdd)));

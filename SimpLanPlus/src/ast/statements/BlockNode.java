@@ -127,7 +127,10 @@ public class BlockNode implements Node{
 		//declare resulting list
 		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
 		if(newScope)
-			env.onScopeEntry();
+			if(main)
+				env.onScopeEntryMain();
+			else
+				env.onScopeEntry();
 		//check semantics in the dec list
 		if(!decs.isEmpty()){
 			for(DeclarationNode d : decs) 
