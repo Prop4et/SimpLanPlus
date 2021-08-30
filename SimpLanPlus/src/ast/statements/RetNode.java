@@ -13,14 +13,16 @@ import semanticAnalysis.SemanticError;
 public class RetNode implements Node{
 
 	private final ExpNode exp; //ExpNode
-	private String label; //label is set inside decfunnode when generating the code
+	private String funEndLabel; //label is set inside decfunnode when generating the code
 	
 	public RetNode(final ExpNode exp) {
 		this.exp = exp;
 	}
 	
-	public void setLabel(String label) {
-		this.label = label;
+	
+	public void setFunEndLabel(final String funEndLabel) {
+		System.out.println(funEndLabel);
+		this.funEndLabel = funEndLabel;
 	}
 	
 	@Override
@@ -44,7 +46,7 @@ public class RetNode implements Node{
 		String ret = "; RETURN "  + "\n" ;
 		if(exp != null)
 			ret += exp.codeGeneration();
-		ret += "\t b " + label + "\n";
+		ret += "\t b " + funEndLabel + "\n";
 		ret += ";END RETURN " + "\n";
 		return ret;
 	}

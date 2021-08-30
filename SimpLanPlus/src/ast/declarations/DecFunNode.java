@@ -16,7 +16,6 @@ import ast.types.FunTypeNode;
 import ast.types.PointerTypeNode;
 import ast.types.TypeNode;
 import exceptions.AlreadyDeclaredException;
-import exceptions.NotDeclaredException;
 import exceptions.TypeException;
 import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
@@ -70,6 +69,7 @@ public class DecFunNode implements Node{
 	public String codeGeneration() {
 		String labelFun = id.getTextId();
 		String ret = "; BEGIN DEFINITION OF " + labelFun + ":\n";
+		body.setFunEndLabel("end"+labelFun);
 		ret += labelFun + ":\n";
 		ret += "mv $fp $sp\n"; //bring the fp up top, where ra is located (space for)
 		ret += "push $ra\n";

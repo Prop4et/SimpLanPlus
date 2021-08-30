@@ -17,6 +17,7 @@ public class IteNode implements Node{
 	private final StatementNode thenB;//then branch is a statement
 	private final StatementNode elseB;//else branch is another statement
 	
+	
 	public IteNode(final ExpNode cond, final StatementNode thenB, final StatementNode elseB) {
 		this.cond = cond;
 		this.thenB = thenB;
@@ -29,6 +30,13 @@ public class IteNode implements Node{
 				(elseB != null ? "\n"+indent +indent + "else:" + indent +"\n"+ elseB.toPrint(indent+indent) : "");
 	}
 
+	public void setFunEndLabel(final String funEndLabel) {
+		thenB.setFunEndLabel(funEndLabel);
+        if (elseB != null) {
+        	elseB.setFunEndLabel(funEndLabel);
+        }
+	}
+	
 	@Override
 	public TypeNode typeCheck() throws TypeException {
 

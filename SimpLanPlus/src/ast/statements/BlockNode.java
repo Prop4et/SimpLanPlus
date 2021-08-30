@@ -26,6 +26,9 @@ public class BlockNode implements Node{
 	private boolean function;
 	//main
 	private boolean main;
+	//in case of function this is the end label
+	private String funEndLabel;
+	
 	public BlockNode(final List<DeclarationNode> decs, final List<StatementNode> stms) {
 		this.decs=decs;
 		this.stms=stms;
@@ -42,6 +45,11 @@ public class BlockNode implements Node{
 		return indent + "{\n" + (declarationsToPrint.isEmpty() ? "" : (declarationsToPrint + "\n")) + (statementsToPrint.isEmpty() ? "" : (statementsToPrint + "\n")) + indent + "}";
 	}
 
+	public void setFunEndLabel(final String funEndLabel) {
+		for(StatementNode stm : stms) 
+			stm.setFunEndLabel(funEndLabel);
+	}
+	
 	@Override
 	public TypeNode typeCheck() throws TypeException {
 		
@@ -104,9 +112,9 @@ public class BlockNode implements Node{
 			ret += dec.codeGeneration();
 		}
 		
-		
-		for(StatementNode stm : stms)
+		for(StatementNode stm : stms) 
 			ret += stm.codeGeneration();
+		
 		if(newScope) {
 			if(!main) {
 				ret += "pop\n ";

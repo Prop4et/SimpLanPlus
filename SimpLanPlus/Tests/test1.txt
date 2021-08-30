@@ -1,25 +1,7 @@
 {
- int a = 4;
- 	{
- 		int b = 3;
- 		{	
- 			int c;
- 			print a;
- 			{
- 				c = 8;
- 				print c;
-				print b;
-				{
-					if (a != b) print c;
-					else
-					{
-						print a;
-						print b;
-						print c;
-					}
-				}
- 			}
- 		}
+	int sum(int a, int b){
+ 		return a + b;
  	}
+ 	//print sum(1, 4);
  }
  
