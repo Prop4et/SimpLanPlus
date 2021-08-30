@@ -47,31 +47,50 @@ public class ExecuteSVM {
                 int offset = bytecode.getOffset();
                 switch(bytecode.getInstruction()) {
                 case "push":
-                	registers.put("$sp", registers.get("$sp") - 1); 
+
+					registers.put("$sp", registers.get("$sp") - 1);
                 	memory[registers.get("$sp")] = registers.get(arg1);
-                	break;
+					System.out.print("pushed" + (registers.get("$sp"))+ "\n");
+					//System.out.println("MEMORIA");
+					for(int i = 0; i<memSize; i++)
+						System.out.println(i +": "+memory[i]);
+
+					break;
                 case "pop":
-                	registers.put("$sp", registers.get("$sp") + 1); 
+					//System.out.println("MEMORIA");
+
+					memory[registers.get("$sp")] = -1;
+					registers.put("$sp", registers.get("$sp") + 1);
+					System.out.print("popped: " + (registers.get("$sp")-1 ) + "\n");
+
+					for(int i = 0; i<memSize; i++)
+						System.out.println(i +": "+memory[i]);
+
                 	break;
                 case "lw":
                 	//pop the value x on top of the stack and push MEMORY[x]
 					int address;
 					try{
+						//System.out.print("fp: " +registers.get(arg2)+offset);
 						address = memory[registers.get(arg2)+offset];		
 					}catch (IndexOutOfBoundsException e){
 						throw new MemoryAccessException("Cannot address this area. ");
 					};
                 	registers.put(arg1, address); //lw $r1 offset($r2)
                 	break;
-                case "sw":															//	sw $r1 offset($r2)  ----> L'azione di store word prende il contenuto di un registro e lo memorizza all'interno della memoria.
+                case "sw":
+
+					//	sw $r1 offset($r2)  ----> L'azione di store word prende il contenuto di un registro e lo memorizza all'interno della memoria.
                 	memory[registers.get(arg2)+offset] = registers.get(arg1); 		//non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
 					//registers.put("$a0", registers.get(arg1) );
-                	break;
+
+					break;
                 case "li":
                 	registers.put(arg1,Integer.parseInt(arg2));
                 	break;
                 case "mv":
                 	registers.put(arg1, registers.get(arg2));
+					System.out.print("get al: " +registers.get(arg2));
                 	break;
                 case "add":
                 	registers.put(arg1, registers.get(arg2) + registers.get(arg3));
