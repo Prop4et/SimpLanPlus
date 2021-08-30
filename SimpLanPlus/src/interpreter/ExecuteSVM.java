@@ -138,9 +138,9 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	System.out.println("MEMORIA");
+                	/*System.out.println("MEMORIA");
                 	for(int i = memory.length-1; i>=0; i--)
-                		System.out.println(memory[i]);
+                		System.out.println(memory[i]);*/
                 	return;
                 default:
                 	System.err.println("Wait, this assembly instruction is not recognized");

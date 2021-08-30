@@ -1,0 +1,15 @@
+{
+/* function declaration and checking if  */
+    int c =7;
+	int y = 7 ;
+	if(y==4){
+	   delete y;
+	   return c;
+	}
+	else{
+	  return 5;
+	}
+	return c;
+
+
+}

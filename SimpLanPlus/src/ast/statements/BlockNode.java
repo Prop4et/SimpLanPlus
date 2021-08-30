@@ -6,6 +6,7 @@ import java.util.List;
 
 import ast.Node;
 import ast.declarations.DeclarateFunNode;
+import ast.declarations.DeclarateVarNode;
 import ast.declarations.DeclarationNode;
 import ast.expressions.BaseExpNode;
 import ast.types.TypeNode;
@@ -95,21 +96,6 @@ public class BlockNode implements Node{
 				ret += "mv $fp $sp\n";
 			}
 		}
-		/*if (newScope) {//this means we are not inside a function
-			if(main)
-				//è il primo blocco, non devo salvare nulla 
-			if(function)
-				//se entro in una funzione dovrei salvare cose
-			
-			
-			
-			if (main) //
-				ret += "\t push $sp\n";//just for consistency, to have the same stack structure everywhere
-			else if (!function) {
-				ret += "\t push $fp\n"; //if is not a function fp needs to be saved cause it's not saved otherwise, inside a function the callee pushes the fp 
-			}
-			ret += "\t mv $al $fp\n \t push $al\n";//used to go through the static chain
-		}*/
 		List<DeclarationNode> funDeclarations = new ArrayList<>();
 		for (DeclarationNode dec : decs) {
 			if (( dec instanceof DeclarateFunNode)) {

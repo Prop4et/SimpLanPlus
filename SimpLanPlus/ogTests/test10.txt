@@ -1,0 +1,9 @@
+{
+//test3 progetto
+    void f(^int x, ^int y){
+        delete x;
+        delete y;
+    }     
+    ^int x = new int;
+    f(x,x);
+}

@@ -1,0 +1,7 @@
+{
+/*function declaration and invocation*/
+	int fun(int a, int b){
+		return a + b;
+	}
+	 fun(1, 2);
+}
