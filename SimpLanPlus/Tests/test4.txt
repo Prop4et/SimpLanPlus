@@ -1,8 +1,0 @@
-{
-	^^int x ;
-	^int y = new int ;
-	y^ = 1 ;        /* this is a dereferentiation, not an assignment, Exception thrown*/
-	x = new int ; 
-	x^ = y ; 
-	print x^^ ;
-}

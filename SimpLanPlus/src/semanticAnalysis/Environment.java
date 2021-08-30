@@ -273,7 +273,7 @@ public class Environment {
 		STentry entry = new STentry(nl, offset, type);
 		if(scope.put(id, entry) != null)
 			throw new AlreadyDeclaredException("Var " + id + " was already declared.");
-		offset-=4;//1?
+		offset-=1;//1?
 		return entry;
 	}
 	
@@ -282,7 +282,7 @@ public class Environment {
 		STentry entry = new STentry(nl, offset, type);
 		if(scope.put(id, entry) != null)
 			System.err.println("Var " + id + " was already declared.");
-		offset-=4;//1?
+		offset-=1;//1?
 		return entry;
 	}
 	

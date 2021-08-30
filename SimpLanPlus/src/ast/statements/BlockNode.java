@@ -89,23 +89,43 @@ public class BlockNode implements Node{
 		//block could be a function body or a normal block, or the main
 		//ra in function right?
 		String ret = "; NEW BLOCK \n";
-		if (newScope) {//this means we are not inside a function
+		if(newScope) {
+			if(!main) {
+				ret += "\t push $fp\n ";
+				ret += "mv $fp $sp\n";
+			}
+		}
+		/*if (newScope) {//this means we are not inside a function
+			if(main)
+				//è il primo blocco, non devo salvare nulla 
+			if(function)
+				//se entro in una funzione dovrei salvare cose
+			
+			
+			
 			if (main) //
 				ret += "\t push $sp\n";//just for consistency, to have the same stack structure everywhere
 			else if (!function) {
 				ret += "\t push $fp\n"; //if is not a function fp needs to be saved cause it's not saved otherwise, inside a function the callee pushes the fp 
 			}
 			ret += "\t mv $al $fp\n \t push $al\n";//used to go through the static chain
-		}
+		}*/
 		List<DeclarationNode> funDeclarations = new ArrayList<>();
 		for (DeclarationNode dec : decs) {
-			if (!( dec instanceof DeclarateFunNode)) {
+			if (( dec instanceof DeclarateFunNode)) {
 				funDeclarations.add(dec);
-				ret += dec.codeGeneration();
 			}
+			ret += dec.codeGeneration();
 		}
+		
+		
 		for(StatementNode stm : stms)
 			ret += stm.codeGeneration();
+		if(newScope) {
+			if(!main) {
+				ret += "pop\n ";
+			}
+		}
 		//we need to put function declaration at the end of the assembly code, otherwise they refer to register that aren't yet been initialized by the callee, for example the ra register
 		for(DeclarationNode dec: funDeclarations)
 			ret += dec.codeGeneration();

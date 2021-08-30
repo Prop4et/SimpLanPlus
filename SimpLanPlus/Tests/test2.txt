@@ -1,5 +1,0 @@
-{
-/*declaration with assignment*/
-	int x = 2;
-	{ int y; }
-}

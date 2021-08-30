@@ -48,8 +48,6 @@ public class ExecuteSVM {
                 switch(bytecode.getInstruction()) {
                 case "push":
                 	registers.put("$sp", registers.get("$sp") - 1); 
-                	bytecode.printInstruction();
-					registers.get(arg1);
                 	memory[registers.get("$sp")] = registers.get(arg1);
                 	break;
                 case "pop":
@@ -59,22 +57,18 @@ public class ExecuteSVM {
                 	//pop the value x on top of the stack and push MEMORY[x]
 					int address;
 					try{
-						System.out.print(registers.get("$al"));
-						 address = memory[registers.get(arg2)+offset];		//a cosa sto accedendo?
+						address = memory[registers.get(arg2)+offset];		
 					}catch (IndexOutOfBoundsException e){
 						throw new MemoryAccessException("Cannot address this area. ");
 					};
                 	registers.put(arg1, address); //lw $r1 offset($r2)
                 	break;
                 case "sw":															//	sw $r1 offset($r2)  ----> L'azione di store word prende il contenuto di un registro e lo memorizza all'interno della memoria.
-																					//Quindi memorizza la parola contenuta nel registro $r1 all'indirizzo di memoria $r2+offset (solitamente $r2 è il puntatore allo stack $sp)
                 	memory[registers.get(arg2)+offset] = registers.get(arg1); 		//non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
-					registers.put("$a0", registers.get(arg1) );
+					//registers.put("$a0", registers.get(arg1) );
                 	break;
                 case "li":
-                	// memory[registers.get(arg1)] = Integer.parseInt(arg2); perchè memorizzi in memoria? non bisogna fare l'update solo del registro. In ogni caso cosi faccio l'accesso su memory[null]
-					//secondo me
-					registers.put(arg1,Integer.parseInt(arg2));
+                	registers.put(arg1,Integer.parseInt(arg2));
                 	break;
                 case "mv":
                 	registers.put(arg1, registers.get(arg2));
@@ -110,7 +104,6 @@ public class ExecuteSVM {
                 		registers.put(arg1, null);
                 	break;
                 case "or":
-                	//arg1 and arg2 could only be 0 or 1, if they're the same then the or is true
                 	if(registers.get(arg2) == 1 || registers.get(arg3) == 1)
                 		registers.put(arg1, 1);
                 	else
@@ -134,19 +127,20 @@ public class ExecuteSVM {
                 		ip = Integer.parseInt(arg3);
                 	break;
                 case "b":
-					bytecode.printInstruction();
 					ip = Integer.parseInt(arg1);
                 	break;
                 case "jal":
                 	registers.put("$ra", ip); //save the next instruction in $ra
 					//label sono "label + num univoco", devo ragionare solo sul numero?
-					bytecode.printInstruction();
 					ip = Integer.parseInt(arg1);
                 	break;
                 case "jr":
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
+                	System.out.println("MEMORIA");
+                	for(int i = memory.length-1; i>=0; i--)
+                		System.out.println(memory[i]);
                 	return;
                 default:
                 	System.err.println("Wait, this assembly instruction is not recognized");

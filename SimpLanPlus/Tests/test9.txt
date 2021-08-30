@@ -1,9 +1,0 @@
-{
-/*missing declaration for y
-effects analysis should recognize a delete before a use, so it's a top*/
-	^int y = new int;
-	^int x = new int;
-	x^ = 1 ;
-	delete x ;
-	y^ = x^ ;    // questo codice e` sbagliato!
-}

@@ -1,8 +1,0 @@
-{
-	/*scope checking, this is wrong*/
-	int a;
-	{
-		int b; 
-	}
-	a = a + b;
-}

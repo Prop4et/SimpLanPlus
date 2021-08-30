@@ -77,10 +77,6 @@ public class Main {
 							System.out.println("\t" + e);
 					}
 					else {
-
-				
-
-						// CODE GENERATION  prova.SimpLanPlus.asm
 						File dir = new File("Tests/compiledTests/");
 						if (!dir.exists()){
 							dir.mkdirs();
@@ -107,7 +103,7 @@ public class Main {
 						if (lexerASM.errorCount()>0 || parserASM.getNumberOfSyntaxErrors()>0) System.exit(1);
 		
 						System.out.println("Starting Virtual Machine...");
-						ExecuteSVM vm = new ExecuteSVM(1000, visitorSVM.getCode());
+						ExecuteSVM vm = new ExecuteSVM(50, visitorSVM.getCode());
 						vm.run();
 					}
 				}

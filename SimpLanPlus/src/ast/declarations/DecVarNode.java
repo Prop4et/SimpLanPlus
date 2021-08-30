@@ -47,7 +47,6 @@ public class DecVarNode implements Node{
 	public String codeGeneration() {
 		String begin = "; BEGIN " +this.type.toString() + " " +  this.id.getTextId() + "\n";
 		String end = "; END " +this.type.toString() + " " +  this.id.getTextId() + "\n";
-
 		if(exp != null) {
 			begin = "; BEGIN " + this.type.toString() + " " + this.id.getTextId() + " = " + this.exp.toString() + "\n";
 			end = "; END " + this.type.toString() + " " + this.id.getTextId() + " = " + this.exp.toString() + "\n";
