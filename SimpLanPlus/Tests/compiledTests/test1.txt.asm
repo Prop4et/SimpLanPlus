@@ -39,7 +39,7 @@ addi $fp $fp 0 ;frame pointer before decs (n =: 0)
 ; BEGIN  DEREFERANTION NODE 
 	 mv $al $fp
 	 lw $al 0($al)
- 	 addi $a0 $al -1
+ 	 addi $a0 $al 0
 	 lw $t1 0($sp)
 	 pop
 	 sw $t1 0($a0)
@@ -51,7 +51,7 @@ addi $fp $fp 0 ;frame pointer before decs (n =: 0)
 	 mv $al $fp
 	 lw $al 0($al)
 	 lw $al 0($al)
- 	 addi $a0 $al -1
+ 	 addi $a0 $al 0
 	 lw $t1 0($sp)
 	 pop
 	 sw $t1 0($a0)
@@ -83,7 +83,7 @@ addi $fp $fp 0 ;frame pointer before decs (n =: 0)
 	 lw $al 0($al)
 	 lw $al 0($al)
 	 lw $al 0($al)
- 	 addi $a0 $al -1
+ 	 addi $a0 $al 0
 	 lw $t1 0($sp)
 	 pop
 	 sw $t1 0($a0)
@@ -131,7 +131,7 @@ addi $fp $fp 0 ;frame pointer before decs (n =: 0)
 	 lw $al 0($al)
 	 lw $al 0($al)
 	 lw $al 0($al)
- 	 addi $a0 $al -1
+ 	 addi $a0 $al 0
 	 lw $t1 0($sp)
 	 pop
 	 sw $t1 0($a0)
@@ -185,7 +185,7 @@ addi $fp $fp 0 ;frame pointer before decs (n =: 0)
 	 lw $al 0($al)
 	 lw $al 0($al)
 	 lw $al 0($al)
- 	 addi $a0 $al -1
+ 	 addi $a0 $al 0
 	 lw $t1 0($sp)
 	 pop
 	 sw $t1 0($a0)
@@ -222,7 +222,7 @@ pop ;pop old $fp
 	 push $a0
 ; BEGIN  DEREFERANTION NODE 
 	 mv $al $fp
- 	 addi $a0 $al -1
+ 	 addi $a0 $al 0
 	 lw $t1 0($sp)
 	 pop
 	 sw $t1 0($a0)
