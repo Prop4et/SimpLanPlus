@@ -18,7 +18,7 @@ Progetto di compilatori e interpreti, A. A. 2021
    - [x] variabili globali non devono essere visibili dalle funzioni
    - [x] la correttezza dei tipi (da finire di testare) 
 
-##Al momento è così, manca ancora l'utilizzo di RA 
+Al momento è così, manca ancora l'utilizzo di RA 
 |Record di attivazione        |
 |-----------------------------|
 | Dec M                       |
