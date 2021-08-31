@@ -24,5 +24,6 @@ Al momento è così, manca ancora l'utilizzo di RA
 | x_n                         | 
 | ...                         |
 | x_1                         |
-| AL (Access Link)            | 
+| AL (Access Link)            |
+| RA (Return Address)         |
 | Old FP (Frame Pointer)      |
