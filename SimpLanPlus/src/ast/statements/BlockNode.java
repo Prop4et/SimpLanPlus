@@ -102,9 +102,11 @@ public class BlockNode implements Node{
 		if(newScope) {
 			ret += "\t push $fp\n ";
 			if(!main) {
-				
 				ret += "mv $fp $sp\n";
 			}
+				ret += "\t lw $al 0($fp)\n";
+				ret += "\t push $al\n";		//in this way al point to the old fp, and we're able to get it when exit scope
+				//nel caso del main block la prima cella resta vuota, perchè fp ad offset 0 contiene 0 inizialmente
 		}
 		List<DeclarationNode> funDeclarations = new ArrayList<>();
 		for (DeclarationNode dec : decs) {
@@ -119,8 +121,16 @@ public class BlockNode implements Node{
 		
 		if(newScope) {
 			if(!main) {
-				ret += "pop\n ";
+				for (int i = 0; i< decs.size(); i++)		//pop for var
+					ret += "pop\n";
+				ret += "\t pop \n";		//pop of al and fp
+				ret += "lw $fp 0($sp) \n ";
+				ret += "pop\n";			//pop old fp
 			}
+			//else {
+				//ret += "\t pop\n";
+
+			//}
 		}
 		//we need to put function declaration at the end of the assembly code, otherwise they refer to register that aren't yet been initialized by the callee, for example the ra register
 		for(DeclarationNode dec: funDeclarations)

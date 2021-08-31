@@ -39,10 +39,10 @@ public class LhsNode implements Node{
 		String ret="; BEGIN  DEREFERANTION NODE \n";
 		if(assFlag) {
 			ret += "\t mv $al $fp\n";
-			for (int i = 0; i < (id.getNl() - id.getSTentry().getNl()); i++) {
+			for (int i = 0; i < (id.getSTentry().getNl() - id.getSTentry().getNl()); i++) {
                 ret += "\t lw $al 0($al)\n";
-            }
-			ret += " \t addi $a0 $al " + id.getSTentry().getOffset() +"\n";
+            }//il -1 rappresenta il salto di al
+			ret += " \t addi $a0 $al " +(( id.getSTentry().getOffset() - 1))+"\n";
 		}else
 			ret = id.codeGeneration();
 		
