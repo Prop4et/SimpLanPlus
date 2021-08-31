@@ -170,7 +170,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     
     @Override 
     public Void visitJal(SVMParser.JalContext ctx) {
-        labelAdd.put(ctx.LABEL().getText(), code.size());
+        labelRef.put(code.size(),ctx.LABEL().getText());
         code.add(new Instruction("jal", ctx.LABEL().getText(), 0, null, null));
     	return null;
     }

@@ -1,30 +1,6 @@
 { 
-	int a = 99;
-	int b = 3;
-	
-   	{
-    	int c;
-    	print a;
-    	{
-     		c = 8;
-     		a = 98;
-     		print c;
-    		print b;
-    		{
-        		a = 97;
-     			if (a != b) {
-     				a = 96;
-     				print c;
-     			}
-     			else{
-         			a = 95;
-      				print a;
-      				print b;
-      				print c;
-      		    }
-    		}
-    	}
-   	}
-  	a = 78;
-  	print a;
+	void f(){
+		print 1;
+	}
+	f();
  }

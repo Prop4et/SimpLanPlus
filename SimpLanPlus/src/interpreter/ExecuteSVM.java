@@ -153,6 +153,7 @@ public class ExecuteSVM {
                 case "jal":
                 	registers.put("$ra", ip); //save the next instruction in $ra
 					//label sono "label + num univoco", devo ragionare solo sul numero?
+                	
 					ip = Integer.parseInt(arg1);
                 	break;
                 case "jr":
