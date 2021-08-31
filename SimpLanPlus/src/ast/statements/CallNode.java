@@ -72,6 +72,7 @@ public class CallNode implements Node{
 	@Override
 	public String codeGeneration() {
 		//i feel like something's missing
+		/*
 		String ret = "; BEGIN CALLING " + id.getTextId() + "\n";
 		ret += "push $fp\n";
 		ret += "lw $al 0($fp)\n";
@@ -87,7 +88,37 @@ public class CallNode implements Node{
 		
 		ret += "jal " + id.getTextId(); //decfun saves ra firstly
 		ret += "; END CALLING " + id.getTextId()+ "\n;";
-		return ret;
+		return ret;*/
+		 StringBuilder buffer = new StringBuilder();
+	        buffer.append("; BEGIN ").append(id.getTextId()).append("\n");
+	        buffer.append("push $fp ;we are preparing to call a function, push old $fp\n"); // Push old $fp.
+	        buffer.append("subi $sp $sp 1 ;create space for RA\n");
+
+	     
+	        // There is no a caller (the main called the function) or this is not a recursive call
+            buffer.append("mv $al $fp\n"); // $fp is the address of AL in the previous frame
+	       
+
+
+	        for (int i = 0; i < (id.getNl() - id.getSTentry().getNl()); i++) {
+	            buffer.append("lw $al 0($al)\n");
+	        }
+	        buffer.append("push $al\n");
+
+	        params.forEach(param -> {
+	            buffer.append(param.codeGeneration());
+	            buffer.append("push $a0 ;push of ").append(param).append("\n");
+	        });
+
+	        // $fp = $sp - 1
+	        buffer.append("mv $fp $sp ;update $fp\n");
+	        buffer.append("addi $fp $fp ").append(params.size()).append(" ;fix $fp position to the bottom of the new frame\n");
+
+	        buffer.append("jal ").append(id.getTextId()).append(" ;jump to function (this automatically set $ra to the next instruction)\n");
+
+	        buffer.append("; END ").append(id.getTextId()).append("\n");
+
+	        return buffer.toString();
 	}
 
 

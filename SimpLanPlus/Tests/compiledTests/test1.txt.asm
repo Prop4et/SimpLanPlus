@@ -16,7 +16,7 @@ sw $fp 0($fp); save the old value
 ; END int b = 3
 ; NEW BLOCK 
 push $fp ;push old fp
-li $t1 0; making space for ra
+push $clli $t1 0; making space for ra
 push $t1; pushed ra
 mv $al $fp
 push $al ;it's equal to the old $fp
@@ -33,7 +33,7 @@ addi $fp $fp 1 ;frame pointer before decs (n =: 1)
 print $a0
 ; NEW BLOCK 
 push $fp ;push old fp
-li $t1 0; making space for ra
+push $clli $t1 0; making space for ra
 push $t1; pushed ra
 mv $al $fp
 push $al ;it's equal to the old $fp
@@ -77,7 +77,7 @@ print $a0
 print $a0
 ; NEW BLOCK 
 push $fp ;push old fp
-li $t1 0; making space for ra
+push $clli $t1 0; making space for ra
 push $t1; pushed ra
 mv $al $fp
 push $al ;it's equal to the old $fp
@@ -126,7 +126,7 @@ addi $fp $fp 0 ;frame pointer before decs (n =: 0)
 ; BEGIN ELSE BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
-li $t1 0; making space for ra
+push $clli $t1 0; making space for ra
 push $t1; pushed ra
 mv $al $fp
 push $al ;it's equal to the old $fp
@@ -175,6 +175,8 @@ print $a0
 addi $sp $sp 0 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
+lw $cl 0($sp)
+pop
 lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
  ;END ELSE BRANCH 
@@ -183,7 +185,7 @@ pop ;pop old $fp
 ; THAN BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
-li $t1 0; making space for ra
+push $clli $t1 0; making space for ra
 push $t1; pushed ra
 mv $al $fp
 push $al ;it's equal to the old $fp
@@ -214,6 +216,8 @@ print $a0
 addi $sp $sp 0 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
+lw $cl 0($sp)
+pop
 lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
  ;END THAN BRANCH 
@@ -222,16 +226,22 @@ endifthen1 :
 addi $sp $sp 0 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
+lw $cl 0($sp)
+pop
 lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 addi $sp $sp 0 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
+lw $cl 0($sp)
+pop
 lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 addi $sp $sp 1 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
+lw $cl 0($sp)
+pop
 lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 ; BEGIN a = 78

@@ -24,6 +24,7 @@ public class ExecuteSVM {
 
         registers = new HashMap<>();
         registers.put("$sp", memSize);
+        registers.put("$cl", memSize);
         registers.put("$fp", memSize -1);
         registers.put("$hp", 0);
         registers.put("$ra", null);
@@ -158,9 +159,10 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	/*System.out.println("MEMORIA");
-                	for(int i : memory)
-                		System.out.println(i);*/
+                	//System.out.println("MEMORIA");
+                	/*for(int i : memory)
+                		System.out.println(i);
+                	*/
                 	return;
                 default:
                 	System.err.println("Unrecognized instruction: " + bytecode.getInstruction());

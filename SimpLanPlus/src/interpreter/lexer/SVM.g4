@@ -64,6 +64,7 @@ REGISTER:
 	| '$al' //static chain for scopes
 	| '$ra' //return address where the address of the next instruction is saved
 	| '$hp' //pointer for the heap
+	| '$cl' //control link, points at the previous frame (basically is the previous sp)
 	;
 
 
