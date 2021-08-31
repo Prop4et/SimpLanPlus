@@ -8,6 +8,8 @@ sw $fp 0($fp); save the old value
 push $fp
 lw $al 0($fp)
 push $al
+	 li $a0 35
+push $a0
 jal f; END CALLING f
 ;halt
 ; BEGIN DEFINITION OF f:

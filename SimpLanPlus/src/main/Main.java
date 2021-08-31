@@ -30,7 +30,6 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-
 		File path = new File("./Tests/");
 
 		File[] files = path.listFiles();

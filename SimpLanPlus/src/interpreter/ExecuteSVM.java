@@ -152,8 +152,6 @@ public class ExecuteSVM {
                 	break;
                 case "jal":
                 	registers.put("$ra", ip); //save the next instruction in $ra
-					//label sono "label + num univoco", devo ragionare solo sul numero?
-                	
 					ip = Integer.parseInt(arg1);
                 	break;
                 case "jr":
@@ -165,7 +163,7 @@ public class ExecuteSVM {
                 		System.out.println(i);*/
                 	return;
                 default:
-                	System.err.println("Wait, this assembly instruction is not recognized");
+                	System.err.println("Unrecognized instruction: " + bytecode.getInstruction());
                 	return;
                 }
         	}

@@ -35,8 +35,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
          
             }else if(instr.getInstruction().equals("b") || instr.getInstruction().equals("jal")) {
             	code.set(labelInt, new Instruction(instr.getInstruction(), labelAdd.get(labelString).toString(), 0, null, null));
-            }
-           
+            }           
         }
     	return null;
     }
@@ -177,7 +176,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     
     @Override 
     public Void visitJr(SVMParser.JrContext ctx) {
-    	code.add(new Instruction("jar", ctx.REGISTER().getText(), 0, null, null));
+    	code.add(new Instruction("jr", ctx.REGISTER().getText(), 0, null, null));
     	return null;
     }
     
