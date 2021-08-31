@@ -18,8 +18,7 @@ Progetto di compilatori e interpreti, A. A. 2021
    - [x] variabili globali non devono essere visibili dalle funzioni
    - [x] la correttezza dei tipi (da finire di testare) 
 
-Record di attivazione per ora, nel caso del blocco del main al posto del vecchio fp c'è il valore di sp
-##
+##Record di attivazione per ora
 |-----------------------------|
 | Dec M                       |
 | ...                         |
