@@ -20,12 +20,9 @@ Progetto di compilatori e interpreti, A. A. 2021
 
 Al momento è così, manca ancora l'utilizzo di RA 
 |Record di attivazione        |
-|-----------------------------|
-| Dec M                       |
+|-----------------------------| 
+| x_n                         | 
 | ...                         |
-| Dec 1                       | 
-| Par N                       | 
-| ...                         |
-| Par 1                       |
+| x_1                         |
 | AL (Access Link)            | 
 | Old FP (Frame Pointer)      |
