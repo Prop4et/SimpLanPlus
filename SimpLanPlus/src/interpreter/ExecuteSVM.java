@@ -50,21 +50,21 @@ public class ExecuteSVM {
 
 					registers.put("$sp", registers.get("$sp") - 1);
                 	memory[registers.get("$sp")] = registers.get(arg1);
-					System.out.print("pushed" + (registers.get("$sp"))+ "\n");
+					//System.out.print("pushed" + (registers.get("$sp"))+ "\n");
 					//System.out.println("MEMORIA");
-					for(int i = 0; i<memSize; i++)
-						System.out.println(i +": "+memory[i]);
+					//for(int i = 0; i<memSize; i++)
+						//System.out.println(i +": "+memory[i]);
 
 					break;
                 case "pop":
 					//System.out.println("MEMORIA");
 
-					memory[registers.get("$sp")] = -1;
+                	//memory[registers.get("$sp")] = 0;
 					registers.put("$sp", registers.get("$sp") + 1);
-					System.out.print("popped: " + (registers.get("$sp")-1 ) + "\n");
+					//System.out.print("popped: " + (registers.get("$sp")-1 ) + "\n");
 
-					for(int i = 0; i<memSize; i++)
-						System.out.println(i +": "+memory[i]);
+					//for(int i = 0; i<memSize; i++)
+						//System.out.println(i +": "+memory[i]);
 
                 	break;
                 case "lw":
@@ -90,7 +90,7 @@ public class ExecuteSVM {
                 	break;
                 case "mv":
                 	registers.put(arg1, registers.get(arg2));
-					System.out.print("get al: " +registers.get(arg2));
+					//System.out.print("get al: " +registers.get(arg2));
                 	break;
                 case "add":
                 	registers.put(arg1, registers.get(arg2) + registers.get(arg3));
@@ -157,9 +157,9 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	System.out.println("MEMORIA");
+                	/*System.out.println("MEMORIA");
                 	for(int i : memory)
-                		System.out.println(i);
+                		System.out.println(i);*/
                 	return;
                 default:
                 	System.err.println("Wait, this assembly instruction is not recognized");

@@ -250,28 +250,16 @@ public class Environment {
 		return symTable;
 	}
 	
-	public void onScopeEntryMain(HashMap<String, STentry> scope) {
-		symTable.add(scope);
-		nl++;
-		offset=0;
-	}
-	
-	public void onScopeEntryMain() {
-		symTable.add(new HashMap<String, STentry>());
-		nl++;
-		offset=0;
-	}
-	
 	public void onScopeEntry(HashMap<String, STentry> scope) {
 		symTable.add(scope);
 		nl++;
-		offset=-1;
+		offset=0;
 	}
 	
 	public void onScopeEntry() {
 		symTable.add(new HashMap<String, STentry>());
 		nl++;
-		offset=-1;
+		offset=0;
 	}
 	/**
 	 * 

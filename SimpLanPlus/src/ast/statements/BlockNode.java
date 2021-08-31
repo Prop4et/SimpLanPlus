@@ -8,7 +8,6 @@ import ast.Node;
 import ast.declarations.DeclarateFunNode;
 import ast.declarations.DeclarateVarNode;
 import ast.declarations.DeclarationNode;
-import ast.expressions.BaseExpNode;
 import ast.types.TypeNode;
 import ast.types.VoidTypeNode;
 import exceptions.TypeException;
@@ -98,59 +97,70 @@ public class BlockNode implements Node{
 		//block could be a function body or a normal block, or the main
 		//ra in function right?
 		String ret = "; NEW BLOCK \n";
-		
-		if(newScope) {
-			ret += "\t push $fp\n ";
-			if(!main) {
-				ret += "mv $fp $sp\n";
-			}
-				ret += "\t lw $al 0($fp)\n";
-				ret += "\t push $al\n";		//in this way al point to the old fp, and we're able to get it when exit scope
-				//nel caso del main block la prima cella resta vuota, perchè fp ad offset 0 contiene 0 inizialmente
-		}
-		List<DeclarationNode> funDeclarations = new ArrayList<>();
-		for (DeclarationNode dec : decs) {
-			if (( dec instanceof DeclarateFunNode)) {
-				funDeclarations.add(dec);
-			}
-			ret += dec.codeGeneration();
-		}
-		
-		for(StatementNode stm : stms) 
-			ret += stm.codeGeneration();
-		
-		if(newScope) {
-			if(!main) {
-				for (int i = 0; i< decs.size(); i++)		//pop for var
-					ret += "pop\n";
-				ret += "\t pop \n";		//pop of al and fp
-				ret += "lw $fp 0($sp) \n ";
-				ret += "pop\n";			//pop old fp
-			}
-			//else {
-				//ret += "\t pop\n";
 
-			//}
-		}
-		//we need to put function declaration at the end of the assembly code, otherwise they refer to register that aren't yet been initialized by the callee, for example the ra register
-		for(DeclarationNode dec: funDeclarations)
-			ret += dec.codeGeneration();
-		
-		if(main)
-			ret += "\t halt\n";
-		
-		return ret;
-	}
+        if (newScope) {
+            if(main) {
+            	ret += "push $sp\n";
+            }
+            else{
+                ret += "push $fp ;push old fp\n";
+            }
+            
+            ret += "mv $al $fp\n";
+            ret += "push $al ;it's equal to the old $fp\n";
+            if (main) {
+                ret += "mv $fp $sp; bring up the frame pointer\n";
+                ret += "sw $fp 0($fp); save the old value\n";
+            }
+        }
+        List<DeclarationNode> varDecs = new ArrayList<>();
+        List<DeclarationNode> funDecs = new ArrayList<>();
+        
+        for(DeclarationNode d : decs) {
+        	if(d instanceof DeclarateVarNode)
+        		varDecs.add(d);
+        	if(d instanceof DeclarateFunNode)
+        		funDecs.add(d);
+        }
+        //generate code for declarations
+          
+        for(DeclarationNode d : varDecs){
+        	ret += d.codeGeneration();
+        }
+        
+        if (newScope && !main) {
+            ret += "mv $fp $sp; frame pointer above the new declarations\n";
+            ret += "addi $fp $fp " + varDecs.size() + " ;frame pointer before decs (n =: " + varDecs.size()+")\n";
+        }
+        //generate statements
+        for(StatementNode s : stms)
+        	ret += s.codeGeneration();
+        	
+
+        if (main) {
+            ret += "halt\n";
+        }
+
+        if (newScope && !main) {
+        	//pop all the declarations
+            ret += "addi $sp $sp " + varDecs.size() + " ;pop var declarations\n"; // Pop var declarations.
+            ret += "pop ;pop $al\n";
+            ret += "lw $fp 0($sp) ;restore old $fp\n";
+            ret += "pop ;pop old $fp\n";
+        }
+        //function declaration at the end, they need the space for ra
+        for(DeclarationNode f : funDecs)
+        	ret += f.codeGeneration();
+        
+        return ret;  
+}
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		//declare resulting list
 		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
 		if(newScope)
-			if(main)
-				env.onScopeEntry();
-			else
-				env.onScopeEntry();
+			env.onScopeEntry();
 		//check semantics in the dec list
 		if(!decs.isEmpty()){
 			for(DeclarationNode d : decs) 

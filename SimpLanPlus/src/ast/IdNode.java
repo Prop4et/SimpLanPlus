@@ -46,8 +46,8 @@ public class IdNode implements Node {
         for (int i = 0; i < nl - entry.getNl(); i++) {
             ret += "\t lw $al 0($al)\n";
         }
-
-        ret += "\t lw $a0 " + entry.getOffset() + "($al)\n";
+        int offset = entry.getOffset() - 1;
+        ret += "\t lw $a0 " + offset + "($al)\n";
         ret += "; END "+ this.getTextId() + " EVAL \n";
         return ret;
     }

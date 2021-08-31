@@ -102,7 +102,7 @@ public class Main {
 						if (lexerASM.errorCount()>0 || parserASM.getNumberOfSyntaxErrors()>0) System.exit(1);
 		
 						System.out.println("Starting Virtual Machine...");
-						ExecuteSVM vm = new ExecuteSVM(15, visitorSVM.getCode());
+						ExecuteSVM vm = new ExecuteSVM(50, visitorSVM.getCode());
 						vm.run();
 					}
 				}
