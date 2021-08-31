@@ -98,9 +98,11 @@ public class BlockNode implements Node{
 		//block could be a function body or a normal block, or the main
 		//ra in function right?
 		String ret = "; NEW BLOCK \n";
+		
 		if(newScope) {
+			ret += "\t push $fp\n ";
 			if(!main) {
-				ret += "\t push $fp\n ";
+				
 				ret += "mv $fp $sp\n";
 			}
 		}
@@ -136,7 +138,7 @@ public class BlockNode implements Node{
 		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
 		if(newScope)
 			if(main)
-				env.onScopeEntryMain();
+				env.onScopeEntry();
 			else
 				env.onScopeEntry();
 		//check semantics in the dec list

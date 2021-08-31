@@ -66,7 +66,7 @@ public class DecFunNode implements Node{
 	}
 
 	@Override
-	public String codeGeneration() {
+	public String codeGeneration() {	
 		String labelFun = id.getTextId();
 		String ret = "; BEGIN DEFINITION OF " + labelFun + ":\n";
 		body.setFunEndLabel("end"+labelFun);
@@ -111,6 +111,7 @@ public class DecFunNode implements Node{
 			errors.addAll(body.checkSemantics(env));
 
 			env.onScopeExit();
+			
 
 		}catch(AlreadyDeclaredException e){
 			errors.add(new SemanticError(e.getMessage()));

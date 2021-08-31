@@ -1,58 +1,39 @@
 ; NEW BLOCK 
-; BEGIN DEFINITION OF sum:
-sum:
-mv $fp $sp
-push $ra
+	 push $fp
+ ; BEGIN int a = 8
+	 li $a0 8
+	 push $a0
+; END int a = 8
+; BEGIN int b = 3
+	 li $a0 3
+	 push $a0
+; END int b = 3
 ; NEW BLOCK 
-; RETURN 
-; BEGIN a + b
+	 push $fp
+ mv $fp $sp
+; BEGIN int c
+	 addi $sp $sp -1
+; END int c
+; BEGIN a EVAL 
+ 	 mv $al $fp 
+	 lw $al 0($al)
+	 lw $a0 -1($al)
+; END a EVAL 
+print $a0
+pop
+ ; BEGIN a = 78
+	 li $a0 78
+	 push $a0
+; BEGIN  DEREFERANTION NODE 
+	 mv $al $fp
+ 	 addi $a0 $al -1
+	 lw $t1 0($sp)
+	 pop
+	 sw $t1 0($a0)
+; END a = 78
 ; BEGIN a EVAL 
  	 mv $al $fp 
 	 lw $a0 -1($al)
 ; END a EVAL 
-	 push $a0 ; push on the stack e1
-; BEGIN b EVAL 
- 	 mv $al $fp 
-	 lw $a0 -2($al)
-; END b EVAL 
-	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
-	 pop ;pop e1 from the stack
-	 add $a0 $t1 $a0
-	 ; END a + b
-	 b null
-;END RETURN 
-lw $ra 0($sp)
-addi $sp $sp 2
-lw $fp 0($sp)
- pop
- jr $ra
-;END DEFINITION OF sum
-; BEGIN DEFINITION OF sum:
-sum:
-mv $fp $sp
-push $ra
-; NEW BLOCK 
-; RETURN 
-; BEGIN a + b
-; BEGIN a EVAL 
- 	 mv $al $fp 
-	 lw $a0 -1($al)
-; END a EVAL 
-	 push $a0 ; push on the stack e1
-; BEGIN b EVAL 
- 	 mv $al $fp 
-	 lw $a0 -2($al)
-; END b EVAL 
-	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
-	 pop ;pop e1 from the stack
-	 add $a0 $t1 $a0
-	 ; END a + b
-	 b null
-;END RETURN 
-lw $ra 0($sp)
-addi $sp $sp 2
-lw $fp 0($sp)
- pop
- jr $ra
-;END DEFINITION OF sum
+print $a0
 	 halt
