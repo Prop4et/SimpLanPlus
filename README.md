@@ -17,4 +17,12 @@ Progetto di compilatori e interpreti, A. A. 2021
    - [x] la delete non deve funzionare su id non puntatori
    - [x] variabili globali non devono essere visibili dalle funzioni
    - [x] la correttezza dei tipi (da finire di testare) 
-   
+
+Al momento è così, manca ancora l'utilizzo di RA 
+|Record di attivazione        |
+|-----------------------------| 
+| x_n                         | 
+| ...                         |
+| x_1                         |
+| AL (Access Link)            | 
+| Old FP (Frame Pointer)      |
