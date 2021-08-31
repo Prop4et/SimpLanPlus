@@ -17,4 +17,14 @@ Progetto di compilatori e interpreti, A. A. 2021
    - [x] la delete non deve funzionare su id non puntatori
    - [x] variabili globali non devono essere visibili dalle funzioni
    - [x] la correttezza dei tipi (da finire di testare) 
-   
+   ## Activation Record structure in the SVM
+Record di attivazione per ora, nel caso del blocco del main al posto del vecchio fp c'è il valore di sp
+|-----------------------------|
+| Dec M                       |
+| ...                         |
+| Dec 1                       | 
+| Par N                       | 
+| ...                         |
+| Par 1                       |
+| AL (Access Link)            | 
+| Old FP (Frame Pointer)      |
