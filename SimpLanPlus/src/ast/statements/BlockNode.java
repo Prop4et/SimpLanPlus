@@ -104,6 +104,9 @@ public class BlockNode implements Node{
             else{
                 ret += "push $fp ;push old fp\n";
             }
+            //pushing ra so the stack is always consistent
+            ret += "li $t1 0; making space for ra\n";
+            ret += "push $t1; pushed ra\n";
             
             ret += "mv $al $fp\n";
             ret += "push $al ;it's equal to the old $fp\n";
@@ -144,6 +147,7 @@ public class BlockNode implements Node{
         	//pop all the declarations
             ret += "addi $sp $sp " + varDecs.size() + " ;pop var declarations\n"; // Pop var declarations.
             ret += "pop ;pop $al\n";
+            ret += "pop ;pop consistency ra\n";
             ret += "lw $fp 0($sp) ;restore old $fp\n";
             ret += "pop ;pop old $fp\n";
         }
