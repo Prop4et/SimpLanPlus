@@ -41,8 +41,8 @@ public class LhsNode implements Node{
 			ret += "\t mv $al $fp\n";
 			for (int i = 0; i < (id.getSTentry().getNl() - id.getSTentry().getNl()); i++) {
                 ret += "\t lw $al 0($al)\n";
-            }//il -1 rappresenta il salto di al
-			ret += " \t addi $a0 $al " +(( id.getSTentry().getOffset() - 1))+"\n";
+            }//il 1 rappresenta il salto di al perchè l'offset è stato inizializzato considerando solo fp
+			ret += " \t addi $a0 $al " +(-( id.getSTentry().getOffset()))+"\n";
 		}else
 			ret = id.codeGeneration();
 		
