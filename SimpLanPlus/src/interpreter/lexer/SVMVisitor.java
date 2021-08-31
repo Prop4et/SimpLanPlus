@@ -1,4 +1,4 @@
-// Generated from SVM.g4 by ANTLR 4.7.1
+// Generated from /home/vale/Downloads/Compilatori/SimpLanPlus/SimpLanPlus/src/interpreter/lexer/SVM.g4 by ANTLR 4.9.1
 package interpreter.lexer;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 

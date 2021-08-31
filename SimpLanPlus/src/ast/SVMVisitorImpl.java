@@ -177,7 +177,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     
     @Override 
     public Void visitJr(SVMParser.JrContext ctx) {
-    	code.add(new Instruction("jar", ctx.REGISTER().getText(), 0, null, null));
+    	code.add(new Instruction("jr", ctx.REGISTER().getText(), 0, null, null));
     	return null;
     }
     
