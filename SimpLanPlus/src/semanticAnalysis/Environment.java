@@ -261,6 +261,7 @@ public class Environment {
 		nl++;
 		offset=0;
 	}
+
 	/**
 	 * 
 	 * @param id the new declaration name

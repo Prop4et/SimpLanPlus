@@ -97,7 +97,6 @@ public class BlockNode implements Node{
 		//block could be a function body or a normal block, or the main
 		//ra in function right?
 		String ret = "; NEW BLOCK \n";
-
         if (newScope) {
             if(main) {
             	ret += "push $sp\n";
@@ -155,6 +154,7 @@ public class BlockNode implements Node{
         return ret;  
 }
 
+
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		//declare resulting list
@@ -182,6 +182,7 @@ public class BlockNode implements Node{
 			}
 
 		}
+
 		//clean the scope, we are leaving a let scope
 		if(newScope)
 			env.onScopeExit();
@@ -214,7 +215,7 @@ public class BlockNode implements Node{
 			for(StatementNode s : stms)
 				res.addAll(s.checkEffects(env));
 		}
-
+		env.printEnv();
 		//clean the scope, we are leaving a let scope
 		if(newScope)
 			env.onScopeExit();

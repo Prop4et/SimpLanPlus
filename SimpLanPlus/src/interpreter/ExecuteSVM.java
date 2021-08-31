@@ -82,7 +82,9 @@ public class ExecuteSVM {
 
 					//	sw $r1 offset($r2)  ----> L'azione di store word prende il contenuto di un registro e lo memorizza all'interno della memoria.
                 	memory[registers.get(arg2)+offset] = registers.get(arg1); 		//non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
-					//registers.put("$a0", registers.get(arg1) );
+					System.out.print("saving word: " +registers.get(arg2)+offset );
+					for(int i = 0; i<memSize; i++)
+						System.out.println(i +": "+memory[i]);
 
 					break;
                 case "li":
