@@ -2,11 +2,11 @@
 Progetto di compilatori e interpreti, A. A. 2021
 
 #TODO: 
-  - [] Verificare correttezza delle invocazioni di funzioni normali sui parametri
-  - [] Verificare l'utilizzo di puntatori, sia nelle funzioni che nei blocchi
-  - [] Verificare funzioni ricorsive che terminano
-  - [] Verificare funzioni ricorsive che non terminano
-  - [] Verificare funzioni ricorsive con aliasing
+  - [ ] Verificare correttezza delle invocazioni di funzioni normali sui parametri
+  - [ ] Verificare l'utilizzo di puntatori, sia nelle funzioni che nei blocchi
+  - [ ] Verificare funzioni ricorsive che terminano
+  - [ ] Verificare funzioni ricorsive che non terminano
+  - [ ] Verificare funzioni ricorsive con aliasing
    
 #IN PROGRESS: 
    -[] DecFun and CodeFun stack structure
