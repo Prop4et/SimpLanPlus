@@ -2,7 +2,7 @@
 Progetto di compilatori e interpreti, A. A. 2021
 
 #TODO: 
-   -[ ] Ci sono dei problemi con le label, non capisco come funziona il costruttore di SVMvisitorImpl - cosa sono labelRef e labelAdd? e come vengono inizializzate? non trovo corrispondenza tra l'intero assegnato e le righe del codice - ma credo che il problema potrebbe essere li, ovvero che l'istruzione non venga modificata in modo corretto e quindi la label non viene tradotta in numero.  
+   -[x] Ci sono dei problemi con le label, non capisco come funziona il costruttore di SVMvisitorImpl - cosa sono labelRef e labelAdd? e come vengono inizializzate? non trovo corrispondenza tra l'intero assegnato e le righe del codice - ma credo che il problema potrebbe essere li, ovvero che l'istruzione non venga modificata in modo corretto e quindi la label non viene tradotta in numero.  
    
 #IN PROGRESS: 
    
