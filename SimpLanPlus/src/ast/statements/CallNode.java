@@ -74,6 +74,8 @@ public class CallNode implements Node{
 		//i feel like something's missing
 		String ret = "; BEGIN CALLING " + id.getTextId() + "\n";
 		ret += "push $fp\n";
+		ret += "li $t1 0; making space for ra\n";
+		ret += "push $t1; pushed ra\n";
 		ret += "lw $al 0($fp)\n";
 		for(int i = 0; i < currentNl - id.getNl(); i++)
 			ret += "lw $al 0($al)\n";
@@ -84,7 +86,10 @@ public class CallNode implements Node{
 					"push $a0\n";
 			
 		}
-		
+		ret += "mv $fp $sp; update  frame pointer\n";
+		ret += "addi $fp $fp " + (params.size() + 1) +" ;fix $fp position to the bottom of the new frame\n";
+
+
 		ret += "jal " + id.getTextId(); //decfun saves ra firstly
 		ret += "; END CALLING " + id.getTextId()+ "\n;";
 		return ret;
