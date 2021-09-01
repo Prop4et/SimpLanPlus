@@ -71,8 +71,7 @@ public class DecFunNode implements Node{
 		String ret = "; BEGIN DEFINITION OF " + labelFun + ":\n";
 		body.setFunEndLabel("end"+labelFun);
 		ret += labelFun + ":\n";
-		ret += "mv $fp $sp\n"; //bring the fp up top, where ra is located (space for)
-		ret += "push $ra\n";
+		ret += "sw $ra 0($fp); save ra\n";
 		ret += body.codeGeneration();//this code generation should be done in another stable, that is stablee in the example
 		ret += "lw $ra 0($sp)\n";//$t1<-top
 		ret += "addi $sp $sp " + args.size() + "\n";
