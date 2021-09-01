@@ -1,4 +1,15 @@
+<<<<<<< HEAD
 {
 	void f(int a){}
 	f(1);
 }
+=======
+{ 
+	
+	int c = 1;
+	void f(int a){
+		print a;
+	}
+	f(c);
+ }
+>>>>>>> cl

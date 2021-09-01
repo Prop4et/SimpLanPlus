@@ -24,6 +24,7 @@ public class ExecuteSVM {
 
         registers = new HashMap<>();
         registers.put("$sp", memSize);
+        registers.put("$cl", memSize);
         registers.put("$fp", memSize -1);
         registers.put("$hp", 0);
         registers.put("$ra", null);
@@ -40,6 +41,7 @@ public class ExecuteSVM {
             	for(int i : memory)
             		System.out.println(i);
         		throw  new MemoryAccessException("Error: Out of memory");
+        		
         	}else {
         		Instruction bytecode = code.get(ip); // fetch
 				//System.out.print("getting instr: "+ code.get(ip).getInstruction() +" " + code.get(ip).getArg1() +" " + code.get(ip).getArg2() +" " + code.get(ip).getArg3() +"\n " );

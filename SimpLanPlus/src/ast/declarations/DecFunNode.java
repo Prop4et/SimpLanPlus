@@ -67,19 +67,22 @@ public class DecFunNode implements Node{
 
 	@Override
 	public String codeGeneration() {	
+		
 		String labelFun = id.getTextId();
 		String ret = "; BEGIN DEFINITION OF " + labelFun + ":\n";
 		body.setFunEndLabel("end"+labelFun);
 		ret += labelFun + ":\n";
-		ret += "sw $ra 0($fp); save ra\n";
+		ret += "sw $ra -1($cl)\n";
 		ret += body.codeGeneration();//this code generation should be done in another stable, that is stablee in the example
-		ret += "lw $ra 0($sp)\n";//$t1<-top
+		ret += "end"+labelFun + ":\n";
+		ret += "lw $ra -1($cl)\n";
+		ret += "lw $fp 1($cl)\n";
+		ret += "lw $sp 0($cl)\n";
 		ret += "addi $sp $sp " + args.size() + "\n";
-		ret += "lw $fp 0($sp)\n pop\n jr $ra\n";
+		ret += "jr $ra\n";
 		ret += ";END DEFINITION OF " + labelFun + "\n";
 		
-		return ret;
-	}
+		return ret;	}
 
 	//should be fine for what concerns the checksemantics
 	@Override

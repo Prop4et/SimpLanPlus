@@ -74,7 +74,9 @@ public class CallNode implements Node{
 		//i feel like something's missing
 		String ret = "; BEGIN CALLING " + id.getTextId() + "\n";
 		ret += "push $fp\n";
-		ret += "subi $sp $sp 1; RA\n";
+		ret += "push $sp\n";
+		ret += "mv $cl $sp\n";
+		ret += "addi $sp $sp -1\n";
 		ret += "lw $al 0($fp)\n";
 		for(int i = 0; i < currentNl - id.getNl(); i++)
 			ret += "lw $al 0($al)\n";
@@ -83,8 +85,8 @@ public class CallNode implements Node{
 			ret += params.get(i).codeGeneration() + 
 					"push $a0\n";
 		}
-		ret += "mv $fp $sp; frame pointer above the new declarations\n";
-        ret += "addi $fp $fp " + params.size() + " ;frame pointer before decs (n =: " + params.size()+")\n";
+		ret += "mv $fp $sp\n";
+		ret += "addi $fp $fp" + params.size() + "\n";
 		ret += "jal " + id.getTextId(); //decfun saves ra firstly
 		ret += "; END CALLING " + id.getTextId()+ "\n";
 		return ret;
