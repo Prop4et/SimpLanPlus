@@ -37,7 +37,11 @@ public class ExecuteSVM {
     public void run() throws MemoryAccessException {
     	while(true) {
     		if(registers.get("$hp")+1>=registers.get("$sp")) {
+    			System.out.println("MEMORIA");
+            	for(int i : memory)
+            		System.out.println(i);
         		throw  new MemoryAccessException("Error: Out of memory");
+        		
         	}else {
         		Instruction bytecode = code.get(ip); // fetch
 				//System.out.print("getting instr: "+ code.get(ip).getInstruction() +" " + code.get(ip).getArg1() +" " + code.get(ip).getArg2() +" " + code.get(ip).getArg3() +"\n " );
@@ -159,10 +163,10 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	//System.out.println("MEMORIA");
-                	/*for(int i : memory)
+                	System.out.println("MEMORIA");
+                	for(int i : memory)
                 		System.out.println(i);
-                	*/
+                	
                 	return;
                 default:
                 	System.err.println("Unrecognized instruction: " + bytecode.getInstruction());

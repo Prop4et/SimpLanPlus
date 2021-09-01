@@ -103,7 +103,7 @@ public class BlockNode implements Node{
             }
             else{
                 ret += "push $fp ;push old fp\n";
-                ret += "push $cl";
+                ret += "push $cl\n";
             }
             //pushing ra so the stack is always consistent
             ret += "li $t1 0; making space for ra\n";
