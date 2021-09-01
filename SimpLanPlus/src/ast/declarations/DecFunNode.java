@@ -94,6 +94,7 @@ public class DecFunNode implements Node{
 		try{
 			//add the function to the scope for the arguments in case of (non mutual) recursion
 			functionEntry = env1.addDec(id.getTextId(), typeFun);
+			env1.onScopeEntry();
 			id.setSTentry(functionEntry);
 			Environment env = new Environment(id.getTextId(), functionEntry);
 			//create the new block
@@ -114,6 +115,7 @@ public class DecFunNode implements Node{
 			errors.addAll(body.checkSemantics(env));
 
 			env.onScopeExit();
+			env1.onScopeExit();
 			
 
 		}catch(AlreadyDeclaredException e){

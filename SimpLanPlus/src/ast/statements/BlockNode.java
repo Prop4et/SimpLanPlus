@@ -106,8 +106,7 @@ public class BlockNode implements Node{
                 ret += "push $cl\n";
             }
             //pushing ra so the stack is always consistent
-            ret += "li $t1 0; making space for ra\n";
-            ret += "push $t1; pushed ra\n";
+            ret += "subi $sp $sp 1; ra \n";
             
             ret += "mv $al $fp\n";
             ret += "push $al ;it's equal to the old $fp\n";
@@ -166,8 +165,9 @@ public class BlockNode implements Node{
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		//declare resulting list
 		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
-		if(newScope)
+		if(newScope) {
 			env.onScopeEntry();
+		}
 		//check semantics in the dec list
 		if(!decs.isEmpty()){
 			for(DeclarationNode d : decs) 

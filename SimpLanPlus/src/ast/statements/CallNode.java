@@ -12,11 +12,8 @@ import ast.Node;
 import ast.expressions.DerExpNode;
 import ast.expressions.ExpNode;
 import ast.types.TypeNode;
-import exceptions.NotDeclaredException;
 import ast.types.FunTypeNode;
-import ast.types.PointerTypeNode;
 import exceptions.TypeException;
-import org.stringtemplate.v4.ST;
 import semanticAnalysis.Effect;
 import semanticAnalysis.Environment;
 import semanticAnalysis.STentry;
@@ -77,13 +74,16 @@ public class CallNode implements Node{
 		ret += "push $sp\n";
 		ret += "mv $cl $sp\n";
 		ret += "addi $sp $sp -1\n";
-		ret += "lw $al 0($fp)\n";
+		ret += "mv $al $fp\n";
+		
 		for(int i = 0; i < currentNl - id.getNl(); i++)
 			ret += "lw $al 0($al)\n";
+		
 		ret += "push $al\n";
 		for(int i = params.size()-1; i >= 0; i--){
+			System.out.println(params.get(i).codeGeneration());
 			ret += params.get(i).codeGeneration() + 
-					"push $a0\n";
+					"push $a0 ; pushing " + params.get(i) +"\n";
 		}
 		ret += "mv $fp $sp\n";
 		ret += "addi $fp $fp" + params.size() + "\n";

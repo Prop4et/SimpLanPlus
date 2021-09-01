@@ -55,11 +55,6 @@ public class ExecuteSVM {
 
 					registers.put("$sp", registers.get("$sp") - 1);
                 	memory[registers.get("$sp")] = registers.get(arg1);
-					System.out.print("pushed" + (registers.get("$sp"))+ "\n");
-					//System.out.println("MEMORIA");
-					for(int i = 0; i<memSize; i++)
-						System.out.println(i +": "+memory[i]);
-
 					break;
                 case "pop":
 					//System.out.println("MEMORIA");
@@ -77,8 +72,6 @@ public class ExecuteSVM {
 					int address;
 					try{
 						address = memory[registers.get(arg2)+offset];
-						System.out.print("al: " +registers.get(arg2)+offset + "\n");
-
 					}catch (IndexOutOfBoundsException e){
 						throw new MemoryAccessException("Cannot address this area. ");
 					};
@@ -88,10 +81,6 @@ public class ExecuteSVM {
 
 					//	sw $r1 offset($r2)  ----> L'azione di store word prende il contenuto di un registro e lo memorizza all'interno della memoria.
                 	memory[registers.get(arg2)+offset] = registers.get(arg1); 		//non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
-					System.out.print("saving word: " +registers.get(arg2)+offset );
-					for(int i = 0; i<memSize; i++)
-						System.out.println(i +": "+memory[i]);
-
 					break;
                 case "li":
                 	registers.put(arg1,Integer.parseInt(arg2));
@@ -164,9 +153,9 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	System.out.println("MEMORIA");
+                	/*System.out.println("MEMORIA");
                 	for(int i : memory)
-                		System.out.println(i);
+                		System.out.println(i);*/
                 	return;
                 default:
                 	System.err.println("Unrecognized instruction: " + bytecode.getInstruction());
