@@ -55,10 +55,10 @@ public class ExecuteSVM {
 
 					registers.put("$sp", registers.get("$sp") - 1);
                 	memory[registers.get("$sp")] = registers.get(arg1);
-					//System.out.print("pushed" + (registers.get("$sp"))+ "\n");
+					System.out.print("pushed" + (registers.get("$sp"))+ "\n");
 					//System.out.println("MEMORIA");
-					//for(int i = 0; i<memSize; i++)
-						//System.out.println(i +": "+memory[i]);
+					for(int i = 0; i<memSize; i++)
+						System.out.println(i +": "+memory[i]);
 
 					break;
                 case "pop":
@@ -76,8 +76,9 @@ public class ExecuteSVM {
                 	//pop the value x on top of the stack and push MEMORY[x]
 					int address;
 					try{
-						//System.out.print("fp: " +registers.get(arg2)+offset);
-						address = memory[registers.get(arg2)+offset];		
+						address = memory[registers.get(arg2)+offset];
+						System.out.print("al: " +registers.get(arg2)+offset + "\n");
+
 					}catch (IndexOutOfBoundsException e){
 						throw new MemoryAccessException("Cannot address this area. ");
 					};
@@ -87,9 +88,9 @@ public class ExecuteSVM {
 
 					//	sw $r1 offset($r2)  ----> L'azione di store word prende il contenuto di un registro e lo memorizza all'interno della memoria.
                 	memory[registers.get(arg2)+offset] = registers.get(arg1); 		//non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
-					//System.out.print("saving word: " +registers.get(arg2)+offset );
-					//for(int i = 0; i<memSize; i++)
-						//System.out.println(i +": "+memory[i]);
+					System.out.print("saving word: " +registers.get(arg2)+offset );
+					for(int i = 0; i<memSize; i++)
+						System.out.println(i +": "+memory[i]);
 
 					break;
                 case "li":

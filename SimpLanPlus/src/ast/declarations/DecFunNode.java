@@ -81,9 +81,10 @@ public class DecFunNode implements Node{
 		ret += "addi $sp $sp " + args.size() + "\n";
 		ret += "jr $ra\n";
 		ret += ";END DEFINITION OF " + labelFun + "\n";
-		
-		return ret;	}
 
+		return ret;
+	}
+	
 	//should be fine for what concerns the checksemantics
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env1) {

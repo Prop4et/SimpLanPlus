@@ -1,4 +1,4 @@
-// Generated from SVM.g4 by ANTLR 4.7.1
+// Generated from /home/vale/Downloads/Compilatori/SimpLanPlus/SimpLanPlus/src/interpreter/lexer/SVM.g4 by ANTLR 4.9.1
 package interpreter.lexer;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class SVMParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -24,22 +24,31 @@ public class SVMParser extends Parser {
 		WS=32, LINECOMMENTS=33, ERR=34;
 	public static final int
 		RULE_assembly = 0, RULE_instruction = 1;
-	public static final String[] ruleNames = {
-		"assembly", "instruction"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"assembly", "instruction"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "'push'", "'pop'", "'lw'", "'('", "')'", "'sw'", "'li'", "'mv'", 
-		"'add'", "'sub'", "'mul'", "'div'", "'addi'", "'subi'", "'muli'", "'divi'", 
-		"'and'", "'or'", "'not'", "'beq'", "'bleq'", "'b'", "':'", "'jal'", "'jr'", 
-		"'del'", "'print'", "'halt'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, "LABEL", "NUMBER", "REGISTER", "WS", "LINECOMMENTS", 
-		"ERR"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "'push'", "'pop'", "'lw'", "'('", "')'", "'sw'", "'li'", "'mv'", 
+			"'add'", "'sub'", "'mul'", "'div'", "'addi'", "'subi'", "'muli'", "'divi'", 
+			"'and'", "'or'", "'not'", "'beq'", "'bleq'", "'b'", "':'", "'jal'", "'jr'", 
+			"'del'", "'print'", "'halt'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, "LABEL", "NUMBER", "REGISTER", "WS", "LINECOMMENTS", 
+			"ERR"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -89,6 +98,7 @@ public class SVMParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
 	public static class AssemblyContext extends ParserRuleContext {
 		public List<InstructionContext> instruction() {
 			return getRuleContexts(InstructionContext.class);
@@ -100,6 +110,14 @@ public class SVMParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assembly; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterAssembly(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitAssembly(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitAssembly(this);
@@ -162,6 +180,14 @@ public class SVMParser extends Parser {
 		}
 		public SubContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterSub(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitSub(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitSub(this);
 			else return visitor.visitChildren(this);
@@ -176,6 +202,14 @@ public class SVMParser extends Parser {
 			return getToken(SVMParser.REGISTER, i);
 		}
 		public MulContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterMul(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitMul(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitMul(this);
@@ -193,6 +227,14 @@ public class SVMParser extends Parser {
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public AddiContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterAddi(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitAddi(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitAddi(this);
 			else return visitor.visitChildren(this);
@@ -202,6 +244,14 @@ public class SVMParser extends Parser {
 		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
 		public JrContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterJr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitJr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitJr(this);
 			else return visitor.visitChildren(this);
@@ -210,6 +260,14 @@ public class SVMParser extends Parser {
 	public static class DelContext extends InstructionContext {
 		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
 		public DelContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterDel(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitDel(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitDel(this);
@@ -227,6 +285,14 @@ public class SVMParser extends Parser {
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public LwContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterLw(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitLw(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitLw(this);
 			else return visitor.visitChildren(this);
@@ -242,6 +308,14 @@ public class SVMParser extends Parser {
 		}
 		public BeqContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterBeq(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitBeq(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitBeq(this);
 			else return visitor.visitChildren(this);
@@ -249,6 +323,14 @@ public class SVMParser extends Parser {
 	}
 	public static class PopContext extends InstructionContext {
 		public PopContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterPop(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitPop(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitPop(this);
@@ -265,6 +347,14 @@ public class SVMParser extends Parser {
 		}
 		public DivContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterDiv(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitDiv(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitDiv(this);
 			else return visitor.visitChildren(this);
@@ -279,6 +369,14 @@ public class SVMParser extends Parser {
 		}
 		public NotContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterNot(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitNot(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitNot(this);
 			else return visitor.visitChildren(this);
@@ -287,6 +385,14 @@ public class SVMParser extends Parser {
 	public static class JalContext extends InstructionContext {
 		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
 		public JalContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterJal(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitJal(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitJal(this);
@@ -304,6 +410,14 @@ public class SVMParser extends Parser {
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public MuliContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterMuli(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitMuli(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitMuli(this);
 			else return visitor.visitChildren(this);
@@ -318,6 +432,14 @@ public class SVMParser extends Parser {
 			return getToken(SVMParser.REGISTER, i);
 		}
 		public AndContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterAnd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitAnd(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitAnd(this);
@@ -335,6 +457,14 @@ public class SVMParser extends Parser {
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public DiviContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterDivi(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitDivi(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitDivi(this);
 			else return visitor.visitChildren(this);
@@ -349,6 +479,14 @@ public class SVMParser extends Parser {
 			return getToken(SVMParser.REGISTER, i);
 		}
 		public BleqContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterBleq(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitBleq(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitBleq(this);
@@ -366,6 +504,14 @@ public class SVMParser extends Parser {
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public SubiContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterSubi(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitSubi(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitSubi(this);
 			else return visitor.visitChildren(this);
@@ -381,6 +527,14 @@ public class SVMParser extends Parser {
 		}
 		public AddContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterAdd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitAdd(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitAdd(this);
 			else return visitor.visitChildren(this);
@@ -389,6 +543,14 @@ public class SVMParser extends Parser {
 	public static class BContext extends InstructionContext {
 		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
 		public BContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterB(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitB(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitB(this);
@@ -404,6 +566,14 @@ public class SVMParser extends Parser {
 			return getToken(SVMParser.REGISTER, i);
 		}
 		public OrContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterOr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitOr(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitOr(this);
@@ -421,6 +591,14 @@ public class SVMParser extends Parser {
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public SwContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterSw(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitSw(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitSw(this);
 			else return visitor.visitChildren(this);
@@ -435,6 +613,14 @@ public class SVMParser extends Parser {
 		}
 		public MvContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterMv(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitMv(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitMv(this);
 			else return visitor.visitChildren(this);
@@ -443,6 +629,14 @@ public class SVMParser extends Parser {
 	public static class LabelContext extends InstructionContext {
 		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
 		public LabelContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterLabel(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitLabel(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitLabel(this);
@@ -453,6 +647,14 @@ public class SVMParser extends Parser {
 		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
 		public PushContext(InstructionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterPush(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitPush(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitPush(this);
 			else return visitor.visitChildren(this);
@@ -460,6 +662,14 @@ public class SVMParser extends Parser {
 	}
 	public static class HaltContext extends InstructionContext {
 		public HaltContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterHalt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitHalt(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitHalt(this);
@@ -469,6 +679,14 @@ public class SVMParser extends Parser {
 	public static class PrintContext extends InstructionContext {
 		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
 		public PrintContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterPrint(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitPrint(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitPrint(this);
@@ -481,6 +699,14 @@ public class SVMParser extends Parser {
 		public TerminalNode REGISTER() { return getToken(SVMParser.REGISTER, 0); }
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
 		public LiContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).enterLi(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SVMListener ) ((SVMListener)listener).exitLi(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SVMVisitor ) return ((SVMVisitor<? extends T>)visitor).visitLi(this);
