@@ -5,10 +5,19 @@ mv $al $fp
 push $al ;it's equal to the old $fp
 mv $fp $sp; bring up the frame pointer
 sw $fp 0($fp); save the old value
-; BEGIN int c = 1
+; BEGIN int c
+	 addi $sp $sp -1
+; END int c
+; BEGIN c = 1
 	 li $a0 1
 	 push $a0
-; END int c = 1
+; BEGIN  DEREFERANTION NODE 
+	 mv $al $fp
+ 	 addi $a0 $al -1
+	 lw $t1 0($sp)
+	 pop
+	 sw $t1 0($a0)
+; END c = 1
 ; BEGIN CALLING f
 push $fp
 push $sp

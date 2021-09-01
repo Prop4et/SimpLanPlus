@@ -1,8 +1,9 @@
 { 
-	int c = 1;
-	
+	int c;
 	void f(int a){
 		print a;
 	}
+	c = 1;
+	
 	f(c);
  }
