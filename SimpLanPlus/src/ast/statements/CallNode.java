@@ -81,15 +81,14 @@ public class CallNode implements Node{
 		for(int i = 0; i < currentNl - id.getNl(); i++)
 			ret += "lw $al 0($al)\n";
 		ret += "push $al\n";
-		for(int i = params.size()-1; i >= 0; i--)
-		{
+		for(int i = params.size()-1; i >= 0; i--){
 			ret += params.get(i).codeGeneration() + 
 					"push $a0\n";
-			
 		}
-		
+		ret += "mv $fp $sp\n";
+		ret += "addi $fp $fp" + params.size() + "\n";
 		ret += "jal " + id.getTextId(); //decfun saves ra firstly
-		ret += "; END CALLING " + id.getTextId()+ "\n;";
+		ret += "; END CALLING " + id.getTextId()+ "\n";
 		return ret;
 	}
 

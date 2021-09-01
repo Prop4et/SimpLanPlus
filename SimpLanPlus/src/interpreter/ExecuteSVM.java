@@ -163,6 +163,7 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
+                	
                 	System.out.println("MEMORIA");
                 	for(int i : memory)
                 		System.out.println(i);

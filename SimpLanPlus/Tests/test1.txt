@@ -1,5 +1,8 @@
 { 
-	void f(){
+	
+	int c = 1;
+	void f(int a){
+		print a;
 	}
-	f();
+	f(c);
  }

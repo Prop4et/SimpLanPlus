@@ -43,6 +43,7 @@ public class IdNode implements Node {
     public String codeGeneration() {
     	String ret = "; BEGIN " + this.getTextId() + " EVAL \n ";
         ret += "\t mv $al $fp \n";
+        System.out.println(id+" nl: " + nl + " " + entry.getNl());
         for (int i = 0; i < nl - entry.getNl(); i++) {
             ret += "\t lw $al 0($al)\n";
         }
