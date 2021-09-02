@@ -52,7 +52,6 @@ public class ExecuteSVM {
                 int offset = bytecode.getOffset();
                 switch(bytecode.getInstruction()) {
                 case "push":
-
 					registers.put("$sp", registers.get("$sp") - 1);
                 	memory[registers.get("$sp")] = registers.get(arg1);
 					break;
@@ -153,9 +152,9 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	/*System.out.println("MEMORIA");
+                	System.out.println("MEMORIA");
                 	for(int i : memory)
-                		System.out.println(i);*/
+                		System.out.println(i);
                 	return;
                 default:
                 	System.err.println("Unrecognized instruction: " + bytecode.getInstruction());

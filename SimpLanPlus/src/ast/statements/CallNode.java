@@ -74,14 +74,12 @@ public class CallNode implements Node{
 		ret += "push $sp\n";
 		ret += "mv $cl $sp\n";
 		ret += "addi $sp $sp -1\n";
-		ret += "mv $al $fp\n";
-		
+		ret += "lw $al 0($fp)\n";	
 		for(int i = 0; i < currentNl - id.getNl(); i++)
 			ret += "lw $al 0($al)\n";
 		
 		ret += "push $al\n";
 		for(int i = params.size()-1; i >= 0; i--){
-			System.out.println(params.get(i).codeGeneration());
 			ret += params.get(i).codeGeneration() + 
 					"push $a0 ; pushing " + params.get(i) +"\n";
 		}

@@ -5,48 +5,9 @@ mv $al $fp
 push $al ;it's equal to the old $fp
 mv $fp $sp; bring up the frame pointer
 sw $fp 0($fp); save the old value
-; BEGIN int c
-	 addi $sp $sp -1
-; END int c
-; BEGIN c = 1
-	 li $a0 1
+; BEGIN ^int c = new int
+	 li $t1 -1
+ 	 sw $t1 0($hp) 
 	 push $a0
-; BEGIN  DEREFERANTION NODE 
-	 mv $al $fp
- 	 addi $a0 $al -1
-	 lw $t1 0($sp)
-	 pop
-	 sw $t1 0($a0)
-; END c = 1
-; BEGIN CALLING f
-push $fp
-push $sp
-mv $cl $sp
-addi $sp $sp -1
-mv $al $fp
-push $al
-; BEGIN c EVAL 
- 	 mv $al $fp 
-	 lw $a0 -1($al)
-; END c EVAL 
-push $a0 ; pushing c
-mv $fp $sp
-addi $fp $fp1
-jal f; END CALLING f
+; END ^int c = new int
 halt
-; BEGIN DEFINITION OF f:
-f:
-sw $ra -1($cl)
-; NEW BLOCK 
-; BEGIN a EVAL 
- 	 mv $al $fp 
-	 lw $a0 -1($al)
-; END a EVAL 
-print $a0
-endf:
-lw $ra -1($cl)
-lw $fp 1($cl)
-lw $sp 0($cl)
-addi $sp $sp 1
-jr $ra
-;END DEFINITION OF f

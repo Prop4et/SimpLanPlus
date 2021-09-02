@@ -1,9 +1,12 @@
 { 
 	int c;
 	void f(int a){
-		print a;
+		if(a > 0)
+			f(a+1);
+		else
+			print a;
 	}
-	c = 1;
+	c = 3;
 	
 	f(c);
  }
