@@ -84,7 +84,7 @@ public class CallNode implements Node{
 					"push $a0 ; pushing " + params.get(i) +"\n";
 		}
 		ret += "mv $fp $sp\n";
-		ret += "addi $fp $fp" + params.size() + "\n";
+		ret += "addi $fp $fp " + params.size() + "\n";
 		ret += "jal " + id.getTextId(); //decfun saves ra firstly
 		ret += "; END CALLING " + id.getTextId()+ "\n";
 		return ret;

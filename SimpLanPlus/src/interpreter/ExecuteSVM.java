@@ -114,7 +114,7 @@ public class ExecuteSVM {
 						System.out.println(i+ ": "+ memory[i].toString());*/
 					break;
                 case "pop":
-
+                	memory[registers.get("$sp")].setData(1000);
 					registers.put("$sp", registers.get("$sp") + 1);
 
                 	break;

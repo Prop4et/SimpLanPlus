@@ -77,7 +77,6 @@ public class DecFunNode implements Node{
 		ret += "end"+labelFun + ":\n";
 		ret += "lw $ra -1($cl)\n";
 		ret += "lw $fp 1($cl)\n";
-		ret += "lw $sp 0($cl)\n";
 		ret += "addi $sp $sp " + args.size() + "\n";
 		ret += "jr $ra\n";
 		ret += ";END DEFINITION OF " + labelFun + "\n";

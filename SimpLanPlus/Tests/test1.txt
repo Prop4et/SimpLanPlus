@@ -1,4 +1,6 @@
 { 
-	^int c = new int;
-	^int b = new int;
- }
+	int f(int a){
+		return a + 8;
+	}
+	f(10);
+	}
