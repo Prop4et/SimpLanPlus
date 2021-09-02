@@ -84,20 +84,14 @@ public class ExecuteSVM {
         
         }
 	private int getFirstHeapMemoryCell() {
-		MemoryCell firstFreeMemoryCell =null ;
-		for (MemoryCell mem: memory) {
-			if (mem.isFree())
-				firstFreeMemoryCell = mem;
-		}
-
-		if (firstFreeMemoryCell != null) {
+		Optional<MemoryCell> firstFreeMemoryCell = Arrays.stream(memory).filter(MemoryCell::isFree).findFirst();
+		if (firstFreeMemoryCell.isPresent()) {
 			for (int i = 0; i < memSize; i++) {
-				if (memory[i] == firstFreeMemoryCell) {
-					return i;		//ith memoryCell is free to be used
+				if (memory[i] == firstFreeMemoryCell.get()) {
+					return i;
 				}
 			}
 		}
-
 		return memSize; // reached the end of memory without finding a free cell;
 	}
     public void run() throws MemoryAccessException {
@@ -121,6 +115,9 @@ public class ExecuteSVM {
 
 					registers.put("$sp", registers.get("$sp") - 1);
                 	memory[registers.get("$sp")].setData(registers.get(arg1));
+					System.out.print("Printing \n");
+					for(int i =0 ; i< memSize; i++ )
+						System.out.println(i+ ": "+ memory[i].toString());
 					break;
                 case "pop":
 
@@ -142,11 +139,15 @@ public class ExecuteSVM {
 					if(arg2.equals("$hp")){
 						int heapMemCell = getFirstHeapMemoryCell();
 						memory[heapMemCell].setData(registers.get(arg1));
-						registers.put("$a0", heapMemCell );
+						registers.put("$a0", heapMemCell );			//					//after sw automatically save the value saved in $a0, it's essentially needed for pointer initialization
 					}
+
 					else
-                		memory[registers.get(arg2)+offset].setData(registers.get(arg1)); 		//non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
-					//after sw automatically save the value saved in $a0, it's essentially needed for pointer initialization
+                		memory[registers.get(arg2)+offset].setData(registers.get(arg1));
+
+					System.out.print("SW in cell: " + " \n");
+					for(int i =0 ; i< memSize; i++ )
+						System.out.println(i+ ": "+ memory[i].toString());
 
 					break;
                 case "li":
