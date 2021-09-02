@@ -10,4 +10,9 @@ sw $fp 0($fp); save the old value
  	 sw $t1 0($hp) 
 	 push $a0
 ; END ^int c = new int
+; BEGIN ^int b = new int
+	 li $t1 -1
+ 	 sw $t1 0($hp) 
+	 push $a0
+; END ^int b = new int
 halt
