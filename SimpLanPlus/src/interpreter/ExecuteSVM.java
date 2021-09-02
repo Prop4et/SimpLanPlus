@@ -1,15 +1,59 @@
 package interpreter;
 
 import exceptions.MemoryAccessException;
+import exceptions.NotInitializedVariableException;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+
+class MemoryCell {
+	private Integer data;
+	private boolean isUsed;
+
+	public MemoryCell(int data, boolean isUsed) {
+		this.data = data;
+		this.isUsed = isUsed;
+	}
+
+	public MemoryCell() {
+		data = null;
+		isUsed = false;
+	}
+
+	public int getData() throws NotInitializedVariableException {
+		if (data == null) {
+			throw new NotInitializedVariableException("Trying to access not initialized memory cell.");
+		} else {
+			return data;
+		}
+	}
+
+	public void setData(Integer data) {
+		this.data = data;
+		this.isUsed = true;
+	}
+
+	public void freeCell() {
+		isUsed = false;
+	}
+
+	public boolean isFree() {
+		return !isUsed;
+	}
+
+	@Override
+	public String toString() {
+		return "| " + (data != null && data >= 0 ? " " : "") + data + "\t|";
+	}
+}
 
 public class ExecuteSVM {
 	private final int memSize; // Max size of the memory (heap + stack)
 
     private final List<Instruction> code;
-    private final int[] memory;
+    private final MemoryCell[] memory;
 
     
     private int ip = 0;
@@ -17,12 +61,18 @@ public class ExecuteSVM {
  
     
     public ExecuteSVM(int memSize, List<Instruction> code) {
-    	this.memSize = memSize;
+    	this.memSize = memSize;			//memSize = heap + stack
+										//heap starts from the top and grows downwards, while the stack starts from the bottom an grows upwards
+										//neither of them as fixed side, we just need to check the they do not grows towards each other
         this.code = code;
         
-        memory = new int[memSize];
+        memory = new MemoryCell[memSize];
+		for (int i = 0; i < memSize; i++) {
+			memory[i] = new MemoryCell();
+		}
 
-        registers = new HashMap<>();
+
+		registers = new HashMap<>();
         registers.put("$sp", memSize);
         registers.put("$cl", memSize);
         registers.put("$fp", memSize -1);
@@ -33,12 +83,28 @@ public class ExecuteSVM {
         registers.put("$t1", null);
         
         }
-    
+	private int getFirstHeapMemoryCell() {
+		MemoryCell firstFreeMemoryCell =null ;
+		for (MemoryCell mem: memory) {
+			if (mem.isFree())
+				firstFreeMemoryCell = mem;
+		}
+
+		if (firstFreeMemoryCell != null) {
+			for (int i = 0; i < memSize; i++) {
+				if (memory[i] == firstFreeMemoryCell) {
+					return i;		//ith memoryCell is free to be used
+				}
+			}
+		}
+
+		return memSize; // reached the end of memory without finding a free cell;
+	}
     public void run() throws MemoryAccessException {
     	while(true) {
     		if(registers.get("$hp")+1>=registers.get("$sp")) {
     			System.out.println("MEMORIA");
-            	for(int i : memory)
+            	for(MemoryCell i : memory)
             		System.out.println(i);
         		throw  new MemoryAccessException("Error: Out of memory");
         		
@@ -54,33 +120,34 @@ public class ExecuteSVM {
                 case "push":
 
 					registers.put("$sp", registers.get("$sp") - 1);
-                	memory[registers.get("$sp")] = registers.get(arg1);
+                	memory[registers.get("$sp")].setData(registers.get(arg1));
 					break;
                 case "pop":
-					//System.out.println("MEMORIA");
 
-                	//memory[registers.get("$sp")] = 0;
 					registers.put("$sp", registers.get("$sp") + 1);
-					//System.out.print("popped: " + (registers.get("$sp")-1 ) + "\n");
-
-					//for(int i = 0; i<memSize; i++)
-						//System.out.println(i +": "+memory[i]);
 
                 	break;
                 case "lw":
                 	//pop the value x on top of the stack and push MEMORY[x]
 					int address;
 					try{
-						address = memory[registers.get(arg2)+offset];
-					}catch (IndexOutOfBoundsException e){
+						address = memory[registers.get(arg2)+offset].getData();
+					}catch (IndexOutOfBoundsException | NotInitializedVariableException e){
 						throw new MemoryAccessException("Cannot address this area. ");
 					};
                 	registers.put(arg1, address); //lw $r1 offset($r2)
                 	break;
                 case "sw":
 
-					//	sw $r1 offset($r2)  ----> L'azione di store word prende il contenuto di un registro e lo memorizza all'interno della memoria.
-                	memory[registers.get(arg2)+offset] = registers.get(arg1); 		//non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
+					if(arg2.equals("$hp")){
+						int heapMemCell = getFirstHeapMemoryCell();
+						memory[heapMemCell].setData(registers.get(arg1));
+						registers.put("$a0", heapMemCell );
+					}
+					else
+                		memory[registers.get(arg2)+offset].setData(registers.get(arg1)); 		//non sono sicura della posizione di memoria a cui accediamo con memory[registers.get(arg2)+offset] //forse ok se r2 è sp o hp
+					//after sw automatically save the value saved in $a0, it's essentially needed for pointer initialization
+
 					break;
                 case "li":
                 	registers.put(arg1,Integer.parseInt(arg2));
@@ -129,7 +196,7 @@ public class ExecuteSVM {
                 	registers.put(arg1, registers.get(arg2) == 1 ? 0 : 1);
                 	break;
                 case "del":
-                	memory[registers.get(arg1)] = -1;//wait how do we mark a cell as free?
+                	memory[registers.get(arg1)].setData(-1);//wait how do we mark a cell as free?
                 	break;
                 case "print":
                 	System.out.println(registers.get(arg1));
