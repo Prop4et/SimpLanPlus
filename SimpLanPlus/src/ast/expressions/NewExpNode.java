@@ -29,8 +29,8 @@ public class NewExpNode extends  ExpNode {
 
     @Override
     public String codeGeneration() {
-        //; Saves the value -1 in the first free position of the heap (automatically set the address used in $a0)
-        return "\t li $t1 -1\n \t sw $t1 0($hp) \n";    }
+        return "\t li $t1 -1\n \t sw $t1 0($hp) \n";
+    }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {

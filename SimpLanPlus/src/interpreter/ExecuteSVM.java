@@ -6,7 +6,6 @@ import exceptions.NotInitializedVariableException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 class MemoryCell {
 	private Integer data;
@@ -84,19 +83,14 @@ public class ExecuteSVM {
         
         }
 	private int getFirstHeapMemoryCell() {
-		MemoryCell firstFreeMemoryCell =null ;
-		for (MemoryCell mem: memory) {
-			if (mem.isFree())
-				firstFreeMemoryCell = mem;
-		}
-
-		if (firstFreeMemoryCell != null) {
-			for (int i = 0; i < memSize; i++) {
-				if (memory[i] == firstFreeMemoryCell) {
-					return i;		//ith memoryCell is free to be used
-				}
-			}
-		}
+		var firstFreeMemoryCell = Arrays.stream(memory).filter(MemoryCell::isFree).findFirst();
+        if (firstFreeMemoryCell.isPresent()) {
+            for (int i = 0; i < memSize; i++) {
+                if (memory[i] == firstFreeMemoryCell.get()) {
+                    return i;
+                }
+            }
+        }
 
 		return memSize; // reached the end of memory without finding a free cell;
 	}
@@ -110,8 +104,7 @@ public class ExecuteSVM {
         		
         	}else {
         		Instruction bytecode = code.get(ip); // fetch
-				//System.out.print("getting instr: "+ code.get(ip).getInstruction() +" " + code.get(ip).getArg1() +" " + code.get(ip).getArg2() +" " + code.get(ip).getArg3() +"\n " );
-        		ip++;
+				ip++;
         		String arg1 = bytecode.getArg1();
                 String arg2 = bytecode.getArg2();
                 String arg3 = bytecode.getArg3();
@@ -140,6 +133,7 @@ public class ExecuteSVM {
 
 					if(arg2.equals("$hp")){
 						int heapMemCell = getFirstHeapMemoryCell();
+						System.out.println(heapMemCell);
 						memory[heapMemCell].setData(registers.get(arg1));
 						registers.put("$a0", heapMemCell );
 					}
@@ -220,7 +214,7 @@ public class ExecuteSVM {
                 	break;
                 case "halt":
                 	System.out.println("MEMORIA");
-                	for(int i : memory)
+                	for(var i : memory)
                 		System.out.println(i);
                 	return;
                 default:

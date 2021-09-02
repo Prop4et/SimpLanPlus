@@ -44,7 +44,7 @@ public class LhsNode implements Node{
 			}
 			ret += " \t addi $a0 $al " +(( id.getSTentry().getOffset() - 1))+"\n";
 		}
-			else
+		else
 			ret = id.codeGeneration();
 		
 		LhsNode pointer = lhs;
