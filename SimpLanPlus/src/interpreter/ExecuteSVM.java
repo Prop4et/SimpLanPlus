@@ -115,9 +115,9 @@ public class ExecuteSVM {
 
 					registers.put("$sp", registers.get("$sp") - 1);
                 	memory[registers.get("$sp")].setData(registers.get(arg1));
-					System.out.print("Printing \n");
-					for(int i =0 ; i< memSize; i++ )
-						System.out.println(i+ ": "+ memory[i].toString());
+					//System.out.print("Printing \n");
+					/*for(int i =0 ; i< memSize; i++ )
+						System.out.println(i+ ": "+ memory[i].toString());*/
 					break;
                 case "pop":
 
@@ -145,9 +145,9 @@ public class ExecuteSVM {
 					else
                 		memory[registers.get(arg2)+offset].setData(registers.get(arg1));
 
-					System.out.print("SW in cell: " + " \n");
+					/*System.out.print("SW in cell: " + " \n");
 					for(int i =0 ; i< memSize; i++ )
-						System.out.println(i+ ": "+ memory[i].toString());
+						System.out.println(i+ ": "+ memory[i].toString());*/
 
 					break;
                 case "li":
@@ -197,7 +197,7 @@ public class ExecuteSVM {
                 	registers.put(arg1, registers.get(arg2) == 1 ? 0 : 1);
                 	break;
                 case "del":
-                	memory[registers.get(arg1)].setData(-1);//wait how do we mark a cell as free?
+                	memory[registers.get(arg1)].freeCell();//wait how do we mark a cell as free?
                 	break;
                 case "print":
                 	System.out.println(registers.get(arg1));
