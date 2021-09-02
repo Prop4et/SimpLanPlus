@@ -22,7 +22,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 
 
     @Override 
-    public Void visitAssembly(SVMParser.AssemblyContext ctx) { 
+    public Void visitAssembly(SVMParser.AssemblyContext ctx) {
     	visitChildren(ctx);
         for (Integer labelInt: labelRef.keySet()) {
     		//that's what should happen, but code is Instruction, so i have to build the instruction
