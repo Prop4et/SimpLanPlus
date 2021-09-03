@@ -26,6 +26,7 @@ public class IteStatNode extends StatementNode{
 
 	@Override
 	public String codeGeneration() {
+		ite.setFunEndLabel(getFunEndLabel());
 		return ite.codeGeneration();
 	}
 

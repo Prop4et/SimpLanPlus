@@ -21,7 +21,6 @@ public class RetNode implements Node{
 	
 	
 	public void setFunEndLabel(String funEndLabel) {
-		System.out.println(funEndLabel);
 		this.funEndLabel = funEndLabel;
 	}
 	

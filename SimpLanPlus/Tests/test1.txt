@@ -1,9 +1,12 @@
 { 
-	int b = 78;
-	int a = 99;
-	void f(int x, int y){
-		print x;
-		print y;
+	int x = 10;
+	int y;
+	int diff(int a,  int b){
+		if(a > b)
+			return a - b;
+		else
+			return b - a;
 	}
-	f(b, a);
+	y = 23;
+	print diff(y,y);
  }
