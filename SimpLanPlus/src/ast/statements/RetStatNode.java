@@ -14,6 +14,9 @@ public class RetStatNode extends StatementNode{
 	public RetStatNode(final RetNode ret) {
 		this.ret = ret;
 	}
+	public void setFunEndLabel(final String funEndLabel) {
+		ret.setFunEndLabel(funEndLabel);
+	}
 	
 	@Override
 	public String toPrint(String indent) {
