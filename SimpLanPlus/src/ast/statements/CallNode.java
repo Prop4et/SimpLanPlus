@@ -79,9 +79,9 @@ public class CallNode implements Node{
 			ret += "lw $al 0($al)\n";
 		
 		ret += "push $al\n";
-		for(int i = params.size()-1; i >= 0; i--){
-			ret += params.get(i).codeGeneration() + 
-					"push $a0 ; pushing " + params.get(i) +"\n";
+		for(ExpNode p : params){
+			ret += p.codeGeneration() + 
+					"push $a0 ; pushing " + p +"\n";
 		}
 		ret += "mv $fp $sp\n";
 		ret += "addi $fp $fp " + params.size() + "\n";

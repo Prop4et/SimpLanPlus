@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import ast.SVMVisitorImpl;
 import ast.statements.BlockNode;
 import ast.types.TypeNode;
+import exceptions.MemoryAccessException;
 import exceptions.TypeException;
 import interpreter.ExecuteSVM;
 import interpreter.lexer.SVMLexer;
@@ -102,8 +103,12 @@ public class Main {
 		
 						System.out.println("Starting Virtual Machine...");
 
-						ExecuteSVM vm = new ExecuteSVM(50, visitorSVM.getCode());
-						vm.run();
+						ExecuteSVM vm = new ExecuteSVM(100, visitorSVM.getCode());
+						try {
+							vm.run();
+						}catch(MemoryAccessException e) {
+							System.err.println(e.getMessage());
+						}
 					}
 				}
 

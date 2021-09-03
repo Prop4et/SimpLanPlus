@@ -1,12 +1,15 @@
-{ 
-	int x = 10;
-	int y;
-	int diff(int a,  int b){
-		if(a > b)
-			return a - b;
-		else
-			return b - a;
-	}
-	y = 23;
-	print diff(y,y);
- }
+{
+  ^int u = new int ;
+  void f(^int x, int n){
+    if (n == 0) {
+      print x^;
+      delete x ;
+    }else {
+      ^int y = new int;
+      y^ = x^ * n;
+      f(y,n-1) ;
+    }
+  }
+  u^ = 1;
+  f(u,6) ;
+}

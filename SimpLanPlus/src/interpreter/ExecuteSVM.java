@@ -114,7 +114,6 @@ public class ExecuteSVM {
 						System.out.println(i+ ": "+ memory[i].toString());*/
 					break;
                 case "pop":
-                	memory[registers.get("$sp")].setData(1000);
 					registers.put("$sp", registers.get("$sp") + 1);
 
                 	break;
@@ -124,6 +123,9 @@ public class ExecuteSVM {
 					try{
 						address = memory[registers.get(arg2)+offset].getData();
 					}catch (IndexOutOfBoundsException | NotInitializedVariableException e){
+						System.out.println("MEMORIA");
+		            	for(MemoryCell i : memory)
+		            		System.out.println(i);
 						throw new MemoryAccessException("Cannot address this area. ");
 					};
                 	registers.put(arg1, address); //lw $r1 offset($r2)
@@ -215,9 +217,9 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	/*System.out.println("MEMORIA");
+                	System.out.println("MEMORIA");
                 	for(var i : memory)
-                		System.out.println(i);*/
+                		System.out.println(i);
                 	return;
                 default:
                 	System.err.println("Unrecognized instruction: " + bytecode.getInstruction());
