@@ -274,7 +274,7 @@ public class Environment {
 		STentry entry = new STentry(nl, offset, type);
 		if(scope.put(id, entry) != null)
 			throw new AlreadyDeclaredException("Var " + id + " was already declared.");
-		offset-=1;//1?
+		offset-=1;
 		return entry;
 	}
 	
@@ -364,6 +364,16 @@ public class Environment {
 	public void onScopeExit() {
 		this.symTable.remove(nl);
 		nl--;
+		if(nl >= 0) {
+			int maxOffset = 0; //offset is a negative value
+			HashMap<String,STentry> entry = symTable.get(nl);
+			for(String key : entry.keySet()) {
+				if(maxOffset > entry.get(key).getOffset())
+					maxOffset = entry.get(key).getOffset();
+			}
+			offset = maxOffset;	
+		}
+			
 	}
 
 	public int getNestingLevel(){

@@ -68,7 +68,7 @@ public class DecVarNode implements Node{
 		}
 		try {
 			addedEntry = env.addDec(id.getTextId(), type);
-			id.setSTentry(addedEntry);
+			id.setSTentry(addedEntry); 
 		} catch (AlreadyDeclaredException exception) {
 			errors.add(new SemanticError(exception.getMessage()));
 		}

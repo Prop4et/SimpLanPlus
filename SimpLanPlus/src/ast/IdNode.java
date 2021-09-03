@@ -42,7 +42,7 @@ public class IdNode implements Node {
     @Override
     public String codeGeneration() {
     	String ret = "; BEGIN " + this.getTextId() + " EVAL \n ";
-        ret += "\t lw $al 0($fp) \n";
+        ret += "\t mv $al $fp \n";
         for (int i = 0; i < nl - entry.getNl(); i++) {
             ret += "\t lw $al 0($al)\n";
         }

@@ -20,7 +20,7 @@ public class RetNode implements Node{
 	}
 	
 	
-	public void setFunEndLabel(final String funEndLabel) {
+	public void setFunEndLabel(String funEndLabel) {
 		System.out.println(funEndLabel);
 		this.funEndLabel = funEndLabel;
 	}
@@ -46,6 +46,7 @@ public class RetNode implements Node{
 		String ret = "; RETURN "  + "\n" ;
 		if(exp != null)
 			ret += exp.codeGeneration();
+		System.out.println(funEndLabel);
 		ret += "\t b " + funEndLabel + "\n";
 		ret += ";END RETURN " + "\n";
 		return ret;

@@ -1,6 +1,9 @@
 { 
-	int f(int a){
-		return a + 8;
+	int b = 78;
+	int a = 99;
+	void f(int x, int y){
+		print x;
+		print y;
 	}
-	f(10);
-	}
+	f(b, a);
+ }

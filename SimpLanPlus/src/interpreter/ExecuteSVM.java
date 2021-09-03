@@ -215,9 +215,9 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	System.out.println("MEMORIA");
+                	/*System.out.println("MEMORIA");
                 	for(var i : memory)
-                		System.out.println(i);
+                		System.out.println(i);*/
                 	return;
                 default:
                 	System.err.println("Unrecognized instruction: " + bytecode.getInstruction());

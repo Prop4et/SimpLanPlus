@@ -45,8 +45,9 @@ public class BlockNode implements Node{
 	}
 
 	public void setFunEndLabel(final String funEndLabel) {
-		for(StatementNode stm : stms) 
+		for(StatementNode stm : stms) {
 			stm.setFunEndLabel(funEndLabel);
+		}
 	}
 	
 	@Override

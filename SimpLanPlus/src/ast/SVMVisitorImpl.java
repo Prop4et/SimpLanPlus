@@ -25,6 +25,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     public Void visitAssembly(SVMParser.AssemblyContext ctx) {
     	visitChildren(ctx);
         for (Integer labelInt: labelRef.keySet()) {
+
     		//that's what should happen, but code is Instruction, so i have to build the instruction
             //code.put(refAdd, labelAdd.get(labelRef.get(refAdd)));
             String labelString = labelRef.get(labelInt);
@@ -34,8 +35,8 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
             	code.set(labelInt, new Instruction(instr.getInstruction(), instr.getArg1(), 0, instr.getArg2(), labelAdd.get(labelString).toString()));
          
             }else if(instr.getInstruction().equals("b") || instr.getInstruction().equals("jal")) {
-            	code.set(labelInt, new Instruction(instr.getInstruction(), labelAdd.get(labelString).toString(), 0, null, null));
-            }           
+               	code.set(labelInt, new Instruction(instr.getInstruction(), labelAdd.get(labelString).toString(), 0, null, null));
+            }   
         }
     	return null;
     }

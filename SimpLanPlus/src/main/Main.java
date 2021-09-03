@@ -102,7 +102,7 @@ public class Main {
 		
 						System.out.println("Starting Virtual Machine...");
 
-						ExecuteSVM vm = new ExecuteSVM(7, visitorSVM.getCode());
+						ExecuteSVM vm = new ExecuteSVM(50, visitorSVM.getCode());
 						vm.run();
 					}
 				}
