@@ -15,6 +15,7 @@ public class RetStatNode extends StatementNode{
 		this.ret = ret;
 	}
 	public void setFunEndLabel(final String funEndLabel) {
+		System.out.print("here RetStateNode " + funEndLabel +"\n");
 		ret.setFunEndLabel(funEndLabel);
 	}
 	

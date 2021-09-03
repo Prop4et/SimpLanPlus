@@ -45,7 +45,10 @@ public class BlockNode implements Node{
 	}
 
 	public void setFunEndLabel(final String funEndLabel) {
+		System.out.print("here block " + funEndLabel + "\n");
+
 		for(StatementNode stm : stms) {
+			System.out.print("printing block stm : "+ stm + " \n ");
 			stm.setFunEndLabel(funEndLabel);
 		}
 	}
@@ -157,6 +160,7 @@ public class BlockNode implements Node{
         //function declaration at the end, they need the space for ra
         for(DeclarationNode f : funDecs)
         	ret += f.codeGeneration();
+        ret += ";END NEW BLOCK \n";
         
         return ret;  
 }

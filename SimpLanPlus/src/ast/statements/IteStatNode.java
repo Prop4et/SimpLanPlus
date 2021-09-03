@@ -13,7 +13,11 @@ public class IteStatNode extends StatementNode{
 	public IteStatNode(final IteNode ite) {
 		this.ite = ite;
 	}
-	
+	public void setFunEndLabel(final String funEndLabel) {
+		System.out.print("here iteStatNode " + funEndLabel +"\n");
+		ite.setFunEndLabel(funEndLabel);
+	}
+
 	@Override
 	public String toPrint(String indent) {
 		return ite.toPrint(indent);
@@ -26,7 +30,7 @@ public class IteStatNode extends StatementNode{
 
 	@Override
 	public String codeGeneration() {
-		ite.setFunEndLabel(getFunEndLabel());
+		//ite.setFunEndLabel(getFunEndLabel());
 		return ite.codeGeneration();
 	}
 

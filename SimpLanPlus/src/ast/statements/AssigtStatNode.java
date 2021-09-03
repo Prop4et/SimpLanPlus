@@ -14,7 +14,10 @@ public class AssigtStatNode extends StatementNode{
 	public AssigtStatNode(final AssignmentNode ass) {
 		this.ass=ass;
 	}
-	
+	public void setFunEndLabel(final String funEndLabel) {
+		System.out.print("here AssigtStatNode " + funEndLabel +"\n");
+		ass.setFunEndLabel(funEndLabel);
+	}
 	@Override
 	public String toPrint(String indent) {
 		return indent + ass.toPrint("");
