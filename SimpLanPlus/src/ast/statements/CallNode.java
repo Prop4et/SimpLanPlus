@@ -214,6 +214,14 @@ public class CallNode implements Node{
 			}
 		}
 		
+		for(ExpNode param : passedByReferenceParams) {
+			varInSigma = sigmaSecondo.lookupForEffectAnalysis(param.getExpVar().get(0).getLhsId().getTextId());
+			varInSigmaEffect = varInSigma.getIVarStatus(param.getExpVar().get(0).getLhsId().getTextId());
+			if(varInSigmaEffect.getType() == Effect.TOP)
+				errors.add(new SemanticError(param.getExpVar().get(0).getLhsId().getTextId() + "will have an erroneous status after function invocation. " ));
+		}
+		//System.out.print("Env before calling function: ");
+		//env.printEnv();
 		Environment updatedEnv = Environment.update(env,sigmaSecondo);
 		env.replace(updatedEnv);
 		env.printEnv();
