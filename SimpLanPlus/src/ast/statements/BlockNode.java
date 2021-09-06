@@ -105,15 +105,17 @@ public class BlockNode implements Node{
             else{
                 ret += "push $fp ;push old fp\n";
                 ret += "push $cl\n";
+                
             }
             //pushing ra so the stack is always consistent
+            
             ret += "subi $sp $sp 1; ra \n";
             
             ret += "mv $al $fp\n";
             ret += "push $al ;it's equal to the old $fp\n";
             if (main) {
                 ret += "mv $fp $sp; bring up the frame pointer\n";
-                ret += "sw $fp 0($fp); save the old value\n";
+                ret += "sw $fp 0($fp); save the old value\n"; //maybe not useful
             }
         }
         List<DeclarationNode> varDecs = new ArrayList<>();
@@ -157,7 +159,7 @@ public class BlockNode implements Node{
         //function declaration at the end, they need the space for ra
         for(DeclarationNode f : funDecs)
         	ret += f.codeGeneration();
-        
+        ret += "; END BLOCK\n";
         return ret;  
 }
 
@@ -175,8 +177,7 @@ public class BlockNode implements Node{
 				res.addAll(d.checkSemantics(env));		
 		}
 
-		//if we're inside the body of a function we shouldn't be able to take ids from outside the function params and definitions inside the function
-		
+		//if we're inside the body of a function we shouldn't be able to take ids from outside the function params and definitions inside the function		
 		if(!stms.isEmpty()){
 			for(StatementNode s : stms) 
 				res.addAll(s.checkSemantics(env));			
@@ -211,8 +212,10 @@ public class BlockNode implements Node{
 
 		//declare resulting list
 		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
-		if(newScope)
+		if(newScope) {
 			env.onScopeEntry();				//creation of Eps ° []  environment
+			
+		}
 		//check Effect  in the dec list
 		if(!decs.isEmpty()){				//creation of Eps' environment
 			for(DeclarationNode d : decs)		//

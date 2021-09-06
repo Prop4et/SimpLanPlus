@@ -45,7 +45,6 @@ public class RetNode implements Node{
 		String ret = "; RETURN "  + "\n" ;
 		if(exp != null)
 			ret += exp.codeGeneration();
-		System.out.println(funEndLabel);
 		ret += "\t b " + funEndLabel + "\n";
 		ret += ";END RETURN " + "\n";
 		return ret;

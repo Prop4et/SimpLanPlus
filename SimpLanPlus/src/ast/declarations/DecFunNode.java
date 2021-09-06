@@ -77,7 +77,9 @@ public class DecFunNode implements Node{
 		ret += "end"+labelFun + ":\n";
 		ret += "lw $ra -1($cl)\n";
 		ret += "lw $fp 1($cl)\n";
-		ret += "addi $sp $sp " + args.size() + "\n";
+		
+		ret += "lw $sp 0($cl) \n";
+        ret += "addi $cl $fp 2\n";
 		ret += "jr $ra\n";
 		ret += ";END DEFINITION OF " + labelFun + "\n";
 
@@ -109,6 +111,7 @@ public class DecFunNode implements Node{
 			env.addDec(id.getTextId(), typeFun);
 			//body evaluation in which yet another scope is created, should we avoid this? DONE
 			body.setNewScope(false);
+			body.setFunction(true);
 			//when evaluating it finds global variables too, but i don't want it to
 			
 			errors.addAll(body.checkSemantics(env));

@@ -1,6 +1,5 @@
 package ast.statements;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import ast.Node;
@@ -29,7 +28,7 @@ public class IteNode implements Node{
 		return indent + "if cond: " + cond.toPrint("") + "\n" + indent + indent + "then: " + thenB.toPrint("") + 
 				(elseB != null ? "\n"+indent +indent + "else:" + indent +"\n"+ elseB.toPrint(indent+indent) : "");
 	}
-
+	
 	public void setFunEndLabel(final String funEndLabel) {
 		thenB.setFunEndLabel(funEndLabel);
         if (elseB != null) {
@@ -80,7 +79,9 @@ public class IteNode implements Node{
 		//check semantics in the condition
 		res.addAll(cond.checkSemantics(env));
 		//check semantics in the then and in the else exp
+		
 		res.addAll(thenB.checkSemantics(env));
+		
 		if(elseB != null)		//the else branch is optional
 			res.addAll(elseB.checkSemantics(env));
 		//env.printEnv();

@@ -114,6 +114,7 @@ public class ExecuteSVM {
 						System.out.println(i+ ": "+ memory[i].toString());*/
 					break;
                 case "pop":
+                	//memory[registers.get("$sp")].setData(null);
 					registers.put("$sp", registers.get("$sp") + 1);
 
                 	break;
@@ -126,7 +127,7 @@ public class ExecuteSVM {
 						System.out.println("MEMORIA");
 		            	for(MemoryCell i : memory)
 		            		System.out.println(i);
-						throw new MemoryAccessException("Cannot address this area. ");
+						throw new MemoryAccessException("Cannot address this area. " +registers.get(arg2)+ " " +offset);
 					};
                 	registers.put(arg1, address); //lw $r1 offset($r2)
                 	break;

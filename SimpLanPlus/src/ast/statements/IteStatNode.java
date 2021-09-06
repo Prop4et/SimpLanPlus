@@ -39,4 +39,5 @@ public class IteStatNode extends StatementNode{
 	public ArrayList<SemanticError> checkEffects(Environment env) {
 		return ite.checkEffects(env);
 	}
+	
 }

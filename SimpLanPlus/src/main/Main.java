@@ -103,7 +103,7 @@ public class Main {
 		
 						System.out.println("Starting Virtual Machine...");
 
-						ExecuteSVM vm = new ExecuteSVM(100, visitorSVM.getCode());
+						ExecuteSVM vm = new ExecuteSVM(25, visitorSVM.getCode());
 						try {
 							vm.run();
 						}catch(MemoryAccessException e) {

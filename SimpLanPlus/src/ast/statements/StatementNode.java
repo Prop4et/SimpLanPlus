@@ -6,6 +6,7 @@ import exceptions.TypeException;
 
 public abstract class StatementNode implements Node{
 	private String funEndLabel;
+	private boolean newScope;
 	@Override
 	public String toString() {
 		return toPrint("");
@@ -18,6 +19,7 @@ public abstract class StatementNode implements Node{
 	public String getFunEndLabel() {
 		return this.funEndLabel;
 	}
+	
 	
 	public abstract TypeNode typeCheck() throws TypeException;
 }
