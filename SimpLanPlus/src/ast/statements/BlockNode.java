@@ -45,7 +45,6 @@ public class BlockNode implements Node{
 	}
 
 	public void setFunEndLabel(final String funEndLabel) {
-		System.out.print("here block " + funEndLabel + "\n");
 
 		for(StatementNode stm : stms) {
 			System.out.print("printing block stm : "+ stm + " \n ");
@@ -229,7 +228,6 @@ public class BlockNode implements Node{
 			for(StatementNode s : stms)
 				res.addAll(s.checkEffects(env));
 		}
-		env.printEnv();
 		//clean the scope, we are leaving a let scope
 		if(newScope)
 			env.onScopeExit();

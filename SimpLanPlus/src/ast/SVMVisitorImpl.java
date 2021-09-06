@@ -35,8 +35,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
             	code.set(labelInt, new Instruction(instr.getInstruction(), instr.getArg1(), 0, instr.getArg2(), labelAdd.get(labelString).toString()));
          
             }else if(instr.getInstruction().equals("b") || instr.getInstruction().equals("jal")) {
-            	System.out.println(labelString);
-               	code.set(labelInt, new Instruction(instr.getInstruction(), labelAdd.get(labelString).toString(), 0, null, null));
+            	code.set(labelInt, new Instruction(instr.getInstruction(), labelAdd.get(labelString).toString(), 0, null, null));
             }   
         }
     	return null;

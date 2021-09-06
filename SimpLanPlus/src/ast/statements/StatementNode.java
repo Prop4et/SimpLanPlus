@@ -6,7 +6,6 @@ import exceptions.TypeException;
 
 public abstract class StatementNode implements Node{
 	private String funEndLabel;
-	private boolean newScope;
 	@Override
 	public String toString() {
 		return toPrint("");

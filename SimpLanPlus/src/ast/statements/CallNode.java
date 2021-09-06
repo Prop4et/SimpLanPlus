@@ -213,13 +213,12 @@ public class CallNode implements Node{
 				sigmaSecondo = Environment.par(sigmaSecondo, resultingEnvironment.get(i));
 			}
 		}
-		//System.out.print("Env before calling function: ");
-		//env.printEnv();
+		
 		Environment updatedEnv = Environment.update(env,sigmaSecondo);
 		env.replace(updatedEnv);
-		//System.out.print("Env after calling function: ");
-		//env.printEnv();
-
+		env.printEnv();
+		
+		
 		if(! expEvalErrors.isEmpty()) {
 			errors.add(new SemanticError("During invocation you're trying to use bad expression: "));
 			errors.addAll(expEvalErrors);

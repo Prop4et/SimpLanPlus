@@ -221,7 +221,6 @@ public class Environment {
 			//then we can proceed with the outer update
 			resEnv = update(insideUpdateEnv, env2);
 		}
-		
 		return resEnv;
 	}
 	

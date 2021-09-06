@@ -100,7 +100,6 @@ public class DecFunNode implements Node{
 			//create the new block
 			env.onScopeEntry();
 			//add the arguments to the new scope created
-			//TODO is it right to declare new variables inside the function with the same name of the parameters?
 			//if not, when body gets evaluated there shouldn't be a new scope creation, that's what happens
 			for(ArgNode arg : args) {
 				argEntry = env.addDec(arg.getId().getTextId(), arg.getType());

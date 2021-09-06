@@ -31,7 +31,6 @@ public class IteNode implements Node{
 	
 	public void setFunEndLabel(final String funEndLabel) {
 
-		System.out.print("here ite "+ funEndLabel + "\n");
 		thenB.setFunEndLabel(funEndLabel);
 
         if (elseB != null) {
