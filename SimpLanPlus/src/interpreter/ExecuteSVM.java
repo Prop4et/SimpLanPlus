@@ -109,6 +109,7 @@ public class ExecuteSVM {
                 case "push":
 					registers.put("$sp", registers.get("$sp") - 1);
                 	memory[registers.get("$sp")].setData(registers.get(arg1));
+                	
 					//System.out.print("Printing \n");
 					/*for(int i =0 ; i< memSize; i++ )
 						System.out.println(i+ ": "+ memory[i].toString());*/
@@ -222,10 +223,10 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	System.out.println("MEMORIA");
+                	/*System.out.println("MEMORIA");
 					for(int i =0 ; i< memSize; i++ )
 						System.out.println(i+ ": "+ memory[i].toString());
-
+*/
 					return;
                 default:
                 	System.err.println("Unrecognized instruction: " + bytecode.getInstruction());

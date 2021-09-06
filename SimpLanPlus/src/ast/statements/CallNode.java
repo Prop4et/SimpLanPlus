@@ -73,6 +73,10 @@ public class CallNode implements Node{
 		ret += "push $fp\n";
 		ret += "push $sp\n";
 		ret += "mv $cl $sp\n";
+		
+		ret += "addi $t1 $cl 2\n";
+        ret += "sw $t1 0($cl)\n";
+		
 		ret += "addi $sp $sp -1\n";
 		
 		ret += "lw $al 0($fp)\n";	
