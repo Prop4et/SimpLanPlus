@@ -77,7 +77,7 @@ public class LhsNode implements Node{
 
 			return res;
 		}
-
+		
 		res.addAll(lhs.checkEffects(env));
 		String lhsId = this.getLhsId().getTextId();
 		if (! (id.getSTentry().getIVarStatus(lhs.getLhsId().getTextId()).getType() == Effect.RW))

@@ -51,7 +51,6 @@ public class DerExpNode extends ExpNode{
         if (lhs.getLhsId().getSTentry().getVarStatus().equals(Effect.BOT)) {
             res.add(new SemanticError(lhs + " is used prior to initialization."));
         }
-
         return res;
     }
     @Override

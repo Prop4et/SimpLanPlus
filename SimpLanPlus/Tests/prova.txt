@@ -1,0 +1,11 @@
+{
+  ^^int a = new int;
+  ^int b = new int;
+  b^ = 19;
+  a^ = b;
+  a^^ = b^;
+  print b^;
+  print a^^;
+  print a^;
+  print a;
+}

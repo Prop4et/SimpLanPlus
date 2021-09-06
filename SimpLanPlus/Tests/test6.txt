@@ -1,10 +1,10 @@
-/*{
-	int x = 1;
+{
+	/*	int x = 1;
 	void f(int y){
 		if (y == 0) 
 			print x;//deve dare errore perchè non ci sono variabili globali 
 		else  
 			f(y-1) ; 
 	}
-	f(54) ;
-}*/
+	f(54) ;*/
+}
