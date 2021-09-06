@@ -14,7 +14,6 @@ public class IteStatNode extends StatementNode{
 		this.ite = ite;
 	}
 	public void setFunEndLabel(final String funEndLabel) {
-		System.out.print("here iteStatNode " + funEndLabel +"\n");
 		ite.setFunEndLabel(funEndLabel);
 	}
 

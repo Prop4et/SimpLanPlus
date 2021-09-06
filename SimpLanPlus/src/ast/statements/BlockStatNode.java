@@ -15,7 +15,6 @@ public class BlockStatNode extends StatementNode{
 		this.block = block;
 	}
 	public void setFunEndLabel(final String funEndLabel) {
-		System.out.print("here BlockStateNode " + funEndLabel +"\n");
 		block.setFunEndLabel(funEndLabel);
 	}
 	@Override

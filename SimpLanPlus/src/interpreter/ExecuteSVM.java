@@ -224,8 +224,8 @@ public class ExecuteSVM {
                 	break;
                 case "halt":
                 	System.out.println("MEMORIA");
-					for(int i =0 ; i< memSize; i++ )
-						System.out.println(i+ ": "+ memory[i].toString());
+					/*for(int i =0 ; i< memSize; i++ )
+						System.out.println(i+ ": "+ memory[i].toString());*/
 
 					return;
                 default:

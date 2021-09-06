@@ -15,7 +15,6 @@ public class AssigtStatNode extends StatementNode{
 		this.ass=ass;
 	}
 	public void setFunEndLabel(final String funEndLabel) {
-		System.out.print("here AssigtStatNode " + funEndLabel +"\n");
 		ass.setFunEndLabel(funEndLabel);
 	}
 	@Override
