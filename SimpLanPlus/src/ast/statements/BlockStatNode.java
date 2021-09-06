@@ -14,7 +14,10 @@ public class BlockStatNode extends StatementNode{
 	public BlockStatNode(final BlockNode block) {
 		this.block = block;
 	}
-	
+	public void setFunEndLabel(final String funEndLabel) {
+		System.out.print("here BlockStateNode " + funEndLabel +"\n");
+		block.setFunEndLabel(funEndLabel);
+	}
 	@Override
 	public String toPrint(String indent) {
 		return block.toPrint(indent);

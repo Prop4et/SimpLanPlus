@@ -30,7 +30,10 @@ public class IteNode implements Node{
 	}
 	
 	public void setFunEndLabel(final String funEndLabel) {
+
+		System.out.print("here ite "+ funEndLabel + "\n");
 		thenB.setFunEndLabel(funEndLabel);
+
         if (elseB != null) {
         	elseB.setFunEndLabel(funEndLabel);
         }
@@ -70,6 +73,7 @@ public class IteNode implements Node{
 		return ret + end + " :\n";
 
 	}
+
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {

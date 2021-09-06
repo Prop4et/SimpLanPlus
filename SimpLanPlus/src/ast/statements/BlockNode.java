@@ -45,7 +45,10 @@ public class BlockNode implements Node{
 	}
 
 	public void setFunEndLabel(final String funEndLabel) {
+		System.out.print("here block " + funEndLabel + "\n");
+
 		for(StatementNode stm : stms) {
+			System.out.print("printing block stm : "+ stm + " \n ");
 			stm.setFunEndLabel(funEndLabel);
 		}
 	}
