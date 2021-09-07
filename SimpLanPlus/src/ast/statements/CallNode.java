@@ -214,11 +214,18 @@ public class CallNode implements Node{
 			}
 		}
 		
+		List<String> unique = new ArrayList<>();
+		
 		for(ExpNode param : passedByReferenceParams) {
-			varInSigma = sigmaSecondo.lookupForEffectAnalysis(param.getExpVar().get(0).getLhsId().getTextId());
-			varInSigmaEffect = varInSigma.getIVarStatus(param.getExpVar().get(0).getLhsId().getTextId());
+			if(!unique.contains(param.getExpVar().get(0).getLhsId().getTextId()))
+				unique.add(param.getExpVar().get(0).getLhsId().getTextId());
+		}
+		
+		for(String paramName : unique) {
+			varInSigma = sigmaSecondo.lookupForEffectAnalysis(paramName);
+			varInSigmaEffect = varInSigma.getIVarStatus(paramName);
 			if(varInSigmaEffect.getType() == Effect.TOP)
-				errors.add(new SemanticError(param.getExpVar().get(0).getLhsId().getTextId() + " will have an erroneous status after function invocation. " ));
+				errors.add(new SemanticError(paramName + " will have an erroneous status after function invocation. " ));
 		}
 		//System.out.print("Env before calling function: ");
 		//env.printEnv();

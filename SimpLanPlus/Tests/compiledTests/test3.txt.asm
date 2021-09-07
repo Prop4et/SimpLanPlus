@@ -10,6 +10,11 @@ sw $fp 0($fp); save the old value
  	 sw $t1 0($hp) 
 	 push $a0
 ; END ^int x = new int
+; BEGIN ^int y = new int
+	 li $t1 -1
+ 	 sw $t1 0($hp) 
+	 push $a0
+; END ^int y = new int
 ; BEGIN CALLING f
 push $fp
 push $sp
@@ -24,11 +29,11 @@ push $al
 	 lw $a0 -1($al)
 ; END x EVAL 
 push $a0 ; pushing x
-; BEGIN x EVAL 
+; BEGIN y EVAL 
  	 mv $al $fp 
-	 lw $a0 -1($al)
-; END x EVAL 
-push $a0 ; pushing x
+	 lw $a0 -2($al)
+; END y EVAL 
+push $a0 ; pushing y
 mv $fp $sp
 addi $fp $fp 2
 jal f; END CALLING f
@@ -37,6 +42,16 @@ halt
 f:
 sw $ra -1($cl)
 ; NEW BLOCK 
+; BEGIN x EVAL 
+ 	 mv $al $fp 
+	 lw $a0 -1($al)
+; END x EVAL 
+	 del $a0
+; BEGIN y EVAL 
+ 	 mv $al $fp 
+	 lw $a0 -2($al)
+; END y EVAL 
+	 del $a0
 ; BEGIN x EVAL 
  	 mv $al $fp 
 	 lw $a0 -1($al)

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import ast.SVMVisitorImpl;
 import ast.statements.BlockNode;
@@ -34,7 +35,7 @@ public class Main {
 		File path = new File("./Tests/");
 
 		File[] files = path.listFiles();
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile()) {        //test all the files in Tests folder
 				System.out.print("PROCESSING " + files[i] + ": \n");
 				FileInputStream is = new FileInputStream(files[i]);
@@ -70,10 +71,14 @@ public class Main {
 						System.out.println(e.getMessage());
 					}
 					ArrayList<SemanticError> effectsErr = ast.checkEffects(env);
+					List<String> unique = new ArrayList<>();
 					if (!effectsErr.isEmpty()) {
 						System.out.println("Effects analysis:");
 						for (SemanticError e : effectsErr)
-							System.out.println("\t" + e);
+							if(!unique.contains(e.msg))
+								unique.add(e.msg);
+						for (String s : unique)
+							System.out.println("\t" + s);
 					}
 					else {
 						File dir = new File("Tests/compiledTests/");

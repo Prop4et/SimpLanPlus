@@ -126,13 +126,8 @@ public class ExecuteSVM {
 						address = memory[registers.get(arg2)+offset].getData();
 						//System.out.print("Accessing" +registers.get(arg2)+ " - "+offset + "\n");
 					}catch (IndexOutOfBoundsException | NotInitializedVariableException e){
-						bytecode.printInstruction();
-						System.out.println("MEMORIA");
-
-						for(int i =0 ; i< memSize; i++ )
-							System.out.println(i+ ": "+ memory[i].toString());
-
-						throw new MemoryAccessException("Cannot address this area. Cell: " +registers.get(arg2)+ " offset  "+offset);
+						
+						throw new MemoryAccessException("Segmentation fault ");
 					};
                 	registers.put(arg1, address); //lw $r1 offset($r2)
                 	break;
@@ -223,8 +218,8 @@ public class ExecuteSVM {
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	System.out.println("MEMORIA");
-					/*for(int i =0 ; i< memSize; i++ )
+                	/*System.out.println("MEMORIA");
+					for(int i =0 ; i< memSize; i++ )
 						System.out.println(i+ ": "+ memory[i].toString());*/
 
 					return;
