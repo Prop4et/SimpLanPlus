@@ -141,7 +141,7 @@ public class ExecuteSVM {
 					if(arg2.equals("$hp")){
 						int heapMemCell = getFirstHeapMemoryCell();
 						memory[heapMemCell].setData(registers.get(arg1));
-						registers.put("$a0", heapMemCell );			//					//after sw automatically save the value saved in $a0, it's essentially needed for pointer initialization
+						registers.put("$a0", heapMemCell);			//					//after sw automatically save the value saved in $a0, it's essentially needed for pointer initialization
 					}
 
 					else

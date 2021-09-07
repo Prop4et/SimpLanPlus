@@ -2,11 +2,9 @@ package semanticAnalysis;
 
 import ast.ArgNode;
 import ast.IdNode;
-import ast.Node;
 import ast.declarations.DecFunNode;
 import ast.types.FunTypeNode;
 import ast.types.TypeNode;
-import org.stringtemplate.v4.ST;
 
 import java.util.ArrayList;
 import java.util.HashMap;
