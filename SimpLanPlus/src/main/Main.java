@@ -64,7 +64,7 @@ public class Main {
 								System.out.println("You had: " + SemanticErr.size() + " errors:");
 							for (SemanticError e : SemanticErr)
 								System.out.println("\t" + e);
-						} 
+						}
 						System.out.println("Visualizing AST...");
 						System.out.println(ast.toPrint(""));
 						try {

@@ -183,7 +183,11 @@ public class BlockNode implements Node{
 			for(StatementNode s : stms) 
 				res.addAll(s.checkSemantics(env));			
 		}
-
+		if(! function) {
+			for (StatementNode s : stms)
+				if (s instanceof RetStatNode)
+					res.add(new SemanticError("Cannot use return statements outside functions"));
+		}
 		//check if there's something after return
 		for(StatementNode s : stms) {
 			if (s instanceof RetStatNode) {
