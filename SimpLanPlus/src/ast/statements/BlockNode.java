@@ -67,7 +67,7 @@ public class BlockNode implements Node{
 		if (stms.size() == 0) {		//no statements
 			return new VoidTypeNode();
 		}
-
+		
 		if (!returnFlag) {//no return statement in the block
 			//there's a chance of finding ite stms which could have returns inside them
 			List<StatementNode> iteStatNodes = new ArrayList<>();
@@ -88,7 +88,7 @@ public class BlockNode implements Node{
 			return new VoidTypeNode();
 		}
 		//System.out.print("size "+ stms.size());
-
+		
 		return stms.get(stms.size()-1).typeCheck();	//return at the end of the block, we checked before that there will be no code after a return
 		// shouldn't be any other node in which a return can appear
 
@@ -183,7 +183,7 @@ public class BlockNode implements Node{
 			for(StatementNode s : stms) 
 				res.addAll(s.checkSemantics(env));			
 		}
-		if(! function) {
+		if(!function) {
 			for (StatementNode s : stms)
 				if (s instanceof RetStatNode)
 					res.add(new SemanticError("Cannot use return statements outside functions"));
