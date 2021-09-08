@@ -180,12 +180,28 @@ public class BlockNode implements Node{
 
 		//if we're inside the body of a function we shouldn't be able to take ids from outside the function params and definitions inside the function
 		if (!stms.isEmpty()) {
+			//i'm inside the body of a function
+			if(function) {
+				for (StatementNode s : stms) {
+					//if there's an if statement i need to flag this if cause it's inside a function, it has to have a return and can crate a new block
+					if(s instanceof IteStatNode)
+						//the statement inside the if is itself a part of the body of the function, this will call the setFunction, which
+						//sets the statement as a function body part, if i find a new block inside the if it's flagged as a function body part
+						s.setFunction(true);
+				}
+			}else {
+				//if the body is not a function and a return statement is found then it's an error
+				for (StatementNode s : stms) 
+					if(s instanceof RetStatNode) 
+						res.add(new SemanticError("cannot use return inside an inner block"));
+			}
+			//statement evaluation is done afterwards
 			for (StatementNode s : stms) 
 				res.addAll(s.checkSemantics(env));
 			
 			
 		}
-		for (StatementNode s : stms){
+		/*for (StatementNode s : stms){
 			if (s instanceof RetStatNode) {
 				if (s.getFunEndLabel().equals("")) 
 					res.add(new SemanticError("Cannot use return statements outside functions"));	
@@ -195,7 +211,8 @@ public class BlockNode implements Node{
 						//res.add(new SemanticError("Cannot use return inside an inner block "));
 				}
 			}
-		}
+		}*/
+		
 		//check if there's something after return
 		for(StatementNode s : stms) {
 			if (s instanceof RetStatNode) {

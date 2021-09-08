@@ -17,6 +17,11 @@ public class BlockStatNode extends StatementNode{
 	public void setFunEndLabel(final String funEndLabel) {
 		block.setFunEndLabel(funEndLabel);
 	}
+	
+	public void setFunction(final boolean function) {
+		block.setFunction(function);
+	}
+	
 	@Override
 	public String toPrint(String indent) {
 		return block.toPrint(indent);

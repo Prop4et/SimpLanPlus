@@ -17,6 +17,10 @@ public class IteStatNode extends StatementNode{
 		ite.setFunEndLabel(funEndLabel);
 	}
 
+	public void setFunction(final boolean function) {
+		ite.setFunction(function);
+	}
+	
 	@Override
 	public String toPrint(String indent) {
 		return ite.toPrint(indent);

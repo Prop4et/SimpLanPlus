@@ -30,12 +30,16 @@ public class IteNode implements Node{
 	}
 	
 	public void setFunEndLabel(final String funEndLabel) {
-
 		thenB.setFunEndLabel(funEndLabel);
-
-        if (elseB != null) {
+        if (elseB != null) 
         	elseB.setFunEndLabel(funEndLabel);
-        }
+	}
+	
+	public void setFunction(final boolean function) {
+		thenB.setFunction(function);
+        if (elseB != null) 
+        	elseB.setFunction(function);
+       
 	}
 	
 	@Override
@@ -85,10 +89,11 @@ public class IteNode implements Node{
 		
 		res.addAll(thenB.checkSemantics(env));
 		
-		if(elseB != null)		//the else branch is optional
+		if(elseB != null) 	//the else branch is optional
+			
 			res.addAll(elseB.checkSemantics(env));
-		//env.printEnv();
-
+		
+		
 		return res;
 	}
 
