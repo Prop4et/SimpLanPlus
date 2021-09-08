@@ -187,9 +187,11 @@ public class BlockNode implements Node{
 			if (s instanceof RetStatNode) {
 				if (s.getFunEndLabel().equals(""))
 					res.add(new SemanticError("Cannot use return statements outside functions"));
-				else
-				if (!function)
-					res.add(new SemanticError("Cannot use return inside an inner block "));
+				else {
+					if (function)
+						System.out.print(s.getFunEndLabel());
+						res.add(new SemanticError("Cannot use return inside an inner block "));
+				}
 			}
 		}
 		//check if there's something after return
