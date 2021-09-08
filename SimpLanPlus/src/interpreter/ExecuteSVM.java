@@ -93,10 +93,7 @@ public class ExecuteSVM {
     public void run() throws MemoryAccessException {
     	while(true) {
     		if(registers.get("$hp")+1>=registers.get("$sp")) {
-    			System.out.println("MEMORIA");
-            	for(MemoryCell i : memory)
-            		System.out.println(i);
-        		throw  new MemoryAccessException("Error: Out of memory");
+    			throw  new MemoryAccessException("Error: Out of memory");
         		
         	}else {
         		Instruction bytecode = code.get(ip); // fetch

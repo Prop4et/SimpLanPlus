@@ -1,3 +1,10 @@
 {
-	return 1;
-}
+int max(int a, int b){
+   
+    {
+      return b;
+    }
+
+  }
+   print max(5,4);
+    }

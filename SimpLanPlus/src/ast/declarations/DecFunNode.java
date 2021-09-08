@@ -111,7 +111,6 @@ public class DecFunNode implements Node{
 			body.setNewScope(false);
 			body.setFunction(true);
 			body.setFunEndLabel("end"+id.getTextId());
-			//when evaluating it finds global variables too, but i don't want it to
 			
 			errors.addAll(body.checkSemantics(env));
 

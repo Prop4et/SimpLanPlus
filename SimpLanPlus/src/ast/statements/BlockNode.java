@@ -180,17 +180,19 @@ public class BlockNode implements Node{
 
 		//if we're inside the body of a function we shouldn't be able to take ids from outside the function params and definitions inside the function
 		if (!stms.isEmpty()) {
-			for (StatementNode s : stms)
+			for (StatementNode s : stms) 
 				res.addAll(s.checkSemantics(env));
+			
+			
 		}
 		for (StatementNode s : stms){
 			if (s instanceof RetStatNode) {
-				if (s.getFunEndLabel().equals(""))
-					res.add(new SemanticError("Cannot use return statements outside functions"));
+				if (s.getFunEndLabel().equals("")) 
+					res.add(new SemanticError("Cannot use return statements outside functions"));	
 				else {
 					if (function)
-						System.out.print(s.getFunEndLabel());
-						res.add(new SemanticError("Cannot use return inside an inner block "));
+						System.out.println("Function");
+						//res.add(new SemanticError("Cannot use return inside an inner block "));
 				}
 			}
 		}
