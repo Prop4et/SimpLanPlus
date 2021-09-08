@@ -54,9 +54,9 @@ public class BaseExpNode extends ExpNode {
         ArrayList<SemanticError> res = new ArrayList<>();
 
         res.addAll(exp.checkEffects(env));
-        //getting variables    ->   ids(e)={x 1 ,...,x n }
+        //getting all the variables that appear inside the expression  ->   ids(e)={x 1 ,...,x n }
         List<LhsNode> expVar = getExpVar();
-
+        //apply seq with Rw effect for each variable
         for (LhsNode var: expVar){
             env.applySeq(var.getLhsId(), Effect.RW);
             STentry seqEntry = env.lookupForEffectAnalysis(var.getLhsId().getTextId());

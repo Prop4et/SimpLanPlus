@@ -70,10 +70,9 @@ public class AssignmentNode extends StatementNode implements Node {
 				------------------------------------[Asgn-e]
 					∑ ⊢ lhs = rhs; : ∑' ⊳[lhs ⟼ rw]					*/
 		ArrayList<SemanticError> res = new ArrayList<>();
-		//res.addAll(lhs.checkEffects(env));
-		ArrayList<SemanticError> expError = rhs.checkEffects(env);		//∑'
+
+		ArrayList<SemanticError> expError = rhs.checkEffects(env);		//getting ∑' from rhs analysis
 		//if lhs is a variable,we set its effect to rw easily
-		IdNode var = null;
 
 		env.applySeq(lhs.getLhsId(), Effect.RW);
 

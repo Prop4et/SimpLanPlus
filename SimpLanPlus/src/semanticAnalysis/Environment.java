@@ -17,9 +17,6 @@ import exceptions.NotDeclaredException;
 
 public class Environment {
 	
-	//THESE VARIABLES SHOULDN'T BE PUBLIC
-	//THIS CAN BE DONE MUCH BETTER
-	
 	public List<HashMap<String,STentry>> symTable;
 	public int nl ;
 	public int offset = 0;
@@ -114,6 +111,7 @@ public class Environment {
 		}
 		return resEnv;
 	}
+	//creating the environment with the single entry to apply seq
 	public void applySeq(IdNode id, int effectToSet ){
 		Environment newEnv = new Environment();
 		newEnv.onScopeEntry();
@@ -277,15 +275,6 @@ public class Environment {
 		return entry;
 	}
 	
-	public STentry addDecUpdate(final String id, final TypeNode type) {
-		HashMap<String, STentry> scope = symTable.get(nl);
-		STentry entry = new STentry(nl, offset, type);
-		if(scope.put(id, entry) != null)
-			System.err.println("Var " + id + " was already declared.");
-		offset-=1;//1?
-		return entry;
-	}
-	
 	public void printEnv() {
 		int currentnl = 0;
 		System.out.println("VAR TYPE OFFSET NL 			EFFECT ");
@@ -309,17 +298,10 @@ public class Environment {
 				else
 				System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl() + " " +  value.getIVarStatus(key).getType());
 			}
-			//System.out.println("}");
 			currentnl++;
 		}
 	}
-	
-	public void printLevel(HashMap<String, STentry> m) {
-		for(String key : m.keySet()) {
-		    STentry value = m.get(key);
-		    System.out.println(key + " " + value.getType() + " " + value.getOffset() + " " + value.getNl());
-		}
-	}
+
 	
 	/**
 	 * 
@@ -342,7 +324,7 @@ public class Environment {
 			throw new NotDeclaredException("Missing declaration for var: " + id);
 		return var;
 	}
-
+	//we're using lookupforEffectAnalysis when analysing effect, at this point we're sure that variables/ functions are declared properly otherwise, the execution would have stopped at the semantic analysis
 	public STentry lookupForEffectAnalysis(String id) {
 		//better that way idk
 		int i = nl;

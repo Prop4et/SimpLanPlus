@@ -57,7 +57,6 @@ public class DecFunNode implements Node{
 
 	@Override
 	public TypeNode typeCheck() throws TypeException {
-		//System.out.print(body);
 		if (type instanceof PointerTypeNode)
 			throw new TypeException("Functions are not allowed to return pointers");
 		if (!Node.sametype(type, body.typeCheck()))
@@ -132,6 +131,7 @@ public class DecFunNode implements Node{
 		}
 		return passedByReferenceArgs;
 	}
+
 	public List<ArgNode> getPassedByValueParams(){
 		List<ArgNode> passedByValueArgs = new ArrayList<>();
 
@@ -155,37 +155,39 @@ public class DecFunNode implements Node{
 
 		//setting up the effects
 		id.getSTentry().setFunNode(this);
-		id.getSTentry().initializeStatus(id);		// ∑_0[f ->∑_0 ->∑_1]  environment
-		env.addEntry(id.getTextId(), id.getSTentry());
+		id.getSTentry().initializeStatus(id);		//inizializing [f ->∑_0 ->∑_1]  environment, arguments effects are initialized to BOT
+		env.addEntry(id.getTextId(), id.getSTentry());	//adding function declaration to ∑0 [f ->∑_0 ->∑_1]
 
 		env.onScopeEntry();
 
 		STentry argEntry;
 
 
-		for (ArgNode arg: args){							//Initializing  effect inside the symbol table
-			arg.getId().getSTentry().setVarStatus(arg.getId().getTextId(),new Effect(Effect.RW)); 		//dev'essere inizializzata a RW o BOT?
+		for (ArgNode arg: args){							//adding arguments entry inside ∑_0 with effect setted as RW, in order to be usable inside function body
+															// ∑0 [f ->∑_0 ->∑_1, x1 ->RW .. xn->RW]
+			arg.getId().getSTentry().setVarStatus(arg.getId().getTextId(),new Effect(Effect.RW));
 			env.addEntry(arg.getId().getTextId(), arg.getId().getSTentry());
 		}
 
-		//fine	primo ∑| FUN ⦁ ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ]
+		// end first cicle ∑| FUN ⦁ ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ]
 
 
 
-		Environment env1 = new Environment(env);		 // initializing âˆ‘_1 = [ x 1 âŸ¼ âŠ¥,â€¦,x m âŸ¼ âŠ¥,y 1 âŸ¼ âŠ¥,â€¦,y n âŸ¼ âŠ¥ ]
+		Environment env1 = new Environment(env);
 		Environment oldEnv = new Environment(env);
-		errors.addAll(body.checkEffects(env1));						 // first iteration of ∑_1
+		errors.addAll(body.checkEffects(env1));						 //calculating variables effect after the body execution and updating ∑ 0
 		//env1.printEnv();
 
 		STentry argStatusInBodyEnv ;
 		//updating fun
 		for (ArgNode arg: args) {
+			//getting the variable effects from env1 and updating ∑ 1 inside ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ]
 			argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
 			env1.lookupForEffectAnalysis(id.getTextId()).updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
 			//re-setting args effect to RW for the next evaluation of the body effect.
 			env1.lookupForEffectAnalysis(arg.getId().getTextId()).setVarStatus(arg.getId().getTextId(), new Effect(Effect.RW));
 		}
-
+		//calculating fixed point we're going to update the enviroment ∑0, until ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ] =  FUN ⦁ ∑ 1 [ f ⟼ ∑ 0 → ∑ 1 ]
 		while(!oldEnv.equals(env1)) {
 			oldEnv=env1;
 			errors.addAll(body.checkEffects(env1));
@@ -197,8 +199,6 @@ public class DecFunNode implements Node{
 			}
 		}
 
-	//	System.out.print("\n Fixed point has been found. result environment ∑_1: \n");
-		//env1.printEnv();
 		env.replace(env1);
 		env.onScopeExit();
 

@@ -107,6 +107,7 @@ public class STentry {
 				}
 			this.funStatus.add(init_env_0);               //∑_0
 			this.funStatus.add(init_env_1);               //∑_1
+															//at this point funstatus is ∑_0 -> ∑_1 where  ∑_0 = ∑_1 = [x1 -> bot ..xn -> bot]
 		}
 		else{
 			this.varStatus.put(id.getTextId(), new Effect(Effect.BOT));

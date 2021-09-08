@@ -49,7 +49,7 @@ public class IteNode implements Node{
 			throw new TypeException("Type Error: the if condition " + cond + "is not of type BOOL.");
 		TypeNode thenBType = thenB.typeCheck();
 		if(elseB != null) {
-			if (! Node.sametype(thenBType, elseB.typeCheck()))     //TODO: da rivedere meglio le regole di inferenza dell'if e implementazione sameas
+			if (! Node.sametype(thenBType, elseB.typeCheck()))
 				throw new TypeException("Type Error: Incompatible types in then else branches: then has type " + thenBType + " while else has type " + elseB.typeCheck());
 			//otherwise e == t, so I can return any one between the two
 		}
@@ -112,9 +112,8 @@ public class IteNode implements Node{
 
 		//check effect in the then and in the else exp
 		if(elseB != null) {    //the else branch is optional
-			Environment thenBranchEnv = new Environment(env);		//TODO: problem: new Environment(env) it's creating a copy by references, not by values, so when we modify then/elsebranchEnv we're modifying also env. In this way, we're storing one branch effects and analysing the other one w.r.t the the previous branch.
-																	// what we want is analysing the effects of each branch independently and store them inside E1 and E2 and then get the and then get maximum effect  for the variable between the e1 and e2  .
-			
+			Environment thenBranchEnv = new Environment(env);
+
 			res.addAll(thenB.checkEffects(thenBranchEnv));       	 //creating env1
 			
 			Environment elseBranchEnv = new Environment(env);		//creating env2
@@ -125,7 +124,6 @@ public class IteNode implements Node{
 			//getting the max environment between Env1 and Env2
 			Environment maxEnv = Environment.max(thenBranchEnv,elseBranchEnv);
 			env.replace(maxEnv);
-			//env.printEnv();
 		}
 		else										 	//if there isn't else branch there is no need to calculate max(Eps1,Eps2) so we can work on Eps
 			res.addAll(thenB.checkEffects(env));

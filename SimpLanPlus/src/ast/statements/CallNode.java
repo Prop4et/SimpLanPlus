@@ -128,7 +128,7 @@ public class CallNode implements Node{
 		//\Sigma(f) = \Sigma_0 -> Sigma_1 ??								DONE
 		//\Sigma_1(yi) <= d, 1<=i<=n										DONE
 		//\Sigma' = \Sigma [(zi -> \Sigma(zi) seq rw) where zi \in parameters passed as value], \Sigma(zi) = effect status of zi				DONE
-		//\Sigma'' = par [ui -> \Sigma(ui) seq \Sigma1(xi)] 1 <= i <= m, where ui are the parameters passed as reference						DONE?
+		//\Sigma'' = par [ui -> \Sigma(ui) seq \Sigma1(xi)] 1 <= i <= m, where ui are the parameters passed as reference						DONE
 		// ui should be the status outside the function, xi should be the status inside the function
 		//-------------------------------------------------------
 		//\Sigma |- f(u1, .., um, e1, .., en) : update(\Sigma', \Sigma'')
@@ -146,11 +146,11 @@ public class CallNode implements Node{
 			else
 				passedByValueParams.add(p);
 		}
-		
+		//processing passed by value params
 		STentry fun = env.lookupForEffectAnalysis(id.getTextId());
 		//getting Sigma1
 		HashMap<String, Effect> sigma1 = fun.getFunStatus().get(1);
-		//checking	( ∑ 1 (y i ) ≤ d ) 1 ≤ i ≤ n								//all this  can be moved inside decfunNode
+		//checking	( ∑ 1 (y i ) ≤ d ) 1 ≤ i ≤ n
 		for (int i =0 ;i<fun.getFunNode().getArgs().size(); i++){
 			ArgNode arg = fun.getFunNode().getArgs().get(i);
 			Effect e = sigma1.get(arg.getId().getTextId());
@@ -169,10 +169,10 @@ public class CallNode implements Node{
 		STentry varInSigma = new STentry(0,0);
 		Effect varInSigmaEffect = new Effect();
 
-		Environment sigmaPrimo = new Environment(env);			// TODO: is it useful? bcs is equal to the updated env, so I think I can work directly on env.
+		Environment sigmaPrimo = new Environment(env);
 		for (ExpNode exp: passedByValueParams){
 			//getting exp variable and setting to rw
-			for (LhsNode expVar : exp.getExpVar()){		//what happens if  f( x + y, x + y) ?
+			for (LhsNode expVar : exp.getExpVar()){
 
 				//getting ∑(z i )
 				varInSigma  = sigmaPrimo.lookupForEffectAnalysis(expVar.getLhsId().getTextId());
@@ -181,6 +181,7 @@ public class CallNode implements Node{
 			}
 		}
 		//∑"= ⊗ i ∈ 1..m [ u i ⟼ ∑(u i )⊳ ∑ 1 (x i )]
+		//processing passed by reference values
 		Effect formalParamEffect ;
 		List<Environment> resultingEnvironment = new ArrayList<>();
 		Environment sigmaSecondo = new Environment(env);
@@ -194,7 +195,7 @@ public class CallNode implements Node{
 			ArgNode formalParam = fun.getFunNode().getArgs().get(i);
 			formalParamEffect = sigma1.get(formalParam.getId().getTextId());
 
-				//creating the environment that will be used for the Sigma'' creation with par, where we will set the actual params effect to the result of ∑(u i )⊳ ∑ 1 (x i )
+			//creating the environment with a single entry that will be used for the creation os Sigma''; [ui -> ∑(u i )⊳ ∑ 1 (x i )]
 			Environment newEnv = new Environment();
 			newEnv.onScopeEntry();
 			STentry tmp = new STentry(varInSigma.getNl(),varInSigma.getOffset(),varInSigma.getType());
@@ -205,8 +206,7 @@ public class CallNode implements Node{
 			resultingEnvironment.add(newEnv);
 
 		}
-		//missing par of all env
-
+		//applying par to  par [ui -> \Sigma(ui) seq \Sigma1(xi)] 1 <= i <= m,
 		if(resultingEnvironment.size()>0) {
 			sigmaSecondo = resultingEnvironment.get(0);
 			for (int i = 1; i < resultingEnvironment.size(); i++) {
@@ -215,24 +215,22 @@ public class CallNode implements Node{
 		}
 		
 		List<String> unique = new ArrayList<>();
-		
+		//avoid double processing in case of aliasing
 		for(ExpNode param : passedByReferenceParams) {
 			if(!unique.contains(param.getExpVar().get(0).getLhsId().getTextId()))
 				unique.add(param.getExpVar().get(0).getLhsId().getTextId());
 		}
-		
+		//checking that after function invocation all the params aren't in TOP status
 		for(String paramName : unique) {
 			varInSigma = sigmaSecondo.lookupForEffectAnalysis(paramName);
 			varInSigmaEffect = varInSigma.getIVarStatus(paramName);
 			if(varInSigmaEffect.getType() == Effect.TOP)
 				errors.add(new SemanticError(paramName + " will have an erroneous status after function invocation. " ));
 		}
-		//System.out.print("Env before calling function: ");
-		//env.printEnv();
+
 		Environment updatedEnv = Environment.update(env,sigmaSecondo);
 		env.replace(updatedEnv);
-		//env.printEnv();
-		
+
 		
 		if(! expEvalErrors.isEmpty()) {
 			errors.add(new SemanticError("During invocation you're trying to use bad expression: "));

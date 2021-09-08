@@ -74,6 +74,7 @@ public class IdNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkEffects(Environment env) {
+
         entry = env.lookupForEffectAnalysis(id);
         nl = env.getNestingLevel();
         return new ArrayList<>();
