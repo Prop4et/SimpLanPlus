@@ -13,12 +13,14 @@ import semanticAnalysis.SemanticError;
 public class RetNode implements Node{
 
 	private final ExpNode exp; //ExpNode
-	private String funEndLabel; //label is set inside decfunnode when generating the code
+	private String funEndLabel=""; //label is set inside decfunnode when generating the code
 	
 	public RetNode(final ExpNode exp) {
 		this.exp = exp;
 	}
-	
+	public String getFunEndLabel() {
+		return this.funEndLabel;
+	}
 	
 	public void setFunEndLabel(String funEndLabel) {
 		this.funEndLabel = funEndLabel;

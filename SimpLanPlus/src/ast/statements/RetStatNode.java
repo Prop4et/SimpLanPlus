@@ -17,6 +17,9 @@ public class RetStatNode extends StatementNode{
 	public void setFunEndLabel(final String funEndLabel) {
 		ret.setFunEndLabel(funEndLabel);
 	}
+	public String getFunEndLabel() {
+		return ret.getFunEndLabel();
+	}
 	
 	@Override
 	public String toPrint(String indent) {

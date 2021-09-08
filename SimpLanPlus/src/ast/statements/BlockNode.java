@@ -27,7 +27,7 @@ public class BlockNode implements Node{
 	private boolean main;
 	//in case of function this is the end label
 	private String funEndLabel;
-	
+
 	public BlockNode(final List<DeclarationNode> decs, final List<StatementNode> stms) {
 		this.decs=decs;
 		this.stms=stms;
@@ -50,11 +50,11 @@ public class BlockNode implements Node{
 			stm.setFunEndLabel(funEndLabel);
 		}
 	}
-	
+
 	@Override
 	public TypeNode typeCheck() throws TypeException {
-		
-		Boolean returnFlag = false; 
+
+		Boolean returnFlag = false;
 		//first check that declarations and statements inside the block are typed correctly
 		for (DeclarationNode dec : decs) {
 			dec.typeCheck();
@@ -67,7 +67,7 @@ public class BlockNode implements Node{
 		if (stms.size() == 0) {		//no statements
 			return new VoidTypeNode();
 		}
-		
+
 		if (!returnFlag) {//no return statement in the block
 			//there's a chance of finding ite stms which could have returns inside them
 			List<StatementNode> iteStatNodes = new ArrayList<>();
@@ -88,7 +88,7 @@ public class BlockNode implements Node{
 			return new VoidTypeNode();
 		}
 		//System.out.print("size "+ stms.size());
-		
+
 		return stms.get(stms.size()-1).typeCheck();	//return at the end of the block, we checked before that there will be no code after a return
 		// shouldn't be any other node in which a return can appear
 
@@ -99,94 +99,98 @@ public class BlockNode implements Node{
 		//block could be a function body or a normal block, or the main
 		//ra in function right?
 		String ret = "; NEW BLOCK \n";
-        if (newScope) {
-            if(main) {
-            	ret += "push $sp\n";
-            }
-            else{
-                ret += "push $fp ;push old fp\n";
-                ret += "push $cl\n";
-                
-            }
-            //pushing ra so the stack is always consistent
-            
-            ret += "subi $sp $sp 1; ra \n";
-            
-            ret += "mv $al $fp\n";
-            ret += "push $al ;it's equal to the old $fp\n";
-            if (main) {
-                ret += "mv $fp $sp; bring up the frame pointer\n";
-                ret += "sw $fp 0($fp); save the old value\n"; //maybe not useful
-            }
-        }
-        List<DeclarationNode> varDecs = new ArrayList<>();
-        List<DeclarationNode> funDecs = new ArrayList<>();
-        
-        for(DeclarationNode d : decs) {
-        	if(d instanceof DeclarateVarNode)
-        		varDecs.add(d);
-        	if(d instanceof DeclarateFunNode)
-        		funDecs.add(d);
-        }
-        //generate code for declarations
-          
-        for(DeclarationNode d : varDecs){
-        	ret += d.codeGeneration();
-        }
-        
-        if (newScope && !main) {
-            ret += "mv $fp $sp; frame pointer above the new declarations\n";
-            ret += "addi $fp $fp " + varDecs.size() + " ;frame pointer before decs (n =: " + varDecs.size()+")\n";
-        }
-        //generate statements
-        for(StatementNode s : stms)
-        	ret += s.codeGeneration();
-        	
+		if (newScope) {
+			if(main) {
+				ret += "push $sp\n";
+			}
+			else{
+				ret += "push $fp ;push old fp\n";
+				ret += "push $cl\n";
 
-        if (main) {
-            ret += "halt\n";
-        }
+			}
+			//pushing ra so the stack is always consistent
 
-        if (newScope && !main) {
-        	//pop all the declarations
-            ret += "addi $sp $sp " + varDecs.size() + " ;pop var declarations\n"; // Pop var declarations.
-            ret += "pop ;pop $al\n";
-            ret += "pop ;pop consistency ra\n";
-            ret += "lw $cl 0($sp)\n";
-            ret += "pop\n";
-            ret += "lw $fp 0($sp) ;restore old $fp\n";
-            ret += "pop ;pop old $fp\n";
-        }
-        //function declaration at the end, they need the space for ra
-        for(DeclarationNode f : funDecs)
-        	ret += f.codeGeneration();
-        ret += "; END BLOCK\n";
-        return ret;  
-}
+			ret += "subi $sp $sp 1; ra \n";
+
+			ret += "mv $al $fp\n";
+			ret += "push $al ;it's equal to the old $fp\n";
+			if (main) {
+				ret += "mv $fp $sp; bring up the frame pointer\n";
+				ret += "sw $fp 0($fp); save the old value\n"; //maybe not useful
+			}
+		}
+		List<DeclarationNode> varDecs = new ArrayList<>();
+		List<DeclarationNode> funDecs = new ArrayList<>();
+
+		for(DeclarationNode d : decs) {
+			if(d instanceof DeclarateVarNode)
+				varDecs.add(d);
+			if(d instanceof DeclarateFunNode)
+				funDecs.add(d);
+		}
+		//generate code for declarations
+
+		for(DeclarationNode d : varDecs){
+			ret += d.codeGeneration();
+		}
+
+		if (newScope && !main) {
+			ret += "mv $fp $sp; frame pointer above the new declarations\n";
+			ret += "addi $fp $fp " + varDecs.size() + " ;frame pointer before decs (n =: " + varDecs.size()+")\n";
+		}
+		//generate statements
+		for(StatementNode s : stms)
+			ret += s.codeGeneration();
+
+
+		if (main) {
+			ret += "halt\n";
+		}
+
+		if (newScope && !main) {
+			//pop all the declarations
+			ret += "addi $sp $sp " + varDecs.size() + " ;pop var declarations\n"; // Pop var declarations.
+			ret += "pop ;pop $al\n";
+			ret += "pop ;pop consistency ra\n";
+			ret += "lw $cl 0($sp)\n";
+			ret += "pop\n";
+			ret += "lw $fp 0($sp) ;restore old $fp\n";
+			ret += "pop ;pop old $fp\n";
+		}
+		//function declaration at the end, they need the space for ra
+		for(DeclarationNode f : funDecs)
+			ret += f.codeGeneration();
+		ret += "; END BLOCK\n";
+		return ret;
+	}
 
 
 	@Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 		//declare resulting list
 		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
-		if(newScope) {
+		if (newScope) {
 			env.onScopeEntry();
 		}
 		//check semantics in the dec list
-		if(!decs.isEmpty()){
-			for(DeclarationNode d : decs) 
-				res.addAll(d.checkSemantics(env));		
+		if (!decs.isEmpty()) {
+			for (DeclarationNode d : decs)
+				res.addAll(d.checkSemantics(env));
 		}
 
-		//if we're inside the body of a function we shouldn't be able to take ids from outside the function params and definitions inside the function		
-		if(!stms.isEmpty()){
-			for(StatementNode s : stms) 
-				res.addAll(s.checkSemantics(env));			
-		}
-		if(!function) {
+		//if we're inside the body of a function we shouldn't be able to take ids from outside the function params and definitions inside the function
+		if (!stms.isEmpty()) {
 			for (StatementNode s : stms)
-				if (s instanceof RetStatNode)
+				res.addAll(s.checkSemantics(env));
+		}
+		for (StatementNode s : stms){
+			if (s instanceof RetStatNode) {
+				if (s.getFunEndLabel().equals(""))
 					res.add(new SemanticError("Cannot use return statements outside functions"));
+				else
+				if (!function)
+					res.add(new SemanticError("Cannot use return inside an inner block "));
+			}
 		}
 		//check if there's something after return
 		for(StatementNode s : stms) {
@@ -219,7 +223,7 @@ public class BlockNode implements Node{
 		ArrayList<SemanticError> res = new ArrayList<SemanticError>();
 		if(newScope) {
 			env.onScopeEntry();				//creation of Eps ° []  environment
-			
+
 		}
 		//check Effect  in the dec list
 		if(!decs.isEmpty()){				//creation of Eps' environment
@@ -238,7 +242,7 @@ public class BlockNode implements Node{
 		//return the result
 		return res;
 	}
-	
+
 	public void setFunction(boolean function) {
 		this.function = function;
 	}
@@ -246,7 +250,7 @@ public class BlockNode implements Node{
 	public void setNewScope(boolean newScope) {
 		this.newScope = newScope;
 	}
-	
+
 	public void setMain(boolean main) {
 		this.main = main;
 	}

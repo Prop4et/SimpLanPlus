@@ -41,10 +41,10 @@ public class Main {
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
 				lexer.removeErrorListeners();
 				lexer.addErrorListener(new VerboseListener());
-				
+
 				if (lexer.errorCount() > 0) {
 					System.out.println("Lexical errors in the file. Exiting the compilation process now");
-				}else {
+				} else {
 					SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
 					parser.removeErrorListeners();
 					parser.addErrorListener(new VerboseListener());
@@ -71,7 +71,7 @@ public class Main {
 							try {
 								TypeNode type = ast.typeCheck(); //type-checking bottom-up
 								System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
-							}catch(TypeException e) {
+							} catch (TypeException e) {
 								System.out.println(e.getMessage());
 							}
 							ArrayList<SemanticError> effectsErr = ast.checkEffects(env);
@@ -79,53 +79,49 @@ public class Main {
 							if (!effectsErr.isEmpty()) {
 								System.out.println("Effects analysis:");
 								for (SemanticError e : effectsErr)
-									if(!unique.contains(e.msg))
+									if (!unique.contains(e.msg))
 										unique.add(e.msg);
 								for (String s : unique)
 									System.out.println("\t" + s);
-							}
-							else {
+							} else {
 								File dir = new File("Tests/compiledTests/");
-								if (!dir.exists()){
+								if (!dir.exists()) {
 									dir.mkdirs();
 								}
-								String code=ast.codeGeneration();
+								String code = ast.codeGeneration();
 								String tmp = files[i].getPath().substring(8);
-								BufferedWriter out = new BufferedWriter(new FileWriter("Tests/compiledTests/" + tmp +".asm"));
+								BufferedWriter out = new BufferedWriter(new FileWriter("Tests/compiledTests/" + tmp + ".asm"));
 								out.write(code);
-								out.close(); 
+								out.close();
 								System.out.println("Code generated! Assembling and running generated code.");
-				
-								FileInputStream isASM = new FileInputStream("Tests/compiledTests/" + tmp +".asm");
+
+								FileInputStream isASM = new FileInputStream("Tests/compiledTests/" + tmp + ".asm");
 								ANTLRInputStream inputASM = new ANTLRInputStream(isASM);
 								SVMLexer lexerASM = new SVMLexer(inputASM);
 								CommonTokenStream tokensASM = new CommonTokenStream(lexerASM);
 								SVMParser parserASM = new SVMParser(tokensASM);
-				
+
 								//parserASM.assembly();
-				
+
 								SVMVisitorImpl visitorSVM = new SVMVisitorImpl();
-								visitorSVM.visit(parserASM.assembly()); 
-				
-								System.out.println("You had: "+lexerASM.errorCount()+" lexical errors and "+parserASM.getNumberOfSyntaxErrors()+" syntax errors.");
-								if (lexerASM.errorCount()>0 || parserASM.getNumberOfSyntaxErrors()>0) System.exit(1);
-				
+								visitorSVM.visit(parserASM.assembly());
+
+								System.out.println("You had: " + lexerASM.errorCount() + " lexical errors and " + parserASM.getNumberOfSyntaxErrors() + " syntax errors.");
+								if (lexerASM.errorCount() > 0 || parserASM.getNumberOfSyntaxErrors() > 0) System.exit(1);
+
 								System.out.println("Starting Virtual Machine...");
-		
+
 								ExecuteSVM vm = new ExecuteSVM(200, visitorSVM.getCode());
 								try {
 									vm.run();
-								}catch(MemoryAccessException e) {
+								} catch (MemoryAccessException e) {
 									System.out.println(e.getMessage());
 								}
 							}
 						}
 					}
 				}
-
-
 			}
-
 		}
 	}
 }
