@@ -36,4 +36,5 @@ Al momento è così, manca ancora l'utilizzo di RA
 | x_1                         |
 | AL (Access Link)            |
 | RA (Return Address)         |
+| CL (Control Link)           |
 | Old FP (Frame Pointer)      |
