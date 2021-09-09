@@ -115,7 +115,7 @@ public class CallNode implements Node{
 			nFormalParams =  ((FunTypeNode) id.getSTentry().getType()).getParamsType().size();
 
 		if(nActualParams != nFormalParams)
-			errors.add(new SemanticError("There's a difference in the number of actual parameters versus the number of formal parameters declared in the function" + id.getTextId()));
+			errors.add(new SemanticError("There's a difference in the number of actual parameters versus the number of formal parameters declared in the function " + id.getTextId()));
 		//idk if i'm missing something but this seems fine to me
 		return errors;
 	}
@@ -225,7 +225,7 @@ public class CallNode implements Node{
 			varInSigma = sigmaSecondo.lookupForEffectAnalysis(paramName);
 			varInSigmaEffect = varInSigma.getIVarStatus(paramName);
 			if(varInSigmaEffect.getType() == Effect.TOP)
-				errors.add(new SemanticError(paramName + " will have an erroneous status after function invocation. " ));
+				errors.add(new SemanticError(paramName + " is used after deletion. " ));
 		}
 
 		Environment updatedEnv = Environment.update(env,sigmaSecondo);
@@ -237,6 +237,14 @@ public class CallNode implements Node{
 			errors.addAll(expEvalErrors);
 		}
 		return errors;
+	}
+
+	public List<LhsNode> getExpVar() {
+		List<LhsNode> ret = new ArrayList<>();
+		for(ExpNode p : params) {
+			ret.addAll(p.getExpVar());
+		}
+		return ret;
 	}
 
 }

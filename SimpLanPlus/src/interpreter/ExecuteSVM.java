@@ -93,6 +93,9 @@ public class ExecuteSVM {
     public void run() throws MemoryAccessException {
     	while(true) {
     		if(registers.get("$hp")+1>=registers.get("$sp")) {
+    			System.out.print("Printing \n");
+				for(int i =0 ; i< memSize; i++ )
+					System.out.println(i+ ": "+ memory[i].toString());
     			throw  new MemoryAccessException("Error: Out of memory");
         		
         	}else {
@@ -123,7 +126,9 @@ public class ExecuteSVM {
 						address = memory[registers.get(arg2)+offset].getData();
 						//System.out.print("Accessing" +registers.get(arg2)+ " - "+offset + "\n");
 					}catch (IndexOutOfBoundsException | NotInitializedVariableException e){
-						
+						System.out.print("Printing \n");
+						for(int i =0 ; i< memSize; i++ )
+							System.out.println(i+ ": "+ memory[i].toString());
 						throw new MemoryAccessException("Segmentation fault ");
 					};
                 	registers.put(arg1, address); //lw $r1 offset($r2)

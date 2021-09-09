@@ -32,7 +32,7 @@ public class Main {
 		File path = new File("./Tests/");
 
 		File[] files = path.listFiles();
-		for (int i = 0; i < files.length; i++) {
+		for (int i = 0; i < 2; i++) {
 			if (files[i].isFile()) {        //test all the files in Tests folder
 				System.out.print("PROCESSING " + files[i] + ": \n");
 				FileInputStream is = new FileInputStream(files[i]);
@@ -66,13 +66,14 @@ public class Main {
 								System.out.println("\t" + e);
 						}
 						else {
-							System.out.println("Visualizing AST...");
-							System.out.println(ast.toPrint(""));
+							//System.out.println("Visualizing AST...");
+							//System.out.println(ast.toPrint(""));
 							try {
 								TypeNode type = ast.typeCheck(); //type-checking bottom-up
 								System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 							} catch (TypeException e) {
 								System.out.println(e.getMessage());
+								continue;
 							}
 							ArrayList<SemanticError> effectsErr = ast.checkEffects(env);
 							List<String> unique = new ArrayList<>();
@@ -111,7 +112,7 @@ public class Main {
 
 								System.out.println("Starting Virtual Machine...");
 
-								ExecuteSVM vm = new ExecuteSVM(200, visitorSVM.getCode());
+								ExecuteSVM vm = new ExecuteSVM(20, visitorSVM.getCode());
 								try {
 									vm.run();
 								} catch (MemoryAccessException e) {

@@ -47,6 +47,7 @@ public class CallExpNode extends ExpNode {
 
     @Override
     public List<LhsNode> getExpVar() {
-        return null;
+    	
+        return call.getExpVar();
     }
 }
