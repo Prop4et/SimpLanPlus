@@ -181,6 +181,7 @@ public class BlockNode implements Node{
 		if (!stms.isEmpty()) {
 			//i'm inside the body of a function
 			if(function) {
+				stms.add(new RetStatNode(new RetNode(null)));
 				for (StatementNode s : stms) {
 					//if there's an if statement i need to flag this if cause it's inside a function, it has to have a return and can crate a new block
 					if(s instanceof IteStatNode)
@@ -194,6 +195,7 @@ public class BlockNode implements Node{
 					if(s instanceof RetStatNode) 
 						res.add(new SemanticError("cannot use return inside an inner block"));
 			}
+			
 			//statement evaluation is done afterwards
 			for (StatementNode s : stms) 
 				res.addAll(s.checkSemantics(env));

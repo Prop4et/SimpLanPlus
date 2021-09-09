@@ -1,9 +1,10 @@
 {
-    void f() {
-    	void g(){	
+    void f(int a) {
+    	void g(int a){
+    		print a;	
     	}
-    	g();
+    	g(a);
     }
 
-    f();
+    f(4);
 }
