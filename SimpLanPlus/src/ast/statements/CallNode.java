@@ -25,6 +25,7 @@ public class CallNode implements Node{
 	private final List<ExpNode> params;//ExpNode
 	private int currentNl;
 	
+	private String callerId;
 	public CallNode(final IdNode id, final List<ExpNode> params) {
 		this.id = id;
 		this.params=params;
@@ -79,7 +80,11 @@ public class CallNode implements Node{
 		
 		ret += "addi $sp $sp -1\n";
 		
-		ret += "lw $al 0($fp)\n";	
+		if(this.callerId == null || !(this.callerId.equals(id.getTextId())))
+			ret += "mv $al $fp\n";	
+		else
+			ret += "lw $al 0($fp)\n";
+		
 		for(int i = 0; i < currentNl - id.getNl(); i++)
 			ret += "lw $al 0($al)\n";
 		
@@ -246,5 +251,8 @@ public class CallNode implements Node{
 		}
 		return ret;
 	}
-
+	
+	public void setCallerId(final String callerId){
+		this.callerId = callerId;
+	}
 }

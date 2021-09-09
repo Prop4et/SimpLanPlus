@@ -140,14 +140,12 @@ public class ExecuteSVM {
 						memory[heapMemCell].setData(registers.get(arg1));
 						registers.put("$a0", heapMemCell);			//					//after sw automatically save the value saved in $a0, it's essentially needed for pointer initialization
 					}
-
 					else
                 		memory[registers.get(arg2)+offset].setData(registers.get(arg1));
 
-					/*System.out.print("SW in cell: " + " \n");
-					for(int i =0 ; i< memSize; i++ )
-						System.out.println(i+ ": "+ memory[i].toString());*/
-
+					/*if(arg1.equals("$ra") && arg2.equals("$cl")){
+						System.out.println("SW RA: " + registers.get(arg1) + " cl " + registers.get(arg2) +  " offset: " + offset);
+					}*/
 					break;
                 case "li":
                 	registers.put(arg1,Integer.parseInt(arg2));
@@ -214,16 +212,18 @@ public class ExecuteSVM {
                 	break;
                 case "jal":
                 	registers.put("$ra", ip); //save the next instruction in $ra
-					ip = Integer.parseInt(arg1);
+                	//System.out.println("previous ip " + ip +" next ip " +arg1);
+                	ip = Integer.parseInt(arg1);
                 	break;
                 case "jr":
+                	//System.out.println("jr: " + registers.get(arg1));
                 	ip = registers.get(arg1);
                 	break;
                 case "halt":
-                	/*System.out.println("MEMORIA");
+                	System.out.println("MEMORIA");
 					for(int i =0 ; i< memSize; i++ )
-						System.out.println(i+ ": "+ memory[i].toString());*/
-
+						System.out.println(i+ ": "+ memory[i].toString());
+                	 
 					return;
                 default:
                 	System.err.println("Unrecognized instruction: " + bytecode.getInstruction());

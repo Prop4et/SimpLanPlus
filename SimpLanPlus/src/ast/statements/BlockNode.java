@@ -26,8 +26,7 @@ public class BlockNode implements Node{
 	//main
 	private boolean main;
 	//in case of function this is the end label
-	private String funEndLabel;
-
+	
 	public BlockNode(final List<DeclarationNode> decs, final List<StatementNode> stms) {
 		this.decs=decs;
 		this.stms=stms;
@@ -263,5 +262,9 @@ public class BlockNode implements Node{
 
 	public void setMain(boolean main) {
 		this.main = main;
+	}
+	
+	public boolean getMain() {
+		return this.main;
 	}
 }

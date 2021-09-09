@@ -1,0 +1,41 @@
+push $sp
+subi $sp $sp 1; ra 
+mv $al $fp
+push $al ;it's equal to the old $fp
+mv $fp $sp; bring up the frame pointer
+sw $fp 0($fp); save the old value
+push $fp
+push $sp
+mv $cl $sp
+addi $t1 $cl 2
+sw $t1 0($cl)
+addi $sp $sp -1
+lw $al 0($fp)
+push $al
+mv $fp $sp
+addi $fp $fp 0
+jal f; END CALLING f
+halt
+f: sw $ra -1($cl)
+push $fp
+push $sp
+mv $cl $sp
+addi $t1 $cl 2
+sw $t1 0($cl)
+addi $sp $sp -1
+lw $al 0($fp)
+push $al
+mv $fp $sp
+addi $fp $fp 0
+jal g; END CALLING g
+g: sw $ra -1($cl)
+endg: lw $ra -1($cl)
+lw $fp 1($cl)
+lw $sp 0($cl) 
+addi $cl $fp 2
+jr $ra
+endf: lw $ra -1($cl)
+lw $fp 1($cl)
+lw $sp 0($cl) 
+addi $cl $fp 2
+jr $ra

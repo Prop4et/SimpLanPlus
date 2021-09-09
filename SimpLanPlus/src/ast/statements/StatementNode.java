@@ -17,6 +17,7 @@ public abstract class StatementNode implements Node{
 		this.funEndLabel = funEndLabel;
 	}
 	
+	
 	public String getFunEndLabel() {
 		return this.funEndLabel;
 	}

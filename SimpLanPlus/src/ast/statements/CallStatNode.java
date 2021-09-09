@@ -29,8 +29,8 @@ public class CallStatNode extends StatementNode{
 
 	@Override
 	public String codeGeneration() {
-		// TODO Auto-generated method stub
-		return call.codeGeneration();
+		call.setCallerId(getFunEndLabel());
+        return call.codeGeneration();
 	}
 
 	@Override
@@ -42,4 +42,5 @@ public class CallStatNode extends StatementNode{
 	public ArrayList<SemanticError> checkEffects(Environment env) {
 		return call.checkEffects(env);
 	}
+	
 }

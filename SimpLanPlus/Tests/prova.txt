@@ -1,11 +1,9 @@
 {
-    void f(int a) {
-        void g(int b) {
-        	print b;
-        }
-
-        //g(a);
+    void f() {
+    	void g(){	
+    	}
+    	g();
     }
 
-    f(2);
+    f();
 }
