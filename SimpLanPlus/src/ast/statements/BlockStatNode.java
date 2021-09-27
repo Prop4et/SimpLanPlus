@@ -22,6 +22,10 @@ public class BlockStatNode extends StatementNode{
 		block.setFunction(function);
 	}
 	
+	public void setBodyInFunction(final boolean function) {
+		block.setBodyInFunction(function);
+	}
+	
 	@Override
 	public String toPrint(String indent) {
 		return block.toPrint(indent);

@@ -32,7 +32,7 @@ public class Main {
 		File path = new File("./Tests/");
 
 		File[] files = path.listFiles();
-		for (int i = 0; i < files.length; i++) {
+		for (int i = 0; i < 2; i++) {
 			if (files[i].isFile()) {        //test all the files in Tests folder
 				System.out.print("PROCESSING " + files[i] + ": \n");
 				FileInputStream is = new FileInputStream(files[i]);

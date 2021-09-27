@@ -21,11 +21,11 @@ import semanticAnalysis.SemanticError;
 
 public class CallNode implements Node{
 	private final IdNode id;
+	private String callerId;
 
 	private final List<ExpNode> params;//ExpNode
 	private int currentNl;
 	
-	private String callerId;
 	public CallNode(final IdNode id, final List<ExpNode> params) {
 		this.id = id;
 		this.params=params;
@@ -79,8 +79,7 @@ public class CallNode implements Node{
         ret += "sw $t1 0($cl)\n";
 		
 		ret += "addi $sp $sp -1\n";
-		
-		if(this.callerId == null || !(this.callerId.equals(id.getTextId())))
+		if(this.callerId == null || !(this.callerId.endsWith(id.getTextId())))
 			ret += "mv $al $fp\n";	
 		else
 			ret += "lw $al 0($fp)\n";

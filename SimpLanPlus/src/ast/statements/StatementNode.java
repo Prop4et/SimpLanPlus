@@ -7,6 +7,7 @@ import exceptions.TypeException;
 public abstract class StatementNode implements Node{
 	private String funEndLabel;
 	private boolean function;
+	private boolean bodyInFunction;
 	
 	@Override
 	public String toString() {
@@ -31,5 +32,13 @@ public abstract class StatementNode implements Node{
 	
 	public boolean getFunction() {
 		return function;
+	}
+	
+	public void setBodyInFunction(boolean function) {
+		this.bodyInFunction = function;
+	}
+	
+	public boolean getBodyInFunction() {
+		return bodyInFunction;
 	}
 }

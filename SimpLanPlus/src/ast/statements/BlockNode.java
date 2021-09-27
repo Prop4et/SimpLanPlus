@@ -23,6 +23,7 @@ public class BlockNode implements Node{
 	private boolean newScope;
 	//body function
 	private boolean function;
+	private boolean bodyInFunction;
 	//main
 	private boolean main;
 	//in case of function this is the end label
@@ -181,16 +182,22 @@ public class BlockNode implements Node{
 		if (!stms.isEmpty()) {
 			//i'm inside the body of a function
 			if(function) {
-				
+
+				boolean flagRet = false;
+				for(StatementNode s : stms)
+					if(s instanceof RetStatNode)
+						flagRet = true;
+				if(!flagRet)
 					stms.add(new RetStatNode(new RetNode(null)));
 				for (StatementNode s : stms) {
 					//if there's an if statement i need to flag this if cause it's inside a function, it has to have a return and can crate a new block
 					if(s instanceof IteStatNode)
 						//the statement inside the if is itself a part of the body of the function, this will call the setFunction, which
 						//sets the statement as a function body part, if i find a new block inside the if it's flagged as a function body part
-						s.setFunction(true);
-				}
-			}else {
+						s.setBodyInFunction(true);
+					}
+			}
+			if(!function && !bodyInFunction) {
 				//if the body is not a function and a return statement is found then it's an error
 				for (StatementNode s : stms) 
 					if(s instanceof RetStatNode) 
@@ -203,7 +210,6 @@ public class BlockNode implements Node{
 			
 			
 		}
-		
 		//check if there's something after return
 		for(StatementNode s : stms) {
 			if (s instanceof RetStatNode) {
@@ -259,6 +265,10 @@ public class BlockNode implements Node{
 		this.function = function;
 	}
 
+	public void setBodyInFunction(boolean bodyInFunction) {
+		this.bodyInFunction = bodyInFunction;
+	}
+	
 	public void setNewScope(boolean newScope) {
 		this.newScope = newScope;
 	}

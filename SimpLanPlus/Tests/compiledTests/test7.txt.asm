@@ -111,7 +111,7 @@ mv $cl $sp
 addi $t1 $cl 2
 sw $t1 0($cl)
 addi $sp $sp -1
-lw $al 0($fp)
+mv $al $fp
 push $al
 ; BEGIN y EVAL 
  	 mv $al $fp 
