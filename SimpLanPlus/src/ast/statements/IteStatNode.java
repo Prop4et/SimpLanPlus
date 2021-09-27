@@ -17,8 +17,13 @@ public class IteStatNode extends StatementNode{
 		ite.setFunEndLabel(funEndLabel);
 	}
 
+	
 	public void setFunction(final boolean function) {
 		ite.setFunction(function);
+	}
+	
+	public void setBodyInFunction(final boolean function) {
+		ite.setBodyInFunction(function);
 	}
 	
 	@Override

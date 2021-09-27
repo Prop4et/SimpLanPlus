@@ -35,8 +35,8 @@ push $al
 	 lw $a0 -1($al)
 ; END u EVAL 
 push $a0 ; pushing u
-	 li $a0 1
-push $a0 ; pushing 1
+	 li $a0 6
+push $a0 ; pushing 6
 mv $fp $sp
 addi $fp $fp 2
 jal f; END CALLING f
@@ -111,7 +111,7 @@ mv $cl $sp
 addi $t1 $cl 2
 sw $t1 0($cl)
 addi $sp $sp -1
-mv $al $fp
+lw $al 0($fp)
 push $al
 ; BEGIN y EVAL 
  	 mv $al $fp 
@@ -178,6 +178,9 @@ pop ;pop old $fp
  ;END THAN BRANCH 
 ; END IF 
 endifthen1 :
+; RETURN 
+	 b endf
+;END RETURN 
 ; END BLOCK
 endf:
 lw $ra -1($cl)

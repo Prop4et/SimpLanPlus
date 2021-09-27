@@ -33,7 +33,7 @@ mv $cl $sp
 addi $t1 $cl 2
 sw $t1 0($cl)
 addi $sp $sp -1
-lw $al 0($fp)
+mv $al $fp
 push $al
 ; BEGIN b EVAL 
  	 mv $al $fp 
@@ -112,7 +112,7 @@ mv $cl $sp
 addi $t1 $cl 2
 sw $t1 0($cl)
 addi $sp $sp -1
-lw $al 0($fp)
+mv $al $fp
 push $al
 ; BEGIN y EVAL 
  	 mv $al $fp 
@@ -129,6 +129,9 @@ push $a0 ; pushing x
 mv $fp $sp
 addi $fp $fp 2
 jal h; END CALLING h
+; RETURN 
+	 b endh
+;END RETURN 
 addi $sp $sp 0 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
@@ -149,6 +152,9 @@ pop ;pop old $fp
  ;END THAN BRANCH 
 ; END IF 
 endifthen3 :
+; RETURN 
+	 b endh
+;END RETURN 
 ; END BLOCK
 endh:
 lw $ra -1($cl)

@@ -15,8 +15,7 @@ public class IteNode implements Node{
 	private final ExpNode cond; //ExpNode
 	private final StatementNode thenB;//then branch is a statement
 	private final StatementNode elseB;//else branch is another statement
-	
-	
+
 	public IteNode(final ExpNode cond, final StatementNode thenB, final StatementNode elseB) {
 		this.cond = cond;
 		this.thenB = thenB;
@@ -39,6 +38,13 @@ public class IteNode implements Node{
 		thenB.setFunction(function);
         if (elseB != null) 
         	elseB.setFunction(function);
+       
+	}
+	
+	public void setBodyInFunction(final boolean function) {
+		thenB.setBodyInFunction(function);
+        if (elseB != null) 
+        	elseB.setBodyInFunction(function);
        
 	}
 	

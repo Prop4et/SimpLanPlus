@@ -67,7 +67,6 @@ public class DecFunNode implements Node{
 
 	@Override
 	public String codeGeneration() {	
-		
 		String labelFun = id.getTextId();
 		String ret = "; BEGIN DEFINITION OF " + labelFun + ":\n";
 		ret += labelFun + ":\n";
@@ -110,6 +109,7 @@ public class DecFunNode implements Node{
 			//body evaluation in which yet another scope is created, should we avoid this? DONE
 			body.setNewScope(false);
 			body.setFunction(true);
+			body.setBodyInFunction(true);
 			body.setFunEndLabel("end"+id.getTextId());
 			
 			errors.addAll(body.checkSemantics(env));
