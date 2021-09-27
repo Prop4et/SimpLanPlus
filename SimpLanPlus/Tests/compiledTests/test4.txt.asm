@@ -5,13 +5,18 @@ mv $al $fp
 push $al ;it's equal to the old $fp
 mv $fp $sp; bring up the frame pointer
 sw $fp 0($fp); save the old value
-; BEGIN ^int u = new int
+; BEGIN ^int a = new int
 	 li $t1 -1
  	 sw $t1 0($hp) 
 	 push $a0
-; END ^int u = new int
-; BEGIN u^ = 1
-	 li $a0 1
+; END ^int a = new int
+; BEGIN ^int b = new int
+	 li $t1 -1
+ 	 sw $t1 0($hp) 
+	 push $a0
+; END ^int b = new int
+; BEGIN a^ = 4
+	 li $a0 4
 	 push $a0
 ; BEGIN  DEREFERANTION NODE 
 	 mv $al $fp
@@ -20,8 +25,8 @@ sw $fp 0($fp); save the old value
 	 lw $t1 0($sp)
 	 pop
 	 sw $t1 0($a0)
-; END u^ = 1
-; BEGIN CALLING f
+; END a^ = 4
+; BEGIN CALLING h
 push $fp
 push $sp
 mv $cl $sp
@@ -30,42 +35,44 @@ sw $t1 0($cl)
 addi $sp $sp -1
 mv $al $fp
 push $al
-; BEGIN u EVAL 
- 	 mv $al $fp 
-	 lw $a0 -1($al)
-; END u EVAL 
-push $a0 ; pushing u
-	 li $a0 1
-push $a0 ; pushing 1
-mv $fp $sp
-addi $fp $fp 2
-jal f; END CALLING f
-halt
-; BEGIN DEFINITION OF f:
-f:
-sw $ra -1($cl)
-; NEW BLOCK 
-; BEGIN IF ; BEGIN n > 0
-; BEGIN n EVAL 
+; BEGIN b EVAL 
  	 mv $al $fp 
 	 lw $a0 -2($al)
-; END n EVAL 
+; END b EVAL 
+push $a0 ; pushing b
+; BEGIN a EVAL 
+ 	 mv $al $fp 
+	 lw $a0 -1($al)
+; END a EVAL 
+push $a0 ; pushing a
+mv $fp $sp
+addi $fp $fp 2
+jal h; END CALLING h
+halt
+; BEGIN DEFINITION OF h:
+h:
+sw $ra -1($cl)
+; NEW BLOCK 
+; BEGIN IF ; BEGIN y^ == 0
+; BEGIN y EVAL 
+ 	 mv $al $fp 
+	 lw $a0 -2($al)
+; END y EVAL 
+ 	 lw $a0 0($a0)
 	 push $a0 ; push on the stack e1
 	 li $a0 0
 	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
 	 pop ;pop e1 from the stack
-	 bleq $t1 $a0 greaterTrueBranch2
-	 li $a0 1
-	 b endgreaterTrueBranch2
-	 greaterTrueBranch2:
-	 li $a0 0
-	 endgreaterTrueBranch2:
-	 ; END n > 0
+	 beq $t1 $a0 equalTrueBranch4
+	 li $a0 0 ;e1 != e2
+	 b endequalTrueBranch4
+	 equalTrueBranch4:
+	 li $a0 1 ;e1 == e2
+	 endequalTrueBranch4:
+	 ; END y^ == 0
  	 li $t1 1
-	 beq $a0 $t1 then1
-	 b endifthen1
-	then1:
-; THAN BRANCH 
+	 beq $a0 $t1 then3
+; BEGIN ELSE BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
 push $cl
@@ -74,7 +81,31 @@ mv $al $fp
 push $al ;it's equal to the old $fp
 mv $fp $sp; frame pointer above the new declarations
 addi $fp $fp 0 ;frame pointer before decs (n =: 0)
-; BEGIN CALLING f
+; BEGIN x^ = x^ - 1
+; BEGIN x^ - 1
+; BEGIN x EVAL 
+ 	 mv $al $fp 
+	 lw $al 0($al)
+	 lw $a0 -1($al)
+; END x EVAL 
+ 	 lw $a0 0($a0)
+	 push $a0 ; push on the stack e1
+	 li $a0 1
+	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
+	 pop ;pop e1 from the stack
+	 sub $a0 $t1 $a0
+	 ; END x^ - 1
+	 push $a0
+; BEGIN  DEREFERANTION NODE 
+	 mv $al $fp
+	 lw $al 0($al)
+ 	 addi $a0 $al -1
+ 	 lw $a0 0($a0)
+	 lw $t1 0($sp)
+	 pop
+	 sw $t1 0($a0)
+; END x^ = x^ - 1
+; BEGIN CALLING h
 push $fp
 push $sp
 mv $cl $sp
@@ -83,30 +114,23 @@ sw $t1 0($cl)
 addi $sp $sp -1
 lw $al 0($fp)
 push $al
+; BEGIN y EVAL 
+ 	 mv $al $fp 
+	 lw $al 0($al)
+	 lw $a0 -2($al)
+; END y EVAL 
+push $a0 ; pushing y
 ; BEGIN x EVAL 
  	 mv $al $fp 
 	 lw $al 0($al)
 	 lw $a0 -1($al)
 ; END x EVAL 
 push $a0 ; pushing x
-; BEGIN n - 1
-; BEGIN n EVAL 
- 	 mv $al $fp 
-	 lw $al 0($al)
-	 lw $a0 -2($al)
-; END n EVAL 
-	 push $a0 ; push on the stack e1
-	 li $a0 1
-	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
-	 pop ;pop e1 from the stack
-	 sub $a0 $t1 $a0
-	 ; END n - 1
-push $a0 ; pushing n - 1
 mv $fp $sp
 addi $fp $fp 2
-jal f; END CALLING f
+jal h; END CALLING h
 ; RETURN 
-	 b endf
+	 b endh
 ;END RETURN 
 addi $sp $sp 0 ;pop var declarations
 pop ;pop $al
@@ -116,18 +140,27 @@ pop
 lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 ; END BLOCK
+ ;END ELSE BRANCH 
+	 b endifthen3
+	then3:
+; THAN BRANCH 
+; BEGIN x EVAL 
+ 	 mv $al $fp 
+	 lw $a0 -1($al)
+; END x EVAL 
+	 del $a0
  ;END THAN BRANCH 
 ; END IF 
-endifthen1 :
+endifthen3 :
 ; RETURN 
-	 b endf
+	 b endh
 ;END RETURN 
 ; END BLOCK
-endf:
+endh:
 lw $ra -1($cl)
 lw $fp 1($cl)
 lw $sp 0($cl) 
 addi $cl $fp 2
 jr $ra
-;END DEFINITION OF f
+;END DEFINITION OF h
 ; END BLOCK
