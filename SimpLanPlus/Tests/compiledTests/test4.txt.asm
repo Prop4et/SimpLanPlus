@@ -63,15 +63,15 @@ sw $ra -1($cl)
 	 li $a0 0
 	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
 	 pop ;pop e1 from the stack
-	 beq $t1 $a0 equalTrueBranch2
+	 beq $t1 $a0 equalTrueBranch4
 	 li $a0 0 ;e1 != e2
-	 b endequalTrueBranch2
-	 equalTrueBranch2:
+	 b endequalTrueBranch4
+	 equalTrueBranch4:
 	 li $a0 1 ;e1 == e2
-	 endequalTrueBranch2:
+	 endequalTrueBranch4:
 	 ; END y^ == 0
  	 li $t1 1
-	 beq $a0 $t1 then1
+	 beq $a0 $t1 then3
 ; BEGIN ELSE BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
@@ -138,8 +138,8 @@ lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 ; END BLOCK
  ;END ELSE BRANCH 
-	 b endifthen1
-	then1:
+	 b endifthen3
+	then3:
 ; THAN BRANCH 
 ; BEGIN x EVAL 
  	 mv $al $fp 
@@ -148,7 +148,7 @@ pop ;pop old $fp
 	 del $a0
  ;END THAN BRANCH 
 ; END IF 
-endifthen1 :
+endifthen3 :
 ; END BLOCK
 endh:
 lw $ra -1($cl)

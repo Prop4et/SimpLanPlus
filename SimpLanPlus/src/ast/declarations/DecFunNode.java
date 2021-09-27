@@ -72,7 +72,7 @@ public class DecFunNode implements Node{
 		String ret = "; BEGIN DEFINITION OF " + labelFun + ":\n";
 		ret += labelFun + ":\n";
 		ret += "sw $ra -1($cl)\n";
-		//body.setFunEndLabel("end"+labelFun);
+		body.setFunEndLabel("end"+labelFun);
 		ret += body.codeGeneration();//this code generation should be done in another stable, that is stablee in the example
 		ret += "end"+labelFun + ":\n";
 		ret += "lw $ra -1($cl)\n";

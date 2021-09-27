@@ -275,4 +275,8 @@ public class BlockNode implements Node{
 	public void setMain(boolean main) {
 		this.main = main;
 	}
+	
+	public boolean getMain() {
+		return this.main;
+	}
 }

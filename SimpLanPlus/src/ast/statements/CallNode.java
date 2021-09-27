@@ -21,6 +21,7 @@ import semanticAnalysis.SemanticError;
 
 public class CallNode implements Node{
 	private final IdNode id;
+	private String callerId;
 
 	private final List<ExpNode> params;//ExpNode
 	private int currentNl;
@@ -79,7 +80,11 @@ public class CallNode implements Node{
 		
 		ret += "addi $sp $sp -1\n";
 		
-		ret += "lw $al 0($fp)\n";	
+		if(this.callerId == null || !(this.callerId.equals(id.getTextId())))
+			ret += "mv $al $fp\n";	
+		else
+			ret += "lw $al 0($fp)\n";
+		
 		for(int i = 0; i < currentNl - id.getNl(); i++)
 			ret += "lw $al 0($al)\n";
 		
@@ -241,4 +246,15 @@ public class CallNode implements Node{
 		return errors;
 	}
 
+	public List<LhsNode> getExpVar() {
+		List<LhsNode> ret = new ArrayList<>();
+		for(ExpNode p : params) {
+			ret.addAll(p.getExpVar());
+		}
+		return ret;
+	}
+	
+	public void setCallerId(final String callerId){
+		this.callerId = callerId;
+	}
 }

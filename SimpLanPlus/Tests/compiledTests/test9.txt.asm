@@ -39,15 +39,15 @@ sw $ra -1($cl)
 ; END b EVAL 
 	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
 	 pop ;pop e1 from the stack
-	 bleq $t1 $a0 greaterTrueBranch8
+	 bleq $t1 $a0 greaterTrueBranch10
 	 li $a0 1
-	 b endgreaterTrueBranch8
-	 greaterTrueBranch8:
+	 b endgreaterTrueBranch10
+	 greaterTrueBranch10:
 	 li $a0 0
-	 endgreaterTrueBranch8:
+	 endgreaterTrueBranch10:
 	 ; END a > b
  	 li $t1 1
-	 beq $a0 $t1 then7
+	 beq $a0 $t1 then9
 ; BEGIN ELSE BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
@@ -74,8 +74,8 @@ lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 ; END BLOCK
  ;END ELSE BRANCH 
-	 b endifthen7
-	then7:
+	 b endifthen9
+	then9:
 ; THAN BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
@@ -103,7 +103,7 @@ pop ;pop old $fp
 ; END BLOCK
  ;END THAN BRANCH 
 ; END IF 
-endifthen7 :
+endifthen9 :
 ; END BLOCK
 endmax:
 lw $ra -1($cl)

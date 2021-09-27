@@ -135,7 +135,6 @@ public class ExecuteSVM {
 						memory[heapMemCell].setData(registers.get(arg1));
 						registers.put("$a0", heapMemCell);			//					//after sw automatically save the value saved in $a0, it's essentially needed for pointer initialization
 					}
-
 					else
                 		memory[registers.get(arg2)+offset].setData(registers.get(arg1));
 
