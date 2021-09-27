@@ -1,11 +1,10 @@
 {
-    void f(int a) {
-    	void g(int a){
-    		print a;	
-    	}
-    	g(a);
-    	
-    }
-
-     f(5);
+	^int u = new int;
+	void f(^int x, int n){ 
+		if(n > 0){
+			f(x,n-1); 
+		}	
+	}
+	u^ = 1;
+	f(u,1) ;
 }
