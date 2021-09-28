@@ -32,7 +32,7 @@ public class Main {
 		File path = new File("./Tests/");
 
 		File[] files = path.listFiles();
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile()) {        //test all the files in Tests folder
 				System.out.print("PROCESSING " + files[i] + ": \n");
 				FileInputStream is = new FileInputStream(files[i]);
@@ -112,7 +112,7 @@ public class Main {
 
 								System.out.println("Starting Virtual Machine...");
 
-								ExecuteSVM vm = new ExecuteSVM(30, visitorSVM.getCode());
+								ExecuteSVM vm = new ExecuteSVM(100, visitorSVM.getCode());
 								try {
 									vm.run();
 								} catch (MemoryAccessException e) {
