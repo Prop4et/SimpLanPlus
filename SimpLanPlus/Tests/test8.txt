@@ -8,5 +8,17 @@
 			f(m+1,n+1) ; 
 		}
 	}
-	f(4,5) ; //f(4, 5) loop until end of memory
+	f(5,4) ; //f(4, 5) loop until end of memory
 }
+//f(4,5) =
+    //Type checking ok! Type of the program is: void
+    //Code generated! Assembling and running generated code.
+    //You had: 0 lexical errors and 0 syntax errors.
+    //Starting Virtual Machine...
+    //Error: Out of memory
+//f(5,4) =
+    //Type checking ok! Type of the program is: void
+        //Code generated! Assembling and running generated code.
+        //You had: 0 lexical errors and 0 syntax errors.
+        //Starting Virtual Machine...
+        //9

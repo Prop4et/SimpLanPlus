@@ -11,4 +11,9 @@
 	}
 	a^ = 4;
 	h(b, a);
+
 }
+//Type checking ok! Type of the program is: void
+//Code generated! Assembling and running generated code.
+//You had: 0 lexical errors and 0 syntax errors.
+//Starting Virtual Machine...

@@ -6,4 +6,7 @@
    	^int x = new int; 
    	f(x,x);
 }
-    
+
+//Type checking ok! Type of the program is: void
+//Effects analysis:
+  //	x is used after deletion.

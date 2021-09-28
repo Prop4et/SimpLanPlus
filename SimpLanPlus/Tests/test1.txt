@@ -1,3 +1,14 @@
 {
-^^int x ; ^int y = new int; y^ = 1 ; x = new int; x^ = y ; print x^^ ;
+^^int x ;
+ ^int y = new int;
+ y^ = 1 ;
+ x = new int;
+ x^ = y ;
+ print x^^ ;
 }
+
+//Type checking ok! Type of the program is: void
+//Code generated! Assembling and running generated code.
+//You had: 0 lexical errors and 0 syntax errors.
+//Starting Virtual Machine...
+//1

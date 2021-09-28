@@ -1,15 +1,13 @@
 {
 	^int u = new int;
 	void f(^int x, int n){ 
-<<<<<<< HEAD
 		if(n > 0){
 			f(x,n-1); 
 		}	
 	}
 	u^ = 1;
 	f(u,1) ;
-=======
-		if (n == 0) { 
+		if (n == 0) {
 			print x^; 
 			delete x ; 
 		}
@@ -21,5 +19,4 @@
 	}
 	u^ = 1;
 	f(u,6) ;
->>>>>>> new
 }

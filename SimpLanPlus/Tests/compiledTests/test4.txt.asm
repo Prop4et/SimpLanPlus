@@ -63,15 +63,15 @@ sw $ra -1($cl)
 	 li $a0 0
 	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
 	 pop ;pop e1 from the stack
-	 beq $t1 $a0 equalTrueBranch4
+	 beq $t1 $a0 equalTrueBranch6
 	 li $a0 0 ;e1 != e2
-	 b endequalTrueBranch4
-	 equalTrueBranch4:
+	 b endequalTrueBranch6
+	 equalTrueBranch6:
 	 li $a0 1 ;e1 == e2
-	 endequalTrueBranch4:
+	 endequalTrueBranch6:
 	 ; END y^ == 0
  	 li $t1 1
-	 beq $a0 $t1 then3
+	 beq $a0 $t1 then5
 ; BEGIN ELSE BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
@@ -112,7 +112,7 @@ mv $cl $sp
 addi $t1 $cl 2
 sw $t1 0($cl)
 addi $sp $sp -1
-mv $al $fp
+lw $al 0($fp)
 push $al
 ; BEGIN y EVAL 
  	 mv $al $fp 
@@ -129,9 +129,6 @@ push $a0 ; pushing x
 mv $fp $sp
 addi $fp $fp 2
 jal h; END CALLING h
-; RETURN 
-	 b endh
-;END RETURN 
 addi $sp $sp 0 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
@@ -141,8 +138,8 @@ lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 ; END BLOCK
  ;END ELSE BRANCH 
-	 b endifthen3
-	then3:
+	 b endifthen5
+	then5:
 ; THAN BRANCH 
 ; BEGIN x EVAL 
  	 mv $al $fp 
@@ -151,7 +148,7 @@ pop ;pop old $fp
 	 del $a0
  ;END THAN BRANCH 
 ; END IF 
-endifthen3 :
+endifthen5 :
 ; RETURN 
 	 b endh
 ;END RETURN 

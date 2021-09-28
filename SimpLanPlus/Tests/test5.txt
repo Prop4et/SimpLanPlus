@@ -13,3 +13,7 @@
 	a^ = 0;
 	g(a, b);
 }
+
+//Type checking ok! Type of the program is: void
+ // Effects analysis:
+  //	Variable x was already deleted.

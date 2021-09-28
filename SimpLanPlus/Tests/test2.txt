@@ -5,3 +5,8 @@
  	delete x ;
  	y = x^ ;
  }
+
+ //Type checking ok! Type of the program is: void
+ //Effects analysis:
+ 	//Trying to assign a bad expression:
+ 	//x is used after being deleted.

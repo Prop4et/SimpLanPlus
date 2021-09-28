@@ -2,9 +2,12 @@
 	int x = 1;
 	void f(int y){
 		if (y == 0) 
-			print x;//deve dare errore perchè non ci sono variabili globali 
+			print x;//deve dare errore perchï¿½ non ci sono variabili globali 
 		else  
 			f(y-1) ; 
 	}
 	f(54) ;
 }
+
+//You had: 1 error:
+  //	Missing declaration for var: x
