@@ -180,15 +180,16 @@ public class BlockNode implements Node{
 
 		//if we're inside the body of a function we shouldn't be able to take ids from outside the function params and definitions inside the function
 		if (!stms.isEmpty()) {
-			//i'm inside the body of a function
 			if(function) {
-
 				boolean flagRet = false;
 				for(StatementNode s : stms)
 					if(s instanceof RetStatNode)
 						flagRet = true;
 				if(!flagRet)
 					stms.add(new RetStatNode(new RetNode(null)));
+			}
+			//i'm inside the body of a function
+			if(function) {
 				for (StatementNode s : stms) {
 					//if there's an if statement i need to flag this if cause it's inside a function, it has to have a return and can crate a new block
 					if(s instanceof IteStatNode)

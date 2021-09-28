@@ -67,7 +67,7 @@ mv $cl $sp
 addi $t1 $cl 2
 sw $t1 0($cl)
 addi $sp $sp -1
-mv $al $fp
+lw $al 0($fp)
 push $al
 ; BEGIN m + 1
 ; BEGIN m EVAL 
@@ -98,9 +98,6 @@ push $a0 ; pushing n + 1
 mv $fp $sp
 addi $fp $fp 2
 jal f; END CALLING f
-; RETURN 
-	 b endf
-;END RETURN 
 addi $sp $sp 1 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
@@ -138,9 +135,6 @@ addi $fp $fp 0 ;frame pointer before decs (n =: 0)
 	 add $a0 $t1 $a0
 	 ; END m + n
 print $a0
-; RETURN 
-	 b endf
-;END RETURN 
 addi $sp $sp 0 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra

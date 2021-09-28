@@ -57,6 +57,7 @@ public class DecFunNode implements Node{
 
 	@Override
 	public TypeNode typeCheck() throws TypeException {
+		System.out.println(type.toString() + body.typeCheck().toString());
 		if (type instanceof PointerTypeNode)
 			throw new TypeException("Functions are not allowed to return pointers");
 		if (!Node.sametype(type, body.typeCheck()))

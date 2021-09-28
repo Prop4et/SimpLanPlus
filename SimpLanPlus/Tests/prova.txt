@@ -1,25 +1,12 @@
 {
-	^int u = new int;
-	void f(^int x, int n){ 
-<<<<<<< HEAD
-		if(n > 0){
-			f(x,n-1); 
-		}	
-	}
-	u^ = 1;
-	f(u,1) ;
-=======
-		if (n == 0) { 
-			print x^; 
-			delete x ; 
-		}
-		else { 
-			^int y = new int; 
-			y^ = x^ * n; 
-			f(y,n-1); 
-		}	
-	}
-	u^ = 1;
-	f(u,6) ;
->>>>>>> new
+    int isEven(int n){
+        if (n == 0){
+            return 1;
+        }
+        else{
+            return 2;
+        }
+    }
+
+    print isEven(4);
 }

@@ -111,7 +111,7 @@ mv $cl $sp
 addi $t1 $cl 2
 sw $t1 0($cl)
 addi $sp $sp -1
-mv $al $fp
+lw $al 0($fp)
 push $al
 ; BEGIN y EVAL 
  	 mv $al $fp 
@@ -134,9 +134,6 @@ push $a0 ; pushing n - 1
 mv $fp $sp
 addi $fp $fp 2
 jal f; END CALLING f
-; RETURN 
-	 b endf
-;END RETURN 
 addi $sp $sp 1 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
@@ -170,9 +167,6 @@ print $a0
 	 lw $a0 -1($al)
 ; END x EVAL 
 	 del $a0
-; RETURN 
-	 b endf
-;END RETURN 
 addi $sp $sp 0 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
