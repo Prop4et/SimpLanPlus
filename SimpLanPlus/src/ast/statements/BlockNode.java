@@ -182,14 +182,19 @@ public class BlockNode implements Node{
 		if (!stms.isEmpty()) {
 			if(function) {
 				boolean flagRet = false;
-				for(StatementNode s : stms)
-					if(s instanceof RetStatNode)
+				boolean flagIf = false;
+				for(StatementNode s : stms) {
+					if(s instanceof RetStatNode) 
 						flagRet = true;
-				if(!flagRet)
+					if(s instanceof IteStatNode)
+						flagIf = true;
+				}
+				if(!flagRet && !flagIf)
 					stms.add(new RetStatNode(new RetNode(null)));
 			}
 			//i'm inside the body of a function
 			if(function) {
+				
 				for (StatementNode s : stms) {
 					//if there's an if statement i need to flag this if cause it's inside a function, it has to have a return and can crate a new block
 					if(s instanceof IteStatNode)

@@ -1,0 +1,8 @@
+{/*Type Error: Return type and function type are incompatible*/
+	void f(){
+		int a = 0;
+		if(a==1){	
+			return 1;	
+		}
+	}
+}

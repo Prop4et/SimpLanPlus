@@ -38,15 +38,15 @@ sw $ra -1($cl)
 ; END n EVAL 
 	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
 	 pop ;pop e1 from the stack
-	 bleq $t1 $a0 greaterTrueBranch4
+	 bleq $t1 $a0 greaterTrueBranch12
 	 li $a0 1
-	 b endgreaterTrueBranch4
-	 greaterTrueBranch4:
+	 b endgreaterTrueBranch12
+	 greaterTrueBranch12:
 	 li $a0 0
-	 endgreaterTrueBranch4:
+	 endgreaterTrueBranch12:
 	 ; END m > n
  	 li $t1 1
-	 beq $a0 $t1 then3
+	 beq $a0 $t1 then11
 ; BEGIN ELSE BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
@@ -107,8 +107,8 @@ lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 ; END BLOCK
  ;END ELSE BRANCH 
-	 b endifthen3
-	then3:
+	 b endifthen11
+	then11:
 ; THAN BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
@@ -145,10 +145,7 @@ pop ;pop old $fp
 ; END BLOCK
  ;END THAN BRANCH 
 ; END IF 
-endifthen3 :
-; RETURN 
-	 b endf
-;END RETURN 
+endifthen11 :
 ; END BLOCK
 endf:
 lw $ra -1($cl)

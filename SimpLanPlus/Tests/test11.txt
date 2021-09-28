@@ -1,0 +1,25 @@
+{
+	/*Type checking ok! Type of the program is: void
+	Code generated! Assembling and running generated code.
+	You had: 0 lexical errors and 0 syntax errors.
+	Starting Virtual Machine...
+	2*/
+    int f(int a) {
+        bool g(int b) {
+        	if(b >= 10)
+          		return true;
+          	else{
+          		return false;
+          	}
+        }
+	
+        if(g(a))
+        	return 2;
+        else{
+        	return 1;
+        }
+    }
+	^int a = new int;
+	a^ = 10;
+    print f(a^);
+}
