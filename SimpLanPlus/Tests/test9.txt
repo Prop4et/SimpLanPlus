@@ -11,3 +11,6 @@
 	}
 	print max(4, 7);
 }
+
+//You had: 1 error:
+  	cannot use return inside an inner block
