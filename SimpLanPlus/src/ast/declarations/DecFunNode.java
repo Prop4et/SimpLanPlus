@@ -154,6 +154,7 @@ public class DecFunNode implements Node{
 
 		ArrayList<SemanticError> errors = new ArrayList<>();
 
+		System.out.print("checking effect of " + id.getTextId() + "\n");
 
 		//setting up the effects
 		id.getSTentry().setFunNode(this);
@@ -189,21 +190,28 @@ public class DecFunNode implements Node{
 			//re-setting args effect to RW for the next evaluation of the body effect.
 			env1.lookupForEffectAnalysis(arg.getId().getTextId()).setVarStatus(arg.getId().getTextId(), new Effect(Effect.RW));
 		}
+
 		//calculating fixed point we're going to update the enviroment ∑0, until ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ] =  FUN ⦁ ∑ 1 [ f ⟼ ∑ 0 → ∑ 1 ]
+		//System.out.print(oldEnv.equals(env1));
 		while(!oldEnv.equals(env1)) {
-			oldEnv=env1;
+		/*	System.out.print("\n oldEnv: ");
+			oldEnv.printEnv();
+			System.out.print("\n newEnv");
+			env1.printEnv();*/
+			oldEnv.replace(env1);
 			errors.addAll(body.checkEffects(env1));
 			//updating arg
 			for (ArgNode arg: args) {
 				argStatusInBodyEnv = env1.lookupForEffectAnalysis(arg.getId().getTextId());
 				env1.lookupForEffectAnalysis(id.getTextId()).updateArgsStatus(arg.getId().getTextId(), argStatusInBodyEnv.getIVarStatus(arg.getId().getTextId()));
+				env1.lookupForEffectAnalysis(arg.getId().getTextId()).setVarStatus(arg.getId().getTextId(), new Effect(Effect.RW));
 
 			}
 		}
 
 		env.replace(env1);
 		env.onScopeExit();
-
+		//System.out.print("finished " + id.getTextId());
 		return errors;
 	}
 

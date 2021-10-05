@@ -163,7 +163,7 @@ public class CallNode implements Node{
 
 			if( passedByValueArgs.contains(arg) ) {
 				if (e.getType() > Effect.DEL)
-					errors.add(new SemanticError("Cannot use " + id + "with effect " + e.getType() + "inside a function. "));
+					errors.add(new SemanticError("Cannot use " + id.getTextId() + " with effect " + e.getType() + "inside a function. "));
 			}
 		}
 

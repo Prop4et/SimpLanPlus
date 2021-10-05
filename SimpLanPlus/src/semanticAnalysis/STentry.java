@@ -105,6 +105,10 @@ public class STentry {
 				init_env_0.put(param.getId().getTextId(), new Effect(Effect.BOT));
 				init_env_1.put(param.getId().getTextId(), new Effect(Effect.BOT));
 				}
+
+			if(! funStatus.isEmpty())
+				funStatus.clear();
+
 			this.funStatus.add(init_env_0);               //∑_0
 			this.funStatus.add(init_env_1);               //∑_1
 															//at this point funstatus is ∑_0 -> ∑_1 where  ∑_0 = ∑_1 = [x1 -> bot ..xn -> bot]
@@ -125,5 +129,60 @@ public class STentry {
 	
 	public Effect getIVarStatus(final String key) {
 		return this.varStatus.get(key);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		STentry entry = (STentry) obj;
+
+		if (nl != entry.nl) {
+			System.out.print("nl");
+
+			return false;
+		}
+
+		if (offset != entry.offset) {
+			System.out.print("offset");
+
+			return false;
+		}
+ 		for (String k: varStatus.keySet()){
+			if (! (varStatus.get(k).getType() == entry.varStatus.get(k).getType())) {
+				System.out.print("varstatus: ");
+				System.out.print(varStatus.get(k).getType() + " - " + entry.varStatus.get(k).getType());
+
+				return false;
+			}
+		}
+		int x = this.getFunStatus().size();
+ 		for (int i = 0; i < x; i++) {
+ 			HashMap<String ,Effect> e1 = this.getFunStatus().get(i);
+			HashMap<String ,Effect> e2 = entry.getFunStatus().get(i);
+			if(e1.keySet().equals(e2.keySet())) {
+				//System.out.print(e1.keySet());
+				for (String k : e1.keySet()){
+
+					if ( ! (e1.get(k).getType() == e2.get(k).getType() )){
+						return false;
+					}
+				}
+			}
+			else {
+				return false;
+			}
+
+		}
+
+		if (!type.equals(entry.type)) {
+			System.out.print("5");
+
+
+			return false;
+		}
+
+		return true;
 	}
 }
