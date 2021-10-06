@@ -63,7 +63,7 @@ mv $fp $sp
 addi $fp $fp 1
 jal g; END CALLING g
  	 li $t1 1
-	 beq $a0 $t1 then3
+	 beq $a0 $t1 then1
 ; BEGIN ELSE BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
@@ -86,8 +86,8 @@ lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 ; END BLOCK
  ;END ELSE BRANCH 
-	 b endifthen3
-	then3:
+	 b endifthen1
+	then1:
 ; THAN BRANCH 
 ; RETURN 
 	 li $a0 2
@@ -95,7 +95,7 @@ pop ;pop old $fp
 ;END RETURN 
  ;END THAN BRANCH 
 ; END IF 
-endifthen3 :
+endifthen1 :
 ; BEGIN DEFINITION OF g:
 g:
 sw $ra -1($cl)
@@ -110,20 +110,20 @@ sw $ra -1($cl)
 	 li $a0 10
 	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
 	 pop ;pop e1 from the stack
-	 beq $t1 $a0 equalTrueBranch5
-	 bleq $t1 $a0 lesseqTrueBranch6
+	 beq $t1 $a0 equalTrueBranch3
+	 bleq $t1 $a0 lesseqTrueBranch4
 	 li $a0 1
-	 b endlesseqTrueBranch6
-	 lesseqTrueBranch6:
+	 b endlesseqTrueBranch4
+	 lesseqTrueBranch4:
 	 li $a0 0
-	 endlesseqTrueBranch6:
-	 b endequalTrueBranch5
-	 equalTrueBranch5:
+	 endlesseqTrueBranch4:
+	 b endequalTrueBranch3
+	 equalTrueBranch3:
 	 li $a0 1
-	 endequalTrueBranch5:
+	 endequalTrueBranch3:
 	 ; END b >= 10
  	 li $t1 1
-	 beq $a0 $t1 then4
+	 beq $a0 $t1 then2
 ; BEGIN ELSE BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
@@ -146,8 +146,8 @@ lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 ; END BLOCK
  ;END ELSE BRANCH 
-	 b endifthen4
-	then4:
+	 b endifthen2
+	then2:
 ; THAN BRANCH 
 ; RETURN 
 	 li $a0 1
@@ -155,7 +155,7 @@ pop ;pop old $fp
 ;END RETURN 
  ;END THAN BRANCH 
 ; END IF 
-endifthen4 :
+endifthen2 :
 ; END BLOCK
 endg:
 lw $ra -1($cl)

@@ -10,13 +10,12 @@ sw $fp 0($fp); save the old value
  	 sw $t1 0($hp) 
 	 push $a0
 ; END ^int a = new int
-; BEGIN ^int b = new int
-	 li $t1 -1
- 	 sw $t1 0($hp) 
+; BEGIN int b = 5
+	 li $a0 5
 	 push $a0
-; END ^int b = new int
-; BEGIN a^ = 4
-	 li $a0 4
+; END int b = 5
+; BEGIN a^ = 0
+	 li $a0 0
 	 push $a0
 ; BEGIN  DEREFERANTION NODE 
 	 mv $al $fp
@@ -25,8 +24,8 @@ sw $fp 0($fp); save the old value
 	 lw $t1 0($sp)
 	 pop
 	 sw $t1 0($a0)
-; END a^ = 4
-; BEGIN CALLING h
+; END a^ = 0
+; BEGIN CALLING g
 push $fp
 push $sp
 mv $cl $sp
@@ -35,43 +34,42 @@ sw $t1 0($cl)
 addi $sp $sp -1
 mv $al $fp
 push $al
-; BEGIN b EVAL 
- 	 mv $al $fp 
-	 lw $a0 -2($al)
-; END b EVAL 
-push $a0 ; pushing b
 ; BEGIN a EVAL 
  	 mv $al $fp 
 	 lw $a0 -1($al)
 ; END a EVAL 
 push $a0 ; pushing a
+; BEGIN b EVAL 
+ 	 mv $al $fp 
+	 lw $a0 -2($al)
+; END b EVAL 
+push $a0 ; pushing b
 mv $fp $sp
 addi $fp $fp 2
-jal h; END CALLING h
+jal g; END CALLING g
 halt
-; BEGIN DEFINITION OF h:
-h:
+; BEGIN DEFINITION OF g:
+g:
 sw $ra -1($cl)
 ; NEW BLOCK 
-; BEGIN IF ; BEGIN y^ == 0
+; BEGIN IF ; BEGIN y == 0
 ; BEGIN y EVAL 
  	 mv $al $fp 
 	 lw $a0 -2($al)
 ; END y EVAL 
- 	 lw $a0 0($a0)
 	 push $a0 ; push on the stack e1
 	 li $a0 0
 	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
 	 pop ;pop e1 from the stack
-	 beq $t1 $a0 equalTrueBranch12
+	 beq $t1 $a0 equalTrueBranch2
 	 li $a0 0 ;e1 != e2
-	 b endequalTrueBranch12
-	 equalTrueBranch12:
+	 b endequalTrueBranch2
+	 equalTrueBranch2:
 	 li $a0 1 ;e1 == e2
-	 endequalTrueBranch12:
-	 ; END y^ == 0
+	 endequalTrueBranch2:
+	 ; END y == 0
  	 li $t1 1
-	 beq $a0 $t1 then11
+	 beq $a0 $t1 then1
 ; BEGIN ELSE BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
@@ -105,7 +103,7 @@ addi $fp $fp 0 ;frame pointer before decs (n =: 0)
 	 pop
 	 sw $t1 0($a0)
 ; END x^ = x^ - 1
-; BEGIN CALLING h
+; BEGIN CALLING g
 push $fp
 push $sp
 mv $cl $sp
@@ -114,21 +112,27 @@ sw $t1 0($cl)
 addi $sp $sp -1
 lw $al 0($fp)
 push $al
-; BEGIN y EVAL 
- 	 mv $al $fp 
-	 lw $al 0($al)
-	 lw $a0 -2($al)
-; END y EVAL 
-push $a0 ; pushing y
 ; BEGIN x EVAL 
  	 mv $al $fp 
 	 lw $al 0($al)
 	 lw $a0 -1($al)
 ; END x EVAL 
 push $a0 ; pushing x
+; BEGIN y EVAL 
+ 	 mv $al $fp 
+	 lw $al 0($al)
+	 lw $a0 -2($al)
+; END y EVAL 
+push $a0 ; pushing y
 mv $fp $sp
 addi $fp $fp 2
-jal h; END CALLING h
+jal g; END CALLING g
+; BEGIN x EVAL 
+ 	 mv $al $fp 
+	 lw $al 0($al)
+	 lw $a0 -1($al)
+; END x EVAL 
+	 del $a0
 addi $sp $sp 0 ;pop var declarations
 pop ;pop $al
 pop ;pop consistency ra
@@ -138,8 +142,8 @@ lw $fp 0($sp) ;restore old $fp
 pop ;pop old $fp
 ; END BLOCK
  ;END ELSE BRANCH 
-	 b endifthen11
-	then11:
+	 b endifthen1
+	then1:
 ; THAN BRANCH 
 ; BEGIN x EVAL 
  	 mv $al $fp 
@@ -148,13 +152,13 @@ pop ;pop old $fp
 	 del $a0
  ;END THAN BRANCH 
 ; END IF 
-endifthen11 :
+endifthen1 :
 ; END BLOCK
-endh:
+endg:
 lw $ra -1($cl)
 lw $fp 1($cl)
 lw $sp 0($cl) 
 addi $cl $fp 2
 jr $ra
-;END DEFINITION OF h
+;END DEFINITION OF g
 ; END BLOCK

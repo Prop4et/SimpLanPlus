@@ -34,17 +34,17 @@ sw $ra -1($cl)
 	 li $a0 1
 	 lw $t1 0($sp) ;$t1 = e1, $a0 = e2
 	 pop ;pop e1 from the stack
-	 bleq $t1 $a0lesseqTrueBranch2
+	 bleq $t1 $a0lesseqTrueBranch8
 	 li $a0 0
-	 b endlesseqTrueBranch2
-	 lesseqTrueBranch2:
+	 b endlesseqTrueBranch8
+	 lesseqTrueBranch8:
 	 li $a0 1
-	 endlesseqTrueBranch2:
+	 endlesseqTrueBranch8:
 	 ; END n <= 1
  	 li $t1 1
-	 beq $a0 $t1 then1
-	 b endifthen1
-	then1:
+	 beq $a0 $t1 then7
+	 b endifthen7
+	then7:
 ; THAN BRANCH 
 ; NEW BLOCK 
 push $fp ;push old fp
@@ -72,7 +72,7 @@ pop ;pop old $fp
 ; END BLOCK
  ;END THAN BRANCH 
 ; END IF 
-endifthen1 :
+endifthen7 :
 ; RETURN 
 ; BEGIN call: fib(n - 1, ) + call: fib(n - 2, )
 ; BEGIN CALLING fib
