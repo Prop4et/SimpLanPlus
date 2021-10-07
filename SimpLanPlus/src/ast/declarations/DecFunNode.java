@@ -67,7 +67,9 @@ public class DecFunNode implements Node{
 	@Override
 	public String codeGeneration() {	
 		String labelFun = id.getTextId();
+		String skip = "endend"+labelFun;
 		String ret = "; BEGIN DEFINITION OF " + labelFun + ":\n";
+		ret += "b " +skip + "\n";
 		ret += labelFun + ":\n";
 		ret += "sw $ra -1($cl)\n";
 		body.setFunEndLabel("end"+labelFun);
@@ -79,6 +81,7 @@ public class DecFunNode implements Node{
         ret += "addi $cl $fp 2\n";
 		ret += "jr $ra\n";
 		ret += ";END DEFINITION OF " + labelFun + "\n";
+		ret += skip + ":\n";
 
 		return ret;
 	}
@@ -90,25 +93,30 @@ public class DecFunNode implements Node{
 		STentry argEntry, functionEntry;
 
 		try{
+			
 			//add the function to the scope for the arguments in case of (non mutual) recursion
 			functionEntry = env1.addDec(id.getTextId(), typeFun);
+			
 			env1.onScopeEntry();
 			id.setSTentry(functionEntry);
 			Environment env = new Environment(id.getTextId(), functionEntry);
 			//create the new block
 			env.onScopeEntry();
+			//System.out.println("env nl: " + env.getNestingLevel());
 			//add the arguments to the new scope created
 			//if not, when body gets evaluated there shouldn't be a new scope creation, that's what happens
 			for(ArgNode arg : args) {
 				argEntry = env.addDec(arg.getId().getTextId(), arg.getType());
+				argEntry.setNl(env1.getNestingLevel());
 				arg.getId().setSTentry(argEntry);
+				
 			}
 			//add function name to the environment
 			env.addDec(id.getTextId(), typeFun);
 			//body evaluation in which yet another scope is created, should we avoid this? DONE
-			body.setNewScope(false);
+			
 			body.setFunction(true);
-
+			body.setNewScope(false);
 			body.setBodyInFunction(true);
 			body.setFunEndLabel("end"+id.getTextId());
 

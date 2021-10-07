@@ -42,6 +42,7 @@ jal f; END CALLING f
 print $a0
 halt
 ; BEGIN DEFINITION OF f:
+b endendf
 f:
 sw $ra -1($cl)
 ; NEW BLOCK 
@@ -97,13 +98,13 @@ pop ;pop old $fp
 ; END IF 
 endifthen3 :
 ; BEGIN DEFINITION OF g:
+b endendg
 g:
 sw $ra -1($cl)
 ; NEW BLOCK 
 ; BEGIN IF ; BEGIN b >= 10
 ; BEGIN b EVAL 
  	 mv $al $fp 
-	 lw $al 0($al)
 	 lw $a0 -1($al)
 ; END b EVAL 
 	 push $a0 ; push on the stack e1
@@ -164,6 +165,7 @@ lw $sp 0($cl)
 addi $cl $fp 2
 jr $ra
 ;END DEFINITION OF g
+endendg:
 ; END BLOCK
 endf:
 lw $ra -1($cl)
@@ -172,4 +174,5 @@ lw $sp 0($cl)
 addi $cl $fp 2
 jr $ra
 ;END DEFINITION OF f
+endendf:
 ; END BLOCK

@@ -158,9 +158,11 @@ public class BlockNode implements Node{
 			ret += "pop ;pop old $fp\n";
 		}
 		//function declaration at the end, they need the space for ra
-		for(DeclarationNode f : funDecs)
+		
+		for(DeclarationNode f : funDecs) 
 			ret += f.codeGeneration();
 		ret += "; END BLOCK\n";
+		
 		return ret;
 	}
 

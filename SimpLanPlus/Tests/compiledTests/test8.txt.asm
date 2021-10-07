@@ -23,6 +23,7 @@ addi $fp $fp 2
 jal f; END CALLING f
 halt
 ; BEGIN DEFINITION OF f:
+b endendf
 f:
 sw $ra -1($cl)
 ; NEW BLOCK 
@@ -154,4 +155,5 @@ lw $sp 0($cl)
 addi $cl $fp 2
 jr $ra
 ;END DEFINITION OF f
+endendf:
 ; END BLOCK
