@@ -200,12 +200,7 @@ public class DecFunNode implements Node{
 		}
 
 		//calculating fixed point we're going to update the enviroment ∑0, until ∑ 0 [ f ⟼ ∑ 0 → ∑ 1 ] =  FUN ⦁ ∑ 1 [ f ⟼ ∑ 0 → ∑ 1 ]
-		//System.out.print(oldEnv.equals(env1));
 		while(!oldEnv.equals(env1)) {
-		/*	System.out.print("\n oldEnv: ");
-			oldEnv.printEnv();
-			System.out.print("\n newEnv");
-			env1.printEnv();*/
 			oldEnv.replace(env1);
 			errors.addAll(body.checkEffects(env1));
 			//updating arg
@@ -219,7 +214,6 @@ public class DecFunNode implements Node{
 
 		env.replace(env1);
 		env.onScopeExit();
-		//System.out.print("finished " + id.getTextId());
 		return errors;
 	}
 

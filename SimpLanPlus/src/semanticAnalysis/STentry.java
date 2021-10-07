@@ -143,24 +143,22 @@ public class STentry {
 		STentry entry = (STentry) obj;
 
 		if (nl != entry.nl) {
-			System.out.print("nl");
 
 			return false;
 		}
 
 		if (offset != entry.offset) {
-			System.out.print("offset");
 
 			return false;
 		}
- 		for (String k: varStatus.keySet()){
+ 		/*for (String k: varStatus.keySet()){
 			if (! (varStatus.get(k).getType() == entry.varStatus.get(k).getType())) {
 				System.out.print("varstatus: ");
 				System.out.print(varStatus.get(k).getType() + " - " + entry.varStatus.get(k).getType());
 
 				return false;
 			}
-		}
+		}*/
 		int x = this.getFunStatus().size();
  		for (int i = 0; i < x; i++) {
  			HashMap<String ,Effect> e1 = this.getFunStatus().get(i);
@@ -181,8 +179,6 @@ public class STentry {
 		}
 
 		if (!type.equals(entry.type)) {
-			System.out.print("5");
-
 
 			return false;
 		}
