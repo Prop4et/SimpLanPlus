@@ -1,0 +1,9 @@
+{
+	
+	
+		void f(int a){
+			print a;
+		}
+		f(2);
+	
+}

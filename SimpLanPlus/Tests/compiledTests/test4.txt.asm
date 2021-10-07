@@ -50,6 +50,7 @@ addi $fp $fp 2
 jal h; END CALLING h
 halt
 ; BEGIN DEFINITION OF h:
+b endendh
 h:
 sw $ra -1($cl)
 ; NEW BLOCK 
@@ -157,4 +158,5 @@ lw $sp 0($cl)
 addi $cl $fp 2
 jr $ra
 ;END DEFINITION OF h
+endendh:
 ; END BLOCK

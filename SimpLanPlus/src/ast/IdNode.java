@@ -43,6 +43,7 @@ public class IdNode implements Node {
     public String codeGeneration() {
     	String ret = "; BEGIN " + this.getTextId() + " EVAL \n ";
         ret += "\t mv $al $fp \n";
+
         for (int i = 0; i < nl - entry.getNl(); i++) {
             ret += "\t lw $al 0($al)\n";
         }
@@ -76,6 +77,7 @@ public class IdNode implements Node {
     public ArrayList<SemanticError> checkEffects(Environment env) {
 
         entry = env.lookupForEffectAnalysis(id);
+        
         nl = env.getNestingLevel();
         return new ArrayList<>();
     }

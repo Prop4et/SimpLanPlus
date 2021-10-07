@@ -22,6 +22,7 @@ jal fib; END CALLING fib
 print $a0
 halt
 ; BEGIN DEFINITION OF fib:
+b endendfib
 fib:
 sw $ra -1($cl)
 ; NEW BLOCK 
@@ -138,4 +139,5 @@ lw $sp 0($cl)
 addi $cl $fp 2
 jr $ra
 ;END DEFINITION OF fib
+endendfib:
 ; END BLOCK

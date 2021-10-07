@@ -39,6 +39,10 @@ public class STentry {
 	public int getNl() {
 		return nl;
 	}
+	
+	public void setNl(final int nl) {
+		this.nl = nl;
+	}
 
 	
 	public STentry(int nl, int offset) {
