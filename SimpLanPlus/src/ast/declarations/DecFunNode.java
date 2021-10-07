@@ -162,7 +162,7 @@ public class DecFunNode implements Node{
 
 		ArrayList<SemanticError> errors = new ArrayList<>();
 
-		System.out.print("checking effect of " + id.getTextId() + "\n");
+		//System.out.print("checking effect of " + id.getTextId() + "\n");
 
 		//setting up the effects
 		id.getSTentry().setFunNode(this);
